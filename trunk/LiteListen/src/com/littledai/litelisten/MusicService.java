@@ -39,7 +39,6 @@ public class MusicService
 	private boolean CanRefreshSeekBar = true;
 	private boolean CanRefreshTime = false; // 是否允许刷新时间（关闭时同时会结束线程）
 	private boolean IsLast = false; // 是否按下了上一首
-	private int CurrentIndexOfPlayedList = -1; // 临时播放列表当前正在播放的序号
 	private int PlayedListCount = -1; // 临时播放列表所占用的长度
 	private int PlayedList[] = new int[1000]; // 存放历史播放记录的临时播放列表
 
@@ -112,16 +111,16 @@ public class MusicService
 				mp.prepare();
 				mp.start();
 
+				CurrIndex = index;
 				CanRefreshTime = true;
 
 				if (!IsLast)
 				{
 					PlayedListCount++;
-					CurrentIndexOfPlayedList = PlayedListCount;
 					PlayedList[PlayedListCount] = index;
 				}
-
-				CurrIndex = index;
+				else
+					IsLast = false;
 
 				main.getBtnPlay().setVisibility(View.GONE);
 				main.getBtnPause().setVisibility(View.VISIBLE);
@@ -249,14 +248,13 @@ public class MusicService
 		{// 否则播放上一首播放过的歌曲
 			Stop();
 
-			CurrentIndexOfPlayedList--;
-			if (CurrentIndexOfPlayedList < 0)
-				CurrentIndexOfPlayedList = 0;
+			PlayedListCount--;
+			if (PlayedListCount < 0)
+				PlayedListCount = 0;
 
 			IsLast = true;
-			Play(PlayedList[CurrentIndexOfPlayedList]); // 从播放历史记录中找到上次播放的序号
-			IsLast = false;
-			CurrIndex = PlayedList[CurrentIndexOfPlayedList];
+			Play(PlayedList[PlayedListCount]); // 从播放历史记录中找到上次播放的序号
+			CurrIndex = PlayedList[PlayedListCount];
 		}
 	}
 
