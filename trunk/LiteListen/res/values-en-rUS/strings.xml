@@ -58,7 +58,8 @@
 	<string name="pfrscat_display_background_land">Background Image Of Landscape</string>
 	<string name="pfrscat_display_background_brightness">Brightness Of Background Image</string>
 	<string name="pfrscat_display_background_blur">Set Blur To Background Image</string>
-	<string name="pfrscat_display_background_changed">Please wait while app is setting the background image...</string>
+	<string name="pfrscat_display_background_changed">Please wait while app is setting the background
+		image...</string>
 	<string name="pfrscat_display_use_animation">Use Animation</string>
 	<string name="pfrscat_display_use_animation_summary">Close animations could be improve app performance
 		but will reduce the feelings</string>
@@ -86,8 +87,9 @@
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011
 		Beta1\nInner Version:
-		0309.2200\n\nUpdate Contents: \n1. Background Image Loading Faster\n2.
-		Add Startup Image\n3. Fixed A Bug In Background Image Processing\n4. Fixed A Bug That Cause Most Of Device Crash\n\nOfficial
+		0313.1806\n\nUpdate Contents: \n1. "Last" Button Could Return To Last
+		Song Now\n2.
+		Faster Performace\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai
 	</string>
