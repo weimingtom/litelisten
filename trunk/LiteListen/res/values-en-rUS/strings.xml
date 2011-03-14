@@ -60,8 +60,6 @@
 	<string name="pfrscat_display_background_land">Background Image Of Landscape</string>
 	<string name="pfrscat_display_background_brightness">Brightness Of Background Image</string>
 	<string name="pfrscat_display_background_blur">Set Blur To Background Image</string>
-	<string name="pfrscat_display_background_changed">Please wait while app is setting the background
-		image...</string>
 	<string name="pfrscat_display_use_animation">Use Animation</string>
 	<string name="pfrscat_display_use_animation_summary">Close animations could be improve app performance
 		but will reduce the feelings</string>

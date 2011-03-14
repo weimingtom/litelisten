@@ -319,7 +319,6 @@ public class SettingService extends PreferenceActivity
 	/* 生成指定参数的背景图像 */
 	public void MakeBackgroundImage()
 	{
-		Toast.makeText(this, R.string.pfrscat_display_background_changed, Toast.LENGTH_LONG).show();
 		Bitmap bmpBackground = null;
 
 		// 横屏背景

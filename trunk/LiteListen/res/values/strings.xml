@@ -54,7 +54,6 @@
 	<string name="pfrscat_display_background_land">横屏背景图</string>
 	<string name="pfrscat_display_background_brightness">背景图亮度</string>
 	<string name="pfrscat_display_background_blur">背景图模糊效果</string>
-	<string name="pfrscat_display_background_changed">正在设置背景图，请稍候……</string>
 	<string name="pfrscat_display_use_animation">使用动画效果</string>
 	<string name="pfrscat_display_use_animation_summary">关闭动画可提升性能，但会减弱体验</string>
 	<string name="pfrscat_display_list_font_size">播放列表字体大小</string>

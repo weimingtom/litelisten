@@ -1,90 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_name">輕听音樂播放器</string>
-	<string name="global_ok">確認</string>
+	<string name="global_app_name">輕聽音樂播放機</string>
+	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
 	<string name="global_no">否</string>
 	<string name="global_request">請求許可</string>
 
-	<string name="lrcservice_loading_lrc">加載歌詞中，請等待……</string>
-	<string name="lrcservice_no_lyric_found">沒有找到對應歌詞</string>
+	<string name="lrcservice_loading_lrc">正在載入歌詞，請稍候……</string>
+	<string name="lrcservice_no_lyric_found">沒有找到相應歌詞</string>
 
 	<string name="srcmain_scanning_songs">已發現音樂：</string>
-	<string name="srcmain_extend_menu_settings">設定</string>
+	<string name="srcmain_extend_menu_settings">設置</string>
 	<string name="srcmain_extend_menu_refresh_list">更新列表</string>
 	<string name="srcmain_extend_menu_exit">退出</string>
-	<string name="srcmain_extend_menu_keep_screen_on_true">屏幕常亮</string>
-	<string name="srcmain_extend_menu_keep_screen_on_false">取消长亮</string>
-	<string name="srcmain_extend_menu_search">快捷搜尋</string>
+	<string name="srcmain_extend_menu_keep_screen_on_true">螢幕長亮</string>
+	<string name="srcmain_extend_menu_keep_screen_on_false">取消長亮</string>
+	<string name="srcmain_extend_menu_search">快速搜索</string>
 	<string name="srcmain_extend_menu_wait">敬請期待</string>
-	<string name="srcmain_no_id3_tag_found">沒有 ID3 標籤信息</string>
+	<string name="srcmain_no_id3_tag_found">沒有 ID3 標籤資訊</string>
 	<string name="srcmain_play_mode_close">順序播放</string>
-	<string name="srcmain_play_mode_repeat_all">全部循環</string>
+	<string name="srcmain_play_mode_repeat_all">全部迴圈</string>
 	<string name="srcmain_play_mode_pause_current">單曲暫停</string>
 	<string name="srcmain_play_mode_repeat_current">單曲重複</string>
 	<string name="srcmain_play_mode_shuffle">隨機播放</string>
-	<string name="srcmain_no_track_number">沒有音軌信息</string>
-	<string name="srcmain_create_play_list_title">建立播放列表</string>
-	<string name="srcmain_indexing">當前正在建立音樂數據，無需重複創建。</string>
-	<string name="srcmain_create_play_list_message">點擊【確認】開始掃描記憶體并建立播放列表。</string>
-	<string name="srcmain_keyword_hint">輸入漢語拼音首字母在列表中搜尋</string>
+	<string name="srcmain_no_track_number">沒有音軌資訊</string>
+	<string name="srcmain_create_play_list_title">建立播放清單</string>
+	<string name="srcmain_indexing">當前正在建立音樂資料，無需重複創建。</string>
+	<string name="srcmain_create_play_list_message">按一下【確定】開始掃描存放裝置並建立播放清單。</string>
+	<string name="srcmain_keyword_hint">鍵入拼音首字母在清單中搜索</string>
 
-	<string name="pfrsmain_title">設定輕听音樂播放器</string>
+	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">建議選擇“相冊”</string>
 	<string name="pfrscat_general_title">常規選項</string>
-	<string name="pfrscat_general_language">語言 语言 Language</string>
-	<string name="pfrscat_general_language_title">語言設定</string>
-	<string name="pfrscat_general_language_message">您修改了程序語言，建議您立即重新啓動程序。\n\n是否立即重新啓動？</string>
-	<string name="pfrscat_general_music_path">自定音樂文件路徑</string>
+	<string name="pfrscat_general_language">語言 語言 Language</string>
+	<string name="pfrscat_general_language_title">語言設置</string>
+	<string name="pfrscat_general_language_message">您修改了程式語言，建議您立即重新開機程式。\n\n是否立即重新啟動？</string>
+	<string name="pfrscat_general_music_path">自訂音樂檔路徑</string>
 	<string name="pfrscat_general_include_sub_directories">掃描時包含子資料夾</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定資料夾</string>
-	<string name="pfrscat_general_ignore_directory_summary">掃描歌曲時將跳過包含名爲 .nomedia 文件的資料夾</string>
+	<string name="pfrscat_general_ignore_directory_summary">掃描歌曲時將跳過包含名為 .nomedia 文件的資料夾</string>
 	<string name="pfrscat_general_auto_play">啟動時自動播放</string>
-	<string name="pfrscat_general_remember_last_played">記住最后播放的歌曲</string>
+	<string name="pfrscat_general_remember_last_played">記住最後播放的歌曲</string>
 	<string name="pfrscat_general_convert_chinese_lrc">中文歌詞簡繁轉換</string>
-	<string name="pfrscat_general_fit_screen_orientation">屏幕方嚮</string>
-	<string name="pfrscat_general_list_order">播放列表排列順序</string>
-	<string name="pfrscat_general_auto_switch_to_lrc">自動跳轉至歌詞界面</string>
-	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲開始播放后立即顯示歌詞</string>
-	<string name="pfrscat_general_property_read_priority">MP3 屬性掃描優先級</string>
+	<string name="pfrscat_general_fit_screen_orientation">螢幕方向</string>
+	<string name="pfrscat_general_list_order">播放清單排列順序</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">自動跳轉到歌詞介面</string>
+	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲開始播放後立即顯示歌詞</string>
+	<string name="pfrscat_general_property_read_priority">MP3 屬性掃描優先順序</string>
 	<string name="pfrscat_general_play_mode">播放模式</string>
 	<string name="pfrscat_display_title">視覺效果</string>
 	<string name="pfrscat_display_background_port">豎屏背景圖</string>
 	<string name="pfrscat_display_background_land">橫屏背景圖</string>
 	<string name="pfrscat_display_background_brightness">背景圖亮度</string>
 	<string name="pfrscat_display_background_blur">背景圖模糊效果</string>
-	<string name="pfrscat_display_background_changed">正在應用背景圖，請等待……</string>
 	<string name="pfrscat_display_use_animation">使用動畫效果</string>
 	<string name="pfrscat_display_use_animation_summary">關閉動畫可提升性能，但會減弱體驗</string>
-	<string name="pfrscat_display_list_font_size">播放列表字體大小</string>
-	<string name="pfrscat_display_list_font_color">播放列表字體顏色</string>
-	<string name="pfrscat_display_list_font_shadow">播放列表陰影</string>
-	<string name="pfrscat_display_list_font_shadow_color">播放列表陰影顔色</string>
+	<string name="pfrscat_display_list_font_size">播放清單字體大小</string>
+	<string name="pfrscat_display_list_font_color">播放清單字體顏色</string>
+	<string name="pfrscat_display_list_font_shadow">播放清單陰影</string>
+	<string name="pfrscat_display_list_font_shadow_color">播放清單陰影顏色</string>
 	<string name="pfrscat_display_lrc_font_size">歌詞字體大小</string>
-	<string name="pfrscat_display_lrc_normal_font_color">常規歌詞顔色</string>
-	<string name="pfrscat_display_lrc_highlight_font_color">高亮歌詞顔色</string>
+	<string name="pfrscat_display_lrc_normal_font_color">常規歌詞顏色</string>
+	<string name="pfrscat_display_lrc_highlight_font_color">高亮歌詞顏色</string>
 	<string name="pfrscat_display_lrc_font_shadow">歌詞陰影</string>
-	<string name="pfrscat_display_lrc_font_shadow_color">歌詞陰影顔色</string>
-	<string name="pfrscat_others_title">其他設定</string>
-	<string name="pfrscat_others_restore">還原默認設定</string>
-	<string name="pfrscat_others_restore_summary">所有設定將被還原</string>
-	<string name="pfrscat_others_restore_title">請於下面的文本框中輸入“是”，然後按確認以還原設定。</string>
-	<string name="pfrscat_help_title">幫助信息</string>
-	<string name="pfrscat_help_visit_official_site">訪問 輕听音樂播放器 官方網站</string>
+	<string name="pfrscat_display_lrc_font_shadow_color">歌詞陰影顏色</string>
+	<string name="pfrscat_others_title">其它設置</string>
+	<string name="pfrscat_others_restore">還原默認設置</string>
+	<string name="pfrscat_others_restore_summary">所有設置將被還原</string>
+	<string name="pfrscat_others_restore_title">請在下面的文字方塊中輸入“是”，然後按確定以還原設置。</string>
+	<string name="pfrscat_help_title">説明資訊</string>
+	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂播放機 官方頁面</string>
 	<string name="pfrscat_help_visit_official_site_summary">http://litelisten.littledai.com/</string>
-	<string name="pfrscat_help_visit_official_site_message">點擊【確認】將訪問輕听音樂播放器官方網站。\n\n建議使用 Wi-Fi 網絡瀏覽。</string>
-	<string name="pfrscat_help_about">關於 輕听音樂播放器</string>
-	<string name="pfrscat_help_about_summary">點擊查看版本及更新信息</string>
-	<string name="pfrscat_help_about_message">輕听音樂播放器 2011
+	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽樂播放機 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
+	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
+	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
+	<string name="pfrscat_help_about_message">輕聽音樂播放機 2011
 		Beta1\n內部版本：0313.1806\n\n更新內容：\n1、隨機播放時可以返回上一首歌曲了\n2、運行速度優化\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
-		<item>中文（简体）</item>
+		<item>中文（簡體）</item>
 		<item>國語（台灣）</item>
 		<item>English</item>
-		<item>係統語言</item>
+		<item>系統語言</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_convert_chinese_lrc">
 		<item>簡體轉繁體</item>
@@ -109,14 +108,14 @@
 	</string-array>
 	<string-array name="item_name_pfrscat_general_play_mode">
 		<item>順序播放</item>
-		<item>全部循環</item>
+		<item>全部迴圈</item>
 		<item>單曲暫停</item>
-		<item>單曲循環</item>
+		<item>單曲迴圈</item>
 		<item>隨機播放</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
 		<item>默認</item>
-		<item>自定義……</item>
+		<item>自訂……</item>
 	</string-array>
 
 	<string-array name="item_value_pfrscat_general_language">
