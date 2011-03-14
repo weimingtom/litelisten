@@ -16,6 +16,7 @@
 	<string name="srcmain_extend_menu_exit">退出</string>
 	<string name="srcmain_extend_menu_keep_screen_on_true">屏幕长亮</string>
 	<string name="srcmain_extend_menu_keep_screen_on_false">取消长亮</string>
+	<string name="srcmain_extend_menu_search">快速搜索</string>
 	<string name="srcmain_extend_menu_wait">敬请期待</string>
 	<string name="srcmain_no_id3_tag_found">没有 ID3 标签信息</string>
 	<string name="srcmain_play_mode_close">顺序播放</string>
@@ -27,6 +28,7 @@
 	<string name="srcmain_create_play_list_title">建立播放列表</string>
 	<string name="srcmain_indexing">当前正在建立音乐数据，无需重复创建。</string>
 	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
+	<string name="srcmain_keyword_hint">键入拼音首字母在列表中搜索</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
 	<string name="pfrsmain_image">建议选择“相册”</string>

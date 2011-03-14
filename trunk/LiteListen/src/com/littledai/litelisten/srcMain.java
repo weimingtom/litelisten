@@ -101,6 +101,7 @@ public class srcMain extends Activity
 	private TextView txtLRC;
 	private LinearLayout layExtendMenu;
 	private LinearLayout layControlPanel;
+	private LinearLayout laySearch;
 	private LinearLayout layMusicSeek;
 	private LinearLayout layHighlight;
 	private LinearLayout layMain;
@@ -561,6 +562,7 @@ public class srcMain extends Activity
 		layExtendMenu = (LinearLayout) findViewById(R.id.layExtendMenu);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
+		laySearch = (LinearLayout) findViewById(R.id.laySearch);
 		layMusicSeek = (LinearLayout) findViewById(R.id.layMusicSeek);
 		layHighlight = (LinearLayout) findViewById(R.id.layHighlight);
 		layMain = (LinearLayout) findViewById(R.id.layMain);
@@ -590,8 +592,8 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemIcon", R.drawable.menu_search);
+		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_search));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -724,6 +726,39 @@ public class srcMain extends Activity
 		}
 
 		return map;
+	}
+
+	/* 搜索框切换 */
+	public void SearchBoxSwitcher()
+	{
+		AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams(); // 获取scrLRC尺寸参数
+
+		// 托盘消失动画
+		Animation animHide = new TranslateAnimation(0, 0, 65, 0);
+		animHide.setDuration(ANIMATION_TIME);
+		animHide.setInterpolator(new DecelerateInterpolator());
+
+		// 托盘显示动画
+		Animation animShow = new TranslateAnimation(0, 0, -65, 0);
+		animShow.setDuration(ANIMATION_TIME);
+		animShow.setInterpolator(new DecelerateInterpolator());
+
+		if (layParSearch.y == -65)
+		{// 调用显示
+			layParSearch.y = 0;
+			laySearch.setLayoutParams(layParSearch);
+
+			if (sp.getBoolean("chkUseAnimation", true))
+				laySearch.startAnimation(animShow);
+		}
+		else if (layParSearch.y == 0)
+		{// 调用隐藏
+			layParSearch.y = -65;
+			laySearch.setLayoutParams(layParSearch);
+
+			if (sp.getBoolean("chkUseAnimation", true))
+				laySearch.startAnimation(animHide);
+		}
 	}
 
 	/* 列表到歌词切换 */
@@ -1105,6 +1140,9 @@ public class srcMain extends Activity
 						}
 
 						break;
+					case 3:
+						SearchBoxSwitcher();
+						break;
 					case 7:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
 							;
@@ -1380,7 +1418,7 @@ public class srcMain extends Activity
 		{
 			ExtendPanelSwitcher();
 
-			return true;
+			return false;
 		}
 
 		return super.onKeyDown(keyCode, event);
