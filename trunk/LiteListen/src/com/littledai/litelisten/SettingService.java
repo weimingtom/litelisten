@@ -40,7 +40,6 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 public class SettingService extends PreferenceActivity
 {
