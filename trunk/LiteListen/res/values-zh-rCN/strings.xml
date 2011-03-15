@@ -76,7 +76,7 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器 2011
-		Beta1\n内部版本：0315.1723\n\n更新内容：\n1、新增搜索功能\n2、修复了横屏的错误\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+		Beta1\n内部版本：0315.2203\n\n更新内容：\n1、新增搜索功能\n2、修复了横屏的错误\n3、新的默认背景图\n4、优化了选歌体验\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

@@ -20,7 +20,7 @@
 
 		<AbsoluteLayout android:id="@+id/layBody"
 			android:layout_width="fill_parent" android:layout_height="212dip"
-			android:layout_marginTop="3dip" android:background="@drawable/bg_land_default">
+			android:background="@drawable/bg_land_default">
 			<ListView android:layout_height="fill_parent"
 				android:drawSelectorOnTop="false" android:cacheColorHint="#00000000"
 				android:smoothScrollbar="true" android:divider="#00000000"

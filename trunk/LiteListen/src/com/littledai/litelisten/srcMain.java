@@ -403,7 +403,7 @@ public class srcMain extends Activity
 								"music_info",
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
 										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
 										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
 								"title_simple_py, artist_simple_py");
@@ -417,7 +417,7 @@ public class srcMain extends Activity
 								"music_info",
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
 										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
 										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
 								"artist_simple_py, title_simple_py");
@@ -431,7 +431,7 @@ public class srcMain extends Activity
 								"music_info",
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
 										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
 										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null, null);
 					else
@@ -1099,9 +1099,15 @@ public class srcMain extends Activity
 
 				// 记录歌曲列表滚动高度（需要减去偏移量，且横竖屏不同）
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-					MusicListY = (float) (Pos[1] - layHighlight.getHeight() - 11);
+					MusicListY = (float) (Pos[1] - layHighlight.getHeight() - 8);
 				else
-					MusicListY = (float) (Pos[1] - layHighlight.getHeight() * 1.5 - 4);
+					MusicListY = (float) (Pos[1] - layHighlight.getHeight() * 1.5 - 2);
+
+				if (MusicListY < 0)
+				{
+					MusicListY = 0;
+					lstMusic.setSelectionFromTop(arg2, (int) MusicListY); // 恢复刚才的位置
+				}
 
 				layMusicHighlight.y = (int) MusicListY;
 				layHighlight.setLayoutParams(layMusicHighlight);
@@ -1196,7 +1202,7 @@ public class srcMain extends Activity
 
 						break;
 				}
-				// HideExtendPanel();
+				HideExtendPanel();
 			}
 		});
 

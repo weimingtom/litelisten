@@ -10,9 +10,9 @@
 		<TextView android:layout_width="fill_parent"
 			android:textSize="18dip" android:shadowColor="#0099FF"
 			android:textColor="#FFFFFF" android:shadowDx="1" android:shadowDy="1"
-			android:shadowRadius="2" android:layout_height="wrap_content"
+			android:layout_height="wrap_content"
 			android:singleLine="true" android:ellipsize="marquee"
-			android:marqueeRepeatLimit="marquee_forever" android:id="@+id/txtSongTitle"/>
+			android:marqueeRepeatLimit="marquee_forever" android:id="@+id/txtSongTitle" android:shadowRadius="1"/>
 		<TextView android:layout_height="fill_parent"
 			android:gravity="center_vertical" android:id="@+id/txtSongInfo"
 			android:layout_width="fill_parent" android:singleLine="true"
