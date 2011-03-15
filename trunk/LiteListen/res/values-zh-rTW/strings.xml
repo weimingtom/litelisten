@@ -76,29 +76,29 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機 2011
-		Beta1\n內部版本：0313.1806\n\n更新內容：\n1、隨機播放時可以返回上一首歌曲了\n2、運行速度優化\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		Beta1\n內部版本：0315.1723\n\n更新內容：\n1、新增搜索功能\n2、修復了橫屏的錯誤\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
-		<item>中文（簡體）</item>
+		<item>中文（简体）</item>
 		<item>國語（台灣）</item>
 		<item>English</item>
-		<item>系統語言</item>
+		<item>系统语言</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_convert_chinese_lrc">
-		<item>簡體轉繁體</item>
-		<item>繁體轉簡體</item>
-		<item>不自動轉換</item>
+		<item>简体转繁体</item>
+		<item>繁体转简体</item>
+		<item>不自动转换</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_fit_screen_orientation">
-		<item>豎屏</item>
-		<item>橫屏</item>
-		<item>自動切換</item>
+		<item>竖屏</item>
+		<item>横屏</item>
+		<item>自动切换</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_list_order">
-		<item>標題 + 藝術家</item>
-		<item>藝術家 + 標題</item>
-		<item>更新時間</item>
+		<item>标题 + 艺术家</item>
+		<item>艺术家 + 标题</item>
+		<item>更新时间</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_property_read_priority">
 		<item>ID3v2 - ID3v1 - APE</item>
@@ -107,15 +107,15 @@
 		<item>APE - ID3v1 - ID3v2</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_play_mode">
-		<item>順序播放</item>
-		<item>全部迴圈</item>
-		<item>單曲暫停</item>
-		<item>單曲迴圈</item>
-		<item>隨機播放</item>
+		<item>顺序播放</item>
+		<item>全部循环</item>
+		<item>单曲暂停</item>
+		<item>单曲循环</item>
+		<item>随机播放</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
-		<item>默認</item>
-		<item>自訂……</item>
+		<item>默认</item>
+		<item>自定义……</item>
 	</string-array>
 
 	<string-array name="item_value_pfrscat_general_language">

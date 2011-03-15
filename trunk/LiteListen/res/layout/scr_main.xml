@@ -4,7 +4,7 @@
 	android:id="@+id/layActivity">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@+id/laySplash"
-		android:background="@drawable/splash_port" android:visibility="visible"></LinearLayout>
+		android:background="@drawable/splash_port"></LinearLayout>
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@+id/layMain"
 		android:orientation="vertical" android:background="@drawable/bg_port" android:visibility="gone">

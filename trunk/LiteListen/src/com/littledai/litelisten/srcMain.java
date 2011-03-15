@@ -50,6 +50,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -99,6 +100,7 @@ public class srcMain extends Activity
 	private TextView txtTime;
 	private TextView txtScanHint;
 	private TextView txtLRC;
+	private TextView txtKeyword;
 	private LinearLayout layExtendMenu;
 	private LinearLayout layControlPanel;
 	private LinearLayout laySearch;
@@ -250,7 +252,7 @@ public class srcMain extends Activity
 		super.onResume();
 
 		SetLanguage();
-		SetMusicListByDB();
+		SetMusicListByDB(false);
 		SetMenuList();
 		SetPlayMode();
 		SetFonts();
@@ -350,7 +352,7 @@ public class srcMain extends Activity
 							lstSong.add(mapInfo);
 						}
 
-						SetMusicListByDB();
+						SetMusicListByDB(false);
 					}
 
 					hs.getHdlHideScanHint().sendEmptyMessage(0);
@@ -370,7 +372,7 @@ public class srcMain extends Activity
 	}
 
 	/* 从数据库获取歌曲信息 */
-	public void SetMusicListByDB()
+	public void SetMusicListByDB(final boolean IsSearch)
 	{
 		new Thread()
 		{
@@ -395,11 +397,46 @@ public class srcMain extends Activity
 				// 决定排序方式
 				String index = sp.getString("lstListOrder", "1");
 				if (index.equals("0"))
-					cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "title_simple_py, artist_simple_py");
+				{
+					if (IsSearch)
+						cur = db.GetDBInstance(true).query(
+								"music_info",
+								null,
+								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
+										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
+								"title_simple_py, artist_simple_py");
+					else
+						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "title_simple_py, artist_simple_py");
+				}
 				else if (index.equals("1"))
-					cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "artist_simple_py, title_simple_py");
+				{
+					if (IsSearch)
+						cur = db.GetDBInstance(true).query(
+								"music_info",
+								null,
+								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
+										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
+								"artist_simple_py, title_simple_py");
+					else
+						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "artist_simple_py, title_simple_py");
+				}
 				else if (index.equals("2"))
-					cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, null);
+				{
+					if (IsSearch)
+						cur = db.GetDBInstance(true).query(
+								"music_info",
+								null,
+								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
+										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
+										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null, null);
+					else
+						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, null);
+				}
 
 				while (cur.moveToNext())
 				{
@@ -558,6 +595,7 @@ public class srcMain extends Activity
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
 		txtTime = (TextView) findViewById(R.id.txtTime);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
+		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
 		txtScanHint = (TextView) findViewById(R.id.txtScanHint);
 		layExtendMenu = (LinearLayout) findViewById(R.id.layExtendMenu);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
@@ -1158,7 +1196,7 @@ public class srcMain extends Activity
 
 						break;
 				}
-				HideExtendPanel();
+				// HideExtendPanel();
 			}
 		});
 
@@ -1338,6 +1376,22 @@ public class srcMain extends Activity
 			{
 				if (event.getAction() == MotionEvent.ACTION_MOVE)
 					layHighlight.setVisibility(View.INVISIBLE);
+
+				return false;
+			}
+		});
+
+		/* 关键词按键监听 */
+		txtKeyword.setOnKeyListener(new OnKeyListener()
+		{
+			public boolean onKey(View v, int keyCode, KeyEvent event)
+			{
+				if (keyCode == KeyEvent.KEYCODE_ENTER)
+				{// 搜索
+					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+					if (layParSearch.y == 0 && !txtKeyword.getText().equals(""))
+						SetMusicListByDB(true);
+				}
 
 				return false;
 			}

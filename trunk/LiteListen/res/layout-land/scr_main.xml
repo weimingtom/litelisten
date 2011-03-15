@@ -3,7 +3,8 @@
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/layActivity">
 	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:id="@+id/laySplash" android:background="@drawable/splash_land"></LinearLayout>
+		android:layout_height="fill_parent" android:id="@+id/laySplash"
+		android:background="@drawable/splash_land"></LinearLayout>
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/layMain" android:orientation="vertical"
@@ -37,6 +38,18 @@
 
 
 			</ListView>
+			<LinearLayout android:orientation="horizontal"
+				android:layout_height="wrap_content" android:background="@drawable/lay_search"
+				android:layout_width="fill_parent" android:id="@+id/laySearch" android:layout_y="-65dip">
+
+				<EditText android:id="@+id/txtKeyword" android:lines="1"
+					android:singleLine="true" android:layout_height="wrap_content"
+					android:background="@drawable/txt_keyword" android:hint="@string/srcmain_keyword_hint"
+					android:layout_marginTop="11dip" android:layout_width="fill_parent"
+					android:layout_marginLeft="8dip" android:layout_marginRight="5dip"
+					android:textColorHint="#AAAAAA" android:paddingLeft="8dip"
+					android:paddingRight="42dip"></EditText>
+			</LinearLayout>
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:id="@+id/layHighlight"
 				android:visibility="invisible" android:background="@drawable/bg_land_list_highlight">
