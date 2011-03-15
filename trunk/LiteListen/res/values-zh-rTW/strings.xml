@@ -28,7 +28,7 @@
 	<string name="srcmain_create_play_list_title">建立播放清單</string>
 	<string name="srcmain_indexing">當前正在建立音樂資料，無需重複創建。</string>
 	<string name="srcmain_create_play_list_message">按一下【確定】開始掃描存放裝置並建立播放清單。</string>
-	<string name="srcmain_keyword_hint">鍵入拼音首字母在清單中搜索</string>
+	<string name="srcmain_keyword_hint">鍵入拼音首字母搜索</string>
 
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">建議選擇“相冊”</string>
@@ -76,7 +76,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機 2011
-		Beta1\n內部版本：0315.1723\n\n更新內容：\n1、新增搜索功能\n2、修復了橫屏的錯誤\n3、新的默認背景圖\n4、優化了選歌體驗\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		Beta1\n內部版本：0316.0002\n\n更新內容：\n1、新增搜索功能\n2、修復了橫屏的錯誤\n3、新的默認背景圖\n4、優化了選歌體驗\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

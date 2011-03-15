@@ -198,7 +198,6 @@ public class HandlerService
 			if (main.getLaySplash().getVisibility() == View.VISIBLE)
 			{
 				main.getLaySplash().setVisibility(View.GONE);
-				main.getLayMain().setVisibility(View.VISIBLE);
 
 				if (main.getSp().getBoolean("chkUseAnimation", true))
 				{

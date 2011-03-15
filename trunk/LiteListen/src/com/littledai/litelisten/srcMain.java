@@ -96,6 +96,7 @@ public class srcMain extends Activity
 	private ImageButton btnPlayMode;
 	private ImageButton btnLRC;
 	private ImageButton btnHighlightPlay;
+	private ImageButton btnSearch;
 	private TextView txtTitle;
 	private TextView txtTime;
 	private TextView txtScanHint;
@@ -190,10 +191,7 @@ public class srcMain extends Activity
 		onResume();
 
 		if (!IsSplashThreadAlive)
-		{
 			laySplash.setVisibility(View.GONE);
-			layMain.setVisibility(View.VISIBLE);
-		}
 
 		if (IsMusicRefreshing)
 			txtScanHint.setVisibility(View.VISIBLE); // 显示提示标签
@@ -404,8 +402,8 @@ public class srcMain extends Activity
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
 										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
-										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
+										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null,
 								"title_simple_py, artist_simple_py");
 					else
 						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "title_simple_py, artist_simple_py");
@@ -418,8 +416,8 @@ public class srcMain extends Activity
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
 										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
-										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null,
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
+										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null,
 								"artist_simple_py, title_simple_py");
 					else
 						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "artist_simple_py, title_simple_py");
@@ -432,8 +430,8 @@ public class srcMain extends Activity
 								null,
 								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
 										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py '%" + txtKeyword.getText() + "%' or artist_simple_py '%"
-										+ txtKeyword.getText() + "%' or lrc_path '%" + txtKeyword.getText() + "%' or song_info '%" + txtKeyword.getText() + "%'", null, null, null, null);
+										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
+										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null, null);
 					else
 						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, null);
 				}
@@ -591,6 +589,7 @@ public class srcMain extends Activity
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
 		btnHighlightPlay = (ImageButton) findViewById(R.id.btnHighlightPlay);
+		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
 		txtTime = (TextView) findViewById(R.id.txtTime);
@@ -1084,6 +1083,19 @@ public class srcMain extends Activity
 			}
 		});
 
+		/* 搜索按钮 */
+		btnSearch.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+				if (layParSearch.y == 0 && !txtKeyword.getText().equals(""))
+					SetMusicListByDB(true);
+
+				SearchBoxSwitcher();
+			}
+		});
+
 		/* 选中列表 */
 		lstMusic.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -1397,6 +1409,8 @@ public class srcMain extends Activity
 					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 					if (layParSearch.y == 0 && !txtKeyword.getText().equals(""))
 						SetMusicListByDB(true);
+
+					SearchBoxSwitcher();
 				}
 
 				return false;

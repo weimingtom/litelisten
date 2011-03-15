@@ -7,7 +7,7 @@
 		android:background="@drawable/splash_port"></LinearLayout>
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@+id/layMain"
-		android:orientation="vertical" android:background="@drawable/bg_port" android:visibility="gone">
+		android:orientation="vertical" android:background="@drawable/bg_port">
 		<LinearLayout android:layout_marginLeft="3dip"
 			android:layout_width="fill_parent" android:layout_marginRight="3dip"
 			android:layout_height="wrap_content" android:gravity="center_vertical"
@@ -58,19 +58,13 @@
 
 
 		<AbsoluteLayout android:id="@+id/layBody"
-			android:layout_width="fill_parent" android:layout_height="404dip"
-			android:background="@drawable/bg_port_default">
-			<ListView android:layout_height="fill_parent" android:layout_width="fill_parent" android:listSelector="@layout/list_music_selector" android:scrollbarThumbVertical="@drawable/scroll_track" android:smoothScrollbar="true" android:divider="#00000000" android:id="@+id/lstMusic" android:cacheColorHint="#00000000"></ListView>
-			<LinearLayout android:orientation="horizontal"
-				android:layout_height="wrap_content" android:background="@drawable/lay_search"
-				android:layout_width="fill_parent" android:id="@+id/laySearch" android:layout_y="-65dip">
-
-				<EditText android:id="@+id/txtKeyword" android:lines="1"
-					android:singleLine="true" android:layout_height="wrap_content"
-					android:background="@drawable/txt_keyword" android:hint="@string/srcmain_keyword_hint"
-					android:layout_marginTop="11dip"
-					android:layout_width="fill_parent" android:layout_marginLeft="8dip" android:layout_marginRight="5dip" android:textColorHint="#AAAAAA" android:paddingLeft="8dip" android:paddingRight="42dip"></EditText>
-			</LinearLayout>
+			android:layout_width="fill_parent" android:background="@drawable/bg_port_default"
+			android:layout_height="408dip">
+			<ListView android:layout_height="fill_parent"
+				android:layout_width="fill_parent" android:listSelector="@layout/list_music_selector"
+				android:scrollbarThumbVertical="@drawable/scroll_track"
+				android:smoothScrollbar="true" android:divider="#00000000"
+				android:id="@+id/lstMusic" android:cacheColorHint="#00000000"></ListView>
 			<LinearLayout android:background="@drawable/bg_port_list_highlight"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:id="@+id/layHighlight" android:visibility="invisible">
@@ -102,6 +96,19 @@
 				android:gravity="right|center_vertical" android:paddingRight="5dip"
 				android:paddingLeft="5dip" android:textColor="#FFFFFF"
 				android:visibility="gone"></TextView>
+			<LinearLayout android:orientation="horizontal"
+				android:background="@drawable/lay_search" android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:id="@+id/laySearch" android:layout_y="-65dip">
+				<EditText android:layout_marginTop="11dip"
+					android:textColorHint="#AAAAAA" android:background="@drawable/txt_keyword"
+					android:hint="@string/srcmain_keyword_hint" android:lines="1"
+					android:layout_marginLeft="8dip" android:paddingLeft="8dip"
+					android:layout_height="wrap_content" android:id="@+id/txtKeyword"
+					android:singleLine="true" android:paddingRight="42dip"
+					android:layout_width="260dip"></EditText>
+				<ImageButton android:layout_width="wrap_content" android:id="@+id/btnSearch"
+					android:layout_marginTop="11dip" android:background="@layout/btn_search" android:layout_height="48dip"></ImageButton>
+			</LinearLayout>
 			<LinearLayout android:layout_height="wrap_content"
 				android:orientation="vertical" android:layout_width="wrap_content"
 				android:background="@drawable/bg_control_panel_port"
