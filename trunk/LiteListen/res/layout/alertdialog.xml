@@ -2,8 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:id="@+id/layAlertDialog"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:background="@drawable/dialog_bg_port">
+	android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/dialog_bg" android:paddingRight="6.5dip">
 
 
 
@@ -26,7 +25,7 @@
 	<LinearLayout android:gravity="center_vertical"
 		android:layout_width="293dip" android:layout_height="wrap_content"
 		android:background="@drawable/dialog_message" android:orientation="vertical"
-		android:layout_marginLeft="6.5dip" android:paddingLeft="10dip" android:paddingRight="10dip" android:id="@+id/layMessage">
+		android:layout_marginLeft="6.5dip" android:id="@+id/layMessage" android:paddingLeft="5dip" android:paddingRight="5dip">
 		<TextView android:id="@+id/txtMessage" android:textColor="#FFFFFF"
 			android:textSize="20dip" android:shadowColor="#0099FF"
 			android:shadowDx="1" android:shadowDy="1" android:shadowRadius="3"

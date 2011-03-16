@@ -71,7 +71,7 @@ public class MusicService
 
 				main.getBtnPlay().setVisibility(View.GONE);
 				main.getBtnPause().setVisibility(View.VISIBLE);
-				setStrPlayerStatus(MusicService.STATUS_PLAY);
+				strPlayerStatus = MusicService.STATUS_PLAY;
 				main.SetAlbumIcon();
 
 				new Thread()
@@ -124,9 +124,9 @@ public class MusicService
 
 				main.getBtnPlay().setVisibility(View.GONE);
 				main.getBtnPause().setVisibility(View.VISIBLE);
-				setStrPlayerStatus(MusicService.STATUS_PLAY);
-				setStrLRCPath((String) map.get("LRCPath"));
-				setStrShownTitle((String) map.get("Title"));
+				strPlayerStatus = MusicService.STATUS_PLAY;
+				strLRCPath = (String) map.get("LRCPath");
+				strShownTitle = (String) map.get("Title");
 
 				main.getLs().setStrLRCPath(strLRCPath);
 				main.getTxtTitle().setText(getStrShownTitle());

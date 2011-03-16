@@ -74,7 +74,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class srcMain extends Activity
 {
 	private static final int ANIMATION_TIME = 500; // 动画时长
-	private static final int SPLASH_TIME = 5000; // 启动画面时长
+	private static final int SPLASH_TIME = 3000; // 启动画面时长
 
 	private List<Map<String, Object>> lstSong = new ArrayList<Map<String, Object>>(); // 播放列表
 	private int ScreenOrantation = 0;// 屏幕方向
@@ -91,7 +91,6 @@ public class srcMain extends Activity
 	private ImageButton btnLast;
 	private ImageButton btnPlay;
 	private ImageButton btnNext;
-	private ImageButton btnStop;
 	private ImageButton btnPause;
 	private ImageButton btnPlayMode;
 	private ImageButton btnLRC;
@@ -585,7 +584,6 @@ public class srcMain extends Activity
 		btnLast = (ImageButton) findViewById(R.id.btnLast);
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
-		btnStop = (ImageButton) findViewById(R.id.btnStop);
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
 		btnHighlightPlay = (ImageButton) findViewById(R.id.btnHighlightPlay);
@@ -1013,15 +1011,6 @@ public class srcMain extends Activity
 			}
 		});
 
-		/* 停止 */
-		btnStop.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				ms.Stop();
-			}
-		});
-
 		/* 播放模式 */
 		btnPlayMode.setOnClickListener(new OnClickListener()
 		{
@@ -1088,11 +1077,9 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-				if (layParSearch.y == 0 && !txtKeyword.getText().equals(""))
-					SetMusicListByDB(true);
-
+				SetMusicListByDB(true);
 				SearchBoxSwitcher();
+				txtKeyword.clearFocus();
 			}
 		});
 
@@ -1407,10 +1394,12 @@ public class srcMain extends Activity
 				if (keyCode == KeyEvent.KEYCODE_ENTER)
 				{// 搜索
 					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-					if (layParSearch.y == 0 && !txtKeyword.getText().equals(""))
+					if (layParSearch.y == 0)
+					{
 						SetMusicListByDB(true);
-
-					SearchBoxSwitcher();
+						SearchBoxSwitcher();
+						txtKeyword.clearFocus();
+					}
 				}
 
 				return false;
@@ -1616,16 +1605,6 @@ public class srcMain extends Activity
 	public void setBtnNext(ImageButton btnNext)
 	{
 		this.btnNext = btnNext;
-	}
-
-	public ImageButton getBtnStop()
-	{
-		return btnStop;
-	}
-
-	public void setBtnStop(ImageButton btnStop)
-	{
-		this.btnStop = btnStop;
 	}
 
 	public ImageButton getBtnPause()
@@ -1881,5 +1860,50 @@ public class srcMain extends Activity
 	public static int getAnimationTime()
 	{
 		return ANIMATION_TIME;
+	}
+
+	public boolean isIsSplashThreadAlive()
+	{
+		return IsSplashThreadAlive;
+	}
+
+	public void setIsSplashThreadAlive(boolean isSplashThreadAlive)
+	{
+		IsSplashThreadAlive = isSplashThreadAlive;
+	}
+
+	public ImageButton getBtnSearch()
+	{
+		return btnSearch;
+	}
+
+	public void setBtnSearch(ImageButton btnSearch)
+	{
+		this.btnSearch = btnSearch;
+	}
+
+	public TextView getTxtKeyword()
+	{
+		return txtKeyword;
+	}
+
+	public void setTxtKeyword(TextView txtKeyword)
+	{
+		this.txtKeyword = txtKeyword;
+	}
+
+	public LinearLayout getLaySearch()
+	{
+		return laySearch;
+	}
+
+	public void setLaySearch(LinearLayout laySearch)
+	{
+		this.laySearch = laySearch;
+	}
+
+	public static int getSplashTime()
+	{
+		return SPLASH_TIME;
 	}
 }

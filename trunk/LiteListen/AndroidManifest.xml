@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.littledai.litelisten" android:versionCode="2011" android:versionName="0316.0002 Beta1">
+	package="com.littledai.litelisten" android:versionCode="2011" android:versionName="0316.1445 Beta1">
 	<application android:icon="@drawable/icon" android:label="@string/global_app_name" android:debuggable="true">
 		<activity android:name=".srcMain" android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name" android:configChanges="orientation|keyboardHidden">  <!-- 防止横竖屏切换时重载onCreate() -->
 			<intent-filter>
