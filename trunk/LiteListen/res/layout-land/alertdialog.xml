@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/layAlertDialog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/dialog_bg" android:paddingRight="6.5dip">
+
+
+
+
+
+
+<LinearLayout android:id="@+id/layTitle" android:gravity="center_vertical" android:layout_marginLeft="6.5dip" android:layout_height="66.5dip" android:layout_width="453dip"><ImageView android:layout_marginLeft="10dip" android:id="@+id/imgIcon" android:layout_height="55dip" android:layout_width="55dip"></ImageView><TextView android:layout_height="wrap_content" android:textColor="#FFFFFF" android:id="@+id/txtTitle" android:textSize="25dip" android:shadowColor="#333333" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="3" android:layout_marginLeft="10dip" android:layout_width="fill_parent" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"></TextView>
+</LinearLayout><LinearLayout android:id="@+id/layMessage" android:gravity="center_vertical" android:layout_marginLeft="6.5dip" android:layout_height="wrap_content" android:background="@drawable/dialog_message" android:layout_width="453dip" android:paddingLeft="5dip" android:paddingRight="5dip">
+<TextView android:id="@+id/txtMessage" android:textColor="#FFFFFF" android:textSize="20dip" android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="3" android:layout_height="wrap_content" android:scrollbars="vertical" android:scrollbarThumbVertical="@drawable/scroll_track" android:layout_width="fill_parent" android:layout_marginRight="5dip" android:layout_marginLeft="5dip" android:layout_marginBottom="5dip" android:layout_marginTop="3dip" android:maxLines="5"></TextView>
+</LinearLayout><LinearLayout android:id="@+id/layButton" android:gravity="center_vertical|center_horizontal|center" android:layout_marginLeft="6.5dip" android:layout_height="56dip" android:layout_width="453dip">
+
+<Button android:id="@+id/btnOK" android:shadowRadius="3" android:textColor="#FFFFFF" android:shadowDx="0" android:shadowDy="0" android:shadowColor="#0099FF" android:layout_width="135dip" android:layout_height="45dip" android:layout_marginRight="2dip" android:layout_marginTop="-5dip" android:text="@string/global_ok" android:background="@layout/alertdialog_button"></Button>
+<Button android:id="@+id/btnCancel" android:shadowDx="0" android:shadowDy="0" android:textColor="#FFFFFF" android:shadowRadius="3" android:shadowColor="#0099FF" android:layout_width="135dip" android:layout_height="45dip" android:layout_marginLeft="2dip" android:layout_marginTop="-5dip" android:text="@string/global_cancel" android:background="@layout/alertdialog_button"></Button>
+
+</LinearLayout>
+
+
+</LinearLayout>

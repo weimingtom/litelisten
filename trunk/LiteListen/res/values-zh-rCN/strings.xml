@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_app_name">轻听音乐播放器</string>
+	<string name="global_ok">确定</string>
+	<string name="global_cancel">取消</string>
+	<string name="global_yes">是</string>
+	<string name="global_no">否</string>
+	<string name="global_request">请求许可</string>
+
+	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
+	<string name="lrcservice_no_lyric_found">没有找到相应歌词</string>
+
+	<string name="srcmain_scanning_songs">已发现音乐：</string>
+	<string name="srcmain_extend_menu_settings">设置</string>
+	<string name="srcmain_extend_menu_refresh_list">更新列表</string>
+	<string name="srcmain_extend_menu_exit">退出</string>
+	<string name="srcmain_extend_menu_keep_screen_on_true">屏幕长亮</string>
+	<string name="srcmain_extend_menu_keep_screen_on_false">取消长亮</string>
+	<string name="srcmain_extend_menu_search">快速搜索</string>
+	<string name="srcmain_extend_menu_wait">敬请期待</string>
+	<string name="srcmain_no_id3_tag_found">没有 ID3 标签信息</string>
+	<string name="srcmain_play_mode_close">顺序播放</string>
+	<string name="srcmain_play_mode_repeat_all">全部循环</string>
+	<string name="srcmain_play_mode_pause_current">单曲暂停</string>
+	<string name="srcmain_play_mode_repeat_current">单曲重复</string>
+	<string name="srcmain_play_mode_shuffle">随机播放</string>
+	<string name="srcmain_no_track_number">没有音轨信息</string>
+	<string name="srcmain_create_play_list_title">建立播放列表</string>
+	<string name="srcmain_indexing">当前正在建立音乐数据，无需重复创建。</string>
+	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
+	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
+
+	<string name="pfrsmain_title">设置轻听音乐播放器</string>
+	<string name="pfrsmain_image">建议选择“相册”</string>
+	<string name="pfrscat_general_title">常规选项</string>
+	<string name="pfrscat_general_language">语言 語言 Language</string>
+	<string name="pfrscat_general_language_title">语言设置</string>
+	<string name="pfrscat_general_language_message">您修改了程序语言，建议您立即重新启动程序。\n\n是否立即重新启动？</string>
+	<string name="pfrscat_general_music_path">自定义音乐文件路径</string>
+	<string name="pfrscat_general_include_sub_directories">扫描时包含子文件夹</string>
+	<string name="pfrscat_general_ignore_directory">忽略指定文件夹</string>
+	<string name="pfrscat_general_ignore_directory_summary">扫描歌曲时将跳过包含名为 .nomedia 文件的文件夹</string>
+	<string name="pfrscat_general_auto_play">启动时自动播放</string>
+	<string name="pfrscat_general_remember_last_played">记住最后播放的歌曲</string>
+	<string name="pfrscat_general_convert_chinese_lrc">中文歌词简繁转换</string>
+	<string name="pfrscat_general_fit_screen_orientation">屏幕方向</string>
+	<string name="pfrscat_general_list_order">播放列表排列顺序</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">自动跳转到歌词界面</string>
+	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲开始播放后立即显示歌词</string>
+	<string name="pfrscat_general_property_read_priority">MP3 属性扫描优先级</string>
+	<string name="pfrscat_general_play_mode">播放模式</string>
+	<string name="pfrscat_display_title">视觉效果</string>
+	<string name="pfrscat_display_background_port">竖屏背景图</string>
+	<string name="pfrscat_display_background_land">横屏背景图</string>
+	<string name="pfrscat_display_background_brightness">背景图亮度</string>
+	<string name="pfrscat_display_background_blur">背景图模糊效果</string>
+	<string name="pfrscat_display_use_animation">使用动画效果</string>
+	<string name="pfrscat_display_use_animation_summary">关闭动画可提升性能，但会减弱体验</string>
+	<string name="pfrscat_display_list_font_size">播放列表字体大小</string>
+	<string name="pfrscat_display_list_font_color">播放列表字体颜色</string>
+	<string name="pfrscat_display_list_font_shadow">播放列表阴影</string>
+	<string name="pfrscat_display_list_font_shadow_color">播放列表阴影颜色</string>
+	<string name="pfrscat_display_lrc_font_size">歌词字体大小</string>
+	<string name="pfrscat_display_lrc_normal_font_color">常规歌词颜色</string>
+	<string name="pfrscat_display_lrc_highlight_font_color">高亮歌词颜色</string>
+	<string name="pfrscat_display_lrc_font_shadow">歌词阴影</string>
+	<string name="pfrscat_display_lrc_font_shadow_color">歌词阴影颜色</string>
+	<string name="pfrscat_others_title">其它设置</string>
+	<string name="pfrscat_others_restore">还原默认设置</string>
+	<string name="pfrscat_others_restore_summary">所有设置将被还原</string>
+	<string name="pfrscat_others_restore_title">请在下面的文本框中输入“是”，然后按确定以还原设置。</string>
+	<string name="pfrscat_help_title">帮助信息</string>
+	<string name="pfrscat_help_visit_official_site">访问 轻听音乐播放器 官方页面</string>
+	<string name="pfrscat_help_visit_official_site_summary">http://litelisten.littledai.com/</string>
+	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
+	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
+	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
+	<string name="pfrscat_help_about_message">轻听音乐播放器 2011
+		Beta1\n内部版本：0316.1445\n\n更新内容：\n1、界面微调\n2、清理了不必要的资源\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+	</string>
+
+	<string-array name="item_name_pfrscat_general_language">
+		<item>中文（简体）</item>
+		<item>國語（台灣）</item>
+		<item>English</item>
+		<item>系统语言</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_convert_chinese_lrc">
+		<item>简体转繁体</item>
+		<item>繁体转简体</item>
+		<item>不自动转换</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_fit_screen_orientation">
+		<item>竖屏</item>
+		<item>横屏</item>
+		<item>自动切换</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_list_order">
+		<item>标题 + 艺术家</item>
+		<item>艺术家 + 标题</item>
+		<item>更新时间</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_property_read_priority">
+		<item>ID3v2 - ID3v1 - APE</item>
+		<item>ID3v1 - ID3v2 - APE</item>
+		<item>APE - ID3v2 - ID3v1</item>
+		<item>APE - ID3v1 - ID3v2</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_play_mode">
+		<item>顺序播放</item>
+		<item>全部循环</item>
+		<item>单曲暂停</item>
+		<item>单曲循环</item>
+		<item>随机播放</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_background">
+		<item>默认</item>
+		<item>自定义……</item>
+	</string-array>
+
+	<string-array name="item_value_pfrscat_general_language">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_general_convert_chinese_lrc">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_general_fit_screen_orientation">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_general_list_order">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_general_property_read_priority">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_general_play_mode">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+	</string-array>
+	<string-array name="item_value_pfrscat_display_background">
+		<item>0</item>
+		<item>1</item>
+	</string-array>
+</resources>
