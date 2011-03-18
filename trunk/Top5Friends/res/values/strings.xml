@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">联系人管家</string>
+    <string name="main_title">联系人管家 2010</string>
+    <string name="indexing_title">为联系人建立索引</string>
+    <string name="main_txtkeyword_hint">按回车搜索联系人</string>
+</resources>
