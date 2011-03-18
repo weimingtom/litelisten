@@ -26,7 +26,6 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsoluteLayout;
-import android.widget.SimpleAdapter;
 
 @SuppressWarnings("deprecation")
 public class HandlerService
@@ -94,8 +93,8 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			main.getLstMusic().setAdapter((SimpleAdapter) msg.obj);
-			main.SetAlbumIcon();
+			main.getLstMusic().setAdapter((LDMusicAdapter) msg.obj);
+			// main.SetAlbumIcon();
 		}
 	};
 

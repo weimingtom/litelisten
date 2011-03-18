@@ -92,13 +92,12 @@
 			android:defaultValue="18" android:summary="18 dip" android:enabled="false"></EditTextPreference>
 		<Preference android:title="@string/pfrscat_display_list_font_color"
 			android:key="btnListFontColor" android:defaultValue="#FFFFFF"
-			android:summary="#FFFFFF" android:enabled="false"></Preference>
+			android:summary="#FFFFFF"></Preference>
 		<CheckBoxPreference android:title="@string/pfrscat_display_list_font_shadow"
-			android:key="chkListFontShadow" android:defaultValue="false"
-			android:enabled="false"></CheckBoxPreference>
+			android:key="chkListFontShadow" android:defaultValue="true"></CheckBoxPreference>
 		<Preference android:title="@string/pfrscat_display_list_font_shadow_color"
 			android:key="btnListFontShadowColor" android:defaultValue="#0099FF"
-			android:summary="#0099FF" android:enabled="false"></Preference>
+			android:summary="#0099FF"></Preference>
 		<EditTextPreference android:dialogIcon="@drawable/album_normal"
 			android:dialogTitle="@string/pfrscat_display_lrc_font_size"
 			android:key="txtLRCFontSize" android:title="@string/pfrscat_display_lrc_font_size"

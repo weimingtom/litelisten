@@ -119,6 +119,7 @@ public class srcMain extends Activity
 	private DBProvider db;
 	private PYProvider py;
 	private HandlerService hs;
+	private LDMusicAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -457,9 +458,7 @@ public class srcMain extends Activity
 				cur.close();
 				IsMusicRefreshing = false;
 
-				SimpleAdapter adapter = new SimpleAdapter(srcMain.this, lstSong, R.layout.list_music, new String[] { "AlbumImage", "Title", "SongInfo", "Musicpath", "Atrist", "Album", "LRCPath",
-						"Comment", "Year", "Genre", "Track" }, new int[] { R.id.imgAlbum, R.id.txtSongTitle, R.id.txtSongInfo, R.id.txtMusicPath, R.id.txtArtist, R.id.txtAlbum, R.id.txtLRCPath,
-						R.id.txtComment, R.id.txtYear, R.id.txtGenre, R.id.txtTrack });
+				adapter = new LDMusicAdapter(srcMain.this, lstSong);
 				Message msg = new Message();
 				msg.obj = adapter;
 				hs.getHdlAdapterUpdateHandler().sendMessage(msg);
@@ -1088,7 +1087,11 @@ public class srcMain extends Activity
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				SelectedItemIndex = arg2;
+				int index = SelectedItemIndex; // 获取上一次选中的序号
+				SelectedItemIndex = arg2; // 更新当前选中的序号
+
+				adapter.getView(index, arg1, lstMusic); // 设置选中项颜色
+				adapter.getView(arg2, arg1, lstMusic); // 设置选中项颜色
 
 				int Pos[] = { -1, -1 };
 				arg1.getLocationOnScreen(Pos);
