@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/title_main" android:key="frmMain">
+
+<PreferenceCategory android:title="@string/title_display" android:key="pnlDisplay"><ListPreference android:title="@string/title_skin" android:summary="@string/summary_skin" android:entryValues="@array/arr_value_skin" android:entries="@array/arr_name_skin" android:defaultValue="0" android:key="lstSkin"></ListPreference><CheckBoxPreference android:title="显示背景图像" android:summaryOff="@string/summary_show_bg_off" android:summaryOn="@string/summary_show_bg_on" android:defaultValue="true" android:key="chkShowBG"></CheckBoxPreference><CheckBoxPreference android:title="@string/title_time_format" android:defaultValue="true" android:summaryOff="@string/summary_time_format_off" android:summaryOn="@string/summary_time_format_on" android:key="chkTimeFormat"></CheckBoxPreference><Preference android:summary="@string/summary_date_color" android:title="@string/title_date_color" android:key="btnDateColor"></Preference><ListPreference android:title="@string/title_date_format" android:summary="@string/summary_date_format" android:entryValues="@array/arr_value_time_format" android:entries="@array/arr_name_time_format" android:defaultValue="0" android:key="lstDateFormat"></ListPreference>
+
+<EditTextPreference android:title="@string/title_date_splitter" android:summary="@string/summary_date_splitter" android:defaultValue="-" android:enabled="false" android:key="txtDateSplitter"></EditTextPreference>
+
+
+
+
+
+</PreferenceCategory><PreferenceCategory android:title="@string/title_others" android:key="pnlOthers"><CheckBoxPreference android:title="@string/title_reduce_res_use" android:defaultValue="true" android:summaryOff="@string/summary_reduce_res_use_off" android:summaryOn="@string/summary_reduce_res_use_on" android:key="chkReduceResUse"></CheckBoxPreference>
+<Preference android:title="@string/title_restore_preference" android:summary="@string/summary_restore_preference" android:key="btnRestorePreference"></Preference>
+
+</PreferenceCategory>
+</PreferenceScreen>
