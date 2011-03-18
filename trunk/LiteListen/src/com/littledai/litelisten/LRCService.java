@@ -78,6 +78,9 @@ public class LRCService
 					break;
 			}
 
+			if (CurrTime == null)
+				return;
+
 			int LineCount = 0; // 字符串所占行数
 
 			if (LastIndex != index || (index == 0 && LastIndex == 0))

@@ -85,9 +85,15 @@ public class LDMusicAdapter extends BaseAdapter
 		txtGenre.setText((String) lstSong.get(position).get("Genre"));
 		txtTrack.setText((String) lstSong.get(position).get("Track"));
 
-		if (position == main.getSelectedItemIndex())
+		if (main.getMs().getStrPlayerStatus() == MusicService.STATUS_PLAY && main.getMs().getCurrIndex() == position)
 		{
-			imgAlbum.setBackgroundResource(R.drawable.album_selected);
+			imgAlbum.setBackgroundResource(R.drawable.album_playing);
+			txtSongTitle.setTextColor(Color.parseColor("#FF6600"));
+			txtSongTitle.setShadowLayer(1, 1, 1, Color.parseColor("#000000"));
+		}
+		else if (main.getMs().getStrPlayerStatus() == MusicService.STATUS_PAUSE && main.getMs().getCurrIndex() == position)
+		{
+			imgAlbum.setBackgroundResource(R.drawable.album_paused);
 			txtSongTitle.setTextColor(Color.parseColor("#FF6600"));
 			txtSongTitle.setShadowLayer(1, 1, 1, Color.parseColor("#000000"));
 		}
@@ -98,8 +104,6 @@ public class LDMusicAdapter extends BaseAdapter
 			if (main.getSp().getBoolean("chkListFontShadow", true))
 				txtSongTitle.setShadowLayer(1, 1, 1, Color.parseColor(main.getSp().getString("btnListFontShadowColor", "#0099FF")));
 		}
-
-		notifyDataSetChanged();
 
 		return convertView;
 	}

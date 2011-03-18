@@ -469,38 +469,8 @@ public class srcMain extends Activity
 	/* 设置专辑图标 */
 	public void SetAlbumIcon()
 	{
-		// 设置歌曲列表图标
-		for (int i = 0; i < lstSong.size(); i++)
-		{
-			Map<String, Object> map = null;
-
-			if (i == ms.getCurrIndex())
-			{
-				map = lstSong.get(i);
-
-				if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
-					map.put("AlbumImage", R.drawable.album_playing);
-				else if (ms.getStrPlayerStatus() == MusicService.STATUS_PAUSE)
-					map.put("AlbumImage", R.drawable.album_paused);
-				else
-					map.put("AlbumImage", R.drawable.album_normal);
-
-				lstSong.set(i, map);
-			}
-			else
-			{
-				map = lstSong.get(i);
-				map.put("AlbumImage", R.drawable.album_normal);
-				lstSong.set(i, map);
-			}
-		}
-
-		SimpleAdapter adapter = new SimpleAdapter(this, lstSong, R.layout.list_music, new String[] { "AlbumImage", "Title", "SongInfo", "Musicpath", "Atrist", "Album", "LRCPath", "Comment", "Year",
-				"Genre", "Track" }, new int[] { R.id.imgAlbum, R.id.txtSongTitle, R.id.txtSongInfo, R.id.txtMusicPath, R.id.txtArtist, R.id.txtAlbum, R.id.txtLRCPath, R.id.txtComment, R.id.txtYear,
-				R.id.txtGenre, R.id.txtTrack }); // 设置Adapter
-
-		lstMusic.setAdapter(adapter); // 重新绑定Adapter
-		lstMusic.setSelectionFromTop(ms.getCurrIndex(), (int) MusicListY); // 恢复刚才的位置
+		adapter.getView(ms.getCurrIndex(), null, lstMusic);
+		adapter.notifyDataSetChanged();
 	}
 
 	/* 设置播放模式 */
@@ -1087,11 +1057,7 @@ public class srcMain extends Activity
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				int index = SelectedItemIndex; // 获取上一次选中的序号
 				SelectedItemIndex = arg2; // 更新当前选中的序号
-
-				adapter.getView(index, arg1, lstMusic); // 设置选中项颜色
-				adapter.getView(arg2, arg1, lstMusic); // 设置选中项颜色
 
 				int Pos[] = { -1, -1 };
 				arg1.getLocationOnScreen(Pos);

@@ -94,7 +94,7 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			main.getLstMusic().setAdapter((LDMusicAdapter) msg.obj);
-			// main.SetAlbumIcon();
+			main.SetAlbumIcon();
 		}
 	};
 
