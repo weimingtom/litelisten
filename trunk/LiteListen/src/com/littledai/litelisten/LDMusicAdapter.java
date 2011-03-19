@@ -56,7 +56,7 @@ public class LDMusicAdapter extends BaseAdapter
 
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		if (position < 0)
+		if (position < 0 || lstSong.size() <= 0)
 			return null;
 
 		if (convertView == null)

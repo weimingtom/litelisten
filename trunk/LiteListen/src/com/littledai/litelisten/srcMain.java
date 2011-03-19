@@ -86,6 +86,7 @@ public class srcMain extends Activity
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
 	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
+	private String Keyword = ""; // 当前搜索的关键词
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -250,7 +251,7 @@ public class srcMain extends Activity
 		super.onResume();
 
 		SetLanguage();
-		SetMusicListByDB(false);
+		SetMusicListByDB();
 		SetMenuList();
 		SetPlayMode();
 		SetFonts();
@@ -350,7 +351,7 @@ public class srcMain extends Activity
 							lstSong.add(mapInfo);
 						}
 
-						SetMusicListByDB(false);
+						SetMusicListByDB();
 					}
 
 					hs.getHdlHideScanHint().sendEmptyMessage(0);
@@ -370,7 +371,7 @@ public class srcMain extends Activity
 	}
 
 	/* 从数据库获取歌曲信息 */
-	public void SetMusicListByDB(final boolean IsSearch)
+	public void SetMusicListByDB()
 	{
 		new Thread()
 		{
@@ -396,44 +397,30 @@ public class srcMain extends Activity
 				String index = sp.getString("lstListOrder", "1");
 				if (index.equals("0"))
 				{
-					if (IsSearch)
-						cur = db.GetDBInstance(true).query(
-								"music_info",
-								null,
-								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
-										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null,
-								"title_simple_py, artist_simple_py");
-					else
-						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "title_simple_py, artist_simple_py");
+					cur = db.GetDBInstance(true).query(
+							"music_info",
+							null,
+							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, "title_simple_py, artist_simple_py");
 				}
 				else if (index.equals("1"))
 				{
-					if (IsSearch)
-						cur = db.GetDBInstance(true).query(
-								"music_info",
-								null,
-								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
-										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null,
-								"artist_simple_py, title_simple_py");
-					else
-						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, "artist_simple_py, title_simple_py");
+					cur = db.GetDBInstance(true).query(
+							"music_info",
+							null,
+							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, "artist_simple_py, title_simple_py");
 				}
 				else if (index.equals("2"))
 				{
-					if (IsSearch)
-						cur = db.GetDBInstance(true).query(
-								"music_info",
-								null,
-								"title like '%" + txtKeyword.getText() + "%' or artist like '%" + txtKeyword.getText() + "%' or album like '%" + txtKeyword.getText() + "%' or year like '%"
-										+ txtKeyword.getText() + "%' or genre like '%" + txtKeyword.getText() + "%' or comment like '%" + txtKeyword.getText() + "%' or title_py like '%"
-										+ txtKeyword.getText() + "%' or title_simple_py like '%" + txtKeyword.getText() + "%' or artist_py like '%" + txtKeyword.getText()
-										+ "%' or artist_simple_py like '%" + txtKeyword.getText() + "%' or song_info like '%" + txtKeyword.getText() + "%'", null, null, null, null);
-					else
-						cur = db.GetDBInstance(true).query("music_info", null, null, null, null, null, null);
+					cur = db.GetDBInstance(true).query(
+							"music_info",
+							null,
+							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, null);
 				}
 
 				while (cur.moveToNext())
@@ -457,6 +444,7 @@ public class srcMain extends Activity
 
 				cur.close();
 				IsMusicRefreshing = false;
+				Keyword = "";
 
 				adapter = new LDMusicAdapter(srcMain.this, lstSong);
 				Message msg = new Message();
@@ -471,6 +459,7 @@ public class srcMain extends Activity
 	{
 		adapter.getView(ms.getCurrIndex(), null, lstMusic);
 		adapter.notifyDataSetChanged();
+		lstMusic.setSelectionFromTop(ms.getCurrIndex(), (int) MusicListY); // 恢复刚才的位置
 	}
 
 	/* 设置播放模式 */
@@ -1046,7 +1035,9 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				SetMusicListByDB(true);
+				Keyword = txtKeyword.getText().toString();
+				SetMusicListByDB();
+				txtKeyword.setText("");
 				SearchBoxSwitcher();
 				txtKeyword.clearFocus();
 			}
@@ -1365,7 +1356,9 @@ public class srcMain extends Activity
 					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 					if (layParSearch.y == 0)
 					{
-						SetMusicListByDB(true);
+						Keyword = txtKeyword.getText().toString();
+						SetMusicListByDB();
+						txtKeyword.setText("");
 						SearchBoxSwitcher();
 						txtKeyword.clearFocus();
 					}

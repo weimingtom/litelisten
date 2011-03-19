@@ -26,7 +26,7 @@
 				android:smoothScrollbar="true" android:divider="#00000000"
 				android:id="@+id/lstMusic" android:layout_width="fill_parent"
 				android:scrollbarThumbVertical="@drawable/scroll_track"
-				android:listSelector="@layout/list_music_selector">
+				android:listSelector="@layout/list_music_selector" android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim">
 
 
 
