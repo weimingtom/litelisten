@@ -1069,6 +1069,7 @@ public class srcMain extends Activity
 				}
 
 				layMusicHighlight.y = (int) MusicListY;
+				// layMusicHighlight.height = arg1.getHeight();
 				layHighlight.setLayoutParams(layMusicHighlight);
 
 				if (sp.getBoolean("chkUseAnimation", true) && layHighlight.getVisibility() == View.VISIBLE) // 只有显示时才播放动画

@@ -4,14 +4,19 @@
 	android:id="@+id/layActivity">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@+id/laySplash"
-		android:background="@drawable/splash_land"></LinearLayout>
+		android:background="@drawable/splash_land" android:gravity="bottom">
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/txtVersion" android:text="@string/global_app_version"
+			android:layout_marginBottom="2.5dip" android:layout_marginLeft="5dip" android:textColor="#FFFFFF"></TextView>
+	</LinearLayout>
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/layMain" android:orientation="vertical"
 		android:background="@drawable/bg_land">
 		<TextView android:layout_height="wrap_content" android:id="@+id/txtTitle"
 			android:textSize="18dip" android:shadowDx="1" android:shadowDy="1"
-			android:shadowRadius="2" android:singleLine="true"
+			android:shadowRadius="1" android:singleLine="true"
 			android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"
 			android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
 			android:text="@string/global_app_name" android:layout_margin="5dip"
@@ -26,7 +31,8 @@
 				android:smoothScrollbar="true" android:divider="#00000000"
 				android:id="@+id/lstMusic" android:layout_width="fill_parent"
 				android:scrollbarThumbVertical="@drawable/scroll_track"
-				android:listSelector="@layout/list_music_selector" android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim">
+				android:listSelector="@layout/list_music_selector"
+				android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim">
 
 
 
@@ -39,8 +45,8 @@
 
 			</ListView>
 			<LinearLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:id="@+id/layHighlight"
-				android:visibility="invisible" android:background="@drawable/bg_land_list_highlight">
+				android:id="@+id/layHighlight"
+				android:gravity="center_vertical" android:layout_height="wrap_content" android:visibility="invisible" android:background="@drawable/bg_land_list_highlight">
 				<ImageView android:layout_width="wrap_content" android:id="@+id/imgAlbumHighlight"
 					android:background="@drawable/album_selected"
 					android:layout_height="wrap_content" android:layout_marginLeft="7dip"></ImageView>
@@ -56,22 +62,25 @@
 			</LinearLayout>
 			<TextView android:gravity="center_vertical|center_horizontal|center"
 				android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1"
-				android:shadowRadius="2" android:textColor="#FFFFFF"
+				android:shadowRadius="1" android:textColor="#FFFFFF"
 				android:textSize="18dip" android:id="@+id/txtLRC" android:layout_x="552dip"
 				android:paddingLeft="5dip" android:paddingRight="5dip"
 				android:layout_height="wrap_content" android:layout_width="fill_parent"
 				android:layout_y="80dip"></TextView>
 			<LinearLayout android:orientation="horizontal"
 				android:background="@drawable/lay_search" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:id="@+id/laySearch" android:layout_y="-65dip">
+				android:layout_width="fill_parent" android:id="@+id/laySearch"
+				android:layout_y="-65dip">
 				<EditText android:layout_marginTop="11dip"
 					android:textColorHint="#AAAAAA" android:background="@drawable/txt_keyword"
 					android:hint="@string/srcmain_keyword_hint" android:lines="1"
 					android:layout_marginLeft="8dip" android:paddingLeft="8dip"
 					android:layout_height="wrap_content" android:id="@+id/txtKeyword"
-					android:singleLine="true" android:paddingRight="42dip" android:layout_width="470dip"></EditText>
-				<ImageButton android:layout_width="wrap_content" android:id="@+id/btnSearch"
-					android:layout_marginTop="11dip" android:background="@layout/btn_search" android:layout_height="48dip"></ImageButton>
+					android:singleLine="true" android:paddingRight="42dip"
+					android:layout_width="470dip"></EditText>
+				<ImageButton android:layout_width="wrap_content"
+					android:id="@+id/btnSearch" android:layout_marginTop="11dip"
+					android:background="@layout/btn_search" android:layout_height="48dip"></ImageButton>
 			</LinearLayout>
 			<TextView android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:id="@+id/txtScanHint"
