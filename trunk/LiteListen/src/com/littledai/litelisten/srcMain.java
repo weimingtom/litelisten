@@ -392,6 +392,7 @@ public class srcMain extends Activity
 				IsMusicRefreshing = true;
 				lstSong.clear();
 				Cursor cur = null;
+				Keyword = sp.getString("LastKeyword", "");
 
 				// 决定排序方式
 				String index = sp.getString("lstListOrder", "1");
@@ -444,7 +445,6 @@ public class srcMain extends Activity
 
 				cur.close();
 				IsMusicRefreshing = false;
-				Keyword = "";
 
 				adapter = new LDMusicAdapter(srcMain.this, lstSong);
 				Message msg = new Message();
@@ -1035,7 +1035,10 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				Keyword = txtKeyword.getText().toString();
+				Editor edt = sp.edit();
+				edt.putString("LastKeyword", txtKeyword.getText().toString());
+				edt.commit();
+
 				SetMusicListByDB();
 				txtKeyword.setText("");
 				SearchBoxSwitcher();
@@ -1357,7 +1360,10 @@ public class srcMain extends Activity
 					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 					if (layParSearch.y == 0)
 					{
-						Keyword = txtKeyword.getText().toString();
+						Editor edt = sp.edit();
+						edt.putString("LastKeyword", txtKeyword.getText().toString());
+						edt.commit();
+
 						SetMusicListByDB();
 						txtKeyword.setText("");
 						SearchBoxSwitcher();

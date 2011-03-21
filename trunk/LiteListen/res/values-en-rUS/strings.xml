@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_app_name">LiteListen</string>
-	<string name="global_app_version">2011 Beta1 build 0320.1420</string>
+	<string name="global_app_version">2011 Beta1 build 0321.2318</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -88,7 +88,7 @@
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011
 		Beta1\nInner Version:
-		0320.1420\n\nUpdate Contents: \n1. UI Adjust\n2. Delete Unused Resources\n\nOfficial
+		0321.2318\n\nUpdate Contents: \n1. UI Adjust\n2. Delete Unused Resources\n3. Now App Can Keep Keyword Shile Screen Change\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai
 	</string>
