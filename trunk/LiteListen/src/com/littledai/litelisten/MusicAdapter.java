@@ -28,12 +28,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LDMusicAdapter extends BaseAdapter
+public class MusicAdapter extends BaseAdapter
 {
 	private srcMain main;
 	private List<Map<String, Object>> lstSong; // ап╠М
 
-	public LDMusicAdapter(srcMain main, List<Map<String, Object>> lstSong)
+	public MusicAdapter(srcMain main, List<Map<String, Object>> lstSong)
 	{
 		this.main = main;
 		this.lstSong = lstSong;

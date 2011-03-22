@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LDAlertDialog
+public class MessageDialog
 {
 	private Context context = null;
 	private AlertDialog dlg = null;
@@ -35,7 +35,7 @@ public class LDAlertDialog
 	private OnClickListener onOK = null;
 	private OnClickListener onCancel = null;
 
-	public LDAlertDialog(Context context)
+	public MessageDialog(Context context)
 	{
 		this.context = context;
 	}

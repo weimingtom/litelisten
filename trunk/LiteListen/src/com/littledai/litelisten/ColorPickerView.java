@@ -58,10 +58,10 @@ public class ColorPickerView extends View
 	private int CenterY = 100;
 	private int CenterRadius = 30;
 
-	private LDColorDialog dlg = null;
+	private ColorDialog dlg = null;
 	private String strColor = "";
 
-	public ColorPickerView(Context context, int color, double Zoom, LDColorDialog dlg)
+	public ColorPickerView(Context context, int color, double Zoom, ColorDialog dlg)
 	{
 		super(context);
 
@@ -374,12 +374,12 @@ public class ColorPickerView extends View
 		return arrColorCircle;
 	}
 
-	public LDColorDialog getDlg()
+	public ColorDialog getDlg()
 	{
 		return dlg;
 	}
 
-	public void setDlg(LDColorDialog dlg)
+	public void setDlg(ColorDialog dlg)
 	{
 		this.dlg = dlg;
 	}

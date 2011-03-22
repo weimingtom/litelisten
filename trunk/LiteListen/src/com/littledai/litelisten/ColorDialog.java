@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class LDColorDialog
+public class ColorDialog
 {
 	private SettingService ss = null;
 	private AlertDialog dlg = null;
@@ -37,7 +37,7 @@ public class LDColorDialog
 	private String strPreference = "";
 	private String strOldColor = "";
 
-	public LDColorDialog(SettingService ss)
+	public ColorDialog(SettingService ss)
 	{
 		this.ss = ss;
 	}

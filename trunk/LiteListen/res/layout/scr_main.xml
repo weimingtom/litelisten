@@ -21,13 +21,12 @@
 			<LinearLayout android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:id="@+id/layTitle">
 				<TextView android:layout_height="wrap_content" android:id="@+id/txtTitle"
-					android:textSize="18dip" android:shadowDx="1" android:shadowDy="1"
-					android:singleLine="true"
+					android:textSize="18dip" android:singleLine="true"
 					android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"
 					android:text="@string/global_app_name" android:layout_marginLeft="5dip"
 					android:layout_marginRight="5dip" android:layout_marginTop="3dip"
 					android:textColor="#FFFFFF" android:shadowColor="#0099FF"
-					android:layout_width="260.5dip" android:shadowRadius="1"></TextView>
+					android:layout_width="260.5dip" android:shadowRadius="0.5" android:shadowDx="0.5" android:shadowDy="0.5"></TextView>
 				<ImageButton android:layout_width="wrap_content"
 					android:id="@+id/btnPlayMode" android:background="@drawable/btn_play_mode_repeat_all"
 					android:layout_height="fill_parent"></ImageButton>
@@ -88,12 +87,11 @@
 				</LinearLayout>
 			</LinearLayout>
 			<TextView android:id="@+id/txtLRC" android:textColor="#FFFFFF"
-				android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1"
-				android:gravity="center_vertical|center_horizontal|center"
+				android:shadowColor="#0099FF" android:gravity="center_vertical|center_horizontal|center"
 				android:paddingLeft="5dip" android:paddingRight="5dip"
 				android:layout_x="320dip" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:layout_y="200dip"
-				android:textSize="18dip" android:shadowRadius="1"></TextView>
+				android:textSize="18dip" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="0.5"></TextView>
 
 
 

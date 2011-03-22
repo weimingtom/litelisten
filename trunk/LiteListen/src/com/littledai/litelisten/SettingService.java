@@ -43,9 +43,9 @@ import android.view.View.OnClickListener;
 
 public class SettingService extends PreferenceActivity
 {
-	private LDColorDialog dlgColor = null;
-	private LDTextDialog dlgText = null;
-	private LDAlertDialog dlgAlert = null;
+	private ColorDialog dlgColor = null;
+	private TextDialog dlgText = null;
+	private MessageDialog dlgAlert = null;
 	private SharedPreferences sp = null;
 	private int ScreenOrientation = 0;
 	private int IMAGE_SELECTED_PORT = 0; //  ˙∆¡’’∆¨—°‘Ò±Í÷æ
@@ -87,9 +87,9 @@ public class SettingService extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preference);
-		dlgColor = new LDColorDialog(this);
-		dlgText = new LDTextDialog(this);
-		dlgAlert = new LDAlertDialog(this);
+		dlgColor = new ColorDialog(this);
+		dlgText = new TextDialog(this);
+		dlgAlert = new MessageDialog(this);
 		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // ∂¡»°≈‰÷√Œƒº˛
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
@@ -132,7 +132,7 @@ public class SettingService extends PreferenceActivity
 						e.printStackTrace();
 					}
 
-					LDImage.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_port.png", "png", 100, true);
+					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_port.png", "png", 100, true);
 					MakeBackgroundImage();
 				}
 			}
@@ -153,7 +153,7 @@ public class SettingService extends PreferenceActivity
 						e.printStackTrace();
 					}
 
-					LDImage.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_land.png", "png", 100, true);
+					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_land.png", "png", 100, true);
 					MakeBackgroundImage();
 				}
 			}
@@ -327,10 +327,10 @@ public class SettingService extends PreferenceActivity
 			bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_land.png");
 
 			if (sp.getBoolean("chkBackgroundBlur", true))
-				bmpBackground = LDImage.SetAlpha(LDImage.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+				bmpBackground = ImageEffect.SetAlpha(ImageEffect.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
 			else
-				bmpBackground = LDImage.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
-			LDImage.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_land.png", "png", 100, true);
+				bmpBackground = ImageEffect.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+			ImageEffect.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_land.png", "png", 100, true);
 		}
 
 		//  ˙∆¡±≥æ∞
@@ -340,10 +340,10 @@ public class SettingService extends PreferenceActivity
 			bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_port.png");
 
 			if (sp.getBoolean("chkBackgroundBlur", true))
-				bmpBackground = LDImage.SetAlpha(LDImage.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+				bmpBackground = ImageEffect.SetAlpha(ImageEffect.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
 			else
-				bmpBackground = LDImage.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
-			LDImage.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_port.png", "png", 100, true);
+				bmpBackground = ImageEffect.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+			ImageEffect.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_port.png", "png", 100, true);
 		}
 	}
 
@@ -521,12 +521,12 @@ public class SettingService extends PreferenceActivity
 		return false;
 	}
 
-	public LDColorDialog getDlgColor()
+	public ColorDialog getDlgColor()
 	{
 		return dlgColor;
 	}
 
-	public void setDlgColor(LDColorDialog dlgColor)
+	public void setDlgColor(ColorDialog dlgColor)
 	{
 		this.dlgColor = dlgColor;
 	}
@@ -756,22 +756,22 @@ public class SettingService extends PreferenceActivity
 		this.chkIngnoreDirectory = chkIngnoreDirectory;
 	}
 
-	public LDTextDialog getDlgText()
+	public TextDialog getDlgText()
 	{
 		return dlgText;
 	}
 
-	public void setDlgText(LDTextDialog dlgText)
+	public void setDlgText(TextDialog dlgText)
 	{
 		this.dlgText = dlgText;
 	}
 
-	public LDAlertDialog getDlgAlert()
+	public MessageDialog getDlgAlert()
 	{
 		return dlgAlert;
 	}
 
-	public void setDlgAlert(LDAlertDialog dlgAlert)
+	public void setDlgAlert(MessageDialog dlgAlert)
 	{
 		this.dlgAlert = dlgAlert;
 	}

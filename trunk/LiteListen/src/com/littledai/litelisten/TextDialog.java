@@ -26,14 +26,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LDTextDialog
+public class TextDialog
 {
 	private SettingService ss = null;
 	private AlertDialog dlg = null;
 	private EditText txtPath = null;
 	private String strPreference = "";
 
-	public LDTextDialog(SettingService ss)
+	public TextDialog(SettingService ss)
 	{
 		this.ss = ss;
 	}

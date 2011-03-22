@@ -80,13 +80,11 @@ public class srcMain extends Activity
 	private int ScreenOrantation = 0;// 屏幕方向
 	private int CurrentShown = 0; // 0－播放列表；1－歌词信息
 	private int SelectedItemIndex = -1; // 选中的歌曲序号
-	private float MusicListY = 0; // 歌曲列表位置
 	private boolean IsTouchToSeek = false; // 判断当前是否由用户拖动滑块
 	private boolean IsMusicRefreshing = false;
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
 	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
-	private String Keyword = ""; // 当前搜索的关键词
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -116,11 +114,11 @@ public class srcMain extends Activity
 	private LRCService ls;
 	private MusicService ms;
 	private MP3Tags mt;
-	private LDAlertDialog dlg;
+	private MessageDialog dlg;
 	private DBProvider db;
 	private PYProvider py;
 	private HandlerService hs;
-	private LDMusicAdapter adapter;
+	private MusicAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -136,7 +134,7 @@ public class srcMain extends Activity
 
 		ls = new LRCService(this);
 		ms = new MusicService(this);
-		dlg = new LDAlertDialog(srcMain.this);
+		dlg = new MessageDialog(srcMain.this);
 		db = new DBProvider(this);
 		hs = new HandlerService(this);
 		mt = new MP3Tags(this);
@@ -288,7 +286,7 @@ public class srcMain extends Activity
 					lstSong.clear();
 					hs.getHdlAdapterClearHandler().sendEmptyMessage(0);
 
-					LDFile lf = new LDFile();
+					MusicFile lf = new MusicFile();
 					lf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
 							"chkIngnoreDirectory", true));
 					List<String> lstFile = lf.getLstFile();
@@ -392,7 +390,7 @@ public class srcMain extends Activity
 				IsMusicRefreshing = true;
 				lstSong.clear();
 				Cursor cur = null;
-				Keyword = sp.getString("LastKeyword", "");
+				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
 
 				// 决定排序方式
 				String index = sp.getString("lstListOrder", "1");
@@ -446,7 +444,7 @@ public class srcMain extends Activity
 				cur.close();
 				IsMusicRefreshing = false;
 
-				adapter = new LDMusicAdapter(srcMain.this, lstSong);
+				adapter = new MusicAdapter(srcMain.this, lstSong);
 				Message msg = new Message();
 				msg.obj = adapter;
 				hs.getHdlAdapterUpdateHandler().sendMessage(msg);
@@ -459,7 +457,7 @@ public class srcMain extends Activity
 	{
 		adapter.getView(ms.getCurrIndex(), null, lstMusic);
 		adapter.notifyDataSetChanged();
-		lstMusic.setSelectionFromTop(ms.getCurrIndex(), (int) MusicListY); // 恢复刚才的位置
+		lstMusic.setSelectionFromTop(ms.getCurrIndex(), (int) sp.getFloat("LastMusicListY", 0)); // 恢复刚才的位置
 	}
 
 	/* 设置播放模式 */
@@ -510,7 +508,7 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_land.png");
-				layBody.setBackgroundDrawable(LDImage.GetDrawable(bmpBackground));
+				layBody.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
 		}
 		else
@@ -520,7 +518,7 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_port.png");
-				layBody.setBackgroundDrawable(LDImage.GetDrawable(bmpBackground));
+				layBody.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
 		}
 	}
@@ -1060,18 +1058,21 @@ public class srcMain extends Activity
 				int OldY = layMusicHighlight.y;
 
 				// 记录歌曲列表滚动高度（需要减去偏移量，且横竖屏不同）
+
+				Editor edt = sp.edit();
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-					MusicListY = (float) (Pos[1] - layHighlight.getHeight() - 8);
+					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() - 8));
 				else
-					MusicListY = (float) (Pos[1] - layHighlight.getHeight() * 1.5 - 2);
+					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() * 1.5 - 2));
 
-				if (MusicListY < 0)
+				if (sp.getFloat("LastMusicListY", 0) < 0)
 				{
-					MusicListY = 0;
-					lstMusic.setSelectionFromTop(arg2, (int) MusicListY); // 恢复刚才的位置
+					edt.putFloat("LastMusicListY", 0);
+					lstMusic.setSelectionFromTop(arg2, 0); // 回到顶端
 				}
+				edt.commit();
 
-				layMusicHighlight.y = (int) MusicListY;
+				layMusicHighlight.y = (int) sp.getFloat("LastMusicListY", 0);
 				// layMusicHighlight.height = arg1.getHeight();
 				layHighlight.setLayoutParams(layMusicHighlight);
 
@@ -1496,16 +1497,6 @@ public class srcMain extends Activity
 		SelectedItemIndex = selectedItemIndex;
 	}
 
-	public float getMusicListY()
-	{
-		return MusicListY;
-	}
-
-	public void setMusicListY(float musicListY)
-	{
-		MusicListY = musicListY;
-	}
-
 	public boolean isIsTouchToSeek()
 	{
 		return IsTouchToSeek;
@@ -1766,12 +1757,12 @@ public class srcMain extends Activity
 		this.mt = mt;
 	}
 
-	public LDAlertDialog getDlg()
+	public MessageDialog getDlg()
 	{
 		return dlg;
 	}
 
-	public void setDlg(LDAlertDialog dlg)
+	public void setDlg(MessageDialog dlg)
 	{
 		this.dlg = dlg;
 	}
@@ -1874,5 +1865,15 @@ public class srcMain extends Activity
 	public static int getSplashTime()
 	{
 		return SPLASH_TIME;
+	}
+
+	public MusicAdapter getAdapter()
+	{
+		return adapter;
+	}
+
+	public void setAdapter(MusicAdapter adapter)
+	{
+		this.adapter = adapter;
 	}
 }

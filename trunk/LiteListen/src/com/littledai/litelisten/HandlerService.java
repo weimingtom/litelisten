@@ -93,7 +93,7 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			main.getLstMusic().setAdapter((LDMusicAdapter) msg.obj);
+			main.getLstMusic().setAdapter((MusicAdapter) msg.obj);
 			main.SetAlbumIcon();
 		}
 	};

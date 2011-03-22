@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LDFile
+public class MusicFile
 {
 	private List<String> lstFile = new ArrayList<String>();
 

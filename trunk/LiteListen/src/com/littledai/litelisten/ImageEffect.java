@@ -36,7 +36,7 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class LDImage
+public class ImageEffect
 {
 	public static boolean SaveBitmap(Bitmap bmpToSave, String SavePath, String FileName, String Extension, int Quality, boolean ForceCreate)
 	{
