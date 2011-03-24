@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:background="@drawable/widget_bg_port_4_2" android:layout_height="wrap_content" android:layout_width="wrap_content" android:orientation="vertical" android:id="@+id/layWidget">
+    <TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center" android:text="@string/global_app_name" android:textColor="#FFFFFF" android:textSize="18dip" android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:layout_marginTop="1dip" android:layout_marginLeft="3dip" android:layout_marginRight="10dip" android:id="@+id/txtWidgetTitle"></TextView>
+    <AbsoluteLayout android:layout_width="fill_parent" android:layout_marginLeft="3dip" android:layout_marginTop="3dip" android:layout_height="114dip" android:layout_marginRight="10dip" android:id="@+id/layWidgetBody">
+        <TextView android:text="TextView" android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center" android:id="@+id/txtWidgetLRC" android:textSize="18dip"></TextView>
+    </AbsoluteLayout>
+    <LinearLayout android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center" android:layout_marginLeft="3dip" android:layout_marginRight="10dip" android:id="@+id/layWidgetControlPanel">
+        <ImageButton android:layout_width="wrap_content" android:background="@drawable/btn_play_normal" android:layout_height="40dip" android:id="@+id/btnWidgetPlay"></ImageButton>
+    </LinearLayout>
+</LinearLayout>

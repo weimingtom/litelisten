@@ -32,6 +32,8 @@
 	<string name="srcmain_create_play_list_message">Press [Okay] button to scan the storage card and
 		make music list.</string>
 	<string name="srcmain_keyword_hint">Type initials to search music list</string>
+	
+	<string name="widget_title_4_2">LiteListen 4×2</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Gallery Is Recommended</string>
