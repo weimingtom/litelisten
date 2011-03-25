@@ -34,6 +34,7 @@
 	<string name="srcmain_keyword_hint">Type initials to search music list</string>
 	
 	<string name="widget_title_4_2">LiteListen 4×2</string>
+	<string name="widget_lrc">Touch here to select a music</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Gallery Is Recommended</string>

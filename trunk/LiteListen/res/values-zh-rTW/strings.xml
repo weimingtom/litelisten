@@ -32,6 +32,7 @@
 	<string name="srcmain_keyword_hint">鍵入拼音首字母搜索</string>
 	
 	<string name="widget_title_4_2">輕聽音樂 4×2</string>
+	<string name="widget_lrc">輕觸這裡選擇歌曲</string>
 
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">建議選擇“相冊”</string>

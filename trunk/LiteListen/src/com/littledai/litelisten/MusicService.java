@@ -34,7 +34,8 @@ public class MusicService
 	private MediaPlayer mp = new MediaPlayer();
 	private int CurrIndex = 0; // 当前播放的音乐序号
 	private srcMain main = null;
-	private String strShownTitle = ""; // 仅文件名
+	private String strShownTitle = ""; // 歌曲标题
+	private String strArtist = ""; // 艺术家，在Widget中显示
 	private String strLRCPath = ""; // 歌词路径
 	private boolean CanRefreshSeekBar = true;
 	private boolean CanRefreshTime = false; // 是否允许刷新时间（关闭时同时会结束线程）
@@ -127,9 +128,10 @@ public class MusicService
 				strPlayerStatus = MusicService.STATUS_PLAY;
 				strLRCPath = (String) map.get("LRCPath");
 				strShownTitle = (String) map.get("Title");
+				strArtist = (String) map.get("Artist");
 
 				main.getLs().setStrLRCPath(strLRCPath);
-				main.getTxtTitle().setText(getStrShownTitle());
+				main.getTxtTitle().setText(strShownTitle);
 				main.SetAlbumIcon();
 
 				new Thread()
@@ -388,5 +390,60 @@ public class MusicService
 	public void setCanRefreshTime(boolean canRefreshTime)
 	{
 		CanRefreshTime = canRefreshTime;
+	}
+
+	public String getStrArtist()
+	{
+		return strArtist;
+	}
+
+	public void setStrArtist(String strArtist)
+	{
+		this.strArtist = strArtist;
+	}
+
+	public boolean isIsLast()
+	{
+		return IsLast;
+	}
+
+	public void setIsLast(boolean isLast)
+	{
+		IsLast = isLast;
+	}
+
+	public int getPlayedListCount()
+	{
+		return PlayedListCount;
+	}
+
+	public void setPlayedListCount(int playedListCount)
+	{
+		PlayedListCount = playedListCount;
+	}
+
+	public int[] getPlayedList()
+	{
+		return PlayedList;
+	}
+
+	public void setPlayedList(int[] playedList)
+	{
+		PlayedList = playedList;
+	}
+
+	public static int getStatusPlay()
+	{
+		return STATUS_PLAY;
+	}
+
+	public static int getStatusStop()
+	{
+		return STATUS_STOP;
+	}
+
+	public static int getStatusPause()
+	{
+		return STATUS_PAUSE;
 	}
 }

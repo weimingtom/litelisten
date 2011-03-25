@@ -17,6 +17,7 @@
 
 package com.littledai.litelisten;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
@@ -31,6 +32,9 @@ import android.widget.AbsoluteLayout;
 public class HandlerService
 {
 	private srcMain main = null;
+
+	public static String INTENT_ACTION_REFRESH_LRC = "com.littledai.intent.action.refresh.lrc"; // 刷新歌词
+	public static String INTENT_ACTION_REFRESH_TIME_N_TITLE = "com.littledai.intent.action.refresh.timentitle"; // 刷新时间
 
 	public HandlerService(srcMain main)
 	{
@@ -120,6 +124,12 @@ public class HandlerService
 				main.getSkbMusic().setProgress(0);
 				main.getTxtTime().setText("00:00 / 00:00");
 			}
+
+			// 通过广播更新 Widget
+			Intent intent = new Intent(INTENT_ACTION_REFRESH_TIME_N_TITLE);
+			intent.putExtra("Time", main.getTxtTime().getText().toString());
+			intent.putExtra("Title", main.getMs().getStrArtist() + " - " + main.getMs().getStrShownTitle());
+			main.sendBroadcast(intent);
 		}
 	};
 
@@ -169,6 +179,10 @@ public class HandlerService
 			else
 				// 禁止LRC滚动但更新歌词颜色
 				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj);
+
+			Intent intent = new Intent(INTENT_ACTION_REFRESH_LRC);
+			intent.putExtra("LRC", main.getLs().getStrCurrLRCSentence());
+			main.sendBroadcast(intent);
 		}
 	};
 

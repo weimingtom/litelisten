@@ -50,6 +50,7 @@ public class LRCService
 	private srcMain main = null;
 	private int LastIndex = 0; // 上一次歌词的index
 	private boolean CanRefreshLRC = true; // 判断能否更新歌词
+	private String strCurrLRCSentence = ""; // 当前正在播放的这句歌词
 
 	public LRCService(srcMain main)
 	{
@@ -111,6 +112,8 @@ public class LRCService
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 80; // 横屏偏移80dip
 				else
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200; // 竖屏偏移200dip
+
+				strCurrLRCSentence = map.get(CurrTime); // 获取当前这句歌词内容，供Widget使用
 
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
@@ -476,5 +479,25 @@ public class LRCService
 	public void setCanRefreshLRC(boolean canRefreshLRC)
 	{
 		CanRefreshLRC = canRefreshLRC;
+	}
+
+	public boolean isIsLyricExist()
+	{
+		return IsLyricExist;
+	}
+
+	public void setIsLyricExist(boolean isLyricExist)
+	{
+		IsLyricExist = isLyricExist;
+	}
+
+	public String getStrCurrLRCSentence()
+	{
+		return strCurrLRCSentence;
+	}
+
+	public void setStrCurrLRCSentence(String strCurrLRCSentence)
+	{
+		this.strCurrLRCSentence = strCurrLRCSentence;
 	}
 }

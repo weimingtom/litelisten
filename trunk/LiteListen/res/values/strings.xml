@@ -30,8 +30,9 @@
 	<string name="srcmain_indexing">当前正在建立音乐数据，无需重复创建。</string>
 	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
 	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
-	
+
 	<string name="widget_title_4_2">轻听音乐 4×2</string>
+	<string name="widget_lrc">轻触这里选择歌曲</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
 	<string name="pfrsmain_image">建议选择“相册”</string>
