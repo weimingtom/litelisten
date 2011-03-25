@@ -10,7 +10,7 @@
 		android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
 		android:layout_marginTop="1dip" android:layout_marginLeft="3dip"
 		android:layout_marginRight="10dip" android:id="@+id/txtWidgetTitle"></TextView>
-	<TextView android:layout_width="fill_parent" android:id="@+id/txtWidgetLRC" android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center" android:layout_height="114dip" android:layout_marginLeft="3dip" android:layout_marginRight="10dip" android:layout_marginTop="3dip" android:textColor="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:text="@string/widget_lrc"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/txtWidgetLRC" android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center" android:layout_marginLeft="3dip" android:layout_marginRight="10dip" android:layout_marginTop="3dip" android:textColor="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:text="@string/widget_lrc" android:layout_height="110dip"></TextView>
 	<LinearLayout android:layout_height="fill_parent"
 		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
 		android:layout_marginLeft="3dip" android:layout_marginRight="10dip"

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider
@@ -36,7 +37,7 @@ public class WidgetProvider extends AppWidgetProvider
 			rv.setTextViewText(R.id.txtWidgetTitle, intent.getStringExtra("Title"));
 		}
 		else if (intent.getAction().equals(HandlerService.INTENT_ACTION_REFRESH_LRC)) // ¸è´Ê
-			rv.setTextViewText(R.id.txtWidgetLRC, intent.getStringExtra("LRC"));
+			rv.setTextViewText(R.id.txtWidgetLRC, Html.fromHtml(intent.getStringExtra("LRC")) );
 
 		ComponentName cname = new ComponentName(context, WidgetProvider.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(cname, rv);

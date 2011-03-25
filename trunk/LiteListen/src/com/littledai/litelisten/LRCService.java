@@ -50,7 +50,7 @@ public class LRCService
 	private srcMain main = null;
 	private int LastIndex = 0; // 上一次歌词的index
 	private boolean CanRefreshLRC = true; // 判断能否更新歌词
-	private String strCurrLRCSentence = ""; // 当前正在播放的这句歌词
+	private String strCurrLRCSentence = ""; // 当前时间正在播放的歌词，供Widget使用
 
 	public LRCService(srcMain main)
 	{
@@ -113,7 +113,7 @@ public class LRCService
 				else
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200; // 竖屏偏移200dip
 
-				strCurrLRCSentence = map.get(CurrTime); // 获取当前这句歌词内容，供Widget使用
+				GetWidgetLRC(index, 5);
 
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
@@ -122,6 +122,21 @@ public class LRCService
 				LastIndex = index; // 记录本句歌词的序号
 			}
 		}
+	}
+
+	/* 获取Widget专用的歌词 */
+	public void GetWidgetLRC(int CurrIndex, int WidgetLineCount)
+	{
+		strCurrLRCSentence = "";
+		for (int i = -WidgetLineCount / 2; i <= WidgetLineCount / 2; i++)
+		{
+			if (i == 0) // 最中间的一句需要高亮
+				strCurrLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
+			else
+				strCurrLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
+		}
+
+		strCurrLRCSentence = strCurrLRCSentence.substring(0, strCurrLRCSentence.length() - 6); // 删除最好一个换行符
 	}
 
 	/* 获取一行字符串自动换行后的行数 */
