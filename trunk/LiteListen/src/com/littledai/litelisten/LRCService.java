@@ -93,7 +93,7 @@ public class LRCService
 				{
 					if (lstTimeStamp.get(i) <= CurrTime)
 					{
-						LineCount += GetSentenceLines(map.get(lstTimeStamp.get(i))) - 1;
+						LineCount += GetSentenceLines(map.get(lstTimeStamp.get(i)), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10) - 1;
 						strLRCTemp += map.get(lstTimeStamp.get(i)) + "\n";
 					}
 					else
@@ -107,7 +107,7 @@ public class LRCService
 				// 发送消息更新界面
 				Message msg = new Message();
 
-				int ClearlyLineNumber = GetSentenceLines(map.get(CurrTime));
+				int ClearlyLineNumber = GetSentenceLines(map.get(CurrTime), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10);
 				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 80; // 横屏偏移80dip
 				else
@@ -127,6 +127,11 @@ public class LRCService
 	/* 获取Widget专用的歌词 */
 	public void GetWidgetLRC(int CurrIndex, int WidgetLineCount)
 	{
+		// 修改方案：以当前歌词为0点，分为两个循环
+		// 上半次循环从0开始递减至-WidgetLineCount/2
+		// 下半次循环递增至WidgetLineCount/2
+		// 上半次每次叠加行数一旦超过WidgetLineCount/2即停止，同理下半次
+
 		strCurrLRCSentence = "";
 		for (int i = -WidgetLineCount / 2; i <= WidgetLineCount / 2; i++)
 		{
@@ -140,17 +145,16 @@ public class LRCService
 	}
 
 	/* 获取一行字符串自动换行后的行数 */
-	public int GetSentenceLines(String Sentence)
+	public int GetSentenceLines(String Sentence, float TextSize, int ShowingAreaWidth)
 	{
 		// 获取字符串宽度
 		Paint FontPaint = new Paint();
-		FontPaint.setTextSize(main.getTxtLRC().getTextSize());
+		FontPaint.setTextSize(TextSize);
 		float FontWidth = FontPaint.measureText(Sentence);
 
 		// 计算行数
-		int txtLRCWidth = main.getTxtLRC().getWidth() - 10;
-		int ClearlyLineNumber = (int) Math.floor(FontWidth / txtLRCWidth);
-		float RemainLine = FontWidth % txtLRCWidth;
+		int ClearlyLineNumber = (int) Math.floor(FontWidth / ShowingAreaWidth);
+		float RemainLine = FontWidth % ShowingAreaWidth;
 
 		if (ClearlyLineNumber == 0 && RemainLine == 0) // 空行也算一行
 			ClearlyLineNumber = 1;
