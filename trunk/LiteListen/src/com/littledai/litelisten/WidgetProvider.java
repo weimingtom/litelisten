@@ -11,6 +11,8 @@ import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider
 {
+	Context ctx;
+
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
@@ -29,6 +31,7 @@ public class WidgetProvider extends AppWidgetProvider
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		ctx = context;
 		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_4_2);
 
 		if (intent.getAction().equals(HandlerService.INTENT_ACTION_REFRESH_TIME_N_TITLE))
@@ -37,17 +40,11 @@ public class WidgetProvider extends AppWidgetProvider
 			rv.setTextViewText(R.id.txtWidgetTitle, intent.getStringExtra("Title"));
 		}
 		else if (intent.getAction().equals(HandlerService.INTENT_ACTION_REFRESH_LRC)) // ¸è´Ê
-			rv.setTextViewText(R.id.txtWidgetLRC, Html.fromHtml(intent.getStringExtra("LRC")) );
+			rv.setTextViewText(R.id.txtWidgetLRC, Html.fromHtml(intent.getStringExtra("LRC")));
 
 		ComponentName cname = new ComponentName(context, WidgetProvider.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(cname, rv);
 
 		super.onReceive(context, intent);
-	}
-
-	@Override
-	public void onDisabled(Context context)
-	{
-		System.exit(0); // ÍË³ö³ÌÐò
 	}
 }

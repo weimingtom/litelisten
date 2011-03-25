@@ -177,8 +177,7 @@ public class HandlerService
 				}
 			}
 			else
-				// 禁止LRC滚动但更新歌词颜色
-				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj);
+				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
 
 			Intent intent = new Intent(INTENT_ACTION_REFRESH_LRC);
 			intent.putExtra("LRC", main.getLs().getStrCurrLRCSentence());

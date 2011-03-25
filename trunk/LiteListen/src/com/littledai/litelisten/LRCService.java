@@ -137,7 +137,7 @@ public class LRCService
 		{
 			if (i == 0) // 最中间的一句需要高亮
 				strCurrLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
-			else
+			else if (CurrIndex + i >= 0)
 				strCurrLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
 		}
 
