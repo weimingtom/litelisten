@@ -7,7 +7,7 @@
 		<activity android:name=".srcMain"
 			android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name"
 			android:configChanges="orientation|keyboardHidden"
-			android:launchMode="singleInstance">  <!-- 防止横竖屏切换时重载onCreate() -->
+			android:launchMode="singleInstance">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -16,9 +16,6 @@
 
 		<activity android:label="@string/pfrsmain_title"
 			android:name=".SettingService" android:configChanges="orientation|keyboardHidden">
-			<!--
-				android:screenOrientation="portrait"
-			-->
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>

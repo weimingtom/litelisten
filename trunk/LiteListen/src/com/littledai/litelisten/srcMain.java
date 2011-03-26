@@ -142,6 +142,12 @@ public class srcMain extends Activity
 		hs = new HandlerService(this);
 		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
 
+		// 清除上次程序运行的历史记录
+		Editor edt = sp.edit();
+		edt.putString("LastKeyword", "");
+		edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
+		edt.commit();
+
 		FindViews();
 		ListernerBinding();
 
@@ -156,6 +162,46 @@ public class srcMain extends Activity
 
 		IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
 		registerReceiver(ctrlReceiver, ittFilterBluetooth);
+
+		new Thread()
+		{
+			public void run()
+			{
+				while (true)
+				{
+					try
+					{
+						if (sp.getInt("MusicControl", 3) == 0)
+						{
+							ms.Last();
+							Editor edt = sp.edit();
+							edt.putInt("MusicControl", 3);
+							edt.commit();
+						}
+						else if (sp.getInt("MusicControl", 3) == 1)
+						{
+							ms.PlayPause();
+							Editor edt = sp.edit();
+							edt.putInt("MusicControl", 3);
+							edt.commit();
+						}
+						else if (sp.getInt("MusicControl", 3) == 2)
+						{
+							ms.Next(false);
+							Editor edt = sp.edit();
+							edt.putInt("MusicControl", 3);
+							edt.commit();
+						}
+
+						sleep(1000);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 
 		new Thread()
 		{
@@ -579,7 +625,16 @@ public class srcMain extends Activity
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_keep_screen_on);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true));
+		if (sp.getBoolean("KeepScreenOn", false))
+		{
+			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_false));
+			lstMusic.setKeepScreenOn(true);
+		}
+		else
+		{
+			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true));
+			lstMusic.setKeepScreenOn(false);
+		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1073,7 +1128,6 @@ public class srcMain extends Activity
 				edt.commit();
 
 				layMusicHighlight.y = (int) sp.getFloat("LastMusicListY", 0);
-				// layMusicHighlight.height = arg1.getHeight();
 				layHighlight.setLayoutParams(layMusicHighlight);
 
 				if (sp.getBoolean("chkUseAnimation", true) && layHighlight.getVisibility() == View.VISIBLE) // 只有显示时才播放动画
@@ -1132,18 +1186,22 @@ public class srcMain extends Activity
 					case 2:
 						TextView tv = (TextView) arg1.findViewById(R.id.txtMenu);
 
-						if (!IsKeepScreenOn)
+						if (!sp.getBoolean("KeepScreenOn", false))
 						{
 							lstMusic.setKeepScreenOn(true);
 							tv.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
-							IsKeepScreenOn = true;
+							Editor edt = sp.edit();
+							edt.putBoolean("KeepScreenOn", true);
+							edt.commit();
 							Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true), Toast.LENGTH_SHORT).show();
 						}
 						else
 						{
 							lstMusic.setKeepScreenOn(false);
 							tv.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
-							IsKeepScreenOn = false;
+							Editor edt = sp.edit();
+							edt.putBoolean("KeepScreenOn", false);
+							edt.commit();
 							Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_false), Toast.LENGTH_SHORT).show();
 						}
 
@@ -1155,9 +1213,15 @@ public class srcMain extends Activity
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
 							;
 						else
+						{
+							Editor edt = sp.edit();
+							edt.putString("LastKeyword", "");
+							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
+							edt.commit();
 							System.exit(0);
 
-						break;
+							break;
+						}
 					case 8:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
 							System.exit(0);

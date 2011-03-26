@@ -33,9 +33,6 @@ public class HandlerService
 {
 	private srcMain main = null;
 
-	public static String INTENT_ACTION_REFRESH_LRC = "com.littledai.intent.action.refresh.lrc"; // 刷新歌词
-	public static String INTENT_ACTION_REFRESH_TIME_N_TITLE = "com.littledai.intent.action.refresh.timentitle"; // 刷新时间
-
 	public HandlerService(srcMain main)
 	{
 		this.main = main;
@@ -126,7 +123,7 @@ public class HandlerService
 			}
 
 			// 通过广播更新 Widget
-			Intent intent = new Intent(INTENT_ACTION_REFRESH_TIME_N_TITLE);
+			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_TIME_N_TITLE);
 			intent.putExtra("Time", main.getTxtTime().getText().toString());
 			intent.putExtra("Title", main.getMs().getStrArtist() + " - " + main.getMs().getStrShownTitle());
 			main.sendBroadcast(intent);
@@ -179,7 +176,7 @@ public class HandlerService
 			else
 				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
 
-			Intent intent = new Intent(INTENT_ACTION_REFRESH_LRC);
+			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
 			intent.putExtra("LRC", main.getLs().getStrCurrLRCSentence());
 			main.sendBroadcast(intent);
 		}

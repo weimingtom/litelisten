@@ -46,17 +46,11 @@ public class ControlsReceiver extends BroadcastReceiver
 			{
 				int keycode = key.getKeyCode();
 				if (keycode == KeyEvent.KEYCODE_MEDIA_NEXT)
-				{
 					main.getMs().Next(false);
-				}
 				else if (keycode == KeyEvent.KEYCODE_MEDIA_PREVIOUS)
-				{
 					main.getMs().Last();
-				}
 				else if (keycode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)
-				{
 					main.getMs().PlayPause();
-				}
 			}
 		}
 	}
