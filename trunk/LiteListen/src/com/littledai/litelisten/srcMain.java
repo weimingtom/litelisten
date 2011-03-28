@@ -1304,19 +1304,16 @@ public class srcMain extends Activity
 							txtLRC.setLayoutParams(layLRC);
 						}
 					}
-					else
+					else if (LastDistance != -1 && FingerDownPosY != -1)
 					{
-						if (LastDistance != -1 && FingerDownPosY != -1)
+						float Distance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1)) - LastDistance;
+						float TextSize = (float) (txtLRC.getTextSize() + Distance * 0.1);
+						if (TextSize >= 15 && TextSize <= 35)
 						{
-							float Distance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1)) - LastDistance;
-							float TextSize = (float) (txtLRC.getTextSize() + Distance * 0.1);
-							if (TextSize >= 15 && TextSize <= 35)
-							{
-								AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-								layLRC.y = FingerDownPosY;
-								txtLRC.setLayoutParams(layLRC);
-								txtLRC.setTextSize(TextSize);
-							}
+							AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+							layLRC.y = FingerDownPosY;
+							txtLRC.setLayoutParams(layLRC);
+							txtLRC.setTextSize(TextSize);
 						}
 
 						for (int i = 0; i < 2; i++)
@@ -1326,7 +1323,6 @@ public class srcMain extends Activity
 						}
 
 						LastDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-
 						AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
 						FingerDownPosY = layLRC.y;
 					}
