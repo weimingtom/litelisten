@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_app_name">轻听音乐播放器</string>
-	<string name="global_app_version">2011 Beta1 build 0321.2318</string>
+	<string name="global_app_version">2011 Beta1 build 0328.1443</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
 	<string name="global_no">否</string>
 	<string name="global_request">请求许可</string>
 
-	<string name="lrcservice_loading_lrc">正在f加载歌词，请稍候……</string>
+	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
 	<string name="lrcservice_no_lyric_found">没有找到相应歌词</string>
 
 	<string name="srcmain_scanning_songs">已发现音乐：</string>
@@ -80,7 +80,7 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器 2011
-		Beta1\n内部版本：0321.2318\n\n更新内容：\n1、界面微调\n2、清理了不必要的资源\n3、界面切换后能够保持先前的搜索内容\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+		Beta1\n内部版本：0.3.1\n\n更新内容：\n1、新增桌面小部件（4×2）\n2、优化了代码效率\n3、解决某些特殊情况下卡顿的问题\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

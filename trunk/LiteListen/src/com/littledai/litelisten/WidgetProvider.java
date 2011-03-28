@@ -84,12 +84,6 @@ public class WidgetProvider extends AppWidgetProvider
 			edt.commit();
 		}
 
-		if (!sp.getBoolean("Started", false))
-		{
-			Intent intentCallMain = new Intent(context, srcMain.class);
-			context.startActivity(intentCallMain);
-		}
-
 		ComponentName cname = new ComponentName(context, WidgetProvider.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(cname, rv);
 

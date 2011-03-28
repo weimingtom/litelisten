@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_app_name">輕聽音樂播放機</string>
-	<string name="global_app_version">2011 Beta1 build 0321.2318</string>
+	<string name="global_app_version">2011 Beta1 build 0328.1443</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -80,7 +80,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機 2011
-		Beta1\n內部版本：0321.2318\n\n更新內容：\n1、介面微調\n2、清理了不必要的資源\n3、介面切換後能夠保持先前的搜索內容\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		Beta1\n內部版本：0.3.1\n\n更新內容：\n1、新增桌面小部件（4×2）\n2、優化了代碼效率\n3、解決某些特殊情況下卡頓的問題\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
