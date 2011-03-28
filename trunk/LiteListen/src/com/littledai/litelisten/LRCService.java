@@ -101,8 +101,9 @@ public class LRCService
 				}
 
 				SpannableStringBuilder ssb = new SpannableStringBuilder(strLRC);
-				ssb.setSpan(new ForegroundColorSpan(Color.parseColor(main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00"))), strLRCTemp.length() - map.get(CurrTime).length() - 1, strLRCTemp
-						.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // 前语句高亮
+				if (strLRC.length() > strLRCTemp.length() - 1)
+					ssb.setSpan(new ForegroundColorSpan(Color.parseColor(main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00"))), strLRCTemp.length() - map.get(CurrTime).length() - 1,
+							strLRCTemp.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // 前语句高亮
 
 				// 发送消息更新界面
 				Message msg = new Message();
@@ -247,6 +248,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			return "";
 		}
 	}

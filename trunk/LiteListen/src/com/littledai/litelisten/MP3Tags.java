@@ -137,51 +137,55 @@ public class MP3Tags
 		if (ID3 instanceof ID3V2_3_0Tag)
 		{
 			ID3V2_3_0Tag ID3v2 = (ID3V2_3_0Tag) ID3;
+			int Step = 0; // 记录get到哪一个字段出现问题
 
 			try
 			{
-				ID3v2.setAlbum(new String(ID3v2.getAlbum().getBytes("ISO-8859-1"), "GBK"));
+				Step++;
+				if (ID3v2.getArtist() != null && !ID3v2.getArtist().equals("null"))
+					ID3v2.setArtist(new String(ID3v2.getArtist().getBytes("ISO-8859-1"), "GBK"));
+				else
+					ID3v2.setArtist("");
+
+				Step++;
+				if (ID3v2.getGenre() != null && !ID3v2.getGenre().equals("null"))
+					ID3v2.setGenre(new String(ID3v2.getGenre().getBytes("ISO-8859-1"), "GBK"));
+				else
+					ID3v2.setGenre("");
+
+				Step++;
+				if (ID3v2.getTitle() != null && !ID3v2.getTitle().equals("null"))
+					ID3v2.setTitle(new String(ID3v2.getTitle().getBytes("ISO-8859-1"), "GBK"));
+				else
+					ID3v2.setTitle("");
+
+				Step++;
+				if (ID3v2.getAlbum() != null && !ID3v2.getAlbum().equals("null"))
+					ID3v2.setAlbum(new String(ID3v2.getAlbum().getBytes("ISO-8859-1"), "GBK"));
+				else
+					ID3v2.setAlbum("");
+
+				Step++;
+				if (ID3v2.getComment() != null && !ID3v2.getComment().equals("null"))
+					ID3v2.setComment(new String(ID3v2.getComment().getBytes("ISO-8859-1"), "GBK"));
+				else
+					ID3v2.setComment("");
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
-			}
 
-			try
-			{
-				ID3v2.setArtist(new String(ID3v2.getArtist().getBytes("ISO-8859-1"), "GBK"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-
-			try
-			{
-				ID3v2.setComment(new String(ID3v2.getComment().getBytes("ISO-8859-1"), "GBK"));
-			}
-
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-
-			try
-			{
-				ID3v2.setGenre(new String(ID3v2.getGenre().getBytes("ISO-8859-1"), "GBK"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-
-			try
-			{
-				ID3v2.setTitle(new String(ID3v2.getTitle().getBytes("ISO-8859-1"), "GBK"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
+				try
+				{
+					if (Step == 4)
+						ID3v2.setAlbum("");
+					else if (Step == 5)
+						ID3v2.setComment("");
+				}
+				catch (Exception e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 
 			return ID3v2;

@@ -66,18 +66,10 @@ public class DBProvider extends SQLiteOpenHelper
 
 		if (!DBDrop(strTable))
 		{// 如果删除表失败
-			try
-			{// 尝试创建新表
-				if (DBCreate(strCreateMusicInfo))
-					return true; // 创建成功
-				else
-					return false; // 创建失败
-			}
-			catch (Exception e)
-			{// 创建失败
-				e.printStackTrace();
-				return false;
-			}
+			if (DBCreate(strCreateMusicInfo))
+				return true; // 创建成功
+			else
+				return false; // 创建失败
 		}
 		else
 		{// 删除表成功
