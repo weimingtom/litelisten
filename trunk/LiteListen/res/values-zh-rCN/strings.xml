@@ -35,7 +35,7 @@
 	<string name="widget_lrc">轻触这里选择歌曲</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
-	<string name="pfrsmain_image">建议选择“相册”</string>
+	<string name="pfrsmain_image">选择一种看图程序</string>
 	<string name="pfrscat_general_title">常规选项</string>
 	<string name="pfrscat_general_language">语言 語言 Language</string>
 	<string name="pfrscat_general_language_title">语言设置</string>

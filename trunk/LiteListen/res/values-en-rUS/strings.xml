@@ -37,7 +37,7 @@
 	<string name="widget_lrc">Touch here to select a music</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
-	<string name="pfrsmain_image">Gallery Is Recommended</string>
+	<string name="pfrsmain_image">Choose An Image-Viewer</string>
 	<string name="pfrscat_general_title">General</string>
 	<string name="pfrscat_general_language">Language 语言 語言</string>
 	<string name="pfrscat_general_language_title">Language Settings</string>
