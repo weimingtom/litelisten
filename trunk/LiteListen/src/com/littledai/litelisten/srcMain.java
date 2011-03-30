@@ -173,21 +173,21 @@ public class srcMain extends Activity
 					{
 						if (sp.getInt("MusicControl", 3) == 0)
 						{
-							ms.Last();
+							hs.getHdlPlayLast().sendEmptyMessage(0);
 							Editor edt = sp.edit();
 							edt.putInt("MusicControl", 3);
 							edt.commit();
 						}
 						else if (sp.getInt("MusicControl", 3) == 1)
 						{
-							ms.PlayPause();
+							hs.getHdlPlayPause().sendEmptyMessage(0);
 							Editor edt = sp.edit();
 							edt.putInt("MusicControl", 3);
 							edt.commit();
 						}
 						else if (sp.getInt("MusicControl", 3) == 2)
 						{
-							ms.Next(false);
+							hs.getHdlPlayNext().sendEmptyMessage(0);
 							Editor edt = sp.edit();
 							edt.putInt("MusicControl", 3);
 							edt.commit();

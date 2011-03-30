@@ -21,6 +21,8 @@ public class IntentConst
 {
 	public static String INTENT_ACTION_REFRESH_LRC = "com.littledai.intent.action.refresh.lrc"; // 刷新歌词
 	public static String INTENT_ACTION_REFRESH_TIME_N_TITLE = "com.littledai.intent.action.refresh.timentitle"; // 刷新时间
+	public static String INTENT_ACTION_IS_PLAYING = "com.littledai.intent.action.is.playing"; // 正在播放
+	public static String INTENT_ACTION_NOT_PLAYING = "com.littledai.intent.action.not.playing"; // 停止播放
 
 	public static String getINTENT_ACTION_REFRESH_LRC()
 	{
@@ -40,5 +42,25 @@ public class IntentConst
 	public static void setINTENT_ACTION_REFRESH_TIME_N_TITLE(String iNTENTACTIONREFRESHTIMENTITLE)
 	{
 		INTENT_ACTION_REFRESH_TIME_N_TITLE = iNTENTACTIONREFRESHTIMENTITLE;
+	}
+
+	public static String getINTENT_ACTION_IS_PLAYING()
+	{
+		return INTENT_ACTION_IS_PLAYING;
+	}
+
+	public static void setINTENT_ACTION_IS_PLAYING(String iNTENTACTIONISPLAYING)
+	{
+		INTENT_ACTION_IS_PLAYING = iNTENTACTIONISPLAYING;
+	}
+
+	public static String getINTENT_ACTION_NOT_PLAYING()
+	{
+		return INTENT_ACTION_NOT_PLAYING;
+	}
+
+	public static void setINTENT_ACTION_NOT_PLAYING(String iNTENTACTIONNOTPLAYING)
+	{
+		INTENT_ACTION_NOT_PLAYING = iNTENTACTIONNOTPLAYING;
 	}
 }

@@ -10,18 +10,31 @@
 		android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
 		android:layout_marginTop="1dip" android:layout_marginLeft="3dip"
 		android:layout_marginRight="10dip" android:id="@+id/txtWidgetTitle"></TextView>
-	<TextView android:layout_width="fill_parent" android:id="@+id/txtWidgetLRC" android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center" android:layout_marginLeft="3dip" android:layout_marginRight="10dip" android:layout_marginTop="3dip" android:textColor="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:text="@string/widget_lrc" android:layout_height="110dip"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/txtWidgetLRC"
+		android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_marginLeft="3dip" android:layout_marginRight="10dip"
+		android:layout_marginTop="3dip" android:textColor="#FFFFFF"
+		android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1"
+		android:shadowRadius="1" android:text="@string/widget_lrc"
+		android:layout_height="110dip"></TextView>
 	<LinearLayout android:layout_height="fill_parent"
 		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
 		android:layout_marginLeft="3dip" android:layout_marginRight="10dip"
 		android:id="@+id/layWidgetControlPanel">
 		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="40dip" android:id="@+id/btnWidgetLast" android:background="@layout/btn_last"></ImageButton>
+			android:layout_height="40dip" android:id="@+id/btnWidgetLast"
+			android:background="@layout/btn_last"></ImageButton>
 		<ImageButton android:layout_width="wrap_content"
 			android:layout_height="40dip" android:id="@+id/btnWidgetPlay"
 			android:background="@layout/btn_play"></ImageButton>
 		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="40dip" android:id="@+id/btnWidgetNext" android:background="@layout/btn_next"></ImageButton>
-		<TextView android:id="@+id/txtWidgetTime" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="00:00 / 00:00" android:textColor="#FFFFFF" android:gravity="left|center_vertical|center"></TextView>
+			android:layout_height="40dip" android:background="@layout/btn_pause" android:visibility="gone" android:id="@+id/btnWidgetPause"></ImageButton>
+		<ImageButton android:layout_width="wrap_content"
+			android:layout_height="40dip" android:id="@+id/btnWidgetNext"
+			android:background="@layout/btn_next"></ImageButton>
+		<TextView android:id="@+id/txtWidgetTime"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:text="00:00 / 00:00" android:textColor="#FFFFFF"
+			android:gravity="left|center_vertical|center"></TextView>
 	</LinearLayout>
 </LinearLayout>

@@ -227,6 +227,66 @@ public class HandlerService
 		}
 	};
 
+	/* 播放/暂停的 Handler */
+	private Handler hdlPlayPause = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getMs().PlayPause();
+		}
+	};
+
+	/* 播放上一首的 Handler */
+	private Handler hdlPlayLast = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getMs().Last();
+		}
+	};
+
+	/* 播放下一首的 Handler */
+	private Handler hdlPlayNext = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getMs().Next(false);
+		}
+	};
+
+	public Handler getHdlPlayPause()
+	{
+		return hdlPlayPause;
+	}
+
+	public void setHdlPlayPause(Handler hdlPlayPause)
+	{
+		this.hdlPlayPause = hdlPlayPause;
+	}
+
+	public Handler getHdlPlayLast()
+	{
+		return hdlPlayLast;
+	}
+
+	public void setHdlPlayLast(Handler hdlPlayLast)
+	{
+		this.hdlPlayLast = hdlPlayLast;
+	}
+
+	public Handler getHdlPlayNext()
+	{
+		return hdlPlayNext;
+	}
+
+	public void setHdlPlayNext(Handler hdlPlayNext)
+	{
+		this.hdlPlayNext = hdlPlayNext;
+	}
+
 	public srcMain getMain()
 	{
 		return main;

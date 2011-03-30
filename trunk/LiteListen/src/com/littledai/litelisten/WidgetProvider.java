@@ -9,12 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.Html;
+import android.view.View;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider
 {
 	private String MSG_LAST = "MSG_LAST";
 	private String MSG_PLAY = "MSG_PLAY";
+	private String MSG_PAUSE = "MSG_PAUSE";
 	private String MSG_NEXT = "MSG_NEXT";
 
 	@Override
@@ -41,6 +43,12 @@ public class WidgetProvider extends AppWidgetProvider
 			intent.setAction(MSG_PLAY);
 			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.btnWidgetPlay, pdItent);
+
+			// 暂停，使用控制消息
+			intent = new Intent(context, WidgetProvider.class);
+			intent.setAction(MSG_PAUSE);
+			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			rv.setOnClickPendingIntent(R.id.btnWidgetPause, pdItent);
 
 			// 下一首，使用控制消息
 			intent = new Intent(context, WidgetProvider.class);
@@ -76,6 +84,8 @@ public class WidgetProvider extends AppWidgetProvider
 			Editor edt = sp.edit();
 			edt.putInt("MusicControl", 1); // 播放/暂停
 			edt.commit();
+			rv.setViewVisibility(R.id.btnWidgetPlay, View.GONE);
+			rv.setViewVisibility(R.id.btnWidgetPause, View.VISIBLE);
 		}
 		else if (intent.getAction().equals(MSG_NEXT))
 		{
@@ -83,10 +93,68 @@ public class WidgetProvider extends AppWidgetProvider
 			edt.putInt("MusicControl", 2); // 下一首
 			edt.commit();
 		}
+		else if (intent.getAction().equals(MSG_PAUSE))
+		{
+			Editor edt = sp.edit();
+			edt.putInt("MusicControl", 1); // 暂停
+			edt.commit();
+			rv.setViewVisibility(R.id.btnWidgetPause, View.GONE);
+			rv.setViewVisibility(R.id.btnWidgetPlay, View.VISIBLE);
+		}
+		else if (intent.getAction().equals(IntentConst.getINTENT_ACTION_IS_PLAYING()))
+		{
+			rv.setViewVisibility(R.id.btnWidgetPlay, View.GONE);
+			rv.setViewVisibility(R.id.btnWidgetPause, View.VISIBLE);
+		}
+		else if (intent.getAction().equals(IntentConst.getINTENT_ACTION_NOT_PLAYING()))
+		{
+			rv.setViewVisibility(R.id.btnWidgetPause, View.GONE);
+			rv.setViewVisibility(R.id.btnWidgetPlay, View.VISIBLE);
+		}
 
 		ComponentName cname = new ComponentName(context, WidgetProvider.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(cname, rv);
 
 		super.onReceive(context, intent);
+	}
+
+	public String getMSG_LAST()
+	{
+		return MSG_LAST;
+	}
+
+	public void setMSG_LAST(String mSGLAST)
+	{
+		MSG_LAST = mSGLAST;
+	}
+
+	public String getMSG_PLAY()
+	{
+		return MSG_PLAY;
+	}
+
+	public void setMSG_PLAY(String mSGPLAY)
+	{
+		MSG_PLAY = mSGPLAY;
+	}
+
+	public String getMSG_PAUSE()
+	{
+		return MSG_PAUSE;
+	}
+
+	public void setMSG_PAUSE(String mSGPAUSE)
+	{
+		MSG_PAUSE = mSGPAUSE;
+	}
+
+	public String getMSG_NEXT()
+	{
+		return MSG_NEXT;
+	}
+
+	public void setMSG_NEXT(String mSGNEXT)
+	{
+		MSG_NEXT = mSGNEXT;
 	}
 }

@@ -20,6 +20,7 @@ package com.littledai.litelisten;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.view.View;
@@ -165,6 +166,10 @@ public class MusicService
 
 			if (main.getSp().getBoolean("chkAutoSwitchToLRC", false))
 				main.List2LRCSwitcher();
+
+			// 发送正在播放广播给Widget
+			Intent intent = new Intent(IntentConst.INTENT_ACTION_IS_PLAYING);
+			main.sendBroadcast(intent);
 		}
 		catch (Exception e)
 		{
@@ -172,6 +177,10 @@ public class MusicService
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
 			setStrPlayerStatus(MusicService.STATUS_STOP);
+
+			// 发送停止播放广播给Widget
+			Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
+			main.sendBroadcast(intent);
 		}
 	}
 
@@ -266,10 +275,15 @@ public class MusicService
 	{
 		mp.reset();
 		CanRefreshTime = false;
+		main.getHs().getHdlRefreshTime().sendEmptyMessage(0);
 		getMain().getBtnPlay().setVisibility(View.VISIBLE);
 		getMain().getBtnPause().setVisibility(View.GONE);
 		setStrPlayerStatus(MusicService.STATUS_STOP);
 		main.SetAlbumIcon();
+
+		// 发送停止播放广播给Widget
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
+		main.sendBroadcast(intent);
 	}
 
 	/* 暂停 */
@@ -284,6 +298,10 @@ public class MusicService
 			setStrPlayerStatus(MusicService.STATUS_PAUSE);
 			main.SetAlbumIcon();
 		}
+
+		// 发送停止播放广播给Widget
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
+		main.sendBroadcast(intent);
 	}
 
 	/* 播放+暂停（耳机操作） */
