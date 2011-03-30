@@ -134,7 +134,7 @@ public class srcMain extends Activity
 
 		ls = new LRCService(this);
 		ms = new MusicService(this);
-		dlg = new MessageDialog(srcMain.this);
+		dlg = new MessageDialog(this);
 		db = new DBProvider(this);
 		hs = new HandlerService(this);
 		mt = new MP3Tags(this);
@@ -157,7 +157,7 @@ public class srcMain extends Activity
 		IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // ¿ØÖÆ¼ü
 		registerReceiver(ctrlReceiver, ittFilterButton);
 
-		IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // ¿ØÖÆ¼ü
+		IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // ¶ú»ú²å°Î
 		registerReceiver(ctrlReceiver, ittFilterPlug);
 
 		IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // À¶ÑÀ¶Ï¿ª

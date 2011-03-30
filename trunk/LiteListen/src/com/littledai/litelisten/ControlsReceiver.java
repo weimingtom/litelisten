@@ -29,7 +29,7 @@ public class ControlsReceiver extends BroadcastReceiver
 
 	public ControlsReceiver(srcMain main)
 	{
-		setMain(main);
+		this.main = main;
 	}
 
 	@Override
