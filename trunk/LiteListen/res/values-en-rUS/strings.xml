@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
+	<string name="global_app_name_no_version">LiteListen</string>
 	<string name="global_app_version">0.3.2 Beta build 0331.1536</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
@@ -89,8 +90,7 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011
-		Beta1\nInner Version:
+	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
 		2011.0331.1536\n\nUpdate Contents: \n1. AppWidget Supported In Landscape Mode (4 x 2)\n2. Fixed Bugs Of Button Functions In AppWidget\n3. Button Image Of AppWidget Will Change By Music Status\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai

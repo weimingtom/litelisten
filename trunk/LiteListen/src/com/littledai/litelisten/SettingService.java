@@ -302,7 +302,7 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				dlgAlert.ShowDialog(getResources().getString(R.string.global_app_name), getResources().getString(R.string.pfrscat_help_about_message), new OnClickListener()
+				dlgAlert.ShowDialog(getResources().getString(R.string.global_app_name_no_version), getResources().getString(R.string.pfrscat_help_about_message), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
