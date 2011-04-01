@@ -177,7 +177,9 @@ public class HandlerService
 				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
 
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
-			intent.putExtra("LRC", main.getLs().getStrCurrLRCSentence());
+			intent.putExtra("LRCSmall", main.getLs().getStrCurrLRCSentenceSmall());
+			intent.putExtra("LRCMedium", main.getLs().getStrCurrLRCSentenceMedium());
+			intent.putExtra("LRCLarge", main.getLs().getStrCurrLRCSentenceLarge());
 			main.sendBroadcast(intent);
 		}
 	};

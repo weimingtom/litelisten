@@ -149,7 +149,11 @@ public class MusicService
 								if (index != CurrIndex)
 									break;
 
-								main.getLs().setStrCurrLRCSentence(""); // 新歌曲开始时清空Widget的历史残留
+								// 新歌曲开始时清空Widget的历史残留
+								main.getLs().setStrCurrLRCSentenceSmall("");
+								main.getLs().setStrCurrLRCSentenceMedium("");
+								main.getLs().setStrCurrLRCSentenceLarge("");
+
 								main.getHs().getHdlRefreshTime().sendEmptyMessage(0); // 通知Handler更新界面
 								main.getLs().RefreshLRC();
 

@@ -10,9 +10,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RemoteViews;
 
-public class WidgetProvider extends AppWidgetProvider
+public class WidgetSmall extends AppWidgetProvider
 {
 	private String MSG_LAST = "MSG_LAST";
 	private String MSG_PLAY = "MSG_PLAY";
@@ -25,7 +26,7 @@ public class WidgetProvider extends AppWidgetProvider
 		final int WidgetCount = appWidgetIds.length;
 		for (int i = 0; i < WidgetCount; i++)
 		{
-			RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_4_2);
+			RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_small);
 
 			// 单击歌词显示主界面
 			Intent intent = new Intent(context, srcMain.class);
@@ -33,25 +34,25 @@ public class WidgetProvider extends AppWidgetProvider
 			rv.setOnClickPendingIntent(R.id.txtWidgetLRC, pdItent);
 
 			// 上一首，使用控制消息
-			intent = new Intent(context, WidgetProvider.class);
+			intent = new Intent(context, WidgetSmall.class);
 			intent.setAction(MSG_LAST);
 			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.btnWidgetLast, pdItent);
 
 			// 播放，使用控制消息
-			intent = new Intent(context, WidgetProvider.class);
+			intent = new Intent(context, WidgetSmall.class);
 			intent.setAction(MSG_PLAY);
 			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.btnWidgetPlay, pdItent);
 
 			// 暂停，使用控制消息
-			intent = new Intent(context, WidgetProvider.class);
+			intent = new Intent(context, WidgetSmall.class);
 			intent.setAction(MSG_PAUSE);
 			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.btnWidgetPause, pdItent);
 
 			// 下一首，使用控制消息
-			intent = new Intent(context, WidgetProvider.class);
+			intent = new Intent(context, WidgetSmall.class);
 			intent.setAction(MSG_NEXT);
 			pdItent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			rv.setOnClickPendingIntent(R.id.btnWidgetNext, pdItent);
@@ -63,8 +64,45 @@ public class WidgetProvider extends AppWidgetProvider
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_4_2);
+		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_small);
 		SharedPreferences sp = context.getSharedPreferences("com.littledai.litelisten_preferences", 0);
+
+		// 屏幕旋转后重新绑定Widget上的控件动作
+		int ScreenOrantation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+
+		// 更新屏幕方向
+		Editor edt = sp.edit();
+		edt.putInt("ScreenOrantation", ScreenOrantation);
+		edt.commit();
+
+		// 单击歌词显示主界面
+		Intent itt = new Intent(context, srcMain.class);
+		PendingIntent pdItent = PendingIntent.getActivity(context, 0, itt, 0);
+		rv.setOnClickPendingIntent(R.id.txtWidgetLRC, pdItent);
+
+		// 上一首，使用控制消息
+		itt = new Intent(context, WidgetLarge.class);
+		itt.setAction(MSG_LAST);
+		pdItent = PendingIntent.getBroadcast(context, 0, itt, PendingIntent.FLAG_UPDATE_CURRENT);
+		rv.setOnClickPendingIntent(R.id.btnWidgetLast, pdItent);
+
+		// 播放，使用控制消息
+		itt = new Intent(context, WidgetLarge.class);
+		itt.setAction(MSG_PLAY);
+		pdItent = PendingIntent.getBroadcast(context, 0, itt, PendingIntent.FLAG_UPDATE_CURRENT);
+		rv.setOnClickPendingIntent(R.id.btnWidgetPlay, pdItent);
+
+		// 暂停，使用控制消息
+		itt = new Intent(context, WidgetLarge.class);
+		itt.setAction(MSG_PAUSE);
+		pdItent = PendingIntent.getBroadcast(context, 0, itt, PendingIntent.FLAG_UPDATE_CURRENT);
+		rv.setOnClickPendingIntent(R.id.btnWidgetPause, pdItent);
+
+		// 下一首，使用控制消息
+		itt = new Intent(context, WidgetLarge.class);
+		itt.setAction(MSG_NEXT);
+		pdItent = PendingIntent.getBroadcast(context, 0, itt, PendingIntent.FLAG_UPDATE_CURRENT);
+		rv.setOnClickPendingIntent(R.id.btnWidgetNext, pdItent);
 
 		if (intent.getAction().equals(IntentConst.INTENT_ACTION_REFRESH_TIME_N_TITLE))
 		{// 标题和时间
@@ -72,16 +110,16 @@ public class WidgetProvider extends AppWidgetProvider
 			rv.setTextViewText(R.id.txtWidgetTitle, intent.getStringExtra("Title"));
 		}
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_REFRESH_LRC)) // 歌词
-			rv.setTextViewText(R.id.txtWidgetLRC, Html.fromHtml(intent.getStringExtra("LRC")));
+			rv.setTextViewText(R.id.txtWidgetLRC, Html.fromHtml(intent.getStringExtra("LRCSmall")));
 		else if (intent.getAction().equals(MSG_LAST))
 		{
-			Editor edt = sp.edit();
+			edt = sp.edit();
 			edt.putInt("MusicControl", 0); // 上一首
 			edt.commit();
 		}
 		else if (intent.getAction().equals(MSG_PLAY))
 		{
-			Editor edt = sp.edit();
+			edt = sp.edit();
 			edt.putInt("MusicControl", 1); // 播放/暂停
 			edt.commit();
 			rv.setViewVisibility(R.id.btnWidgetPlay, View.GONE);
@@ -89,13 +127,13 @@ public class WidgetProvider extends AppWidgetProvider
 		}
 		else if (intent.getAction().equals(MSG_NEXT))
 		{
-			Editor edt = sp.edit();
+			edt = sp.edit();
 			edt.putInt("MusicControl", 2); // 下一首
 			edt.commit();
 		}
 		else if (intent.getAction().equals(MSG_PAUSE))
 		{
-			Editor edt = sp.edit();
+			edt = sp.edit();
 			edt.putInt("MusicControl", 1); // 暂停
 			edt.commit();
 			rv.setViewVisibility(R.id.btnWidgetPause, View.GONE);
@@ -112,7 +150,7 @@ public class WidgetProvider extends AppWidgetProvider
 			rv.setViewVisibility(R.id.btnWidgetPlay, View.VISIBLE);
 		}
 
-		ComponentName cname = new ComponentName(context, WidgetProvider.class);
+		ComponentName cname = new ComponentName(context, WidgetSmall.class);
 		AppWidgetManager.getInstance(context).updateAppWidget(cname, rv);
 
 		super.onReceive(context, intent);

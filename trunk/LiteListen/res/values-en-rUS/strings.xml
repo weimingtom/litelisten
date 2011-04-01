@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.3.2 Beta build 0331.1536</string>
+	<string name="global_app_version">0.3.3 Beta build 0401.1601</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -33,8 +33,10 @@
 	<string name="srcmain_create_play_list_message">Press [Okay] button to scan the storage card and
 		make music list.</string>
 	<string name="srcmain_keyword_hint">Type initials to search music list</string>
-	
-	<string name="widget_title_4_2">LiteListen 4×2</string>
+
+	<string name="widget_title_small">LiteListen 4×2</string>
+	<string name="widget_title_medium">LiteListen 4×3</string>
+	<string name="widget_title_large">LiteListen 4×4</string>
 	<string name="widget_lrc">Touch here to select a music</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
@@ -91,7 +93,7 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0331.1536\n\nUpdate Contents: \n1. AppWidget Supported In Landscape Mode (4 x 2)\n2. Fixed Bugs Of Button Functions In AppWidget\n3. Button Image Of AppWidget Will Change By Music Status\n\nOfficial
+		2011.0401.1601\n\nUpdate Contents: \n1. Supported 3 Sized AppWidgets\n2. Adjust Background Of AppWidget\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai
 	</string>

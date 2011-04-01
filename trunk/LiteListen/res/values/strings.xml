@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.3.2 Beta build 0331.1536</string>
+	<string name="global_app_version">0.3.3 Beta build 0401.1601</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -32,7 +32,9 @@
 	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
 	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
 
-	<string name="widget_title_4_2">轻听音乐 4×2</string>
+	<string name="widget_title_small">轻听音乐 4×2</string>
+	<string name="widget_title_medium">轻听音乐 4×3</string>
+	<string name="widget_title_large">轻听音乐 4×4</string>
 	<string name="widget_lrc">轻触这里选择歌曲</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
@@ -80,7 +82,7 @@
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
-	<string name="pfrscat_help_about_message">轻听音乐播放器 2011\n内部版本：2011.0331.1536\n\n更新内容：\n1、桌面小部件横屏支持（4×2）\n2、修正了桌面小部件控制功能的错误\n3、桌面小部件控制按钮的图像可以根据播放状态而改变了\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+	<string name="pfrscat_help_about_message">轻听音乐播放器 2011\n内部版本：2011.0401.1601\n\n更新内容：\n1、支持三种尺寸的桌面小部件\n2、微调了小部件背景图像\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

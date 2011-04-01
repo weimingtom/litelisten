@@ -50,7 +50,11 @@ public class LRCService
 	private srcMain main = null;
 	private int LastIndex = 0; // 上一次歌词的index
 	private boolean CanRefreshLRC = true; // 判断能否更新歌词
-	private String strCurrLRCSentence = ""; // 当前时间正在播放的歌词，供Widget使用
+
+	// 当前时间正在播放的歌词，供Widget使用，分大中小三种
+	private String strCurrLRCSentenceLarge = "";
+	private String strCurrLRCSentenceMedium = "";
+	private String strCurrLRCSentenceSmall = "";
 
 	public LRCService(srcMain main)
 	{
@@ -114,7 +118,18 @@ public class LRCService
 				else
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200; // 竖屏偏移200dip
 
-				GetWidgetLRC(index, 5);
+				if (main.getSp().getInt("ScreenOrantation", 0) == 1 || main.getSp().getInt("ScreenOrantation", 0) == 3)
+				{
+					strCurrLRCSentenceSmall = GetWidgetLRC(index, 5);
+					strCurrLRCSentenceMedium = GetWidgetLRC(index, 8);
+					strCurrLRCSentenceLarge = GetWidgetLRC(index, 12);
+				}
+				else
+				{
+					strCurrLRCSentenceSmall = GetWidgetLRC(index, 5);
+					strCurrLRCSentenceMedium = GetWidgetLRC(index, 11);
+					strCurrLRCSentenceLarge = GetWidgetLRC(index, 17);
+				}
 
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
@@ -126,23 +141,23 @@ public class LRCService
 	}
 
 	/* 获取Widget专用的歌词 */
-	public void GetWidgetLRC(int CurrIndex, int WidgetLineCount)
+	public String GetWidgetLRC(int CurrIndex, int WidgetLineCount)
 	{
 		// 修改方案：以当前歌词为0点，分为两个循环
 		// 上半次循环从0开始递减至-WidgetLineCount/2
 		// 下半次循环递增至WidgetLineCount/2
 		// 上半次每次叠加行数一旦超过WidgetLineCount/2即停止，同理下半次
 
-		strCurrLRCSentence = "";
+		String strLRCSentence = "";
 		for (int i = -WidgetLineCount / 2; i <= WidgetLineCount / 2; i++)
 		{
 			if (i == 0) // 最中间的一句需要高亮
-				strCurrLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
+				strLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
 			else if (CurrIndex + i >= 0)
-				strCurrLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
+				strLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
 		}
 
-		strCurrLRCSentence = strCurrLRCSentence.substring(0, strCurrLRCSentence.length() - 6); // 删除最好一个换行符
+		return strLRCSentence.substring(0, strLRCSentence.length() - 6); // 删除最后一个换行符
 	}
 
 	/* 获取一行字符串自动换行后的行数 */
@@ -512,13 +527,33 @@ public class LRCService
 		IsLyricExist = isLyricExist;
 	}
 
-	public String getStrCurrLRCSentence()
+	public String getStrCurrLRCSentenceLarge()
 	{
-		return strCurrLRCSentence;
+		return strCurrLRCSentenceLarge;
 	}
 
-	public void setStrCurrLRCSentence(String strCurrLRCSentence)
+	public void setStrCurrLRCSentenceLarge(String strCurrLRCSentenceLarge)
 	{
-		this.strCurrLRCSentence = strCurrLRCSentence;
+		this.strCurrLRCSentenceLarge = strCurrLRCSentenceLarge;
+	}
+
+	public String getStrCurrLRCSentenceMedium()
+	{
+		return strCurrLRCSentenceMedium;
+	}
+
+	public void setStrCurrLRCSentenceMedium(String strCurrLRCSentenceMedium)
+	{
+		this.strCurrLRCSentenceMedium = strCurrLRCSentenceMedium;
+	}
+
+	public String getStrCurrLRCSentenceSmall()
+	{
+		return strCurrLRCSentenceSmall;
+	}
+
+	public void setStrCurrLRCSentenceSmall(String strCurrLRCSentenceSmall)
+	{
+		this.strCurrLRCSentenceSmall = strCurrLRCSentenceSmall;
 	}
 }
