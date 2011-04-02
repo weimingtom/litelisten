@@ -434,50 +434,53 @@ public class SettingService extends PreferenceActivity
 			}
 
 			// 还原默认设置
-			if (preference.getKey().equals("txtRestore") && (((String) Value).equals("是") || ((String) Value).toLowerCase().equals("yes")))
+			if (preference.getKey().equals("txtRestore"))
 			{
-				Editor edt = sp.edit();
-				edt.putString("lstFitScreenOrientation", "2");
-				edt.putBoolean("chkIgnoreDirectory", true);
-				edt.putString("lstPropertyReadPriority", "0");
-				edt.putString("txtMusicPath", "/sdcard");
-				edt.putString("lstBackgroundPort", "0");
-				edt.putBoolean("chkListFontShadow", true);
-				edt.putString("txtListFontSize", "18");
-				edt.putBoolean("chkIncludeSubDirectories", true);
-				edt.putString("lstConvertChineseLRC", "2");
-				edt.putString("lstLanguage", "2");
-				edt.putBoolean("chkBackgroundBlur", true);
-				edt.putBoolean("chkLRCFontShadow", true);
-				edt.putString("txtBackgroundBrightness", "75");
-				edt.putBoolean("chkUseAnimation", true);
-				edt.putString("txtLRCFontSize", "18");
-				edt.putBoolean("chkRemeberLastPlayed", true);
-				edt.putString("lstLanguage", "3");
-				edt.putString("lstPlayMode", "1");
-				edt.putString("lstBackgroundLand", "0");
-				edt.putString("lstBackgroundPort", "0");
-				edt.putString("stListOrdder", "1");
-				edt.commit();
+				if ((((String) Value).equals("是") || ((String) Value).toLowerCase().equals("yes")))
+				{
+					Editor edt = sp.edit();
+					edt.putString("lstFitScreenOrientation", "2");
+					edt.putBoolean("chkIgnoreDirectory", true);
+					edt.putString("lstPropertyReadPriority", "0");
+					edt.putString("txtMusicPath", "/sdcard");
+					edt.putString("lstBackgroundPort", "0");
+					edt.putBoolean("chkListFontShadow", true);
+					edt.putString("txtListFontSize", "18");
+					edt.putBoolean("chkIncludeSubDirectories", true);
+					edt.putString("lstConvertChineseLRC", "2");
+					edt.putString("lstLanguage", "2");
+					edt.putBoolean("chkBackgroundBlur", true);
+					edt.putBoolean("chkLRCFontShadow", true);
+					edt.putString("txtBackgroundBrightness", "75");
+					edt.putBoolean("chkUseAnimation", true);
+					edt.putString("txtLRCFontSize", "18");
+					edt.putBoolean("chkRemeberLastPlayed", true);
+					edt.putString("lstLanguage", "3");
+					edt.putString("lstPlayMode", "1");
+					edt.putString("lstBackgroundLand", "0");
+					edt.putString("lstBackgroundPort", "0");
+					edt.putString("stListOrdder", "1");
+					edt.commit();
 
-				dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
-				{
-					public void onClick(View v)
+					dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
 					{
-						System.exit(0);
-						dlgAlert.CloseDialog();
-					}
-				}, null);
-			}
-			else
-			{
-				dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
+						public void onClick(View v)
+						{
+							System.exit(0);
+							dlgAlert.CloseDialog();
+						}
+					}, null);
+				}
+				else
 				{
-					public void onClick(View v)
+					dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
 					{
-						dlgAlert.CloseDialog();
-					}
-				}, null);
+						public void onClick(View v)
+						{
+							dlgAlert.CloseDialog();
+						}
+					}, null);
+				}
 			}
 
 			if (preference.getKey().equals("txtMusicPath"))
