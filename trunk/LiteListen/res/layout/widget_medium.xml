@@ -11,14 +11,12 @@
 		android:layout_marginRight="10dip" android:id="@+id/txtWidgetTitle"></TextView>
 	<TextView android:layout_width="fill_parent" android:id="@+id/txtWidgetLRC"
 		android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center"
-		android:layout_marginLeft="3dip" android:layout_marginRight="10dip"
-		android:layout_marginTop="3dip" android:textColor="#FFFFFF"
+		android:textColor="#FFFFFF"
 		android:shadowColor="#0099FF" android:shadowDx="1" android:shadowDy="1"
-		android:shadowRadius="1" android:text="@string/widget_lrc" android:layout_height="243dip"></TextView>
+		android:shadowRadius="1" android:text="@string/widget_lrc" android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:layout_height="250dip" android:layout_marginTop="1dip" android:layout_marginBottom="2dip"></TextView>
 	<LinearLayout android:layout_height="fill_parent"
 		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
-		android:layout_marginLeft="3dip" android:layout_marginRight="10dip"
-		android:id="@+id/layWidgetControlPanel">
+		android:id="@+id/layWidgetControlPanel" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
 		<ImageButton android:layout_width="wrap_content"
 			android:layout_height="40dip" android:id="@+id/btnWidgetLast"
 			android:background="@layout/btn_last"></ImageButton>
@@ -32,7 +30,6 @@
 			android:background="@layout/btn_next"></ImageButton>
 		<TextView android:id="@+id/txtWidgetTime"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:text="00:00 / 00:00" android:textColor="#FFFFFF"
-			android:gravity="left|center_vertical|center"></TextView>
+			android:text="00:00 / 00:00" android:textColor="#FFFFFF" android:gravity="center_vertical|center_horizontal|center"></TextView>
 	</LinearLayout>
 </LinearLayout>

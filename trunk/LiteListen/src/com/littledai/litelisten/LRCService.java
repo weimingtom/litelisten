@@ -126,8 +126,8 @@ public class LRCService
 				}
 				else
 				{
-					strCurrLRCSentenceSmall = GetWidgetLRC(index, 5);
-					strCurrLRCSentenceMedium = GetWidgetLRC(index, 11);
+					strCurrLRCSentenceSmall = GetWidgetLRC(index, 6);
+					strCurrLRCSentenceMedium = GetWidgetLRC(index, 12);
 					strCurrLRCSentenceLarge = GetWidgetLRC(index, 17);
 				}
 
