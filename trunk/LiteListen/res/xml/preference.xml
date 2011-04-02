@@ -18,13 +18,13 @@
 			android:defaultValue="true"></CheckBoxPreference>
 		<CheckBoxPreference android:defaultValue="true"
 			android:summary="@string/pfrscat_general_ignore_directory_summary"
-			android:title="@string/pfrscat_general_ignore_directory" android:key="chkIngnoreDirectory"></CheckBoxPreference>
+			android:title="@string/pfrscat_general_ignore_directory" android:key="chkIgnoreDirectory"></CheckBoxPreference>
 		<CheckBoxPreference android:title="@string/pfrscat_general_auto_play"
 			android:key="chkAutoPlay" android:defaultValue="false"
 			android:enabled="false"></CheckBoxPreference>
 		<CheckBoxPreference android:title="@string/pfrscat_general_remember_last_played"
-			android:key="chkRemeberlastPlayed" android:defaultValue="true"
-			android:enabled="false"></CheckBoxPreference>
+			android:defaultValue="true"
+			android:enabled="false" android:key="chkRemeberLastPlayed"></CheckBoxPreference>
 		<ListPreference android:entries="@array/item_name_pfrscat_general_convert_chinese_lrc"
 			android:entryValues="@array/item_value_pfrscat_general_convert_chinese_lrc"
 			android:key="lstConvertChineseLRC" android:title="@string/pfrscat_general_convert_chinese_lrc"
@@ -130,12 +130,12 @@
 			android:positiveButtonText="@string/global_ok"
 			android:negativeButtonText="@string/global_cancel"
 			android:dialogTitle="@string/pfrscat_others_restore"
-			android:dialogMessage="@string/pfrscat_others_restore_title" android:enabled="false"></EditTextPreference>
+			android:dialogMessage="@string/pfrscat_others_restore_title"></EditTextPreference>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pfrscat_help_title"
 		android:key="catHelp">
 		<Preference android:title="@string/pfrscat_help_visit_official_site"
-			android:key="btnVisitOfficialSite" android:summary="@string/pfrscat_help_visit_official_site_summary" android:enabled="false"></Preference>
+			android:key="btnVisitOfficialSite" android:summary="@string/pfrscat_help_visit_official_site_summary"></Preference>
 		<Preference android:title="@string/pfrscat_help_about"
 			android:key="btnAbout" android:summary="@string/pfrscat_help_about_summary"></Preference>
 	</PreferenceCategory>

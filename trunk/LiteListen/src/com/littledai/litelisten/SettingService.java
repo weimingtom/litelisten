@@ -55,9 +55,9 @@ public class SettingService extends PreferenceActivity
 	private ListPreference lstLanguage;
 	private EditTextPreference txtMusicPath;
 	private CheckBoxPreference chkIncludeSubDirectories;
-	private CheckBoxPreference chkIngnoreDirectory;
+	private CheckBoxPreference chkIgnoreDirectory;
 	private CheckBoxPreference chkAutoPlay;
-	private CheckBoxPreference chkRemeberlastPlayed;
+	private CheckBoxPreference chkRemeberLastPlayed;
 	private ListPreference lstConvertChineseLRC;
 	private ListPreference lstFitScreenOrientation;
 	private ListPreference lstListOrder;
@@ -176,9 +176,9 @@ public class SettingService extends PreferenceActivity
 		lstLanguage = (ListPreference) findPreference("lstLanguage");
 		txtMusicPath = (EditTextPreference) findPreference("txtMusicPath");
 		chkIncludeSubDirectories = (CheckBoxPreference) findPreference("chkIncludeSubDirectories");
-		chkIngnoreDirectory = (CheckBoxPreference) findPreference("chkIngnoreDirectory");
+		chkIgnoreDirectory = (CheckBoxPreference) findPreference("chkIgnoreDirectory");
 		chkAutoPlay = (CheckBoxPreference) findPreference("chkAutoPlay");
-		chkRemeberlastPlayed = (CheckBoxPreference) findPreference("chkRemeberlastPlayed");
+		chkRemeberLastPlayed = (CheckBoxPreference) findPreference("chkRemeberLastPlayed");
 		lstConvertChineseLRC = (ListPreference) findPreference("lstConvertChineseLRC");
 		lstFitScreenOrientation = (ListPreference) findPreference("lstFitScreenOrientation");
 		lstListOrder = (ListPreference) findPreference("lstListOrder");
@@ -282,7 +282,7 @@ public class SettingService extends PreferenceActivity
 					public void onClick(View v)
 					{
 						Intent i = new Intent(Intent.ACTION_VIEW);
-						i.setData(Uri.parse("http://litelisten.littledai.com/"));
+						i.setData(Uri.parse(getResources().getString(R.string.pfrscat_help_visit_official_site_summary)));
 						startActivity(i);
 						dlgAlert.CloseDialog();
 					}
@@ -433,6 +433,53 @@ public class SettingService extends PreferenceActivity
 				txtBackgroundBrightness.setSummary(String.valueOf(Brightness) + " %");
 			}
 
+			// 还原默认设置
+			if (preference.getKey().equals("txtRestore") && (((String) Value).equals("是") || ((String) Value).toLowerCase().equals("yes")))
+			{
+				Editor edt = sp.edit();
+				edt.putString("lstFitScreenOrientation", "2");
+				edt.putBoolean("chkIgnoreDirectory", true);
+				edt.putString("lstPropertyReadPriority", "0");
+				edt.putString("txtMusicPath", "/sdcard");
+				edt.putString("lstBackgroundPort", "0");
+				edt.putBoolean("chkListFontShadow", true);
+				edt.putString("txtListFontSize", "18");
+				edt.putBoolean("chkIncludeSubDirectories", true);
+				edt.putString("lstConvertChineseLRC", "2");
+				edt.putString("lstLanguage", "2");
+				edt.putBoolean("chkBackgroundBlur", true);
+				edt.putBoolean("chkLRCFontShadow", true);
+				edt.putString("txtBackgroundBrightness", "75");
+				edt.putBoolean("chkUseAnimation", true);
+				edt.putString("txtLRCFontSize", "18");
+				edt.putBoolean("chkRemeberLastPlayed", true);
+				edt.putString("lstLanguage", "3");
+				edt.putString("lstPlayMode", "1");
+				edt.putString("lstBackgroundLand", "0");
+				edt.putString("lstBackgroundPort", "0");
+				edt.putString("stListOrdder", "1");
+				edt.commit();
+
+				dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						System.exit(0);
+						dlgAlert.CloseDialog();
+					}
+				}, null);
+			}
+			else
+			{
+				dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						dlgAlert.CloseDialog();
+					}
+				}, null);
+			}
+
 			if (preference.getKey().equals("txtMusicPath"))
 				txtMusicPath.setSummary((String) Value);
 			if (preference.getKey().equals("lstConvertChineseLRC"))
@@ -531,9 +578,84 @@ public class SettingService extends PreferenceActivity
 		this.dlgColor = dlgColor;
 	}
 
-	public CheckBoxPreference getChkIngnoreDirectory()
+	public TextDialog getDlgText()
 	{
-		return chkIngnoreDirectory;
+		return dlgText;
+	}
+
+	public void setDlgText(TextDialog dlgText)
+	{
+		this.dlgText = dlgText;
+	}
+
+	public MessageDialog getDlgAlert()
+	{
+		return dlgAlert;
+	}
+
+	public void setDlgAlert(MessageDialog dlgAlert)
+	{
+		this.dlgAlert = dlgAlert;
+	}
+
+	public SharedPreferences getSp()
+	{
+		return sp;
+	}
+
+	public void setSp(SharedPreferences sp)
+	{
+		this.sp = sp;
+	}
+
+	public int getScreenOrientation()
+	{
+		return ScreenOrientation;
+	}
+
+	public void setScreenOrientation(int screenOrientation)
+	{
+		ScreenOrientation = screenOrientation;
+	}
+
+	public int getIMAGE_SELECTED_PORT()
+	{
+		return IMAGE_SELECTED_PORT;
+	}
+
+	public void setIMAGE_SELECTED_PORT(int iMAGESELECTEDPORT)
+	{
+		IMAGE_SELECTED_PORT = iMAGESELECTEDPORT;
+	}
+
+	public int getIMAGE_SELECTED_LAND()
+	{
+		return IMAGE_SELECTED_LAND;
+	}
+
+	public void setIMAGE_SELECTED_LAND(int iMAGESELECTEDLAND)
+	{
+		IMAGE_SELECTED_LAND = iMAGESELECTEDLAND;
+	}
+
+	public ListPreference getLstLanguage()
+	{
+		return lstLanguage;
+	}
+
+	public void setLstLanguage(ListPreference lstLanguage)
+	{
+		this.lstLanguage = lstLanguage;
+	}
+
+	public EditTextPreference getTxtMusicPath()
+	{
+		return txtMusicPath;
+	}
+
+	public void setTxtMusicPath(EditTextPreference txtMusicPath)
+	{
+		this.txtMusicPath = txtMusicPath;
 	}
 
 	public CheckBoxPreference getChkIncludeSubDirectories()
@@ -546,6 +668,16 @@ public class SettingService extends PreferenceActivity
 		this.chkIncludeSubDirectories = chkIncludeSubDirectories;
 	}
 
+	public CheckBoxPreference getChkIgnoreDirectory()
+	{
+		return chkIgnoreDirectory;
+	}
+
+	public void setChkIgnoreDirectory(CheckBoxPreference chkIgnoreDirectory)
+	{
+		this.chkIgnoreDirectory = chkIgnoreDirectory;
+	}
+
 	public CheckBoxPreference getChkAutoPlay()
 	{
 		return chkAutoPlay;
@@ -556,14 +688,14 @@ public class SettingService extends PreferenceActivity
 		this.chkAutoPlay = chkAutoPlay;
 	}
 
-	public CheckBoxPreference getChkRemeberlastPlayed()
+	public CheckBoxPreference getChkRemeberLastPlayed()
 	{
-		return chkRemeberlastPlayed;
+		return chkRemeberLastPlayed;
 	}
 
-	public void setChkRemeberlastPlayed(CheckBoxPreference chkRemeberlastPlayed)
+	public void setChkRemeberlastPlayed(CheckBoxPreference chkRemeberLastPlayed)
 	{
-		this.chkRemeberlastPlayed = chkRemeberlastPlayed;
+		this.chkRemeberLastPlayed = chkRemeberLastPlayed;
 	}
 
 	public ListPreference getLstConvertChineseLRC()
@@ -614,6 +746,56 @@ public class SettingService extends PreferenceActivity
 	public void setLstPropertyReadPriority(ListPreference lstPropertyReadPriority)
 	{
 		this.lstPropertyReadPriority = lstPropertyReadPriority;
+	}
+
+	public ListPreference getLstPlayMode()
+	{
+		return lstPlayMode;
+	}
+
+	public void setLstPlayMode(ListPreference lstPlayMode)
+	{
+		this.lstPlayMode = lstPlayMode;
+	}
+
+	public ListPreference getLstBackgroundPort()
+	{
+		return lstBackgroundPort;
+	}
+
+	public void setLstBackgroundPort(ListPreference lstBackgroundPort)
+	{
+		this.lstBackgroundPort = lstBackgroundPort;
+	}
+
+	public ListPreference getLstBackgroundLand()
+	{
+		return lstBackgroundLand;
+	}
+
+	public void setLstBackgroundLand(ListPreference lstBackgroundLand)
+	{
+		this.lstBackgroundLand = lstBackgroundLand;
+	}
+
+	public EditTextPreference getTxtBackgroundBrightness()
+	{
+		return txtBackgroundBrightness;
+	}
+
+	public void setTxtBackgroundBrightness(EditTextPreference txtBackgroundBrightness)
+	{
+		this.txtBackgroundBrightness = txtBackgroundBrightness;
+	}
+
+	public CheckBoxPreference getChkBackgroundBlur()
+	{
+		return chkBackgroundBlur;
+	}
+
+	public void setChkBackgroundBlur(CheckBoxPreference chkBackgroundBlur)
+	{
+		this.chkBackgroundBlur = chkBackgroundBlur;
 	}
 
 	public CheckBoxPreference getChkUseAnimation()
@@ -744,105 +926,5 @@ public class SettingService extends PreferenceActivity
 	public void setBtnAbout(Preference btnAbout)
 	{
 		this.btnAbout = btnAbout;
-	}
-
-	public CheckBoxPreference getChkIgnoreIfNomedia()
-	{
-		return chkIngnoreDirectory;
-	}
-
-	public void setChkIngnoreDirectory(CheckBoxPreference chkIngnoreDirectory)
-	{
-		this.chkIngnoreDirectory = chkIngnoreDirectory;
-	}
-
-	public TextDialog getDlgText()
-	{
-		return dlgText;
-	}
-
-	public void setDlgText(TextDialog dlgText)
-	{
-		this.dlgText = dlgText;
-	}
-
-	public MessageDialog getDlgAlert()
-	{
-		return dlgAlert;
-	}
-
-	public void setDlgAlert(MessageDialog dlgAlert)
-	{
-		this.dlgAlert = dlgAlert;
-	}
-
-	public SharedPreferences getSp()
-	{
-		return sp;
-	}
-
-	public void setSp(SharedPreferences sp)
-	{
-		this.sp = sp;
-	}
-
-	public ListPreference getLstPlayMode()
-	{
-		return lstPlayMode;
-	}
-
-	public void setLstPlayMode(ListPreference lstPlayMode)
-	{
-		this.lstPlayMode = lstPlayMode;
-	}
-
-	public ListPreference getLstLanguage()
-	{
-		return lstLanguage;
-	}
-
-	public void setLstLanguage(ListPreference lstLanguage)
-	{
-		this.lstLanguage = lstLanguage;
-	}
-
-	public EditTextPreference getTxtMusicPath()
-	{
-		return txtMusicPath;
-	}
-
-	public void setTxtMusicPath(EditTextPreference txtMusicPath)
-	{
-		this.txtMusicPath = txtMusicPath;
-	}
-
-	public ListPreference getLstBackgroundPort()
-	{
-		return lstBackgroundPort;
-	}
-
-	public void setLstBackgroundPort(ListPreference lstBackgroundPort)
-	{
-		this.lstBackgroundPort = lstBackgroundPort;
-	}
-
-	public ListPreference getLstBackgroundLand()
-	{
-		return lstBackgroundLand;
-	}
-
-	public void setLstBackgroundLand(ListPreference lstBackgroundLand)
-	{
-		this.lstBackgroundLand = lstBackgroundLand;
-	}
-
-	public CheckBoxPreference getChkBackgroundBlur()
-	{
-		return chkBackgroundBlur;
-	}
-
-	public void setChkBackgroundBlur(CheckBoxPreference chkBackgroundBlur)
-	{
-		this.chkBackgroundBlur = chkBackgroundBlur;
 	}
 }

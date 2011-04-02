@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.3.3 Beta build 0401.1601</string>
+	<string name="global_app_version">0.3.4 Beta build 0402.2205</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -76,13 +76,17 @@
 	<string name="pfrscat_others_restore">还原默认设置</string>
 	<string name="pfrscat_others_restore_summary">所有设置将被还原</string>
 	<string name="pfrscat_others_restore_title">请在下面的文本框中输入“是”，然后按确定以还原设置。</string>
+	<string name="pfrscat_others_restore_message_ok">设置还原成功，您必须立即重新启动程序。</string>
+	<string name="pfrscat_others_restore_message_wrong">您输入的内容不正确，设置还原失败。</string>
 	<string name="pfrscat_help_title">帮助信息</string>
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐播放器 官方页面</string>
-	<string name="pfrscat_help_visit_official_site_summary">http://litelisten.littledai.com/</string>
+	<string name="pfrscat_help_visit_official_site_summary">http://www.littledai.com/category/litelisten
+	</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
-	<string name="pfrscat_help_about_message">轻听音乐播放器 2011\n内部版本：2011.0401.1601\n\n更新内容：\n1、支持三种尺寸的桌面小部件\n2、微调了小部件背景图像\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+	<string name="pfrscat_help_about_message">轻听音乐播放器
+		2011\n内部版本：2011.0402.2205\n\n更新内容：\n1、桌面小部件更加清爽\n2、修正了因桌面小部件更新引起的歌词最后几行不滚动的错误\n3、开启全局设置还原功能\n4、从“帮助信息”中可以直接访问轻听音乐播放器官方网站\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

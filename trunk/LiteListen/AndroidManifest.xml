@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.littledai.litelisten" android:versionCode="2011" android:versionName="0.3.3 Beta build 0401.1601">
+	package="com.littledai.litelisten" android:versionCode="2011" android:versionName="@string/global_app_version">
 	<application android:icon="@drawable/icon" android:label="@string/global_app_name_no_version"
 		android:debuggable="true">
 		<activity android:name=".srcMain"

@@ -153,8 +153,13 @@ public class LRCService
 		{
 			if (i == 0) // 最中间的一句需要高亮
 				strLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
-			else if (CurrIndex + i >= 0)
-				strLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
+			else
+			{
+				if (CurrIndex + i >= 0 && CurrIndex + i < map.size())
+					strLRCSentence += map.get(lstTimeStamp.get(CurrIndex + i)) + "<br />";
+				else
+					strLRCSentence += "<br />";
+			}
 		}
 
 		return strLRCSentence.substring(0, strLRCSentence.length() - 6); // 删除最后一个换行符
