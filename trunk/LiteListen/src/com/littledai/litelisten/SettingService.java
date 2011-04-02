@@ -459,7 +459,8 @@ public class SettingService extends PreferenceActivity
 					edt.putString("lstPlayMode", "1");
 					edt.putString("lstBackgroundLand", "0");
 					edt.putString("lstBackgroundPort", "0");
-					edt.putString("stListOrdder", "1");
+					edt.putString("lstListOrdder", "1");
+					edt.putString("txtRestore", "");
 					edt.commit();
 
 					dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
