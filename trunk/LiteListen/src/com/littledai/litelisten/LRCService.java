@@ -116,7 +116,7 @@ public class LRCService
 				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 80; // 横屏偏移80dip
 				else
-					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200; // 竖屏偏移200dip
+					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // 竖屏偏移200dip
 
 				if (main.getSp().getInt("ScreenOrantation", 0) == 1 || main.getSp().getInt("ScreenOrantation", 0) == 3)
 				{
@@ -147,7 +147,6 @@ public class LRCService
 		// 上半次循环从0开始递减至-WidgetLineCount/2
 		// 下半次循环递增至WidgetLineCount/2
 		// 上半次每次叠加行数一旦超过WidgetLineCount/2即停止，同理下半次
-
 		String strLRCSentence = "";
 		for (int i = -WidgetLineCount / 2; i <= WidgetLineCount / 2; i++)
 		{

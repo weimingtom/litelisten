@@ -128,6 +128,7 @@ public class srcMain extends Activity
 		/* 设置窗口样式，必须按照顺序 */
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题栏
 		setContentView(R.layout.scr_main);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
 
 		IsSplashThreadAlive = true;
 		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
@@ -1104,9 +1105,9 @@ public class srcMain extends Activity
 
 				Editor edt = sp.edit();
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() - 8));
+					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() + 3));
 				else
-					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() * 1.5 - 2));
+					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() * 1.5 + 4));
 
 				if (sp.getFloat("LastMusicListY", 0) < 0)
 				{
