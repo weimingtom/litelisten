@@ -48,7 +48,6 @@ public class MusicService
 	public MusicService(srcMain main)
 	{
 		this.main = main;
-		strShownTitle = main.getResources().getString(R.string.srcmain_waiting_for_play);
 
 		/* µ¥Çú½áÊø */
 		mp.setOnCompletionListener(new OnCompletionListener()

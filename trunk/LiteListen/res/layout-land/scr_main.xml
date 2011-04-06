@@ -15,23 +15,21 @@
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/layMain" android:orientation="vertical"
 		android:background="@drawable/bg_land_default">
-		<TextView android:text="@string/global_app_name" android:layout_height="wrap_content" android:layout_width="wrap_content" android:singleLine="true" android:textSize="18dip" android:layout_marginTop="-2dip" android:id="@+id/txtAppTitle" android:shadowColor="#0099FF" android:layout_marginLeft="22dip" android:textColor="#FFFFFF" android:shadowRadius="1" android:shadowDx="0" android:shadowDy="0"></TextView>
-		<TextView android:layout_height="wrap_content" android:id="@+id/txtTitle"
-			android:textSize="18dip" android:singleLine="true"
+		<TextView android:id="@+id/txtTitle"
+			android:singleLine="true"
 			android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"
 			android:gravity="center_vertical|center_horizontal|center"
-			android:textColor="#FFFFFF" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:shadowColor="#000000" android:layout_marginTop="-3dip" android:text="@string/srcmain_waiting_for_play" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="0.5"></TextView>
+			android:layout_width="fill_parent" android:layout_marginRight="5dip" android:shadowColor="#000000" android:layout_marginLeft="105dip" android:layout_height="45dip" android:textSize="25dip" android:textColor="#9BD7FF" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"></TextView>
 
 
 		<AbsoluteLayout android:id="@+id/layBody"
 			android:layout_width="fill_parent" android:layout_marginTop="1.5dip" android:layout_height="240dip">
-			<ListView android:layout_height="fill_parent"
-				android:drawSelectorOnTop="false" android:cacheColorHint="#00000000"
+			<ListView android:drawSelectorOnTop="false" android:cacheColorHint="#00000000"
 				android:smoothScrollbar="true" android:divider="#00000000"
 				android:id="@+id/lstMusic" android:layout_width="fill_parent"
 				android:scrollbarThumbVertical="@drawable/scroll_track"
 				android:listSelector="@layout/list_music_selector"
-				android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim">
+				android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim" android:layout_height="fill_parent">
 
 
 
@@ -113,7 +111,7 @@
 			<LinearLayout android:layout_height="wrap_content" android:id="@+id/layMusicSeek" android:gravity="center_vertical|center_horizontal|center" android:visibility="gone" android:layout_width="315dip">
 				<SeekBar android:layout_height="wrap_content" android:paddingLeft="15dip" android:thumb="@layout/seek_bar_thumb" android:id="@+id/skbMusic" android:layout_width="fill_parent" android:progressDrawable="@layout/seek_bar_progress" android:paddingRight="15dip" android:maxHeight="10dip"></SeekBar>
 			</LinearLayout>
-			<TextView android:layout_height="wrap_content" android:textColor="#FFFFFF" android:gravity="center_vertical|center_horizontal|center" android:textSize="18dip" android:id="@+id/txtTime" android:layout_width="110dip" android:text="00:00 / 00:00" android:layout_marginTop="-1dip" android:layout_marginLeft="10dip"></TextView>
+			<TextView android:layout_height="wrap_content" android:textColor="#FFFFFF" android:gravity="center_vertical|center_horizontal|center" android:textSize="18dip" android:id="@+id/txtTime" android:layout_width="110dip" android:text="00:00 / 00:00" android:layout_marginTop="-1dip" android:layout_marginLeft="10dip" android:shadowColor="#000000" android:shadowRadius="0.5" android:shadowDy="0.5" android:shadowDx="0.5"></TextView>
 			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/btn_play_mode_repeat_all" android:id="@+id/btnPlayMode" android:layout_marginLeft="3dip"></ImageButton>
 			<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@layout/btn_lrc" android:id="@+id/btnLRC"></ImageButton>
 		</LinearLayout>
