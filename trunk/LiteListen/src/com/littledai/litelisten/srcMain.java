@@ -66,6 +66,7 @@ import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AbsoluteLayout.LayoutParams;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -101,6 +102,7 @@ public class srcMain extends Activity
 	private TextView txtLRC;
 	private TextView txtKeyword;
 	private LinearLayout layExtendMenu;
+	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
 	private LinearLayout laySearch;
 	private LinearLayout layMusicSeek;
@@ -555,8 +557,11 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_land.png");
-				layBody.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
+				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_land_default_framework), 800, 400, 0, 0, 240);
+				layActivity.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
+			else
+				layActivity.setBackgroundResource(R.drawable.bg_land_default);
 		}
 		else
 		{
@@ -565,8 +570,11 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_port.png");
-				layBody.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
+				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_port_default_framework), 400, 800, 0, 0, 240);
+				layActivity.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
+			else
+				layActivity.setBackgroundResource(R.drawable.bg_port_default);
 		}
 	}
 
@@ -598,6 +606,7 @@ public class srcMain extends Activity
 		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
 		txtScanHint = (TextView) findViewById(R.id.txtScanHint);
 		layExtendMenu = (LinearLayout) findViewById(R.id.layExtendMenu);
+		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
 		laySearch = (LinearLayout) findViewById(R.id.laySearch);
@@ -644,8 +653,8 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemIcon", R.drawable.menu_order_asc);
+		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_asc));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -766,34 +775,30 @@ public class srcMain extends Activity
 	/* 搜索框切换 */
 	public void SearchBoxSwitcher()
 	{
-		AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams(); // 获取scrLRC尺寸参数
+		Animation anim = null; // 动画效果
+		AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
+		AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 
-		// 托盘消失动画
-		Animation animHide = new TranslateAnimation(0, 0, 65, 0);
-		animHide.setDuration(ANIMATION_TIME);
-		animHide.setInterpolator(new DecelerateInterpolator());
-
-		// 托盘显示动画
-		Animation animShow = new TranslateAnimation(0, 0, -65, 0);
-		animShow.setDuration(ANIMATION_TIME);
-		animShow.setInterpolator(new DecelerateInterpolator());
-
-		if (layParSearch.y == -65)
+		if (laySearch.getVisibility() == View.GONE)
 		{// 调用显示
-			layParSearch.y = 0;
-			laySearch.setLayoutParams(layParSearch);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-				laySearch.startAnimation(animShow);
+			layParsMusic.y = 45;
+			laySearch.setVisibility(View.VISIBLE);
+			anim = new AlphaAnimation(0, 1);
 		}
-		else if (layParSearch.y == 0)
+		else
 		{// 调用隐藏
-			layParSearch.y = -65;
-			laySearch.setLayoutParams(layParSearch);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-				laySearch.startAnimation(animHide);
+			layParsMusic.y = 0;
+			laySearch.setVisibility(View.GONE);
+			anim = new AlphaAnimation(1, 0);
 		}
+
+		layParsSearch.width = LayoutParams.FILL_PARENT;
+		laySearch.setLayoutParams(layParsSearch);
+		lstMusic.setLayoutParams(layParsMusic);
+
+		anim.setDuration(ANIMATION_TIME);
+		if (sp.getBoolean("chkUseAnimation", true))
+			laySearch.startAnimation(anim);
 	}
 
 	/* 列表到歌词切换 */
@@ -1435,6 +1440,26 @@ public class srcMain extends Activity
 		{
 			layExtendMenu.setVisibility(View.VISIBLE);
 			anim = new AlphaAnimation(0, 1);
+
+			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layParsMusic.width = 300;
+				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+				layParsSearch.width = 300;
+				laySearch.setLayoutParams(layParsSearch);
+				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
+				layParsKeyword.width = 255;
+				txtKeyword.setLayoutParams(layParsKeyword);
+			}
+			else
+			{
+				if (layParsMusic.y == 45)
+					layParsMusic.height = 213;
+				else
+					layParsMusic.height = 258;
+			}
+			lstMusic.setLayoutParams(layParsMusic);
 		}
 
 		if (sp.getBoolean("chkUseAnimation", true))
@@ -1453,6 +1478,26 @@ public class srcMain extends Activity
 		{
 			layExtendMenu.setVisibility(View.GONE);
 			anim = new AlphaAnimation(1, 0);
+
+			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layParsMusic.width = LayoutParams.FILL_PARENT;
+				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+				layParsSearch.width = LayoutParams.FILL_PARENT;
+				laySearch.setLayoutParams(layParsSearch);
+				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
+				layParsKeyword.width = 482;
+				txtKeyword.setLayoutParams(layParsKeyword);
+			}
+			else
+			{
+				if (layParsMusic.y == 45)
+					layParsMusic.height = 382;
+				else
+					layParsMusic.height = LayoutParams.FILL_PARENT;
+			}
+			lstMusic.setLayoutParams(layParsMusic);
 		}
 
 		if (sp.getBoolean("chkUseAnimation", true))
@@ -1471,11 +1516,51 @@ public class srcMain extends Activity
 		{
 			layExtendMenu.setVisibility(View.GONE);
 			anim = new AlphaAnimation(1, 0);
+
+			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layParsMusic.width = LayoutParams.FILL_PARENT;
+				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+				layParsSearch.width = LayoutParams.FILL_PARENT;
+				laySearch.setLayoutParams(layParsSearch);
+				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
+				layParsKeyword.width = 482;
+				txtKeyword.setLayoutParams(layParsKeyword);
+			}
+			else
+			{
+				if (layParsMusic.y == 45)
+					layParsMusic.height = 382;
+				else
+					layParsMusic.height = LayoutParams.FILL_PARENT;
+			}
+			lstMusic.setLayoutParams(layParsMusic);
 		}
 		else
 		{
 			layExtendMenu.setVisibility(View.VISIBLE);
 			anim = new AlphaAnimation(0, 1);
+
+			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layParsMusic.width = 300;
+				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
+				layParsSearch.width = 300;
+				laySearch.setLayoutParams(layParsSearch);
+				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
+				layParsKeyword.width = 255;
+				txtKeyword.setLayoutParams(layParsKeyword);
+			}
+			else
+			{
+				if (layParsMusic.y == 45)
+					layParsMusic.height = 213;
+				else
+					layParsMusic.height = 258;
+			}
+			lstMusic.setLayoutParams(layParsMusic);
 		}
 
 		if (sp.getBoolean("chkUseAnimation", true))
@@ -1924,5 +2009,15 @@ public class srcMain extends Activity
 	public void setAdapter(MusicAdapter adapter)
 	{
 		this.adapter = adapter;
+	}
+
+	public LinearLayout getLayActivity()
+	{
+		return layActivity;
+	}
+
+	public void setLayActivity(LinearLayout layActivity)
+	{
+		this.layActivity = layActivity;
 	}
 }

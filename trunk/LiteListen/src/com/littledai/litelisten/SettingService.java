@@ -387,8 +387,8 @@ public class SettingService extends PreferenceActivity
 					intent.putExtra("noFaceDetection", true); // 关闭人脸识别
 
 					// 设置裁剪比例
-					intent.putExtra("aspectX", 120);
-					intent.putExtra("aspectY", 153);
+					intent.putExtra("aspectX", 3);
+					intent.putExtra("aspectY", 5);
 
 					startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.pfrsmain_image)), IMAGE_SELECTED_PORT);
 				}
@@ -408,8 +408,8 @@ public class SettingService extends PreferenceActivity
 					intent.putExtra("noFaceDetection", true); // 关闭人脸识别
 
 					// 设置裁剪比例
-					intent.putExtra("aspectX", 400);
-					intent.putExtra("aspectY", 161);
+					intent.putExtra("aspectX", 5);
+					intent.putExtra("aspectY", 3);
 
 					startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.pfrsmain_image)), IMAGE_SELECTED_LAND);
 				}

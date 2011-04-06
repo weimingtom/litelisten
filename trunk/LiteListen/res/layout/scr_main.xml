@@ -16,31 +16,21 @@
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="vertical"
 			android:id="@+id/layHeader">
-			<LinearLayout android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:id="@+id/layAppTitle">
-				<TextView android:layout_height="wrap_content"
-					android:textColor="#FFFFFF" android:textSize="18dip"
-					android:singleLine="true" android:layout_width="wrap_content"
-					android:text="@string/global_app_name" android:layout_marginLeft="22dip"
-					android:id="@+id/txtAppTitle" android:layout_marginTop="-2dip"></TextView>
-			</LinearLayout>
+			<TextView android:text="@string/global_app_name" android:layout_height="wrap_content" android:layout_width="wrap_content" android:singleLine="true" android:textSize="18dip" android:layout_marginTop="-2dip" android:id="@+id/txtAppTitle" android:shadowColor="#0099FF" android:layout_marginLeft="22dip" android:textColor="#FFFFFF" android:shadowDx="0" android:shadowDy="0" android:shadowRadius="2"></TextView>
 			<TextView android:layout_height="wrap_content"
-				android:layout_marginRight="5dip" android:textColor="#FFFFFF"
-				android:ellipsize="marquee" android:id="@+id/txtTitle"
+				android:layout_marginRight="5dip" android:ellipsize="marquee" android:id="@+id/txtTitle"
 				android:marqueeRepeatLimit="marquee_forever"
 				android:layout_marginLeft="5dip" android:singleLine="true"
-				android:shadowDy="0.5" android:shadowRadius="0.5"
-				android:text="@string/global_app_name" android:shadowDx="0.5"
 				android:layout_width="fill_parent" android:textSize="18dip"
 				android:gravity="center_vertical|center_horizontal|center"
-				android:shadowColor="#000000"></TextView>
+				android:text="@string/srcmain_waiting_for_play" android:shadowColor="#0099FF" android:textColor="#FFFFFF" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="0.5"></TextView>
 			<LinearLayout android:layout_height="wrap_content"
 				android:id="@+id/layInfo" android:layout_width="fill_parent">
 				<TextView android:layout_height="wrap_content"
 					android:textColor="#FFFFFF" android:gravity="center_vertical"
 					android:textSize="18dip" android:id="@+id/txtTime" android:text="00:00 / 00:00"
 					android:layout_marginLeft="5dip" android:layout_width="110dip"
-					android:layout_marginTop="1dip"></TextView>
+					android:layout_marginTop="1dip" android:shadowDx="0" android:shadowDy="0" android:shadowRadius="2" android:shadowColor="#0099FF"></TextView>
 				<ImageButton android:layout_height="fill_parent"
 					android:layout_width="wrap_content" android:background="@drawable/btn_play_mode_repeat_all"
 					android:id="@+id/btnPlayMode" android:layout_marginTop="1dip"></ImageButton>
@@ -56,12 +46,11 @@
 
 		<AbsoluteLayout android:id="@+id/layBody"
 			android:layout_width="fill_parent" android:layout_height="427dip">
-			<ListView android:layout_height="fill_parent"
-				android:layout_width="fill_parent" android:listSelector="@layout/list_music_selector"
+			<ListView android:layout_width="fill_parent" android:listSelector="@layout/list_music_selector"
 				android:scrollbarThumbVertical="@drawable/scroll_track"
 				android:smoothScrollbar="true" android:divider="#00000000"
 				android:id="@+id/lstMusic" android:cacheColorHint="#00000000"
-				android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim"></ListView>
+				android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim" android:layout_height="fill_parent"></ListView>
 			<LinearLayout android:background="@drawable/bg_port_list_highlight"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:id="@+id/layHighlight" android:visibility="invisible">
@@ -94,26 +83,22 @@
 				android:paddingLeft="5dip" android:textColor="#FFFFFF"
 				android:visibility="gone"></TextView>
 			<LinearLayout android:orientation="horizontal"
-				android:background="@drawable/lay_search" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:id="@+id/laySearch"
-				android:layout_y="-65dip">
-				<EditText android:layout_marginTop="11dip"
-					android:textColorHint="#AAAAAA" android:background="@drawable/txt_keyword"
+				android:layout_height="wrap_content"
+				android:id="@+id/laySearch" android:layout_width="fill_parent" android:visibility="gone">
+				<EditText android:background="@drawable/txt_keyword"
 					android:hint="@string/srcmain_keyword_hint" android:lines="1"
-					android:layout_marginLeft="8dip" android:paddingLeft="8dip"
+					android:paddingLeft="8dip"
 					android:layout_height="wrap_content" android:id="@+id/txtKeyword"
 					android:singleLine="true" android:paddingRight="42dip"
-					android:layout_width="260dip"></EditText>
+					android:textColorHint="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="0" android:shadowDy="0" android:shadowRadius="1" android:layout_marginLeft="5dip" android:layout_marginTop="5dip" android:layout_width="267dip"></EditText>
 				<ImageButton android:layout_width="wrap_content"
-					android:id="@+id/btnSearch" android:layout_marginTop="11dip"
-					android:background="@layout/btn_search" android:layout_height="48dip"></ImageButton>
+					android:id="@+id/btnSearch" android:background="@layout/btn_search" android:layout_height="41dip" android:layout_marginTop="5dip"></ImageButton>
 			</LinearLayout>
 			<LinearLayout android:layout_height="wrap_content"
 				android:orientation="vertical" android:layout_width="wrap_content"
 				android:background="@drawable/bg_control_panel_port" android:id="@+id/layExtendMenu"
 				android:paddingLeft="5dip" android:paddingRight="5dip"
-				android:paddingTop="10dip" android:visibility="gone"
-				android:layout_y="267dip">
+				android:paddingTop="10dip" android:gravity="center_vertical|center_horizontal|center" android:layout_y="259dip" android:visibility="gone">
 
 
 
@@ -122,9 +107,9 @@
 
 
 
-				<GridView android:layout_height="wrap_content" android:id="@+id/grdMenu"
-					android:layout_width="fill_parent" android:listSelector="@layout/list_menu_selector"
-					android:numColumns="4" android:gravity="center_vertical|center_horizontal|center"></GridView>
+				<GridView android:id="@+id/grdMenu"
+					android:listSelector="@layout/list_menu_selector"
+					android:numColumns="4" android:gravity="center_vertical|center_horizontal|center" android:verticalSpacing="10dip" android:horizontalSpacing="10dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></GridView>
 
 
 

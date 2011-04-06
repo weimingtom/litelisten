@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">輕聽音樂播放機 2011</string>
 	<string name="global_app_name_no_version">輕聽音樂播放機</string>
-	<string name="global_app_version">0.3.4 Beta build 0402.2205</string>
+	<string name="global_app_version">0.3.5 Beta build 0406.1722</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -13,12 +13,15 @@
 	<string name="lrcservice_no_lyric_found">沒有找到相應歌詞</string>
 
 	<string name="srcmain_scanning_songs">已發現音樂：</string>
+	<string name="srcmain_waiting_for_play">選擇音樂開始播放</string>
 	<string name="srcmain_extend_menu_settings">設置</string>
 	<string name="srcmain_extend_menu_refresh_list">更新列表</string>
 	<string name="srcmain_extend_menu_exit">退出</string>
 	<string name="srcmain_extend_menu_keep_screen_on_true">螢幕長亮</string>
 	<string name="srcmain_extend_menu_keep_screen_on_false">取消長亮</string>
 	<string name="srcmain_extend_menu_search">快速搜索</string>
+	<string name="srcmain_extend_menu_order_asc">昇冪排列</string>
+	<string name="srcmain_extend_menu_order_desc">降冪排列</string>
 	<string name="srcmain_extend_menu_wait">敬請期待</string>
 	<string name="srcmain_no_id3_tag_found">沒有 ID3 標籤資訊</string>
 	<string name="srcmain_play_mode_close">順序播放</string>
@@ -40,7 +43,7 @@
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
 	<string name="pfrscat_general_title">常規選項</string>
-	<string name="pfrscat_general_language">語言 語言 Language</string>
+	<string name="pfrscat_general_language">語言</string>
 	<string name="pfrscat_general_language_title">語言設置</string>
 	<string name="pfrscat_general_language_message">您修改了程式語言，建議您立即重新開機程式。\n\n是否立即重新啟動？</string>
 	<string name="pfrscat_general_music_path">自訂音樂檔路徑</string>
@@ -86,7 +89,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n內部版本：2011.0402.2205\n\n更新內容：\n1、桌面小部件更加清爽\n2、修正了因桌面小部件更新引起的歌詞最後幾行不滾動的錯誤\n3、開啟全域設置還原功能\n4、從“説明資訊”中可以直接訪問輕聽音樂播放器官方網站\n5、三種尺寸的小部件（支持橫屏）\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		2011\n內部版本：2011.0406.1722\n\n更新內容：\n1、主介面風格更新\n2、修正了背景圖從自訂到預設無法立即生效的錯誤\n4、更漂亮的圖示\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

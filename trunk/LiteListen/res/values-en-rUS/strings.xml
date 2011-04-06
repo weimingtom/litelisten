@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.3.4 Beta build 0402.2205</string>
+	<string name="global_app_version">0.3.5 Beta build 0406.1722</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -13,12 +13,15 @@
 	<string name="lrcservice_no_lyric_found">No lyric found.</string>
 
 	<string name="srcmain_scanning_songs">Music Found: </string>
+	<string name="srcmain_waiting_for_play">Select A Music To Play</string>
 	<string name="srcmain_extend_menu_settings">Settings</string>
 	<string name="srcmain_extend_menu_refresh_list">Refresh</string>
 	<string name="srcmain_extend_menu_exit">Exit</string>
 	<string name="srcmain_extend_menu_keep_screen_on_true">ScrOn</string>
 	<string name="srcmain_extend_menu_keep_screen_on_false">ScrOff</string>
 	<string name="srcmain_extend_menu_search">Search</string>
+	<string name="srcmain_extend_menu_order_asc">ASC</string>
+	<string name="srcmain_extend_menu_order_desc">DESC</string>
 	<string name="srcmain_extend_menu_wait">Soon</string>
 	<string name="srcmain_no_id3_tag_found">No ID3 Tag Found</string>
 	<string name="srcmain_play_mode_close">Play By Order</string>
@@ -42,7 +45,7 @@
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Choose An Image-Viewer</string>
 	<string name="pfrscat_general_title">General</string>
-	<string name="pfrscat_general_language">Language 语言 語言</string>
+	<string name="pfrscat_general_language">Language</string>
 	<string name="pfrscat_general_language_title">Language Settings</string>
 	<string name="pfrscat_general_language_message">You has just changed app language, restart app
 		immediately is recommended.\n\nDo you want to restart now?</string>
@@ -98,11 +101,9 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0402.2205\n\nUpdate Contents: \n1. Background Of AppWidget Become
-		Clearly\n2. Fixed A Bug That Ends Of LRC Cannot Auto Scroll Which
-		Caused By Update Of AppWidget\n3. Restore Global Opened\n4. You Can
-		Now Visit Our Official Website From \"Help\" Menu\n5. Supported 3
-		Sized AppWidget\n\nOfficial
+		2011.0406.1722\n\nUpdate Contents: \n1. Completely UI Optimize\n2.
+		Fixed A Bug That Background Image Cannot Affect Immediately When You
+		Selected \"Default\"\n4. Beautifier Icons\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai
 	</string>

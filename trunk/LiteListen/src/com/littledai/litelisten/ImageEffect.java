@@ -229,4 +229,26 @@ public class ImageEffect
 
 		return bitmapWithReflection;
 	}
+
+	/* 重叠两张图片 */
+	public static Bitmap CombinePictures(Bitmap bmpBottom, Bitmap bmpTop, int Width, int Height, float x, float y, int Density)
+	{
+		Bitmap bmpTemp = ImageScale(bmpBottom, Width, Height);
+		bmpTemp.setDensity(Density);
+		Canvas canvas = new Canvas(bmpTemp);
+		canvas.drawBitmap(bmpTop, x, y, null);
+
+		return bmpTemp;
+	}
+
+	/* 图像缩放 */
+	public static Bitmap ImageScale(Bitmap bmpSource, int WidthTarget, int HeightTarget)
+	{
+		int WidthSource = bmpSource.getWidth();
+		int HeightSource = bmpSource.getHeight();
+		Matrix matrix = new Matrix();
+		matrix.postScale(((float) WidthTarget) / WidthSource, ((float) HeightTarget) / HeightSource);
+
+		return Bitmap.createBitmap(bmpSource, 0, 0, WidthSource, HeightSource, matrix, true);
+	}
 }

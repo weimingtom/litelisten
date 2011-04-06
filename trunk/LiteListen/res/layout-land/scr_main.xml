@@ -15,19 +15,12 @@
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/layMain" android:orientation="vertical"
 		android:background="@drawable/bg_land_default">
-		<LinearLayout android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:id="@+id/layAppTitle">
-			<TextView android:layout_height="wrap_content"
-				android:textColor="#FFFFFF" android:textSize="18dip"
-				android:singleLine="true" android:layout_width="wrap_content"
-				android:text="@string/global_app_name" android:layout_marginLeft="22dip"
-				android:id="@+id/txtAppTitle" android:layout_marginTop="-2dip"></TextView>
-		</LinearLayout>
+		<TextView android:text="@string/global_app_name" android:layout_height="wrap_content" android:layout_width="wrap_content" android:singleLine="true" android:textSize="18dip" android:layout_marginTop="-2dip" android:id="@+id/txtAppTitle" android:shadowColor="#0099FF" android:layout_marginLeft="22dip" android:textColor="#FFFFFF" android:shadowRadius="1" android:shadowDx="0" android:shadowDy="0"></TextView>
 		<TextView android:layout_height="wrap_content" android:id="@+id/txtTitle"
 			android:textSize="18dip" android:singleLine="true"
 			android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"
 			android:gravity="center_vertical|center_horizontal|center"
-			android:text="@string/global_app_name" android:textColor="#FFFFFF" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:shadowColor="#000000" android:shadowRadius="1" android:shadowDy="1" android:shadowDx="1" android:layout_marginTop="-3dip"></TextView>
+			android:textColor="#FFFFFF" android:layout_width="fill_parent" android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:shadowColor="#000000" android:layout_marginTop="-3dip" android:text="@string/srcmain_waiting_for_play" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="0.5"></TextView>
 
 
 		<AbsoluteLayout android:id="@+id/layBody"
@@ -75,19 +68,15 @@
 				android:layout_height="wrap_content" android:layout_width="fill_parent"
 				android:layout_y="80dip"></TextView>
 			<LinearLayout android:orientation="horizontal"
-				android:background="@drawable/lay_search" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:id="@+id/laySearch"
-				android:layout_y="-65dip">
-				<EditText android:layout_marginTop="11dip"
-					android:textColorHint="#AAAAAA" android:background="@drawable/txt_keyword"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:id="@+id/laySearch" android:visibility="gone">
+				<EditText android:background="@drawable/txt_keyword"
 					android:hint="@string/srcmain_keyword_hint" android:lines="1"
-					android:layout_marginLeft="8dip" android:paddingLeft="8dip"
+					android:paddingLeft="8dip"
 					android:layout_height="wrap_content" android:id="@+id/txtKeyword"
-					android:singleLine="true" android:paddingRight="42dip"
-					android:layout_width="470dip"></EditText>
+					android:singleLine="true" android:layout_marginLeft="5dip" android:layout_marginTop="5dip" android:textColorHint="#FFFFFF" android:layout_width="482dip" android:shadowColor="#0099FF" android:shadowDx="0" android:shadowDy="0" android:shadowRadius="1" android:paddingRight="42dip"></EditText>
 				<ImageButton android:layout_width="wrap_content"
-					android:id="@+id/btnSearch" android:layout_marginTop="11dip"
-					android:background="@layout/btn_search" android:layout_height="48dip"></ImageButton>
+					android:id="@+id/btnSearch" android:background="@layout/btn_search" android:layout_marginTop="5dip" android:layout_height="41dip"></ImageButton>
 			</LinearLayout>
 			<TextView android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:id="@+id/txtScanHint"
@@ -97,11 +86,10 @@
 			<LinearLayout android:layout_height="wrap_content"
 				android:orientation="vertical" android:layout_width="wrap_content"
 				android:background="@drawable/bg_control_panel_land" android:id="@+id/layExtendMenu"
-				android:layout_x="326dip" android:paddingLeft="5dip" android:paddingRight="5dip"
-				android:paddingTop="5dip" android:visibility="gone">
-				<GridView android:layout_height="wrap_content" android:id="@+id/grdMenu"
-					android:numColumns="3" android:layout_width="196dip"
-					android:listSelector="@layout/list_menu_selector" android:gravity="center_vertical|center_horizontal|center"></GridView>
+				android:paddingLeft="5dip" android:paddingRight="5dip"
+				android:paddingTop="5dip" android:visibility="gone" android:gravity="center_vertical|center_horizontal|center" android:layout_x="300dip">
+				<GridView android:id="@+id/grdMenu"
+					android:numColumns="3" android:listSelector="@layout/list_menu_selector" android:gravity="center_vertical|center_horizontal|center" android:verticalSpacing="10dip" android:horizontalSpacing="10dip" android:layout_height="wrap_content" android:layout_width="220dip"></GridView>
 
 
 
