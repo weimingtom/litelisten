@@ -1482,6 +1482,10 @@ public class srcMain extends Activity
 			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			{
+				if (layParsMusic.y == 45)
+					layParsMusic.height = 195;
+				else
+					layParsMusic.height = LayoutParams.FILL_PARENT;
 				layParsMusic.width = LayoutParams.FILL_PARENT;
 				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 				layParsSearch.width = LayoutParams.FILL_PARENT;
