@@ -26,6 +26,7 @@ import android.view.KeyEvent;
 public class ControlsReceiver extends BroadcastReceiver
 {
 	private srcMain main = null;
+	private boolean IsFirstActionHeadsetPlug = true; // 是否第一次收到ACTION_HEADSET_PLUG消息
 
 	public ControlsReceiver(srcMain main)
 	{
@@ -36,7 +37,12 @@ public class ControlsReceiver extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
-			main.getMs().Pause();
+		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
+			if (!IsFirstActionHeadsetPlug)
+				main.getMs().Pause();
+			else
+				IsFirstActionHeadsetPlug = false;
+		}
 		else
 		{
 			abortBroadcast();

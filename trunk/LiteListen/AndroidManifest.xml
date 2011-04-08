@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.littledai.litelisten" android:versionCode="2011" android:versionName="@string/global_app_version">
-	<application android:icon="@drawable/icon" android:label="@string/global_app_name_no_version"
-		android:debuggable="true">
+	package="com.littledai.litelisten" android:versionCode="2011"
+	android:versionName="@string/global_app_version">
+	<application android:icon="@drawable/icon"
+		android:label="@string/global_app_name_no_version" android:debuggable="true">
 		<activity android:name=".srcMain"
-			android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name"
+			android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name_no_version"
 			android:configChanges="orientation|keyboardHidden"
 			android:launchMode="singleInstance">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+
+			<!-- 设置文件关联 -->
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="audio/x-mpeg" />
 			</intent-filter>
 		</activity>
 
@@ -60,5 +68,5 @@
 		</receiver>
 	</application>
 
-	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH" />
 </manifest> 

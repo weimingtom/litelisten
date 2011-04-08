@@ -40,6 +40,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
@@ -216,7 +217,7 @@ public class srcMain extends Activity
 					hs.getHdlShowMain().sendEmptyMessage(0);
 					IsSplashThreadAlive = false;
 				}
-				catch (InterruptedException e)
+				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -298,11 +299,29 @@ public class srcMain extends Activity
 		super.onResume();
 
 		SetLanguage();
-		SetMusicListByDB();
 		SetMenuList();
 		SetPlayMode();
 		SetFonts();
 		SetBackground();
+
+		// 设置外部调用
+		Intent intent = getIntent();
+		if (intent.getAction().equals(Intent.ACTION_VIEW))
+		{
+			laySplash.setVisibility(View.GONE); // 不显示启动画面
+			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
+			strMusicFilePath = Uri.parse(strMusicFilePath).getPath(); // 解析地址
+			lstSong.clear();
+			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
+			mapInfo.put("MusicPath", strMusicFilePath);
+			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
+			lstSong.add(mapInfo);
+			adapter = new MusicAdapter(srcMain.this, lstSong);
+			lstMusic.setAdapter(adapter);
+			ms.Play(0);
+		}
+		else
+			SetMusicListByDB();
 
 		new Thread()
 		{
@@ -312,7 +331,7 @@ public class srcMain extends Activity
 				{
 					sleep(100);
 				}
-				catch (InterruptedException e)
+				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -335,10 +354,10 @@ public class srcMain extends Activity
 					lstSong.clear();
 					hs.getHdlAdapterClearHandler().sendEmptyMessage(0);
 
-					MusicFile lf = new MusicFile();
-					lf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
+					MusicFile mf = new MusicFile();
+					mf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
 							"chkIngnoreDirectory", true));
-					List<String> lstFile = lf.getLstFile();
+					List<String> lstFile = mf.getLstFile();
 
 					if (lstFile.size() > 0)
 					{
