@@ -306,7 +306,7 @@ public class srcMain extends Activity
 
 		// 设置外部调用
 		Intent intent = getIntent();
-		if (intent.getAction().equals(Intent.ACTION_VIEW))
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
 		{
 			laySplash.setVisibility(View.GONE); // 不显示启动画面
 			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
@@ -603,9 +603,9 @@ public class srcMain extends Activity
 		txtLRC.setTextSize(Float.parseFloat(sp.getString("txtLRCFontSize", "18")));
 		txtLRC.setTextColor(Color.parseColor(sp.getString("btnLRCNormalFontColor", "#FFFFFF")));
 		if (sp.getBoolean("chkLRCFontShadow", true))
-			txtLRC.setShadowLayer(2, 1, 1, Color.parseColor(sp.getString("btnLRCFontShadowColor", "#0099FF")));
+			txtLRC.setShadowLayer(1, 1, 1, Color.parseColor(sp.getString("btnLRCFontShadowColor", "#0099FF")));
 		else
-			txtLRC.setShadowLayer(2, 1, 1, Color.TRANSPARENT);
+			txtLRC.setShadowLayer(1, 1, 1, Color.TRANSPARENT);
 	}
 
 	/* 获取控件实体 */
