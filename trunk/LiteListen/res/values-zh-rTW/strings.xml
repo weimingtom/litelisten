@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">輕聽音樂播放機 2011</string>
 	<string name="global_app_name_no_version">輕聽音樂播放機</string>
-	<string name="global_app_version">0.3.6 Beta build 0406.2240</string>
+	<string name="global_app_version">0.3.7 Beta build 0416.1723</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -88,7 +88,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n內部版本：2011.0406.2240\n\n更新內容：\n1、主介面基本完成更新\n2、修正了上一次更新中橫屏且打開搜索欄時歌曲清單顯示不完整的問題\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		2011\n內部版本：2011.0416.1723\n\n更新內容：\n1、修正上次更新後橫屏背景圖更改無效的問題\n2、去掉了因圖像模糊處理後四周殘留的泛白痕跡\n\n下期預告：\n暫時停止新功能開發，為期兩個月，將進行代碼清理和整體重新設計\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

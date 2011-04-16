@@ -168,19 +168,6 @@ public class ImageEffect
 		return bmpReturn;
 	}
 
-	/* Õº∆¨Àı∑≈ */
-	public static Bitmap SetZoom(Bitmap bmpSource, int NewWidth, int NewHeight)
-	{
-		int width = bmpSource.getWidth();
-		int height = bmpSource.getHeight();
-		Matrix matrix = new Matrix();
-		float scaleWidth = ((float) NewWidth / width);
-		float scaleHeight = ((float) NewHeight / height);
-		matrix.postScale(scaleWidth, scaleHeight);
-		Bitmap newbmp = Bitmap.createBitmap(bmpSource, 0, 0, width, height, matrix, true);
-		return newbmp;
-	}
-
 	/* ‘≤Ω«Õº∆¨ */
 	public static Bitmap SetRound(Bitmap bmpSource, float Round)
 	{
@@ -233,8 +220,8 @@ public class ImageEffect
 	/* ÷ÿµ˛¡Ω’≈Õº∆¨ */
 	public static Bitmap CombinePictures(Bitmap bmpBottom, Bitmap bmpTop, int Width, int Height, float x, float y, int Density)
 	{
+		bmpBottom.setDensity(Density);
 		Bitmap bmpTemp = ImageScale(bmpBottom, Width, Height);
-		bmpTemp.setDensity(Density);
 		Canvas canvas = new Canvas(bmpTemp);
 		canvas.drawBitmap(bmpTop, x, y, null);
 
@@ -250,5 +237,15 @@ public class ImageEffect
 		matrix.postScale(((float) WidthTarget) / WidthSource, ((float) HeightTarget) / HeightSource);
 
 		return Bitmap.createBitmap(bmpSource, 0, 0, WidthSource, HeightSource, matrix, true);
+	}
+
+	/* ÕºœÒ≤√ºÙ */
+	public static Bitmap ImageCut(Bitmap bmpSource, int PaddingX1, int PaddingY1, int PaddingX2, int PaddingY2)
+	{
+		Bitmap bmpTemp = Bitmap.createBitmap(bmpSource.getWidth() - PaddingX1 - PaddingX2, bmpSource.getHeight() - PaddingY1 - PaddingY2, Config.ARGB_8888);
+		Canvas canvas = new Canvas(bmpTemp);
+		canvas.drawBitmap(bmpSource, -PaddingX1, -PaddingY1, null);
+
+		return bmpTemp;
 	}
 }

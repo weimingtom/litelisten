@@ -576,7 +576,7 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_land.png");
-				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_land_default_framework), 800, 400, 0, 0, 240);
+				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_land_default_framework), 800, 480, 0, 0, 240);
 				layActivity.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
 			else
@@ -589,7 +589,7 @@ public class srcMain extends Activity
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
 				bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_port.png");
-				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_port_default_framework), 400, 800, 0, 0, 240);
+				bmpBackground = ImageEffect.CombinePictures(bmpBackground, ImageEffect.GetBitmap(getResources(), R.drawable.bg_port_default_framework), 480, 800, 0, 0, 240);
 				layActivity.setBackgroundDrawable(ImageEffect.GetDrawable(bmpBackground));
 			}
 			else
@@ -1474,9 +1474,9 @@ public class srcMain extends Activity
 			else
 			{
 				if (layParsMusic.y == 45)
-					layParsMusic.height = 213;
+					layParsMusic.height = 217;
 				else
-					layParsMusic.height = 258;
+					layParsMusic.height = 262;
 			}
 			lstMusic.setLayoutParams(layParsMusic);
 		}
@@ -1583,9 +1583,9 @@ public class srcMain extends Activity
 			else
 			{
 				if (layParsMusic.y == 45)
-					layParsMusic.height = 213;
+					layParsMusic.height = 217;
 				else
-					layParsMusic.height = 258;
+					layParsMusic.height = 262;
 			}
 			lstMusic.setLayoutParams(layParsMusic);
 		}

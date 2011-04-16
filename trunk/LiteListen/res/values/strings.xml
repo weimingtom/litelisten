@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.3.6 Beta build 0406.2240</string>
+	<string name="global_app_version">0.3.7 Beta build 0416.1723</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -88,7 +88,7 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n内部版本：2011.0406.2240\n\n更新内容：\n1、主界面基本完成更新\n2、修正了上一次更新中横屏且打开搜索栏时歌曲列表显示不完整的问题\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
+		2011\n内部版本：2011.0416.1723\n\n更新内容：\n1、修正上次更新后横屏背景图更改无效的问题\n2、去掉了因图像模糊处理后四周残留的泛白痕迹\n\n下期预告：\n暂时停止新功能开发，为期两个月，将进行代码清理和整体重新设计\n\n官方网站：\nhttp://litelisten.littledai.com/\n\n开发人员：LittleDai
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
