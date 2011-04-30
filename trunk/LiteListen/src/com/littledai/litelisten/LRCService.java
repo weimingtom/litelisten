@@ -37,9 +37,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsoluteLayout;
+import android.widget.RelativeLayout;
 
-@SuppressWarnings("deprecation")
 public class LRCService
 {
 	private String strLRCPath = ""; // 歌词路径
@@ -439,8 +438,8 @@ public class LRCService
 		this.strLRCPath = strLRCPath;
 
 		// 还原txtLRC布局参数
-		AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
-		layLRC.y = 0;
+		RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+		layLRC.topMargin = 180;
 		layLRC.height = LayoutParams.WRAP_CONTENT;
 		main.getTxtLRC().setLayoutParams(layLRC);
 		main.getTxtLRC().setText(main.getResources().getString(R.string.lrcservice_loading_lrc));

@@ -26,9 +26,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AbsoluteLayout;
+import android.widget.RelativeLayout;
 
-@SuppressWarnings("deprecation")
 public class HandlerService
 {
 	private srcMain main = null;
@@ -45,36 +44,6 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			main.SetLanguage();
-		}
-	};
-
-	/* 显示扫描时提示信息的Handler */
-	private Handler hdlShowScanHint = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			main.getTxtScanHint().setVisibility(View.VISIBLE); // 显示提示标签
-		}
-	};
-
-	/* 更新扫描时提示信息的Handler */
-	private Handler hdlUpdateScanHint = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			main.getTxtScanHint().setText(main.getResources().getString(R.string.srcmain_scanning_songs) + String.valueOf(msg.what));
-		}
-	};
-
-	/* 隐藏扫描时提示信息的Handler */
-	private Handler hdlHideScanHint = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			main.getTxtScanHint().setVisibility(View.GONE); // 隐藏提示标签
 		}
 	};
 
@@ -139,12 +108,13 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getLs().isCanRefreshLRC())
+			if (main.getLs().isCanRefreshLRC() && main.getCurrentShown() == 1)
 			{// 允许LRC滚动
-				AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
-				int OldY = layLRC.y; // 记录当前位置
-				layLRC.y = msg.what;
+				RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+				int OldY = layLRC.topMargin; // 记录当前位置
+				layLRC.topMargin = msg.what;
 				layLRC.height = main.getTxtLRC().getLineCount() * main.getTxtLRC().getLineHeight();
+
 				main.getTxtLRC().setLayoutParams(layLRC);
 				main.getTxtLRC().setLines(main.getTxtLRC().getLineCount());
 				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj);
@@ -161,7 +131,7 @@ public class HandlerService
 				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 					OffsetY = 80; // 横屏偏移80dip
 
-				if (LastPos != layLRC.y && layLRC.y != OffsetY)
+				if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
 				{
 					if (main.getSp().getBoolean("chkUseAnimation", true))
 					{
@@ -170,10 +140,10 @@ public class HandlerService
 						main.getTxtLRC().setAnimation(anim);
 					}
 
-					LastPos = layLRC.y;
+					LastPos = layLRC.topMargin;
 				}
 			}
-			else
+			else if (main.getCurrentShown() == 0)
 				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
 
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
@@ -190,11 +160,11 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+			RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-				layLRC.y = 80;
+				layLRC.topMargin = 80;
 			else
-				layLRC.y = 200;
+				layLRC.topMargin = 200;
 			main.getTxtLRC().setLayoutParams(layLRC);
 			main.getTxtLRC().setText(main.getLs().getStrLRC());
 		}
@@ -297,36 +267,6 @@ public class HandlerService
 	public void setMain(srcMain main)
 	{
 		this.main = main;
-	}
-
-	public Handler getHdlShowScanHint()
-	{
-		return hdlShowScanHint;
-	}
-
-	public void setHdlShowScanHint(Handler hdlShowScanHint)
-	{
-		this.hdlShowScanHint = hdlShowScanHint;
-	}
-
-	public Handler getHdlUpdateScanHint()
-	{
-		return hdlUpdateScanHint;
-	}
-
-	public void setHdlUpdateScanHint(Handler hdlUpdateScanHint)
-	{
-		this.hdlUpdateScanHint = hdlUpdateScanHint;
-	}
-
-	public Handler getHdlHideScanHint()
-	{
-		return hdlHideScanHint;
-	}
-
-	public void setHdlHideScanHint(Handler hdlHideScanHint)
-	{
-		this.hdlHideScanHint = hdlHideScanHint;
 	}
 
 	public Handler getHdlAdapterClearHandler()

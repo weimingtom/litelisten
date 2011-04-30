@@ -44,7 +44,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,7 +56,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AbsoluteLayout;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -67,12 +66,10 @@ import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AbsoluteLayout.LayoutParams;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-@SuppressWarnings("deprecation")
 public class srcMain extends Activity
 {
 	private static final int ANIMATION_TIME = 500; // 动画时长
@@ -81,7 +78,7 @@ public class srcMain extends Activity
 	private List<Map<String, Object>> lstSong = new ArrayList<Map<String, Object>>(); // 播放列表
 	private int ScreenOrantation = 0;// 屏幕方向
 	private int CurrentShown = 0; // 0－播放列表；1－歌词信息
-	private int SelectedItemIndex = -1; // 选中的歌曲序号
+	private int SelectedItemIndex = 0; // 选中的歌曲序号
 	private boolean IsTouchToSeek = false; // 判断当前是否由用户拖动滑块
 	private boolean IsMusicRefreshing = false;
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
@@ -95,22 +92,17 @@ public class srcMain extends Activity
 	private ImageButton btnPause;
 	private ImageButton btnPlayMode;
 	private ImageButton btnLRC;
-	private ImageButton btnHighlightPlay;
 	private ImageButton btnSearch;
 	private TextView txtTitle;
 	private TextView txtTime;
-	private TextView txtScanHint;
 	private TextView txtLRC;
 	private TextView txtKeyword;
-	private LinearLayout layExtendMenu;
-	private LinearLayout layActivity;
+	private RelativeLayout layActivity;
 	private LinearLayout layControlPanel;
 	private LinearLayout laySearch;
-	private LinearLayout layMusicSeek;
-	private LinearLayout layHighlight;
-	private LinearLayout layMain;
+	private RelativeLayout layMain;
 	private LinearLayout laySplash;
-	private AbsoluteLayout layBody;
+	private RelativeLayout layBody;
 	private ListView lstMusic;
 	private GridView grdMenu;
 	private SeekBar skbMusic;
@@ -225,73 +217,75 @@ public class srcMain extends Activity
 		}.start();
 	}
 
-	/* 横竖屏切换不执行onCreate() */
-	public void onConfigurationChanged(Configuration newConfig)
-	{
-		super.onConfigurationChanged(newConfig);
-		setContentView(R.layout.scr_main);
-
-		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-		ScreenOrantation = display.getOrientation();
-		dlg.ChangeLayout();
-
-		FindViews();
-		ListernerBinding();
-		onResume();
-
-		if (!IsSplashThreadAlive)
-			laySplash.setVisibility(View.GONE);
-
-		if (IsMusicRefreshing)
-			txtScanHint.setVisibility(View.VISIBLE); // 显示提示标签
-
-		txtTitle.setText(ms.getStrShownTitle());
-
-		// 设置播放/暂停按钮
-		if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
-		{
-			btnPlay.setVisibility(View.GONE);
-			btnPause.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			btnPlay.setVisibility(View.VISIBLE);
-			btnPause.setVisibility(View.GONE);
-		}
-
-		// 保持转换前的状态
-		AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-		AbsoluteLayout.LayoutParams layMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams(); // 获取lstMusic尺寸参数
-
-		if (CurrentShown == 1 && (ScreenOrantation == 1 || ScreenOrantation == 3))
-		{// 横屏歌词
-			layLRC.x = 0;
-			layMusic.x = -552;
-			txtLRC.setLayoutParams(layLRC);
-			lstMusic.setLayoutParams(layMusic);
-		}
-		else if (CurrentShown == 1 && ScreenOrantation == 0)
-		{// 竖屏歌词
-			layLRC.x = 0;
-			layMusic.x = -320;
-			txtLRC.setLayoutParams(layLRC);
-			lstMusic.setLayoutParams(layMusic);
-		}
-		if (CurrentShown == 0 && (ScreenOrantation == 1 || ScreenOrantation == 3))
-		{// 横屏列表
-			layMusic.x = 0;
-			layLRC.x = 552;
-			lstMusic.setLayoutParams(layMusic);
-			txtLRC.setLayoutParams(layLRC);
-		}
-		else if (CurrentShown == 0 && ScreenOrantation == 0)
-		{// 竖屏列表
-			layMusic.x = 0;
-			layLRC.x = 320;
-			lstMusic.setLayoutParams(layMusic);
-			txtLRC.setLayoutParams(layLRC);
-		}
-	}
+	// /* 横竖屏切换不执行onCreate() */
+	// public void onConfigurationChanged(Configuration newConfig)
+	// {
+	// super.onConfigurationChanged(newConfig);
+	// setContentView(R.layout.scr_main);
+	//
+	// Display display = ((WindowManager)
+	// getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+	// ScreenOrantation = display.getOrientation();
+	// dlg.ChangeLayout();
+	//
+	// FindViews();
+	// ListernerBinding();
+	// onResume();
+	//
+	// if (!IsSplashThreadAlive)
+	// laySplash.setVisibility(View.GONE);
+	//
+	// txtTitle.setText(ms.getStrShownTitle());
+	//
+	// // 设置播放/暂停按钮
+	// if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
+	// {
+	// btnPlay.setVisibility(View.GONE);
+	// btnPause.setVisibility(View.VISIBLE);
+	// }
+	// else
+	// {
+	// btnPlay.setVisibility(View.VISIBLE);
+	// btnPause.setVisibility(View.GONE);
+	// }
+	//
+	// // 保持转换前的状态
+	// RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams)
+	// txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+	// RelativeLayout.LayoutParams layMusic = (RelativeLayout.LayoutParams)
+	// lstMusic.getLayoutParams(); // 获取lstMusic尺寸参数
+	//
+	// if (CurrentShown == 1 && (ScreenOrantation == 1 || ScreenOrantation ==
+	// 3))
+	// {// 横屏歌词
+	// layLRC.x = 0;
+	// layMusic.x = -552;
+	// txtLRC.setLayoutParams(layLRC);
+	// lstMusic.setLayoutParams(layMusic);
+	// }
+	// else if (CurrentShown == 1 && ScreenOrantation == 0)
+	// {// 竖屏歌词
+	// layLRC.x = 0;
+	// layMusic.x = -320;
+	// txtLRC.setLayoutParams(layLRC);
+	// lstMusic.setLayoutParams(layMusic);
+	// }
+	// if (CurrentShown == 0 && (ScreenOrantation == 1 || ScreenOrantation ==
+	// 3))
+	// {// 横屏列表
+	// layMusic.x = 0;
+	// layLRC.x = 552;
+	// lstMusic.setLayoutParams(layMusic);
+	// txtLRC.setLayoutParams(layLRC);
+	// }
+	// else if (CurrentShown == 0 && ScreenOrantation == 0)
+	// {// 竖屏列表
+	// layMusic.x = 0;
+	// layLRC.x = 320;
+	// lstMusic.setLayoutParams(layMusic);
+	// txtLRC.setLayoutParams(layLRC);
+	// }
+	// }
 
 	@Override
 	public void onResume()
@@ -349,7 +343,6 @@ public class srcMain extends Activity
 			{
 				try
 				{
-					hs.getHdlShowScanHint().sendEmptyMessage(0);
 					db.DBDelete("music_info", "");
 					lstSong.clear();
 					hs.getHdlAdapterClearHandler().sendEmptyMessage(0);
@@ -363,8 +356,6 @@ public class srcMain extends Activity
 					{
 						for (int i = 0; i < lstFile.size(); i++)
 						{
-							hs.getHdlUpdateScanHint().sendEmptyMessage(i);
-
 							Map<String, Object> mapInfo = GetMusicID3((String) lstFile.get(i), (String) lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3"))); // 获取读到的MP3属性
 							mapInfo.put("MusicPath", lstFile.get(i));
 							mapInfo.put("LRCPath", lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3")) + ".lrc");
@@ -419,17 +410,13 @@ public class srcMain extends Activity
 
 						SetMusicListByDB();
 					}
-
-					hs.getHdlHideScanHint().sendEmptyMessage(0);
-					IsMusicRefreshing = false;
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
-
-					hs.getHdlHideScanHint().sendEmptyMessage(0);
-					IsMusicRefreshing = false;
 				}
+
+				IsMusicRefreshing = false;
 			}
 		}.start();
 
@@ -616,23 +603,18 @@ public class srcMain extends Activity
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
-		btnHighlightPlay = (ImageButton) findViewById(R.id.btnHighlightPlay);
 		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
 		txtTime = (TextView) findViewById(R.id.txtTime);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
 		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
-		txtScanHint = (TextView) findViewById(R.id.txtScanHint);
-		layExtendMenu = (LinearLayout) findViewById(R.id.layExtendMenu);
-		layActivity = (LinearLayout) findViewById(R.id.layActivity);
+		layActivity = (RelativeLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
 		laySearch = (LinearLayout) findViewById(R.id.laySearch);
-		layMusicSeek = (LinearLayout) findViewById(R.id.layMusicSeek);
-		layHighlight = (LinearLayout) findViewById(R.id.layHighlight);
-		layMain = (LinearLayout) findViewById(R.id.layMain);
-		layBody = (AbsoluteLayout) findViewById(R.id.layBody);
+		layMain = (RelativeLayout) findViewById(R.id.layMain);
+		layBody = (RelativeLayout) findViewById(R.id.layBody);
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		grdMenu = (GridView) findViewById(R.id.grdMenu);
@@ -657,12 +639,12 @@ public class srcMain extends Activity
 		if (sp.getBoolean("KeepScreenOn", false))
 		{
 			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_false));
-			lstMusic.setKeepScreenOn(true);
+			layActivity.setKeepScreenOn(true);
 		}
 		else
 		{
 			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true));
-			lstMusic.setKeepScreenOn(false);
+			layActivity.setKeepScreenOn(false);
 		}
 		lstMenuItem.add(map);
 
@@ -795,25 +777,17 @@ public class srcMain extends Activity
 	public void SearchBoxSwitcher()
 	{
 		Animation anim = null; // 动画效果
-		AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
-		AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
 
 		if (laySearch.getVisibility() == View.GONE)
 		{// 调用显示
-			layParsMusic.y = 45;
 			laySearch.setVisibility(View.VISIBLE);
 			anim = new AlphaAnimation(0, 1);
 		}
 		else
 		{// 调用隐藏
-			layParsMusic.y = 0;
 			laySearch.setVisibility(View.GONE);
 			anim = new AlphaAnimation(1, 0);
 		}
-
-		layParsSearch.width = LayoutParams.FILL_PARENT;
-		laySearch.setLayoutParams(layParsSearch);
-		lstMusic.setLayoutParams(layParsMusic);
 
 		anim.setDuration(ANIMATION_TIME);
 		if (sp.getBoolean("chkUseAnimation", true))
@@ -825,42 +799,31 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 0)
 		{
-			AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-			AbsoluteLayout.LayoutParams layMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams(); // 获取lstMusic尺寸参数
-			AbsoluteLayout.LayoutParams layMusicHighlight = (AbsoluteLayout.LayoutParams) layHighlight.getLayoutParams(); // 获取layHighlight尺寸参数
-
-			Animation anim = null;
+			Animation animShow = null;
+			Animation animHide = null;
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				layMusic.x = -552;
-				layMusicHighlight.x = -552;
-				anim = new TranslateAnimation(552, 0, 0, 0);
-			}
+				animShow = new TranslateAnimation(552, 0, 0, 0);
 			else
 			{
-				layMusic.x = -320;
-				layMusicHighlight.x = -320;
-				anim = new TranslateAnimation(320, 0, 0, 0);
+				animShow = new TranslateAnimation(320, 0, 0, 0);
+				animHide = new TranslateAnimation(0, -320, 0, 0);
 			}
 
-			layLRC.x = 0;
+			txtLRC.setVisibility(View.VISIBLE);
+			lstMusic.setVisibility(View.GONE);
 			CurrentShown = 1;
-
-			txtLRC.setLayoutParams(layLRC);
-			lstMusic.setLayoutParams(layMusic);
-			layHighlight.setLayoutParams(layMusicHighlight);
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				anim.setDuration(ANIMATION_TIME);
-				anim.setInterpolator(new DecelerateInterpolator());
+				animShow.setDuration(ANIMATION_TIME);
+				animShow.setInterpolator(new DecelerateInterpolator());
 
-				txtLRC.startAnimation(anim);
-				lstMusic.startAnimation(anim);
+				animHide.setDuration(ANIMATION_TIME);
+				animHide.setInterpolator(new DecelerateInterpolator());
 
-				if (layHighlight.getVisibility() == View.VISIBLE)
-					layHighlight.startAnimation(anim);
+				txtLRC.startAnimation(animShow);
+				lstMusic.startAnimation(animHide);
 			}
 		}
 	}
@@ -869,40 +832,31 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 1)
 		{
-			AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-			AbsoluteLayout.LayoutParams layMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams(); // 获取lstMusic尺寸参数
-			AbsoluteLayout.LayoutParams layMusicHighlight = (AbsoluteLayout.LayoutParams) layHighlight.getLayoutParams(); // 获取layHighlight尺寸参数
-
-			Animation anim = null;
+			Animation animShow = null;
+			Animation animHide = null;
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				layLRC.x = 552;
-				anim = new TranslateAnimation(-552, 0, 0, 0);
-			}
+				animShow = new TranslateAnimation(-552, 0, 0, 0);
 			else
 			{
-				layLRC.x = 320;
-				anim = new TranslateAnimation(-320, 0, 0, 0);
+				animShow = new TranslateAnimation(-320, 0, 0, 0);
+				animHide = new TranslateAnimation(0, 320, 0, 0);
 			}
 
-			layMusic.x = 0;
-			layMusicHighlight.x = 0;
+			lstMusic.setVisibility(View.VISIBLE);
+			txtLRC.setVisibility(View.GONE);
 			CurrentShown = 0;
-
-			lstMusic.setLayoutParams(layMusic);
-			txtLRC.setLayoutParams(layLRC);
-			layHighlight.setLayoutParams(layMusicHighlight);
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				anim.setDuration(ANIMATION_TIME);
-				anim.setInterpolator(new DecelerateInterpolator());
+				animShow.setDuration(ANIMATION_TIME);
+				animShow.setInterpolator(new DecelerateInterpolator());
 
-				txtLRC.startAnimation(anim);
-				lstMusic.startAnimation(anim);
-				if (layHighlight.getVisibility() == View.VISIBLE)
-					layHighlight.startAnimation(anim);
+				animHide.setDuration(ANIMATION_TIME);
+				animHide.setInterpolator(new DecelerateInterpolator());
+
+				txtLRC.startAnimation(animHide);
+				lstMusic.startAnimation(animShow);
 			}
 		}
 	}
@@ -910,9 +864,9 @@ public class srcMain extends Activity
 	/* 进度条切换控制条 */
 	public void Progress2ControlSwitcher()
 	{
-		if (layMusicSeek.getVisibility() == View.VISIBLE)
+		if (skbMusic.getVisibility() == View.VISIBLE)
 		{
-			layMusicSeek.setVisibility(View.GONE);
+			skbMusic.setVisibility(View.GONE);
 			layControlPanel.setVisibility(View.VISIBLE);
 
 			if (sp.getBoolean("chkUseAnimation", true))
@@ -927,7 +881,7 @@ public class srcMain extends Activity
 				animShow.setDuration(ANIMATION_TIME);
 				animShow.setInterpolator(new DecelerateInterpolator());
 
-				layMusicSeek.startAnimation(animHide);
+				skbMusic.startAnimation(animHide);
 				layControlPanel.startAnimation(animShow);
 			}
 		}
@@ -939,7 +893,7 @@ public class srcMain extends Activity
 		if (layControlPanel.getVisibility() == View.VISIBLE)
 		{
 			layControlPanel.setVisibility(View.GONE);
-			layMusicSeek.setVisibility(View.VISIBLE);
+			skbMusic.setVisibility(View.VISIBLE);
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
@@ -954,7 +908,7 @@ public class srcMain extends Activity
 				animShow.setInterpolator(new DecelerateInterpolator());
 
 				layControlPanel.startAnimation(animHide);
-				layMusicSeek.startAnimation(animShow);
+				skbMusic.startAnimation(animShow);
 			}
 		}
 	}
@@ -975,22 +929,22 @@ public class srcMain extends Activity
 		if (layControlPanel.getVisibility() == View.VISIBLE)
 		{
 			layControlPanel.setVisibility(View.GONE);
-			layMusicSeek.setVisibility(View.VISIBLE);
+			skbMusic.setVisibility(View.VISIBLE);
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
 				layControlPanel.startAnimation(animHide);
-				layMusicSeek.startAnimation(animShow);
+				skbMusic.startAnimation(animShow);
 			}
 		}
 		else
 		{
-			layMusicSeek.setVisibility(View.GONE);
+			skbMusic.setVisibility(View.GONE);
 			layControlPanel.setVisibility(View.VISIBLE);
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				layMusicSeek.startAnimation(animHide);
+				skbMusic.startAnimation(animHide);
 				layControlPanel.startAnimation(animShow);
 			}
 		}
@@ -1013,7 +967,10 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				ms.Play(ms.getCurrIndex());
+				if (sp.getBoolean("btnPlayForContinue", true))
+					ms.Play(SelectedItemIndex);
+				else
+					ms.Play(ms.getCurrIndex());
 			}
 		});
 
@@ -1087,15 +1044,6 @@ public class srcMain extends Activity
 			}
 		});
 
-		/* 高亮框上的快捷播放按钮 */
-		btnHighlightPlay.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				ms.Play(SelectedItemIndex);
-			}
-		});
-
 		/* 搜索按钮 */
 		btnSearch.setOnClickListener(new OnClickListener()
 		{
@@ -1118,40 +1066,6 @@ public class srcMain extends Activity
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				SelectedItemIndex = arg2; // 更新当前选中的序号
-
-				int Pos[] = { -1, -1 };
-				arg1.getLocationOnScreen(Pos);
-
-				AbsoluteLayout.LayoutParams layMusicHighlight = (AbsoluteLayout.LayoutParams) layHighlight.getLayoutParams(); // 获取layHighlight尺寸参数
-				int OldY = layMusicHighlight.y;
-
-				// 记录歌曲列表滚动高度（需要减去偏移量，且横竖屏不同）
-
-				Editor edt = sp.edit();
-				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() + 3));
-				else
-					edt.putFloat("LastMusicListY", (float) (Pos[1] - layHighlight.getHeight() * 1.5 + 4));
-
-				if (sp.getFloat("LastMusicListY", 0) < 0)
-				{
-					edt.putFloat("LastMusicListY", 0);
-					lstMusic.setSelectionFromTop(arg2, 0); // 回到顶端
-				}
-				edt.commit();
-
-				layMusicHighlight.y = (int) sp.getFloat("LastMusicListY", 0);
-				layHighlight.setLayoutParams(layMusicHighlight);
-
-				if (sp.getBoolean("chkUseAnimation", true) && layHighlight.getVisibility() == View.VISIBLE) // 只有显示时才播放动画
-				{
-					Animation anim = new TranslateAnimation(0, 0, -(layMusicHighlight.y - OldY), 0);
-					anim.setDuration(200);
-					anim.setInterpolator(new DecelerateInterpolator());
-					layHighlight.startAnimation(anim);
-				}
-
-				layHighlight.setVisibility(View.VISIBLE);
 			}
 		});
 
@@ -1274,8 +1188,8 @@ public class srcMain extends Activity
 						DownPosY[i] = event.getY(i);
 					}
 
-					AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-					FingerDownPosY = layLRC.y;
+					RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+					FingerDownPosY = layLRC.topMargin;
 					LastDistance = GetFingerDistance(DownPosX[0], DownPosY[0], DownPosX[1], DownPosY[1]);
 				}
 				else if (event.getAction() == MotionEvent.ACTION_UP)
@@ -1324,8 +1238,8 @@ public class srcMain extends Activity
 						}
 						else
 						{// 纵向（含恰好相等的情况）滚动歌词
-							AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-							layLRC.y += (int) (event.getY(0) - DownPosY[0]);
+							RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+							layLRC.topMargin += (int) (event.getY(0) - DownPosY[0]);
 							txtLRC.setLayoutParams(layLRC);
 						}
 					}
@@ -1335,8 +1249,8 @@ public class srcMain extends Activity
 						float TextSize = (float) (txtLRC.getTextSize() + Distance * 0.1);
 						if (TextSize >= 15 && TextSize <= 35)
 						{
-							AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-							layLRC.y = FingerDownPosY;
+							RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+							layLRC.topMargin = FingerDownPosY;
 							txtLRC.setLayoutParams(layLRC);
 							txtLRC.setTextSize(TextSize);
 						}
@@ -1348,8 +1262,8 @@ public class srcMain extends Activity
 						}
 
 						LastDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-						AbsoluteLayout.LayoutParams layLRC = (AbsoluteLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-						FingerDownPosY = layLRC.y;
+						RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+						FingerDownPosY = layLRC.topMargin;
 					}
 
 					IsMoved = true; // Move过的标记
@@ -1412,18 +1326,6 @@ public class srcMain extends Activity
 			}
 		});
 
-		/* 歌曲列表触摸 */
-		lstMusic.setOnTouchListener(new OnTouchListener()
-		{
-			public boolean onTouch(View v, MotionEvent event)
-			{
-				if (event.getAction() == MotionEvent.ACTION_MOVE)
-					layHighlight.setVisibility(View.INVISIBLE);
-
-				return false;
-			}
-		});
-
 		/* 关键词按键监听 */
 		txtKeyword.setOnKeyListener(new OnKeyListener()
 		{
@@ -1431,8 +1333,7 @@ public class srcMain extends Activity
 			{
 				if (keyCode == KeyEvent.KEYCODE_ENTER)
 				{// 搜索
-					AbsoluteLayout.LayoutParams layParSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-					if (layParSearch.y == 0)
+					if (laySearch.getVisibility() == View.VISIBLE)
 					{
 						Editor edt = sp.edit();
 						edt.putString("LastKeyword", txtKeyword.getText().toString());
@@ -1453,80 +1354,32 @@ public class srcMain extends Activity
 	/* 显示扩展托盘 */
 	public void ShowExtendPanel()
 	{
-		Animation anim = null;
-
-		if (layExtendMenu.getVisibility() == View.GONE)
+		if (grdMenu.getVisibility() == View.GONE)
 		{
-			layExtendMenu.setVisibility(View.VISIBLE);
-			anim = new AlphaAnimation(0, 1);
+			grdMenu.setVisibility(View.VISIBLE);
+			Animation anim = new AlphaAnimation(0, 1);
 
-			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				layParsMusic.width = 300;
-				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-				layParsSearch.width = 300;
-				laySearch.setLayoutParams(layParsSearch);
-				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
-				layParsKeyword.width = 255;
-				txtKeyword.setLayoutParams(layParsKeyword);
+				anim.setDuration(ANIMATION_TIME);
+				grdMenu.startAnimation(anim);
 			}
-			else
-			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 217;
-				else
-					layParsMusic.height = 262;
-			}
-			lstMusic.setLayoutParams(layParsMusic);
-		}
-
-		if (sp.getBoolean("chkUseAnimation", true))
-		{
-			anim.setDuration(ANIMATION_TIME);
-			layExtendMenu.startAnimation(anim);
 		}
 	}
 
 	/* 隐藏扩展托盘 */
 	public void HideExtendPanel()
 	{
-		Animation anim = null;
-
-		if (layExtendMenu.getVisibility() == View.VISIBLE)
+		if (grdMenu.getVisibility() == View.VISIBLE)
 		{
-			layExtendMenu.setVisibility(View.GONE);
-			anim = new AlphaAnimation(1, 0);
+			grdMenu.setVisibility(View.GONE);
+			Animation anim = new AlphaAnimation(1, 0);
 
-			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 195;
-				else
-					layParsMusic.height = LayoutParams.FILL_PARENT;
-				layParsMusic.width = LayoutParams.FILL_PARENT;
-				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-				layParsSearch.width = LayoutParams.FILL_PARENT;
-				laySearch.setLayoutParams(layParsSearch);
-				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
-				layParsKeyword.width = 482;
-				txtKeyword.setLayoutParams(layParsKeyword);
+				anim.setDuration(ANIMATION_TIME);
+				grdMenu.startAnimation(anim);
 			}
-			else
-			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 382;
-				else
-					layParsMusic.height = LayoutParams.FILL_PARENT;
-			}
-			lstMusic.setLayoutParams(layParsMusic);
-		}
-
-		if (sp.getBoolean("chkUseAnimation", true))
-		{
-			anim.setDuration(ANIMATION_TIME);
-			layExtendMenu.startAnimation(anim);
 		}
 	}
 
@@ -1535,65 +1388,21 @@ public class srcMain extends Activity
 	{
 		Animation anim = null;
 
-		if (layExtendMenu.getVisibility() == View.VISIBLE)
+		if (grdMenu.getVisibility() == View.VISIBLE)
 		{
-			layExtendMenu.setVisibility(View.GONE);
+			grdMenu.setVisibility(View.GONE);
 			anim = new AlphaAnimation(1, 0);
-
-			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 195;
-				else
-					layParsMusic.height = LayoutParams.FILL_PARENT;
-				layParsMusic.width = LayoutParams.FILL_PARENT;
-				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-				layParsSearch.width = LayoutParams.FILL_PARENT;
-				laySearch.setLayoutParams(layParsSearch);
-				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
-				layParsKeyword.width = 482;
-				txtKeyword.setLayoutParams(layParsKeyword);
-			}
-			else
-			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 382;
-				else
-					layParsMusic.height = LayoutParams.FILL_PARENT;
-			}
-			lstMusic.setLayoutParams(layParsMusic);
 		}
 		else
 		{
-			layExtendMenu.setVisibility(View.VISIBLE);
+			grdMenu.setVisibility(View.VISIBLE);
 			anim = new AlphaAnimation(0, 1);
-
-			AbsoluteLayout.LayoutParams layParsMusic = (AbsoluteLayout.LayoutParams) lstMusic.getLayoutParams();
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				layParsMusic.width = 300;
-				AbsoluteLayout.LayoutParams layParsSearch = (AbsoluteLayout.LayoutParams) laySearch.getLayoutParams();
-				layParsSearch.width = 300;
-				laySearch.setLayoutParams(layParsSearch);
-				LinearLayout.LayoutParams layParsKeyword = (LinearLayout.LayoutParams) txtKeyword.getLayoutParams();
-				layParsKeyword.width = 255;
-				txtKeyword.setLayoutParams(layParsKeyword);
-			}
-			else
-			{
-				if (layParsMusic.y == 45)
-					layParsMusic.height = 217;
-				else
-					layParsMusic.height = 262;
-			}
-			lstMusic.setLayoutParams(layParsMusic);
 		}
 
 		if (sp.getBoolean("chkUseAnimation", true))
 		{
 			anim.setDuration(ANIMATION_TIME);
-			layExtendMenu.startAnimation(anim);
+			grdMenu.startAnimation(anim);
 		}
 	}
 
@@ -1758,16 +1567,6 @@ public class srcMain extends Activity
 		this.btnLRC = btnLRC;
 	}
 
-	public ImageButton getBtnHighlightPlay()
-	{
-		return btnHighlightPlay;
-	}
-
-	public void setBtnHighlightPlay(ImageButton btnHighlightPlay)
-	{
-		this.btnHighlightPlay = btnHighlightPlay;
-	}
-
 	public TextView getTxtTitle()
 	{
 		return txtTitle;
@@ -1788,16 +1587,6 @@ public class srcMain extends Activity
 		this.txtTime = txtTime;
 	}
 
-	public TextView getTxtScanHint()
-	{
-		return txtScanHint;
-	}
-
-	public void setTxtScanHint(TextView txtScanHint)
-	{
-		this.txtScanHint = txtScanHint;
-	}
-
 	public TextView getTxtLRC()
 	{
 		return txtLRC;
@@ -1806,16 +1595,6 @@ public class srcMain extends Activity
 	public void setTxtLRC(TextView txtLRC)
 	{
 		this.txtLRC = txtLRC;
-	}
-
-	public LinearLayout getLayExtendMenu()
-	{
-		return layExtendMenu;
-	}
-
-	public void setLayExtendMenu(LinearLayout layExtendMenu)
-	{
-		this.layExtendMenu = layExtendMenu;
 	}
 
 	public LinearLayout getLayControlPanel()
@@ -1828,32 +1607,12 @@ public class srcMain extends Activity
 		this.layControlPanel = layControlPanel;
 	}
 
-	public LinearLayout getLayMusicSeek()
-	{
-		return layMusicSeek;
-	}
-
-	public void setLayMusicSeek(LinearLayout layMusicSeek)
-	{
-		this.layMusicSeek = layMusicSeek;
-	}
-
-	public LinearLayout getLayHighlight()
-	{
-		return layHighlight;
-	}
-
-	public void setLayHighlight(LinearLayout layHighlight)
-	{
-		this.layHighlight = layHighlight;
-	}
-
-	public AbsoluteLayout getLayBody()
+	public RelativeLayout getLayBody()
 	{
 		return layBody;
 	}
 
-	public void setLayBody(AbsoluteLayout layBody)
+	public void setLayBody(RelativeLayout layBody)
 	{
 		this.layBody = layBody;
 	}
@@ -1958,12 +1717,12 @@ public class srcMain extends Activity
 		this.hs = hs;
 	}
 
-	public LinearLayout getLayMain()
+	public RelativeLayout getLayMain()
 	{
 		return layMain;
 	}
 
-	public void setLayMain(LinearLayout layMain)
+	public void setLayMain(RelativeLayout layMain)
 	{
 		this.layMain = layMain;
 	}
@@ -2038,12 +1797,12 @@ public class srcMain extends Activity
 		this.adapter = adapter;
 	}
 
-	public LinearLayout getLayActivity()
+	public RelativeLayout getLayActivity()
 	{
 		return layActivity;
 	}
 
-	public void setLayActivity(LinearLayout layActivity)
+	public void setLayActivity(RelativeLayout layActivity)
 	{
 		this.layActivity = layActivity;
 	}
