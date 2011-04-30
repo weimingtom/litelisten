@@ -44,6 +44,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,7 +100,7 @@ public class srcMain extends Activity
 	private TextView txtKeyword;
 	private RelativeLayout layActivity;
 	private LinearLayout layControlPanel;
-	private LinearLayout laySearch;
+	private RelativeLayout laySearch;
 	private RelativeLayout layMain;
 	private LinearLayout laySplash;
 	private RelativeLayout layBody;
@@ -217,75 +218,42 @@ public class srcMain extends Activity
 		}.start();
 	}
 
-	// /* 横竖屏切换不执行onCreate() */
-	// public void onConfigurationChanged(Configuration newConfig)
-	// {
-	// super.onConfigurationChanged(newConfig);
-	// setContentView(R.layout.scr_main);
-	//
-	// Display display = ((WindowManager)
-	// getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-	// ScreenOrantation = display.getOrientation();
-	// dlg.ChangeLayout();
-	//
-	// FindViews();
-	// ListernerBinding();
-	// onResume();
-	//
-	// if (!IsSplashThreadAlive)
-	// laySplash.setVisibility(View.GONE);
-	//
-	// txtTitle.setText(ms.getStrShownTitle());
-	//
-	// // 设置播放/暂停按钮
-	// if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
-	// {
-	// btnPlay.setVisibility(View.GONE);
-	// btnPause.setVisibility(View.VISIBLE);
-	// }
-	// else
-	// {
-	// btnPlay.setVisibility(View.VISIBLE);
-	// btnPause.setVisibility(View.GONE);
-	// }
-	//
-	// // 保持转换前的状态
-	// RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams)
-	// txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-	// RelativeLayout.LayoutParams layMusic = (RelativeLayout.LayoutParams)
-	// lstMusic.getLayoutParams(); // 获取lstMusic尺寸参数
-	//
-	// if (CurrentShown == 1 && (ScreenOrantation == 1 || ScreenOrantation ==
-	// 3))
-	// {// 横屏歌词
-	// layLRC.x = 0;
-	// layMusic.x = -552;
-	// txtLRC.setLayoutParams(layLRC);
-	// lstMusic.setLayoutParams(layMusic);
-	// }
-	// else if (CurrentShown == 1 && ScreenOrantation == 0)
-	// {// 竖屏歌词
-	// layLRC.x = 0;
-	// layMusic.x = -320;
-	// txtLRC.setLayoutParams(layLRC);
-	// lstMusic.setLayoutParams(layMusic);
-	// }
-	// if (CurrentShown == 0 && (ScreenOrantation == 1 || ScreenOrantation ==
-	// 3))
-	// {// 横屏列表
-	// layMusic.x = 0;
-	// layLRC.x = 552;
-	// lstMusic.setLayoutParams(layMusic);
-	// txtLRC.setLayoutParams(layLRC);
-	// }
-	// else if (CurrentShown == 0 && ScreenOrantation == 0)
-	// {// 竖屏列表
-	// layMusic.x = 0;
-	// layLRC.x = 320;
-	// lstMusic.setLayoutParams(layMusic);
-	// txtLRC.setLayoutParams(layLRC);
-	// }
-	// }
+	/* 横竖屏切换不执行onCreate() */
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		super.onConfigurationChanged(newConfig);
+		setContentView(R.layout.scr_main);
+
+		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+		ScreenOrantation = display.getOrientation();
+		dlg.ChangeLayout();
+
+		FindViews();
+		ListernerBinding();
+		onResume();
+
+		if (!IsSplashThreadAlive)
+			laySplash.setVisibility(View.GONE);
+
+		txtTitle.setText(ms.getStrShownTitle());
+
+		// 设置播放/暂停按钮
+		if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
+		{
+			btnPlay.setVisibility(View.GONE);
+			btnPause.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			btnPlay.setVisibility(View.VISIBLE);
+			btnPause.setVisibility(View.GONE);
+		}
+
+		if (CurrentShown == 0)
+			lstMusic.setVisibility(View.VISIBLE);
+		else
+			lstMusic.setVisibility(View.GONE);
+	}
 
 	@Override
 	public void onResume()
@@ -612,7 +580,7 @@ public class srcMain extends Activity
 		layActivity = (RelativeLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
-		laySearch = (LinearLayout) findViewById(R.id.laySearch);
+		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
@@ -803,14 +771,16 @@ public class srcMain extends Activity
 			Animation animHide = null;
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
 				animShow = new TranslateAnimation(552, 0, 0, 0);
+				animHide = new TranslateAnimation(0, -552, 0, 0);
+			}
 			else
 			{
 				animShow = new TranslateAnimation(320, 0, 0, 0);
 				animHide = new TranslateAnimation(0, -320, 0, 0);
 			}
 
-			txtLRC.setVisibility(View.VISIBLE);
 			lstMusic.setVisibility(View.GONE);
 			CurrentShown = 1;
 
@@ -836,7 +806,10 @@ public class srcMain extends Activity
 			Animation animHide = null;
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
 				animShow = new TranslateAnimation(-552, 0, 0, 0);
+				animHide = new TranslateAnimation(0, 552, 0, 0);
+			}
 			else
 			{
 				animShow = new TranslateAnimation(-320, 0, 0, 0);
@@ -844,7 +817,6 @@ public class srcMain extends Activity
 			}
 
 			lstMusic.setVisibility(View.VISIBLE);
-			txtLRC.setVisibility(View.GONE);
 			CurrentShown = 0;
 
 			if (sp.getBoolean("chkUseAnimation", true))
@@ -1772,12 +1744,12 @@ public class srcMain extends Activity
 		this.txtKeyword = txtKeyword;
 	}
 
-	public LinearLayout getLaySearch()
+	public RelativeLayout getLaySearch()
 	{
 		return laySearch;
 	}
 
-	public void setLaySearch(LinearLayout laySearch)
+	public void setLaySearch(RelativeLayout laySearch)
 	{
 		this.laySearch = laySearch;
 	}

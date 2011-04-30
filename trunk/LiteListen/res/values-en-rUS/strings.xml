@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.3.7 Beta build 0416.1723</string>
+	<string name="global_app_version">0.4.8 build 0430.1656</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -100,15 +100,9 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0416.1723\n\nUpdate Contents: \n1. Fixed A Bug Which Caused In
-		Last
-		Update That User Cannot Change Personal Background In Landscape
-		Mode.\n2. Clear The Whiting Frame Of personal Background Which Caused
-		By Using Blur Effect.\n\nNext Plan:\nI Will Pause To Develop For Two
-		Months For Clear
-		Codes And Approve App Performance.\n\nOfficial
+		2011.0416.1723\n\nUpdate Contents: \nUI Perference Improved After Rewrite Layout Code.\n\nNext Plan:\n1. Improve LRC Effect\n2. Add Task Bar Icon\n\nOfficial
 		WebSite:
-		\nhttp://litelisten.littledai.com/\n\nProgram: LittleDai
+		\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
