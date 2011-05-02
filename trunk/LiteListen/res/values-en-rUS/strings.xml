@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.4.8 build 0430.1656</string>
+	<string name="global_app_version">0.5.1 build 0502.1525</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -49,19 +49,19 @@
 	<string name="pfrscat_general_language_message">You has just changed app language, restart app
 		immediately is recommended.\n\nDo you want to restart now?</string>
 	<string name="pfrscat_general_music_path">Music Path</string>
-	<string name="pfrscat_general_include_sub_directories">Include Sub-Directoires</string>
-	<string name="pfrscat_general_ignore_directory">Ignore Some Directories</string>
+	<string name="pfrscat_general_include_sub_directories">Scan Sub-Directoires</string>
+	<string name="pfrscat_general_ignore_directory">Ignore Directories</string>
 	<string name="pfrscat_general_ignore_directory_summary">Directories which included .nomedia file will be
 		ignored when scanning</string>
 	<string name="pfrscat_general_auto_play">Auto Play When Startup</string>
 	<string name="pfrscat_general_remember_last_played">Remember Last Played</string>
 	<string name="pfrscat_general_convert_chinese_lrc">Converter zh_cn And zh_tw</string>
 	<string name="pfrscat_general_fit_screen_orientation">Screen Orientation</string>
-	<string name="pfrscat_general_list_order">Order Of PlayList</string>
-	<string name="pfrscat_general_auto_switch_to_lrc">Auto Switch To LRC Show</string>
+	<string name="pfrscat_general_list_order">Playlist Order</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">Auto Lyric Show</string>
 	<string name="pfrscat_general_auto_switch_to_lrc_summary">Show lyrics immediately after a song has been
 		played</string>
-	<string name="pfrscat_general_property_read_priority">Priority Of MP3 Property Scanning</string>
+	<string name="pfrscat_general_property_read_priority">Music Property Scan Priority</string>
 	<string name="pfrscat_general_play_mode">Play Mode</string>
 	<string name="pfrscat_display_title">Visual Preference</string>
 	<string name="pfrscat_display_background">Background Image</string>
@@ -100,7 +100,12 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0416.1723\n\nUpdate Contents: \nUI Perference Improved After Rewrite Layout Code.\n\nNext Plan:\n1. Improve LRC Effect\n2. Add Task Bar Icon\n\nOfficial
+		2011.0502.1525\n\nUpdate Contents: \n1. UI Perference Improved After
+		Rewrite Layout Code.\n2. More Accurately For Music List.\n3. Double
+		Click To Play.\n4. Fix A Bug That AppWidgets Could Be Too Wide In
+		Portrait Mode.\n5. Simplified Descriptions In Settings\n6. Optimized
+		LRC-Refreshing.\n\nNext Plan:\n1. Improve LRC Effect\n2. Add Task Bar
+		Icon\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
@@ -124,7 +129,7 @@
 	<string-array name="item_name_pfrscat_general_list_order">
 		<item>Title + Artist</item>
 		<item>Artist + Title</item>
-		<item>Update Time</item>
+		<item>File ModifiedTime</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_property_read_priority">
 		<item>ID3v2 - ID3v1 - APE</item>

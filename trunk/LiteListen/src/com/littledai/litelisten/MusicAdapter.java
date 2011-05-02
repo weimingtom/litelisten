@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MusicAdapter extends BaseAdapter
@@ -62,6 +63,7 @@ public class MusicAdapter extends BaseAdapter
 		if (convertView == null)
 			convertView = LayoutInflater.from(main).inflate(R.layout.list_music, null);
 
+		LinearLayout layMusicList = (LinearLayout) convertView.findViewById(R.id.layMusicList);
 		ImageView imgAlbum = (ImageView) convertView.findViewById(R.id.imgAlbum);
 		TextView txtSongTitle = (TextView) convertView.findViewById(R.id.txtSongTitle);
 		TextView txtSongInfo = (TextView) convertView.findViewById(R.id.txtSongInfo);
@@ -85,18 +87,18 @@ public class MusicAdapter extends BaseAdapter
 		txtGenre.setText((String) lstSong.get(position).get("Genre"));
 		txtTrack.setText((String) lstSong.get(position).get("Track"));
 
-		if (main.getMs().getStrPlayerStatus() == MusicService.STATUS_PLAY && main.getMs().getCurrIndex() == position)
+		if (main.getMs().getPlayerStatus() == MusicService.STATUS_PLAY && main.getMs().getCurrIndex() == position)
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_playing);
-			txtSongTitle.setTextColor(Color.parseColor("#FF6600"));
+			txtSongTitle.setTextColor(Color.parseColor("#FF9900"));
 			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("txtListFontSize", "18")));
 			if (main.getSp().getBoolean("chkListFontShadow", true))
 				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor("#000000"));
 		}
-		else if (main.getMs().getStrPlayerStatus() == MusicService.STATUS_PAUSE && main.getMs().getCurrIndex() == position)
+		else if (main.getMs().getPlayerStatus() == MusicService.STATUS_PAUSE && main.getMs().getCurrIndex() == position)
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_paused);
-			txtSongTitle.setTextColor(Color.parseColor("#FF6600"));
+			txtSongTitle.setTextColor(Color.parseColor("#FF9900"));
 			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("txtListFontSize", "18")));
 			if (main.getSp().getBoolean("chkListFontShadow", true))
 				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor("#000000"));
@@ -108,6 +110,18 @@ public class MusicAdapter extends BaseAdapter
 			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("txtListFontSize", "18")));
 			if (main.getSp().getBoolean("chkListFontShadow", true))
 				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor(main.getSp().getString("btnListFontShadowColor", "#000000")));
+		}
+
+		if (main.getSelectedItemIndex() != position)
+			layMusicList.setBackgroundResource(R.drawable.bg_list_music_height);
+		else
+		{
+			imgAlbum.setBackgroundResource(R.drawable.album_selected);
+
+			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
+				layMusicList.setBackgroundResource(R.drawable.bg_land_list_highlight);
+			else
+				layMusicList.setBackgroundResource(R.drawable.bg_port_list_highlight);
 		}
 
 		return convertView;

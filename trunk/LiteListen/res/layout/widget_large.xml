@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content" android:layout_width="wrap_content"
-	android:orientation="vertical" android:id="@+id/layWidget" android:background="@drawable/widget_bg_port_large">
+	android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/layWidget" android:background="@drawable/widget_bg_port_large" android:layout_width="310dip">
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
 		android:text="@string/global_app_name" android:textColor="#FFFFFF"

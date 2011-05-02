@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">輕聽音樂播放機 2011</string>
 	<string name="global_app_name_no_version">輕聽音樂播放機</string>
-	<string name="global_app_version">0.3.7 Beta build 0416.1723</string>
+	<string name="global_app_version">0.5.1 build 0502.1525</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -45,18 +45,18 @@
 	<string name="pfrscat_general_language">語言</string>
 	<string name="pfrscat_general_language_title">語言設置</string>
 	<string name="pfrscat_general_language_message">您修改了程式語言，建議您立即重新開機程式。\n\n是否立即重新啟動？</string>
-	<string name="pfrscat_general_music_path">自訂音樂檔路徑</string>
-	<string name="pfrscat_general_include_sub_directories">掃描時包含子資料夾</string>
+	<string name="pfrscat_general_music_path">音樂目錄</string>
+	<string name="pfrscat_general_include_sub_directories">掃描子資料夾</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定資料夾</string>
-	<string name="pfrscat_general_ignore_directory_summary">掃描歌曲時將跳過包含名為 .nomedia 文件的資料夾</string>
+	<string name="pfrscat_general_ignore_directory_summary">掃描時將跳過包含 .nomedia 文件的資料夾</string>
 	<string name="pfrscat_general_auto_play">啟動時自動播放</string>
 	<string name="pfrscat_general_remember_last_played">記住最後播放的歌曲</string>
 	<string name="pfrscat_general_convert_chinese_lrc">中文歌詞簡繁轉換</string>
-	<string name="pfrscat_general_fit_screen_orientation">螢幕方向</string>
-	<string name="pfrscat_general_list_order">播放清單排列順序</string>
-	<string name="pfrscat_general_auto_switch_to_lrc">自動跳轉到歌詞介面</string>
+	<string name="pfrscat_general_fit_screen_orientation">螢幕旋轉</string>
+	<string name="pfrscat_general_list_order">播放清單排序</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">自動跳轉到歌詞</string>
 	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲開始播放後立即顯示歌詞</string>
-	<string name="pfrscat_general_property_read_priority">MP3 屬性掃描優先順序</string>
+	<string name="pfrscat_general_property_read_priority">音樂屬性掃描優先順序</string>
 	<string name="pfrscat_general_play_mode">播放模式</string>
 	<string name="pfrscat_display_title">視覺效果</string>
 	<string name="pfrscat_display_background_port">豎屏背景圖</string>
@@ -65,8 +65,8 @@
 	<string name="pfrscat_display_background_blur">背景圖模糊效果</string>
 	<string name="pfrscat_display_use_animation">使用動畫效果</string>
 	<string name="pfrscat_display_use_animation_summary">關閉動畫可提升性能，但會減弱體驗</string>
-	<string name="pfrscat_display_list_font_size">播放清單字體大小</string>
-	<string name="pfrscat_display_list_font_color">播放清單字體顏色</string>
+	<string name="pfrscat_display_list_font_size">清單字體大小</string>
+	<string name="pfrscat_display_list_font_color">清單字體顏色</string>
 	<string name="pfrscat_display_list_font_shadow">播放清單陰影</string>
 	<string name="pfrscat_display_list_font_shadow_color">播放清單陰影顏色</string>
 	<string name="pfrscat_display_lrc_font_size">歌詞字體大小</string>
@@ -88,7 +88,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n內部版本：2011.0416.1723\n\n更新內容：\n1、修正上次更新後橫屏背景圖更改無效的問題\n2、去掉了因圖像模糊處理後四周殘留的泛白痕跡\n\n下期預告：\n暫時停止新功能開發，為期兩個月，將進行代碼清理和整體重新設計\n\n官方網站：\nhttp://litelisten.littledai.com/\n\n開發人員：LittleDai
+		2011\n內部版本：2011.0502.1525\n\n更新內容：\n1、重新設計了介面佈局邏輯，大幅提升效率\n2、音樂清單不再隨意跳轉，定位更準確\n3、按兩下歌曲即可播放\n4、修正豎屏桌面小部件在某些歌詞中超寬的問題\n5、精簡了設置專案的描述\n6、優化了歌詞刷新邏輯，節省更多資源\n\n下期預告：\n1、提升歌詞顯示效率\n2、增加工作列圖示支援\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -110,7 +110,7 @@
 	<string-array name="item_name_pfrscat_general_list_order">
 		<item>標題 + 藝術家</item>
 		<item>藝術家 + 標題</item>
-		<item>更新時間</item>
+		<item>檔修改時間</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_property_read_priority">
 		<item>ID3v2 - ID3v1 - APE</item>

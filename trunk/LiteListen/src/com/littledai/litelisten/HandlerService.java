@@ -26,7 +26,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 public class HandlerService
 {
@@ -75,7 +75,7 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			// 设置时间
-			if (main.getMs().getStrPlayerStatus() != MusicService.STATUS_STOP)
+			if (main.getMs().getPlayerStatus() != MusicService.STATUS_STOP)
 			{
 				if (main.getMs().isCanRefreshSeekBar())
 				{
@@ -108,49 +108,56 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getLs().isCanRefreshLRC() && main.getCurrentShown() == 1)
+			if (main.getLs().isCanRefreshLRC())
 			{// 允许LRC滚动
-				RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
-				int OldY = layLRC.topMargin; // 记录当前位置
-				layLRC.topMargin = msg.what;
-				layLRC.height = main.getTxtLRC().getLineCount() * main.getTxtLRC().getLineHeight();
-
-				main.getTxtLRC().setLayoutParams(layLRC);
-				main.getTxtLRC().setLines(main.getTxtLRC().getLineCount());
-				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj);
-
-				// 歌曲更换后重置参数
-				if (LastIndex != msg.arg2)
+				if (main.getCurrentShown() == 1)
 				{
-					LastPos = -1;
-					LastIndex = msg.arg2;
-				}
+					LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+					int OldY = layLRC.topMargin; // 记录当前位置
+					layLRC.topMargin = msg.what;
+					layLRC.height = main.getTxtLRC().getLineCount() * main.getTxtLRC().getLineHeight();
 
-				// 位置不相同时才播放动画
-				int OffsetY = 200; // 默认竖屏，偏移200dip
-				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-					OffsetY = 80; // 横屏偏移80dip
+					main.getTxtLRC().setLayoutParams(layLRC);
+					main.getTxtLRC().setLines(main.getTxtLRC().getLineCount());
+					main.getTxtLRC().setText((SpannableStringBuilder) msg.obj);
 
-				if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
-				{
-					if (main.getSp().getBoolean("chkUseAnimation", true))
+					// 歌曲更换后重置参数
+					if (LastIndex != msg.arg2)
 					{
-						Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
-						anim.setDuration(200);
-						main.getTxtLRC().setAnimation(anim);
+						LastPos = -1;
+						LastIndex = msg.arg2;
 					}
 
-					LastPos = layLRC.topMargin;
-				}
-			}
-			else if (main.getCurrentShown() == 0)
-				main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
+					// 位置不相同时才播放动画
+					int OffsetY = 200; // 默认竖屏，偏移200dip
+					if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
+						OffsetY = 80; // 横屏偏移80dip
 
-			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
-			intent.putExtra("LRCSmall", main.getLs().getStrCurrLRCSentenceSmall());
-			intent.putExtra("LRCMedium", main.getLs().getStrCurrLRCSentenceMedium());
-			intent.putExtra("LRCLarge", main.getLs().getStrCurrLRCSentenceLarge());
-			main.sendBroadcast(intent);
+					if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
+					{
+						if (main.getSp().getBoolean("chkUseAnimation", true))
+						{
+							Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
+							anim.setDuration(200);
+							main.getTxtLRC().setAnimation(anim);
+						}
+
+						LastPos = layLRC.topMargin;
+					}
+				}
+				else if (main.getCurrentShown() == 0)
+					main.getTxtLRC().setText((SpannableStringBuilder) msg.obj); // 禁止LRC滚动但更新歌词颜色
+			}
+
+			// 如果当前在后台运行则更新桌面小部件
+			if (main.getSp().getBoolean("IsRunBackground", false))
+			{
+				Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
+				intent.putExtra("LRCSmall", main.getLs().getStrCurrLRCSentenceSmall());
+				intent.putExtra("LRCMedium", main.getLs().getStrCurrLRCSentenceMedium());
+				intent.putExtra("LRCLarge", main.getLs().getStrCurrLRCSentenceLarge());
+				main.sendBroadcast(intent);
+			}
 		}
 	};
 
@@ -160,7 +167,7 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+			LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 				layLRC.topMargin = 80;
 			else

@@ -31,7 +31,7 @@ public class MusicService
 	public static final int STATUS_STOP = 1;
 	public static final int STATUS_PAUSE = 2;
 
-	private int strPlayerStatus = STATUS_STOP;
+	private int PlayerStatus = STATUS_STOP;
 	private MediaPlayer mp = new MediaPlayer();
 	private int CurrIndex = 0; // 当前播放的音乐序号
 	private srcMain main = null;
@@ -54,7 +54,7 @@ public class MusicService
 		{
 			public void onCompletion(MediaPlayer mp)
 			{
-				if (strPlayerStatus == MusicService.STATUS_PLAY)
+				if (PlayerStatus == MusicService.STATUS_PLAY)
 					Next(true);
 			}
 		});
@@ -65,14 +65,14 @@ public class MusicService
 	{
 		try
 		{
-			if (strPlayerStatus == MusicService.STATUS_PAUSE && CurrIndex == index)
+			if (PlayerStatus == MusicService.STATUS_PAUSE && CurrIndex == index)
 			{
 				mp.start();
 				CanRefreshTime = true;
 
 				main.getBtnPlay().setVisibility(View.GONE);
 				main.getBtnPause().setVisibility(View.VISIBLE);
-				strPlayerStatus = MusicService.STATUS_PLAY;
+				PlayerStatus = MusicService.STATUS_PLAY;
 				main.SetAlbumIcon();
 
 				new Thread()
@@ -102,7 +102,7 @@ public class MusicService
 					}
 				}.start();
 			}
-			else if (strPlayerStatus == MusicService.STATUS_STOP || CurrIndex != index) // 停止或正在播放但选中序号与当前不一致才能继续
+			else if (PlayerStatus == MusicService.STATUS_STOP || CurrIndex != index) // 停止或正在播放但选中序号与当前不一致才能继续
 			{
 				Map<String, Object> map = new HashMap<String, Object>();
 				map = main.getLstSong().get(index);
@@ -125,7 +125,7 @@ public class MusicService
 
 				main.getBtnPlay().setVisibility(View.GONE);
 				main.getBtnPause().setVisibility(View.VISIBLE);
-				strPlayerStatus = MusicService.STATUS_PLAY;
+				PlayerStatus = MusicService.STATUS_PLAY;
 				strLRCPath = (String) map.get("LRCPath");
 				strShownTitle = (String) map.get("Title");
 				strArtist = (String) map.get("Artist");
@@ -179,7 +179,7 @@ public class MusicService
 			e.printStackTrace();
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
-			setStrPlayerStatus(MusicService.STATUS_STOP);
+			PlayerStatus = MusicService.STATUS_STOP;
 
 			// 发送停止播放广播给Widget
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
@@ -281,7 +281,7 @@ public class MusicService
 		main.getHs().getHdlRefreshTime().sendEmptyMessage(0);
 		getMain().getBtnPlay().setVisibility(View.VISIBLE);
 		getMain().getBtnPause().setVisibility(View.GONE);
-		setStrPlayerStatus(MusicService.STATUS_STOP);
+		PlayerStatus = MusicService.STATUS_STOP;
 		main.SetAlbumIcon();
 
 		// 发送停止播放广播给Widget
@@ -292,13 +292,13 @@ public class MusicService
 	/* 暂停 */
 	public void Pause()
 	{
-		if (strPlayerStatus == MusicService.STATUS_PLAY)
+		if (PlayerStatus == MusicService.STATUS_PLAY)
 		{
 			mp.pause();
 			CanRefreshTime = false;
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
-			setStrPlayerStatus(MusicService.STATUS_PAUSE);
+			PlayerStatus = MusicService.STATUS_PAUSE;
 			main.SetAlbumIcon();
 		}
 
@@ -310,7 +310,7 @@ public class MusicService
 	/* 播放+暂停（耳机操作） */
 	public void PlayPause()
 	{
-		if (strPlayerStatus == MusicService.STATUS_PLAY)
+		if (PlayerStatus == MusicService.STATUS_PLAY)
 			Pause();
 		else
 			Play(CurrIndex);
@@ -334,14 +334,14 @@ public class MusicService
 		return mp.getDuration();
 	}
 
-	public int getStrPlayerStatus()
+	public int getPlayerStatus()
 	{
-		return strPlayerStatus;
+		return PlayerStatus;
 	}
 
-	public void setStrPlayerStatus(int strPlayerStatus)
+	public void setPlayerStatus(int PlayerStatus)
 	{
-		this.strPlayerStatus = strPlayerStatus;
+		this.PlayerStatus = PlayerStatus;
 	}
 
 	public MediaPlayer getMp()

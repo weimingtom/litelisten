@@ -98,7 +98,7 @@ public class srcMain extends Activity
 	private TextView txtTime;
 	private TextView txtLRC;
 	private TextView txtKeyword;
-	private RelativeLayout layActivity;
+	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
 	private RelativeLayout laySearch;
 	private RelativeLayout layMain;
@@ -238,7 +238,7 @@ public class srcMain extends Activity
 		txtTitle.setText(ms.getStrShownTitle());
 
 		// 设置播放/暂停按钮
-		if (ms.getStrPlayerStatus() == MusicService.STATUS_PLAY)
+		if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
 		{
 			btnPlay.setVisibility(View.GONE);
 			btnPause.setVisibility(View.VISIBLE);
@@ -256,6 +256,18 @@ public class srcMain extends Activity
 	}
 
 	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		Editor edt = sp.edit();
+		edt.putBoolean("IsRunBackground", true);
+		edt.commit();
+
+		ls.RefreshLRC();
+	}
+
+	@Override
 	public void onResume()
 	{
 		super.onResume();
@@ -265,6 +277,10 @@ public class srcMain extends Activity
 		SetPlayMode();
 		SetFonts();
 		SetBackground();
+
+		Editor edt = sp.edit();
+		edt.putBoolean("IsRunBackground", false);
+		edt.commit();
 
 		// 设置外部调用
 		Intent intent = getIntent();
@@ -300,6 +316,8 @@ public class srcMain extends Activity
 				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
 		}.start();
+
+		ls.RefreshLRC();
 	}
 
 	/* 歌曲信息入库 */
@@ -480,7 +498,13 @@ public class srcMain extends Activity
 	{
 		adapter.getView(ms.getCurrIndex(), null, lstMusic);
 		adapter.notifyDataSetChanged();
-		lstMusic.setSelectionFromTop(ms.getCurrIndex(), (int) sp.getFloat("LastMusicListY", 0)); // 恢复刚才的位置
+
+		// 如果不在显示范围内，将当前播放的歌曲显示在第一位
+		if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
+		{
+			if (ms.getCurrIndex() < lstMusic.getFirstVisiblePosition() || ms.getCurrIndex() > lstMusic.getLastVisiblePosition())
+				lstMusic.setSelectionFromTop(ms.getCurrIndex(), 0); // 恢复刚才的位置
+		}
 	}
 
 	/* 设置播放模式 */
@@ -577,7 +601,7 @@ public class srcMain extends Activity
 		txtTime = (TextView) findViewById(R.id.txtTime);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
 		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
-		layActivity = (RelativeLayout) findViewById(R.id.layActivity);
+		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
 		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
@@ -1013,6 +1037,7 @@ public class srcMain extends Activity
 			public void onClick(View v)
 			{
 				List2LRCSwitcher();
+				ls.RefreshLRC();
 			}
 		});
 
@@ -1037,7 +1062,15 @@ public class srcMain extends Activity
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				SelectedItemIndex = arg2; // 更新当前选中的序号
+				if (arg2 == SelectedItemIndex)
+					ms.Play(SelectedItemIndex);
+				else
+				{
+					SelectedItemIndex = arg2; // 更新当前选中的序号
+
+					adapter.getView(arg2, null, lstMusic);
+					adapter.notifyDataSetChanged();
+				}
 			}
 		});
 
@@ -1160,7 +1193,7 @@ public class srcMain extends Activity
 						DownPosY[i] = event.getY(i);
 					}
 
-					RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+					LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
 					FingerDownPosY = layLRC.topMargin;
 					LastDistance = GetFingerDistance(DownPosX[0], DownPosY[0], DownPosX[1], DownPosY[1]);
 				}
@@ -1210,7 +1243,7 @@ public class srcMain extends Activity
 						}
 						else
 						{// 纵向（含恰好相等的情况）滚动歌词
-							RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+							LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
 							layLRC.topMargin += (int) (event.getY(0) - DownPosY[0]);
 							txtLRC.setLayoutParams(layLRC);
 						}
@@ -1221,7 +1254,7 @@ public class srcMain extends Activity
 						float TextSize = (float) (txtLRC.getTextSize() + Distance * 0.1);
 						if (TextSize >= 15 && TextSize <= 35)
 						{
-							RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+							LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
 							layLRC.topMargin = FingerDownPosY;
 							txtLRC.setLayoutParams(layLRC);
 							txtLRC.setTextSize(TextSize);
@@ -1234,7 +1267,7 @@ public class srcMain extends Activity
 						}
 
 						LastDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-						RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+						LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
 						FingerDownPosY = layLRC.topMargin;
 					}
 
@@ -1769,12 +1802,12 @@ public class srcMain extends Activity
 		this.adapter = adapter;
 	}
 
-	public RelativeLayout getLayActivity()
+	public LinearLayout getLayActivity()
 	{
 		return layActivity;
 	}
 
-	public void setLayActivity(RelativeLayout layActivity)
+	public void setLayActivity(LinearLayout layActivity)
 	{
 		this.layActivity = layActivity;
 	}

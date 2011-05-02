@@ -37,7 +37,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 public class LRCService
 {
@@ -438,8 +438,8 @@ public class LRCService
 		this.strLRCPath = strLRCPath;
 
 		// 还原txtLRC布局参数
-		RelativeLayout.LayoutParams layLRC = (RelativeLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
-		layLRC.topMargin = 180;
+		LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+		layLRC.topMargin = 200;
 		layLRC.height = LayoutParams.WRAP_CONTENT;
 		main.getTxtLRC().setLayoutParams(layLRC);
 		main.getTxtLRC().setText(main.getResources().getString(R.string.lrcservice_loading_lrc));
