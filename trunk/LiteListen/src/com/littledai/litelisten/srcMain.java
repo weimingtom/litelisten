@@ -57,6 +57,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -289,11 +290,15 @@ public class srcMain extends Activity
 			laySplash.setVisibility(View.GONE); // 不显示启动画面
 			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
 			strMusicFilePath = Uri.parse(strMusicFilePath).getPath(); // 解析地址
-			lstSong.clear();
+
 			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
 			mapInfo.put("MusicPath", strMusicFilePath);
 			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
-			lstSong.add(mapInfo);
+
+			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
+			lstSongTemp.add(mapInfo);
+			lstSong = lstSongTemp;
+
 			adapter = new MusicAdapter(srcMain.this, lstSong);
 			lstMusic.setAdapter(adapter);
 			ms.Play(0);
@@ -429,29 +434,33 @@ public class srcMain extends Activity
 				}
 
 				IsMusicRefreshing = true;
-				lstSong.clear();
 				Cursor cur = null;
 				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
 
 				// 决定排序方式
 				String index = sp.getString("lstListOrder", "1");
+				String strOrderBy = sp.getString("OrderBy", "asc");
 				if (index.equals("0"))
 				{
-					cur = db.GetDBInstance(true).query(
-							"music_info",
-							null,
-							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, "title_simple_py, artist_simple_py");
+					cur = db.GetDBInstance(true)
+							.query(
+									"music_info",
+									null,
+									"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+											+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+											+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null,
+									"title_simple_py " + strOrderBy + ", artist_simple_py");
 				}
 				else if (index.equals("1"))
 				{
-					cur = db.GetDBInstance(true).query(
-							"music_info",
-							null,
-							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, "artist_simple_py, title_simple_py");
+					cur = db.GetDBInstance(true)
+							.query(
+									"music_info",
+									null,
+									"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+											+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+											+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null,
+									"artist_simple_py " + strOrderBy + ", title_simple_py");
 				}
 				else if (index.equals("2"))
 				{
@@ -463,6 +472,7 @@ public class srcMain extends Activity
 									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, null);
 				}
 
+				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
 				while (cur.moveToNext())
 				{
 					// 更新界面
@@ -479,11 +489,12 @@ public class srcMain extends Activity
 
 					Message msg = new Message();
 					msg.obj = mapItem;
-					lstSong.add(mapItem);
+					lstSongTemp.add(mapItem);
 				}
 
 				cur.close();
 				IsMusicRefreshing = false;
+				lstSong = lstSongTemp; // 将局部变量赋值给全局变量
 
 				adapter = new MusicAdapter(srcMain.this, lstSong);
 				Message msg = new Message();
@@ -646,8 +657,16 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_order_asc);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_asc));
+		if (sp.getString("OrderBy", "asc").equals("asc"))
+		{
+			map.put("ItemIcon", R.drawable.menu_order_desc);
+			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_desc));
+		}
+		else
+		{
+			map.put("ItemIcon", R.drawable.menu_order_asc);
+			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_asc));
+		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1116,12 +1135,12 @@ public class srcMain extends Activity
 
 						break;
 					case 2:
-						TextView tv = (TextView) arg1.findViewById(R.id.txtMenu);
+						TextView txtScrOn = (TextView) arg1.findViewById(R.id.txtMenu);
 
 						if (!sp.getBoolean("KeepScreenOn", false))
 						{
-							lstMusic.setKeepScreenOn(true);
-							tv.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
+							layActivity.setKeepScreenOn(true);
+							txtScrOn.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", true);
 							edt.commit();
@@ -1129,8 +1148,8 @@ public class srcMain extends Activity
 						}
 						else
 						{
-							lstMusic.setKeepScreenOn(false);
-							tv.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
+							layActivity.setKeepScreenOn(false);
+							txtScrOn.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", false);
 							edt.commit();
@@ -1140,6 +1159,29 @@ public class srcMain extends Activity
 						break;
 					case 3:
 						SearchBoxSwitcher();
+						break;
+					case 4:
+						TextView txtOrder = (TextView) arg1.findViewById(R.id.txtMenu);
+						ImageView imgMenu = (ImageView) arg1.findViewById(R.id.imgMenu);
+						if (sp.getString("OrderBy", "asc").equals("asc"))
+						{
+							txtOrder.setText(R.string.srcmain_extend_menu_order_asc);
+							imgMenu.setImageResource(R.drawable.menu_order_asc);
+							Editor edt = sp.edit();
+							edt.putString("OrderBy", "desc");
+							edt.commit();
+						}
+						else
+						{
+							txtOrder.setText(R.string.srcmain_extend_menu_order_desc);
+							imgMenu.setImageResource(R.drawable.menu_order_desc);
+							Editor edt = sp.edit();
+							edt.putString("OrderBy", "asc");
+							edt.commit();
+						}
+
+						SetMusicListByDB();
+
 						break;
 					case 7:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)

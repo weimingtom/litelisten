@@ -69,9 +69,8 @@
 				android:verticalSpacing="10dip" android:visibility="gone"
 				android:id="@+id/grdMenu" android:gravity="center_vertical|center_horizontal|center"
 				android:background="@drawable/bg_control_panel_land"
-				android:horizontalSpacing="10dip" android:layout_marginTop="5dip"
-				android:numColumns="3" android:layout_alignParentRight="true"
-				android:paddingTop="10dip"></GridView>
+				android:horizontalSpacing="10dip" android:numColumns="3" android:layout_alignParentRight="true"
+				android:paddingTop="10dip" android:layout_marginTop="2.5dip"></GridView>
 		</RelativeLayout>
 		<LinearLayout android:id="@+id/layBottom"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"

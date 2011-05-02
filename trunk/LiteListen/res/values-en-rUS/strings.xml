@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.5.1 build 0502.1525</string>
+	<string name="global_app_version">0.5.2 build 0502.2311</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -12,7 +12,6 @@
 	<string name="lrcservice_loading_lrc">Loading lyric, please wait...</string>
 	<string name="lrcservice_no_lyric_found">No lyric found.</string>
 
-	<string name="srcmain_scanning_songs">Music Found: </string>
 	<string name="srcmain_extend_menu_settings">Settings</string>
 	<string name="srcmain_extend_menu_refresh_list">Refresh</string>
 	<string name="srcmain_extend_menu_exit">Exit</string>
@@ -100,12 +99,11 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0502.1525\n\nUpdate Contents: \n1. UI Perference Improved After
-		Rewrite Layout Code.\n2. More Accurately For Music List.\n3. Double
-		Click To Play.\n4. Fix A Bug That AppWidgets Could Be Too Wide In
-		Portrait Mode.\n5. Simplified Descriptions In Settings\n6. Optimized
-		LRC-Refreshing.\n\nNext Plan:\n1. Improve LRC Effect\n2. Add Task Bar
-		Icon\n\nOfficial
+		2011.0502.2311\n\nUpdate Contents: \n1. Adjust An UI Detail.\n2. Fixed
+		A Bug That Would Cause App Force Close While User Searching Or
+		Changing Screen Orietation When Scrolling.\n3. Now User Can Decided
+		How To Order Music In ASC Or DESC.\n\nNext Plan:\n1. Make UI To
+		Support MIUI\'s ROMs.\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
