@@ -34,6 +34,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -122,6 +124,9 @@ public class srcMain extends Activity
 	private HandlerService hs;
 	private MusicAdapter adapter;
 	private NotificationManager nm;
+	private WindowManager wm;
+	private FloatLRC fl;
+	private WindowManager.LayoutParams layWM;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -145,6 +150,10 @@ public class srcMain extends Activity
 		py = new PYProvider();
 		hs = new HandlerService(this);
 		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
+		nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
+		layWM = new WindowManager.LayoutParams();
+		fl = new FloatLRC(this); // 浮动歌词布局
 
 		// 清除上次程序运行的历史记录
 		Editor edt = sp.edit();
@@ -224,6 +233,27 @@ public class srcMain extends Activity
 				}
 			}
 		}.start();
+
+		CreateFloatLRC();
+	}
+
+	/* 创建浮动歌词秀 */
+	private void CreateFloatLRC()
+	{
+		layWM.type = 2003; // 置于最顶层，一般为2002
+		layWM.format = 1; // 透明背景
+		layWM.flags |= 8; // ==40
+		layWM.gravity = Gravity.LEFT | Gravity.TOP;
+		layWM.x = 0;
+		layWM.y = 0;
+		if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			layWM.width = 480;
+		else
+			layWM.width = 320;
+		layWM.height = 60;
+
+		fl.SetLRC(R.drawable.icon, getResources().getString(R.string.global_app_name_no_version), "TEST TEST TEST");
+		wm.addView(fl, layWM);
 	}
 
 	/* 显示音乐信息通知 */
@@ -1904,5 +1934,35 @@ public class srcMain extends Activity
 	public static int getMusicNotifyId()
 	{
 		return MUSIC_NOTIFY_ID;
+	}
+
+	public WindowManager getWm()
+	{
+		return wm;
+	}
+
+	public void setWm(WindowManager wm)
+	{
+		this.wm = wm;
+	}
+
+	public FloatLRC getFl()
+	{
+		return fl;
+	}
+
+	public void setFl(FloatLRC fl)
+	{
+		this.fl = fl;
+	}
+
+	public WindowManager.LayoutParams getLayWM()
+	{
+		return layWM;
+	}
+
+	public void setLayWM(WindowManager.LayoutParams layWM)
+	{
+		this.layWM = layWM;
 	}
 }
