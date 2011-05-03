@@ -145,7 +145,6 @@ public class srcMain extends Activity
 		py = new PYProvider();
 		hs = new HandlerService(this);
 		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
-		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE); // 通知Manager
 
 		// 清除上次程序运行的历史记录
 		Editor edt = sp.edit();
