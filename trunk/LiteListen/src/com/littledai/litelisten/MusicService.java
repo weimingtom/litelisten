@@ -133,6 +133,7 @@ public class MusicService
 				main.getLs().setStrLRCPath(strLRCPath);
 				main.getTxtTitle().setText(strShownTitle);
 				main.SetAlbumIcon();
+				main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 100, R.drawable.album_playing);
 
 				new Thread()
 				{
@@ -180,6 +181,7 @@ public class MusicService
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_STOP;
+			main.CallMusicNotify(main.getResources().getString(R.string.global_app_name_no_version), main.getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 
 			// 发送停止播放广播给Widget
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
@@ -300,6 +302,7 @@ public class MusicService
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_PAUSE;
 			main.SetAlbumIcon();
+			main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 100, R.drawable.album_paused);
 		}
 
 		// 发送停止播放广播给Widget

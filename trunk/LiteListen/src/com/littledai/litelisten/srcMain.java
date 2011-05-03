@@ -30,6 +30,9 @@ import org.blinkenlights.jid3.v1.ID3V1_1Tag;
 import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -64,6 +67,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -76,6 +80,7 @@ public class srcMain extends Activity
 {
 	private static final int ANIMATION_TIME = 500; // 动画时长
 	private static final int SPLASH_TIME = 3000; // 启动画面时长
+	private static final int MUSIC_NOTIFY_ID = 1; // 音乐信息通知序号
 
 	private List<Map<String, Object>> lstSong = new ArrayList<Map<String, Object>>(); // 播放列表
 	private int ScreenOrantation = 0;// 屏幕方向
@@ -116,6 +121,7 @@ public class srcMain extends Activity
 	private PYProvider py;
 	private HandlerService hs;
 	private MusicAdapter adapter;
+	private NotificationManager nm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -139,6 +145,7 @@ public class srcMain extends Activity
 		py = new PYProvider();
 		hs = new HandlerService(this);
 		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
+		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE); // 通知Manager
 
 		// 清除上次程序运行的历史记录
 		Editor edt = sp.edit();
@@ -148,6 +155,7 @@ public class srcMain extends Activity
 
 		FindViews();
 		ListernerBinding();
+		CallMusicNotify(getResources().getString(R.string.global_app_name_no_version), getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 
 		/* 设置耳机键盘监听 */
 		ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
@@ -217,6 +225,28 @@ public class srcMain extends Activity
 				}
 			}
 		}.start();
+	}
+
+	/* 显示音乐信息通知 */
+	public void CallMusicNotify(String Title, String Message, int ProgressValue, int ProgressMax, int NotifyIconResource)
+	{
+		Intent intent = new Intent(this, srcMain.class);
+		PendingIntent pdItent = PendingIntent.getActivity(this, 0, intent, 0);
+
+		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.notify_music);
+		rv.setImageViewResource(R.id.imgNotifyIcon, NotifyIconResource);
+		rv.setTextViewText(R.id.txtNotifyText, Title);
+		if (ProgressMax > 0 && ProgressMax >= ProgressValue)
+			rv.setProgressBar(R.id.prgNotify, ProgressMax, ProgressValue, false);
+		else
+			rv.setViewVisibility(R.id.prgNotify, View.GONE);
+
+		Notification notification = new Notification(NotifyIconResource, Message, System.currentTimeMillis());
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		notification.contentView = rv;
+		notification.contentIntent = pdItent;
+
+		nm.notify(MUSIC_NOTIFY_ID, notification);
 	}
 
 	/* 横竖屏切换不执行onCreate() */
@@ -1192,13 +1222,21 @@ public class srcMain extends Activity
 							edt.putString("LastKeyword", "");
 							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
 							edt.commit();
+							nm.cancelAll();
 							System.exit(0);
 
 							break;
 						}
 					case 8:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
+						{
+							Editor edt = sp.edit();
+							edt.putString("LastKeyword", "");
+							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
+							edt.commit();
+							nm.cancelAll();
 							System.exit(0);
+						}
 						else
 							;
 
@@ -1852,5 +1890,20 @@ public class srcMain extends Activity
 	public void setLayActivity(LinearLayout layActivity)
 	{
 		this.layActivity = layActivity;
+	}
+
+	public NotificationManager getNm()
+	{
+		return nm;
+	}
+
+	public void setNm(NotificationManager nm)
+	{
+		this.nm = nm;
+	}
+
+	public static int getMusicNotifyId()
+	{
+		return MUSIC_NOTIFY_ID;
 	}
 }
