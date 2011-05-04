@@ -18,14 +18,15 @@
 package com.littledai.litelisten;
 
 import android.graphics.Color;
-import android.text.TextUtils.TruncateAt;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@SuppressWarnings("deprecation")
 public class FloatLRC extends LinearLayout
 {
 	// 手指按下的相对View的位置
@@ -42,7 +43,7 @@ public class FloatLRC extends LinearLayout
 
 	// 歌词秀控件
 	ImageView imgIcon;
-	LinearLayout layMain;
+	AbsoluteLayout layMain;
 	TextView txtLRC1;
 	TextView txtLRC2;
 
@@ -60,34 +61,27 @@ public class FloatLRC extends LinearLayout
 		imgIcon.setLayoutParams(layIcon);
 
 		// 主体框架
-		layMain = new LinearLayout(main);
+		layMain = new AbsoluteLayout(main);
 		LinearLayout.LayoutParams layMainPars = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layMainPars.leftMargin = 5;
-		layMain.setOrientation(LinearLayout.VERTICAL);
 		layMain.setLayoutParams(layMainPars);
 
 		// 第一句歌词
 		txtLRC1 = new TextView(main);
-		LinearLayout.LayoutParams layText1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		AbsoluteLayout.LayoutParams layText1 = new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 5, 2);
 		txtLRC1.setLayoutParams(layText1);
 		txtLRC1.setTextSize(20);
 		txtLRC1.setTextColor(Color.WHITE);
 		txtLRC1.setShadowLayer(2, 2, 2, Color.BLACK);
 		txtLRC1.setSingleLine(true);
-		txtLRC1.setMarqueeRepeatLimit(1);
-		txtLRC1.setEllipsize(TruncateAt.MARQUEE);
 
 		// 第二句歌词
 		txtLRC2 = new TextView(main);
-		LinearLayout.LayoutParams layText2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layText2.gravity = Gravity.RIGHT;
+		AbsoluteLayout.LayoutParams layText2 = new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 5, 27);
 		txtLRC2.setLayoutParams(layText2);
 		txtLRC2.setTextSize(20);
 		txtLRC2.setTextColor(Color.WHITE);
 		txtLRC2.setShadowLayer(2, 2, 2, Color.BLACK);
 		txtLRC2.setSingleLine(true);
-		txtLRC2.setMarqueeRepeatLimit(1);
-		txtLRC2.setEllipsize(TruncateAt.MARQUEE);
 
 		// 将View依次装入框架
 		layMain.addView(txtLRC1);
@@ -220,12 +214,22 @@ public class FloatLRC extends LinearLayout
 		this.imgIcon = imgIcon;
 	}
 
-	public LinearLayout getLayMain()
+	// public LinearLayout getLayMain()
+	// {
+	// return layMain;
+	// }
+	//
+	// public void setLayMain(LinearLayout layMain)
+	// {
+	// this.layMain = layMain;
+	// }
+
+	public AbsoluteLayout getLayMain()
 	{
 		return layMain;
 	}
 
-	public void setLayMain(LinearLayout layMain)
+	public void setLayMain(AbsoluteLayout layMain)
 	{
 		this.layMain = layMain;
 	}

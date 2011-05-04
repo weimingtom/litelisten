@@ -19,6 +19,7 @@ package com.littledai.litelisten;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
@@ -27,8 +28,10 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 
+@SuppressWarnings("deprecation")
 public class HandlerService
 {
 	private srcMain main = null;
@@ -166,9 +169,51 @@ public class HandlerService
 			if (main.getLs().isIsChanged())
 			{
 				if (main.getLs().isCanRefreshFloatRC())
+				{
 					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.WHITE, main.getLs().getStrLRCToFloat2(), Color.rgb(155, 215, 255));
+
+					AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
+					layText1.x = 0;
+					main.getFl().getTxtLRC1().setLayoutParams(layText1);
+
+					Paint FontPaint = new Paint();
+					FontPaint.setTextSize(20);
+					float FontWidth = FontPaint.measureText(main.getLs().getStrLRCToFloat2());
+
+					if (FontWidth > 320 - 50 - 5)
+					{
+						AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
+						layText2.x = (int) (-FontWidth + 265);
+						main.getFl().getTxtLRC2().setLayoutParams(layText2);
+
+						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
+						anim.setDuration(500);
+						main.getFl().getTxtLRC2().setAnimation(anim);
+					}
+				}
 				else
+				{
 					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.rgb(155, 215, 255), main.getLs().getStrLRCToFloat2(), Color.WHITE);
+
+					AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
+					layText2.x = 0;
+					main.getFl().getTxtLRC2().setLayoutParams(layText2);
+
+					Paint FontPaint = new Paint();
+					FontPaint.setTextSize(20);
+					float FontWidth = FontPaint.measureText(main.getLs().getStrLRCToFloat1());
+
+					if (FontWidth > 320 - 50 - 5)
+					{
+						AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
+						layText1.x = (int) (-FontWidth + 265);
+						main.getFl().getTxtLRC1().setLayoutParams(layText1);
+
+						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
+						anim.setDuration(500);
+						main.getFl().getTxtLRC1().setAnimation(anim);
+					}
+				}
 			}
 		}
 	};
