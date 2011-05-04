@@ -28,6 +28,13 @@
 			</intent-filter>
 		</activity>
 
+		<!-- <receiver android:name=".ControlsReceiver">
+			<intent-filter>
+				<action android:name="com.littledai.intent.action.float.lrc.unlock" />
+				<action android:name="com.littledai.intent.action.float.lrc.lock" />
+			</intent-filter>
+		</receiver> -->
+
 		<receiver android:name=".WidgetSmall" android:label="@string/widget_title_small">
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/widget_provider_small" />

@@ -58,6 +58,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager.LayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -83,6 +84,7 @@ public class srcMain extends Activity
 	private static final int ANIMATION_TIME = 500; // 动画时长
 	private static final int SPLASH_TIME = 3000; // 启动画面时长
 	private static final int MUSIC_NOTIFY_ID = 1; // 音乐信息通知序号
+	private static final int LRC_NOTIFY_ID = 2; // 浮动歌词锁定通知序号
 
 	private List<Map<String, Object>> lstSong = new ArrayList<Map<String, Object>>(); // 播放列表
 	private int ScreenOrantation = 0;// 屏幕方向
@@ -93,6 +95,7 @@ public class srcMain extends Activity
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
 	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
+	private boolean IsFloatLRCLocked = false; // 浮动歌词是否已锁定
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -164,6 +167,7 @@ public class srcMain extends Activity
 		FindViews();
 		ListernerBinding();
 		CallMusicNotify(getResources().getString(R.string.global_app_name_no_version), getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
+		CallFloatLRCNotify(true);
 
 		/* 设置耳机键盘监听 */
 		ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
@@ -176,6 +180,12 @@ public class srcMain extends Activity
 
 		IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
 		registerReceiver(ctrlReceiver, ittFilterBluetooth);
+
+		IntentFilter ittFilterLRCLock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK); // 锁定歌词
+		registerReceiver(ctrlReceiver, ittFilterLRCLock);
+
+		IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
+		registerReceiver(ctrlReceiver, ittFilterLRCUnlock);
 
 		new Thread()
 		{
@@ -234,25 +244,28 @@ public class srcMain extends Activity
 			}
 		}.start();
 
-		CreateFloatLRC();
+		CreateFloatLRC(false);
+		fl.SetLRC(R.drawable.icon, getResources().getString(R.string.global_app_name_no_version), Color.WHITE, "TEST TEST TEST", Color.WHITE);
 	}
 
 	/* 创建浮动歌词秀 */
-	private void CreateFloatLRC()
+	private void CreateFloatLRC(boolean IsLocked)
 	{
 		layWM.type = 2003; // 置于最顶层，一般为2002
 		layWM.format = 1; // 透明背景
-		layWM.flags |= 8; // ==40
+		if (IsLocked)
+			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_NOT_TOUCHABLE;
+		else
+			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 		layWM.gravity = Gravity.LEFT | Gravity.TOP;
 		layWM.x = 0;
-		layWM.y = 0;
+		layWM.y = 10;
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			layWM.width = 480;
 		else
 			layWM.width = 320;
 		layWM.height = 60;
 
-		fl.SetLRC(R.drawable.icon, getResources().getString(R.string.global_app_name_no_version), "TEST TEST TEST");
 		wm.addView(fl, layWM);
 	}
 
@@ -276,6 +289,30 @@ public class srcMain extends Activity
 		notification.contentIntent = pdItent;
 
 		nm.notify(MUSIC_NOTIFY_ID, notification);
+	}
+
+	/* 显示桌面歌词锁定通知 */
+	public void CallFloatLRCNotify(boolean IsAlwaysStayOn)
+	{
+		Intent intent = new Intent(this, srcMain.class);
+		if (IsFloatLRCLocked)
+			intent.setAction(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK);
+		else
+			intent.setAction(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK);
+		PendingIntent pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification notification = new Notification(R.drawable.album_selected, getResources().getString(R.string.float_lrc_activated), System.currentTimeMillis());
+		if (IsAlwaysStayOn)
+			notification.flags = Notification.FLAG_ONGOING_EVENT;
+		else
+			notification.flags = Notification.FLAG_AUTO_CANCEL;
+
+		if (IsFloatLRCLocked)
+			notification.setLatestEventInfo(this, getResources().getString(R.string.float_lrc), getResources().getString(R.string.float_lrc_unlock), pdItent);
+		else
+			notification.setLatestEventInfo(this, getResources().getString(R.string.float_lrc), getResources().getString(R.string.float_lrc_lock), pdItent);
+
+		nm.notify(LRC_NOTIFY_ID, notification);
 	}
 
 	/* 横竖屏切换不执行onCreate() */
@@ -313,6 +350,8 @@ public class srcMain extends Activity
 			lstMusic.setVisibility(View.VISIBLE);
 		else
 			lstMusic.setVisibility(View.GONE);
+
+		CreateFloatLRC(false);
 	}
 
 	@Override

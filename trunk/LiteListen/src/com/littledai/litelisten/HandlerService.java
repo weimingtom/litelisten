@@ -18,6 +18,7 @@
 package com.littledai.litelisten;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
@@ -160,7 +161,14 @@ public class HandlerService
 				intent.putExtra("LRCMedium", main.getLs().getStrCurrLRCSentenceMedium());
 				intent.putExtra("LRCLarge", main.getLs().getStrCurrLRCSentenceLarge());
 				main.sendBroadcast(intent);
+			}
 
+			if (main.getLs().isIsChanged())
+			{
+				if (main.getLs().isCanRefreshFloatRC())
+					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.WHITE, main.getLs().getStrLRCToFloat2(), Color.rgb(155, 215, 255));
+				else
+					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.rgb(155, 215, 255), main.getLs().getStrLRCToFloat2(), Color.WHITE);
 			}
 		}
 	};

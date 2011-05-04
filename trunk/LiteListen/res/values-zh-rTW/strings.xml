@@ -38,6 +38,12 @@
 	<string name="widget_title_large">輕聽音樂 4×4</string>
 	<string name="widget_lrc">輕觸這裡選擇歌曲</string>
 
+	<string name="float_lrc">桌面歌詞</string>
+	<string name="float_lrc_activated">桌面歌詞已啟動</string>
+	<string name="float_lrc_deactivated">桌面歌詞已禁用</string>
+	<string name="float_lrc_lock">按一下這裡鎖定桌面歌詞</string>
+	<string name="float_lrc_unlock">按一下這裡解鎖桌面歌詞</string>
+
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
 	<string name="pfrscat_general_title">常規選項</string>

@@ -40,6 +40,12 @@
 	<string name="widget_title_large">LiteListen 4×4</string>
 	<string name="widget_lrc">Touch here to select a music</string>
 
+	<string name="float_lrc">DeskLyric</string>
+	<string name="float_lrc_activated">DeskLyric has been enabled</string>
+	<string name="float_lrc_deactivated">DeskLyric has been disabled</string>
+	<string name="float_lrc_lock">Click here to lock DeskLyric</string>
+	<string name="float_lrc_unlock">Click here to unlock DeskLyric</string>
+
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Choose An Image-Viewer</string>
 	<string name="pfrscat_general_title">General</string>

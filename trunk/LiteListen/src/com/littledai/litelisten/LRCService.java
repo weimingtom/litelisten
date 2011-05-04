@@ -49,11 +49,18 @@ public class LRCService
 	private srcMain main = null;
 	private int LastIndex = 0; // 上一次歌词的index
 	private boolean CanRefreshLRC = true; // 判断能否更新歌词
+	private boolean CanRefreshFloatRC = false; // 决定是否要更新浮动歌词
+	private boolean IsChanged = false; // 指示歌词是否经过更改
+	private boolean IsFirst = false; // 指示歌词是否第一次进入
 
 	// 当前时间正在播放的歌词，供Widget使用，分大中小三种
 	private String strCurrLRCSentenceLarge = "";
 	private String strCurrLRCSentenceMedium = "";
 	private String strCurrLRCSentenceSmall = "";
+
+	// 当前时间正在播放的歌词，供桌面歌词使用
+	private String strLRCToFloat1 = "";
+	private String strLRCToFloat2 = "";
 
 	public LRCService(srcMain main)
 	{
@@ -87,9 +94,11 @@ public class LRCService
 
 			int LineCount = 0; // 字符串所占行数
 
-			if (LastIndex != index || (index == 0 && LastIndex == 0))
+			if (LastIndex < index || (index == 0 && LastIndex == 0) && !IsFirst)
 			{// 如果本次和上一次处在一个index下，则表示重复处理，所以忽略（歌曲开头0除外）
 				String strLRCTemp = ""; // 从头到当前歌词
+				IsChanged = true;
+				IsFirst = true;
 
 				// 获取当前时间点前的所有歌词
 				for (int i = 0; i < lstTimeStamp.size(); i++)
@@ -101,6 +110,20 @@ public class LRCService
 					}
 					else
 						break;
+				}
+
+				// 获取桌面歌词
+				if (CanRefreshFloatRC)
+				{
+					strLRCToFloat1 = map.get(lstTimeStamp.get(index));
+					strLRCToFloat2 = map.get(lstTimeStamp.get(index + 1));
+					CanRefreshFloatRC = false;
+				}
+				else
+				{
+					strLRCToFloat1 = map.get(lstTimeStamp.get(index + 1));
+					strLRCToFloat2 = map.get(lstTimeStamp.get(index));
+					CanRefreshFloatRC = true;
 				}
 
 				SpannableStringBuilder ssb = new SpannableStringBuilder(strLRC);
@@ -136,6 +159,8 @@ public class LRCService
 
 				LastIndex = index; // 记录本句歌词的序号
 			}
+			else
+				IsChanged = false;
 		}
 	}
 
@@ -443,6 +468,8 @@ public class LRCService
 		layLRC.height = LayoutParams.WRAP_CONTENT;
 		main.getTxtLRC().setLayoutParams(layLRC);
 		main.getTxtLRC().setText(main.getResources().getString(R.string.lrcservice_loading_lrc));
+		IsChanged = false;
+		IsFirst = false;
 
 		/* 加载歌词线程 */
 		new Thread()
@@ -558,5 +585,45 @@ public class LRCService
 	public void setStrCurrLRCSentenceSmall(String strCurrLRCSentenceSmall)
 	{
 		this.strCurrLRCSentenceSmall = strCurrLRCSentenceSmall;
+	}
+
+	public String getStrLRCToFloat1()
+	{
+		return strLRCToFloat1;
+	}
+
+	public void setStrLRCToFloat1(String strLRCToFloat1)
+	{
+		this.strLRCToFloat1 = strLRCToFloat1;
+	}
+
+	public String getStrLRCToFloat2()
+	{
+		return strLRCToFloat2;
+	}
+
+	public void setStrLRCToFloat2(String strLRCToFloat2)
+	{
+		this.strLRCToFloat2 = strLRCToFloat2;
+	}
+
+	public boolean isCanRefreshFloatRC()
+	{
+		return CanRefreshFloatRC;
+	}
+
+	public void setCanRefreshFloatRC(boolean canRefreshFloatRC)
+	{
+		CanRefreshFloatRC = canRefreshFloatRC;
+	}
+
+	public boolean isIsChanged()
+	{
+		return IsChanged;
+	}
+
+	public void setIsChanged(boolean isChanged)
+	{
+		IsChanged = isChanged;
 	}
 }

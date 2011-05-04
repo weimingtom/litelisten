@@ -23,6 +23,8 @@ public class IntentConst
 	public static String INTENT_ACTION_REFRESH_TIME_N_TITLE = "com.littledai.intent.action.refresh.timentitle"; // 刷新时间
 	public static String INTENT_ACTION_IS_PLAYING = "com.littledai.intent.action.is.playing"; // 正在播放
 	public static String INTENT_ACTION_NOT_PLAYING = "com.littledai.intent.action.not.playing"; // 停止播放
+	public static String INTENT_ACTION_FLOAT_LRC_UNLOCK = "com.littledai.intent.action.float.lrc.unlock"; // 解锁桌面歌词
+	public static String INTENT_ACTION_FLOAT_LRC_LOCK = "com.littledai.intent.action.float.lrc.lock"; // 锁定桌面歌词
 
 	public static String getINTENT_ACTION_REFRESH_LRC()
 	{
@@ -62,5 +64,25 @@ public class IntentConst
 	public static void setINTENT_ACTION_NOT_PLAYING(String iNTENTACTIONNOTPLAYING)
 	{
 		INTENT_ACTION_NOT_PLAYING = iNTENTACTIONNOTPLAYING;
+	}
+
+	public static String getINTENT_ACTION_FLOAT_LRC_UNLOCK()
+	{
+		return INTENT_ACTION_FLOAT_LRC_UNLOCK;
+	}
+
+	public static void setINTENT_ACTION_FLOAT_LRC_UNLOCK(String iNTENTACTIONFLOATLRCUNLOCK)
+	{
+		INTENT_ACTION_FLOAT_LRC_UNLOCK = iNTENTACTIONFLOATLRCUNLOCK;
+	}
+
+	public static String getINTENT_ACTION_FLOAT_LRC_LOCK()
+	{
+		return INTENT_ACTION_FLOAT_LRC_LOCK;
+	}
+
+	public static void setINTENT_ACTION_FLOAT_LRC_LOCK(String iNTENTACTIONFLOATLRCLOCK)
+	{
+		INTENT_ACTION_FLOAT_LRC_LOCK = iNTENTACTIONFLOATLRCLOCK;
 	}
 }
