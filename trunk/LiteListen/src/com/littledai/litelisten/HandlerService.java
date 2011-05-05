@@ -19,7 +19,6 @@ package com.littledai.litelisten;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
@@ -95,7 +94,7 @@ public class HandlerService
 				main.getSkbMusic().setMax(0);
 				main.getSkbMusic().setProgress(0);
 				main.getTxtTime().setText("00:00 / 00:00");
-				main.CallMusicNotify(main.getResources().getString(R.string.global_app_name_no_version), main.getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
+				main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), main.getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 			}
 
 			// 通过广播更新 Widget
@@ -171,46 +170,43 @@ public class HandlerService
 				if (main.getLs().isCanRefreshFloatRC())
 				{
 					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.WHITE, main.getLs().getStrLRCToFloat2(), Color.rgb(155, 215, 255));
-
 					AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
-					layText1.x = 0;
+					layText1.x = 5;
 					main.getFl().getTxtLRC1().setLayoutParams(layText1);
 
-					Paint FontPaint = new Paint();
-					FontPaint.setTextSize(20);
-					float FontWidth = FontPaint.measureText(main.getLs().getStrLRCToFloat2());
-
-					if (FontWidth > 320 - 50 - 5)
+					float FontWidth = Common.GetTextWidth(main.getLs().getStrLRCToFloat2(), main.getFl().getTxtLRC2().getTextSize());
+					if (FontWidth > 265)
 					{
 						AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
-						layText2.x = (int) (-FontWidth + 265);
+						layText2.x = (int) (-FontWidth + 270);
 						main.getFl().getTxtLRC2().setLayoutParams(layText2);
 
 						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
-						anim.setDuration(500);
+						anim.setStartOffset((long) (main.getLs().getTimeGap() * 0.15));
+						anim.setDuration((long) (main.getLs().getTimeGap() * 0.80));
 						main.getFl().getTxtLRC2().setAnimation(anim);
 					}
 				}
 				else
 				{
 					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.rgb(155, 215, 255), main.getLs().getStrLRCToFloat2(), Color.WHITE);
-
 					AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
-					layText2.x = 0;
+					if (layText2.width <= 265)
+						layText2.x = 270 - layText2.width;
+					else
+						layText2.x = 5;
 					main.getFl().getTxtLRC2().setLayoutParams(layText2);
 
-					Paint FontPaint = new Paint();
-					FontPaint.setTextSize(20);
-					float FontWidth = FontPaint.measureText(main.getLs().getStrLRCToFloat1());
-
+					float FontWidth = Common.GetTextWidth(main.getLs().getStrLRCToFloat1(), main.getFl().getTxtLRC1().getTextSize());
 					if (FontWidth > 320 - 50 - 5)
 					{
 						AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
-						layText1.x = (int) (-FontWidth + 265);
+						layText1.x = (int) (-FontWidth + 270);
 						main.getFl().getTxtLRC1().setLayoutParams(layText1);
 
 						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
-						anim.setDuration(500);
+						anim.setStartOffset((long) (main.getLs().getTimeGap() * 0.25));
+						anim.setDuration((long) (main.getLs().getTimeGap() * 0.70));
 						main.getFl().getTxtLRC1().setAnimation(anim);
 					}
 				}

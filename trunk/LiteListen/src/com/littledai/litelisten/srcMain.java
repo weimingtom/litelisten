@@ -166,7 +166,7 @@ public class srcMain extends Activity
 
 		FindViews();
 		ListernerBinding();
-		CallMusicNotify(getResources().getString(R.string.global_app_name_no_version), getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
+		CallMusicNotify(getString(R.string.global_app_name_no_version), getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 		CallFloatLRCNotify(true);
 
 		/* 设置耳机键盘监听 */
@@ -245,7 +245,7 @@ public class srcMain extends Activity
 		}.start();
 
 		CreateFloatLRC(false);
-		fl.SetLRC(R.drawable.icon, getResources().getString(R.string.global_app_name_no_version), Color.WHITE, "TEST TEST TEST", Color.WHITE);
+		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE);
 	}
 
 	/* 创建浮动歌词秀 */
@@ -301,16 +301,16 @@ public class srcMain extends Activity
 			intent.setAction(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK);
 		PendingIntent pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		Notification notification = new Notification(R.drawable.album_selected, getResources().getString(R.string.float_lrc_activated), System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.album_selected, getString(R.string.float_lrc_activated), System.currentTimeMillis());
 		if (IsAlwaysStayOn)
 			notification.flags = Notification.FLAG_ONGOING_EVENT;
 		else
 			notification.flags = Notification.FLAG_AUTO_CANCEL;
 
 		if (IsFloatLRCLocked)
-			notification.setLatestEventInfo(this, getResources().getString(R.string.float_lrc), getResources().getString(R.string.float_lrc_unlock), pdItent);
+			notification.setLatestEventInfo(this, getString(R.string.float_lrc), getString(R.string.float_lrc_unlock), pdItent);
 		else
-			notification.setLatestEventInfo(this, getResources().getString(R.string.float_lrc), getResources().getString(R.string.float_lrc_lock), pdItent);
+			notification.setLatestEventInfo(this, getString(R.string.float_lrc), getString(R.string.float_lrc_lock), pdItent);
 
 		nm.notify(LRC_NOTIFY_ID, notification);
 	}
@@ -727,54 +727,54 @@ public class srcMain extends Activity
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_settings);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_settings));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_settings));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_refresh);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_refresh_list));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_refresh_list));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_keep_screen_on);
 		if (sp.getBoolean("KeepScreenOn", false))
 		{
-			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_false));
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_false));
 			layActivity.setKeepScreenOn(true);
 		}
 		else
 		{
-			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true));
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_true));
 			layActivity.setKeepScreenOn(false);
 		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_search);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_search));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_search));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		if (sp.getString("OrderBy", "asc").equals("asc"))
 		{
 			map.put("ItemIcon", R.drawable.menu_order_desc);
-			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_desc));
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_order_desc));
 		}
 		else
 		{
 			map.put("ItemIcon", R.drawable.menu_order_asc);
-			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_order_asc));
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_order_asc));
 		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
 		lstMenuItem.add(map);
 
 		// 横屏多一项菜单
@@ -782,13 +782,13 @@ public class srcMain extends Activity
 		{
 			map = new HashMap<String, Object>();
 			map.put("ItemIcon", R.drawable.menu_wait);
-			map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_wait));
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
 			lstMenuItem.add(map);
 		}
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_exit);
-		map.put("ItemText", getResources().getString(R.string.srcmain_extend_menu_exit));
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_exit));
 		lstMenuItem.add(map);
 
 		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
@@ -863,14 +863,14 @@ public class srcMain extends Activity
 				map.put("Album", ID3v1_0.getAlbum());
 				map.put("Comment", ID3v1_0.getComment());
 				map.put("Year", ID3v1_0.getYear());
-				map.put("Track", getResources().getString(R.string.srcmain_no_track_number));
+				map.put("Track", getString(R.string.srcmain_no_track_number));
 				map.put("Genre", String.valueOf(ID3v1_0.getGenre()));
 			}
 		}
 		else
 		{
 			map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
-			map.put("SongInfo", getResources().getString(R.string.srcmain_no_id3_tag_found));
+			map.put("SongInfo", getString(R.string.srcmain_no_id3_tag_found));
 			map.put("Artist", "");
 			map.put("Album", "");
 			map.put("Comment", "");
@@ -1117,31 +1117,31 @@ public class srcMain extends Activity
 				{
 					edt.putString("lstPlayMode", "1");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_all);
-					Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_play_mode_repeat_all), Toast.LENGTH_SHORT).show();
+					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_repeat_all), Toast.LENGTH_SHORT).show();
 				}
 				else if (index.equals("1"))
 				{
 					edt.putString("lstPlayMode", "2");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_pause_current);
-					Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_play_mode_pause_current), Toast.LENGTH_SHORT).show();
+					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_pause_current), Toast.LENGTH_SHORT).show();
 				}
 				else if (index.equals("2"))
 				{
 					edt.putString("lstPlayMode", "3");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_current);
-					Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_play_mode_repeat_current), Toast.LENGTH_SHORT).show();
+					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_repeat_current), Toast.LENGTH_SHORT).show();
 				}
 				else if (index.equals("3"))
 				{
 					edt.putString("lstPlayMode", "4");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_shuffle);
-					Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_play_mode_shuffle), Toast.LENGTH_SHORT).show();
+					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_shuffle), Toast.LENGTH_SHORT).show();
 				}
 				else if (index.equals("4"))
 				{
 					edt.putString("lstPlayMode", "0");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
-					Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_play_mode_close), Toast.LENGTH_SHORT).show();
+					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_close), Toast.LENGTH_SHORT).show();
 				}
 
 				edt.commit();
@@ -1204,25 +1204,24 @@ public class srcMain extends Activity
 					case 1:
 						if (!IsMusicRefreshing)
 						{
-							dlg.ShowDialog(getResources().getString(R.string.srcmain_create_play_list_title), getResources().getString(R.string.srcmain_create_play_list_message),
-									new OnClickListener()
-									{
-										public void onClick(View v)
-										{
-											SetMusicInfoToDB();
-											dlg.CloseDialog();
-										}
-									}, new OnClickListener()
-									{
-										public void onClick(View v)
-										{
-											dlg.CloseDialog();
-										}
-									});
+							dlg.ShowDialog(getString(R.string.srcmain_create_play_list_title), getString(R.string.srcmain_create_play_list_message), new OnClickListener()
+							{
+								public void onClick(View v)
+								{
+									SetMusicInfoToDB();
+									dlg.CloseDialog();
+								}
+							}, new OnClickListener()
+							{
+								public void onClick(View v)
+								{
+									dlg.CloseDialog();
+								}
+							});
 						}
 						else
 						{
-							dlg.ShowDialog(getResources().getString(R.string.srcmain_create_play_list_title), getResources().getString(R.string.srcmain_indexing), new OnClickListener()
+							dlg.ShowDialog(getString(R.string.srcmain_create_play_list_title), getString(R.string.srcmain_indexing), new OnClickListener()
 							{
 								public void onClick(View v)
 								{
@@ -1242,7 +1241,7 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", true);
 							edt.commit();
-							Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_true), Toast.LENGTH_SHORT).show();
+							Toast.makeText(srcMain.this, getString(R.string.srcmain_extend_menu_keep_screen_on_true), Toast.LENGTH_SHORT).show();
 						}
 						else
 						{
@@ -1251,7 +1250,7 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", false);
 							edt.commit();
-							Toast.makeText(srcMain.this, getResources().getString(R.string.srcmain_extend_menu_keep_screen_on_false), Toast.LENGTH_SHORT).show();
+							Toast.makeText(srcMain.this, getString(R.string.srcmain_extend_menu_keep_screen_on_false), Toast.LENGTH_SHORT).show();
 						}
 
 						break;

@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -52,6 +51,7 @@ public class LRCService
 	private boolean CanRefreshFloatRC = false; // 决定是否要更新浮动歌词
 	private boolean IsChanged = false; // 指示歌词是否经过更改
 	private boolean IsFirst = false; // 指示歌词是否第一次进入
+	private Long TimeGap = null; // 当前歌词和下一句的时间差
 
 	// 当前时间正在播放的歌词，供Widget使用，分大中小三种
 	private String strCurrLRCSentenceLarge = "";
@@ -113,6 +113,7 @@ public class LRCService
 				}
 
 				// 获取桌面歌词
+				TimeGap = lstTimeStamp.get(index + 1) - CurrTime; // 获取时间差
 				if (CanRefreshFloatRC)
 				{
 					strLRCToFloat1 = map.get(lstTimeStamp.get(index));
@@ -191,12 +192,8 @@ public class LRCService
 	/* 获取一行字符串自动换行后的行数 */
 	public int GetSentenceLines(String Sentence, float TextSize, int ShowingAreaWidth)
 	{
-		// 获取字符串宽度
-		Paint FontPaint = new Paint();
-		FontPaint.setTextSize(TextSize);
-		float FontWidth = FontPaint.measureText(Sentence);
-
 		// 计算行数
+		float FontWidth = Common.GetTextWidth(Sentence, TextSize); // 获取字符串宽度
 		int ClearlyLineNumber = (int) Math.floor(FontWidth / ShowingAreaWidth);
 		float RemainLine = FontWidth % ShowingAreaWidth;
 
@@ -218,7 +215,7 @@ public class LRCService
 			if (!f.exists())
 			{
 				IsLyricExist = false;
-				strLRC = main.getResources().getString(R.string.lrcservice_no_lyric_found);
+				strLRC = main.getString(R.string.lrcservice_no_lyric_found);
 			}
 			else
 			{
@@ -384,7 +381,7 @@ public class LRCService
 		byte[] first3Bytes = new byte[3];
 		try
 		{
-			boolean checked = false;
+			boolean IsMarked = false;
 			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
 			bis.mark(0);
 			int read = bis.read(first3Bytes, 0, 3);
@@ -393,20 +390,22 @@ public class LRCService
 			if (first3Bytes[0] == (byte) 0xFF && first3Bytes[1] == (byte) 0xFE)
 			{
 				charset = "UTF-16LE";
-				checked = true;
+				IsMarked = true;
 			}
 			else if (first3Bytes[0] == (byte) 0xFE && first3Bytes[1] == (byte) 0xFF)
 			{
 				charset = "UTF-16BE";
-				checked = true;
+				IsMarked = true;
 			}
 			else if (first3Bytes[0] == (byte) 0xEF && first3Bytes[1] == (byte) 0xBB && first3Bytes[2] == (byte) 0xBF)
 			{
 				charset = "UTF-8";
-				checked = true;
+				IsMarked = true;
 			}
-			bis.reset();
-			if (!checked)
+
+			if (IsMarked)
+				bis.reset();
+			else
 			{
 				int loc = 0;
 				while ((read = bis.read()) != -1)
@@ -467,9 +466,10 @@ public class LRCService
 		layLRC.topMargin = 200;
 		layLRC.height = LayoutParams.WRAP_CONTENT;
 		main.getTxtLRC().setLayoutParams(layLRC);
-		main.getTxtLRC().setText(main.getResources().getString(R.string.lrcservice_loading_lrc));
+		main.getTxtLRC().setText(main.getString(R.string.lrcservice_loading_lrc));
 		IsChanged = false;
 		IsFirst = false;
+		main.getFl().SetLRC(R.drawable.album_selected, main.getMs().getStrShownTitle(), Color.WHITE, main.getString(R.string.lrcservice_loading_lrc), Color.WHITE);
 
 		/* 加载歌词线程 */
 		new Thread()
@@ -625,5 +625,25 @@ public class LRCService
 	public void setIsChanged(boolean isChanged)
 	{
 		IsChanged = isChanged;
+	}
+
+	public boolean isIsFirst()
+	{
+		return IsFirst;
+	}
+
+	public void setIsFirst(boolean isFirst)
+	{
+		IsFirst = isFirst;
+	}
+
+	public Long getTimeGap()
+	{
+		return TimeGap;
+	}
+
+	public void setTimeGap(Long timeGap)
+	{
+		TimeGap = timeGap;
 	}
 }

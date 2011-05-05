@@ -2,7 +2,8 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.5.2 build 0502.2311</string>
+	<string name="global_app_version">0.5.3 build 0505.1721</string>
+	<string name="global_app_version_desk_preview">桌面歌词预览版</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -93,8 +94,8 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n内部版本：2011.0502.2311\n\n更新内容：\n1、调整了一处界面细节\n2、修正了普遍存在于搜索、列表滚动时切换屏幕方向等操作时程序崩溃的问题\n3、增加音乐列表升序、降序排列功能\n\n下期预告：\n增加对MIUI
-		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n内部版本：2011.0505.1721\n\n更新内容：\n1、增加了桌面歌词预览版\n2、桌面歌词尚不能记录上次拖动的位置和锁定\n\n下期预告：\n增加对MIUI
+		ROM 的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

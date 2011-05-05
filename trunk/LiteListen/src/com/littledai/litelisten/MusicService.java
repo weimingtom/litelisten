@@ -181,7 +181,7 @@ public class MusicService
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_STOP;
-			main.CallMusicNotify(main.getResources().getString(R.string.global_app_name_no_version), main.getResources().getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
+			main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), main.getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 
 			// 发送停止播放广播给Widget
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);

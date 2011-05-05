@@ -69,7 +69,7 @@ public class FloatLRC extends LinearLayout
 		txtLRC1 = new TextView(main);
 		AbsoluteLayout.LayoutParams layText1 = new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 5, 2);
 		txtLRC1.setLayoutParams(layText1);
-		txtLRC1.setTextSize(20);
+		txtLRC1.setTextSize(22);
 		txtLRC1.setTextColor(Color.WHITE);
 		txtLRC1.setShadowLayer(2, 2, 2, Color.BLACK);
 		txtLRC1.setSingleLine(true);
@@ -78,7 +78,7 @@ public class FloatLRC extends LinearLayout
 		txtLRC2 = new TextView(main);
 		AbsoluteLayout.LayoutParams layText2 = new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 5, 27);
 		txtLRC2.setLayoutParams(layText2);
-		txtLRC2.setTextSize(20);
+		txtLRC2.setTextSize(22);
 		txtLRC2.setTextColor(Color.WHITE);
 		txtLRC2.setShadowLayer(2, 2, 2, Color.BLACK);
 		txtLRC2.setSingleLine(true);
@@ -91,12 +91,25 @@ public class FloatLRC extends LinearLayout
 	}
 
 	/* …Ë÷√∏Ë¥ ƒ⁄»› */
-	public void SetLRC(int IconResource, String Sentense1, int Color1, String Sentense2, int Color2)
+	public void SetLRC(int IconResource, String Sentence1, int Color1, String Sentence2, int Color2)
 	{
+		AbsoluteLayout.LayoutParams layLRC1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
+		layLRC1.width = (int) Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
+		layLRC1.x = 5;
+		txtLRC1.setLayoutParams(layLRC1);
+
+		AbsoluteLayout.LayoutParams layLRC2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
+		layLRC2.width = (int) Common.GetTextWidth(Sentence2, txtLRC1.getTextSize());
+		if (layLRC2.width <= 265)
+			layLRC2.x = 270 - layLRC2.width;
+		else
+			layLRC2.x = 5;
+		txtLRC2.setLayoutParams(layLRC2);
+
 		imgIcon.setImageResource(IconResource);
-		txtLRC1.setText(Sentense1);
+		txtLRC1.setText(Sentence1);
 		txtLRC1.setTextColor(Color1);
-		txtLRC2.setText(Sentense2);
+		txtLRC2.setText(Sentence2);
 		txtLRC2.setTextColor(Color2);
 	}
 

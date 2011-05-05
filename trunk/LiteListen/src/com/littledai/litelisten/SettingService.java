@@ -277,12 +277,12 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				dlgAlert.ShowDialog(getResources().getString(R.string.global_request), getResources().getString(R.string.pfrscat_help_visit_official_site_message), new OnClickListener()
+				dlgAlert.ShowDialog(getString(R.string.global_request), getString(R.string.pfrscat_help_visit_official_site_message), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Intent i = new Intent(Intent.ACTION_VIEW);
-						i.setData(Uri.parse(getResources().getString(R.string.pfrscat_help_visit_official_site_summary)));
+						i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
 						startActivity(i);
 						dlgAlert.CloseDialog();
 					}
@@ -302,7 +302,7 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				dlgAlert.ShowDialog(getResources().getString(R.string.global_app_name_no_version), getResources().getString(R.string.pfrscat_help_about_message), new OnClickListener()
+				dlgAlert.ShowDialog(getString(R.string.global_app_name_no_version), getString(R.string.pfrscat_help_about_message), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -357,7 +357,7 @@ public class SettingService extends PreferenceActivity
 			{
 				lstLanguage.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Value)]);
 
-				dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_general_language_title), getResources().getString(R.string.pfrscat_general_language_message), new OnClickListener()
+				dlgAlert.ShowDialog(getString(R.string.pfrscat_general_language_title), getString(R.string.pfrscat_general_language_message), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -390,7 +390,7 @@ public class SettingService extends PreferenceActivity
 					intent.putExtra("aspectX", 3);
 					intent.putExtra("aspectY", 5);
 
-					startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.pfrsmain_image)), IMAGE_SELECTED_PORT);
+					startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_PORT);
 				}
 			}
 
@@ -411,7 +411,7 @@ public class SettingService extends PreferenceActivity
 					intent.putExtra("aspectX", 5);
 					intent.putExtra("aspectY", 3);
 
-					startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.pfrsmain_image)), IMAGE_SELECTED_LAND);
+					startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_LAND);
 				}
 			}
 
@@ -463,7 +463,7 @@ public class SettingService extends PreferenceActivity
 					edt.putString("txtRestore", "");
 					edt.commit();
 
-					dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
+					dlgAlert.ShowDialog(getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
 					{
 						public void onClick(View v)
 						{
@@ -474,7 +474,7 @@ public class SettingService extends PreferenceActivity
 				}
 				else
 				{
-					dlgAlert.ShowDialog(getResources().getString(R.string.pfrscat_others_restore), getResources().getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
+					dlgAlert.ShowDialog(getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
 					{
 						public void onClick(View v)
 						{
