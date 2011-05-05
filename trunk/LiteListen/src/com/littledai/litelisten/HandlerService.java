@@ -27,10 +27,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 
-@SuppressWarnings("deprecation")
 public class HandlerService
 {
 	private srcMain main = null;
@@ -168,48 +166,11 @@ public class HandlerService
 			if (main.getLs().isIsChanged())
 			{
 				if (main.getLs().isCanRefreshFloatRC())
-				{
-					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.WHITE, main.getLs().getStrLRCToFloat2(), Color.rgb(155, 215, 255));
-					AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
-					layText1.x = 5;
-					main.getFl().getTxtLRC1().setLayoutParams(layText1);
-
-					float FontWidth = Common.GetTextWidth(main.getLs().getStrLRCToFloat2(), main.getFl().getTxtLRC2().getTextSize());
-					if (FontWidth > 265)
-					{
-						AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
-						layText2.x = (int) (-FontWidth + 270);
-						main.getFl().getTxtLRC2().setLayoutParams(layText2);
-
-						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
-						anim.setStartOffset((long) (main.getLs().getTimeGap() * 0.15));
-						anim.setDuration((long) (main.getLs().getTimeGap() * 0.80));
-						main.getFl().getTxtLRC2().setAnimation(anim);
-					}
-				}
+					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.WHITE, main.getLs().getStrLRCToFloat2(), Color.rgb(155, 215, 255),
+							main.getLs().getTimeGap(), 1);
 				else
-				{
-					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.rgb(155, 215, 255), main.getLs().getStrLRCToFloat2(), Color.WHITE);
-					AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC2().getLayoutParams();
-					if (layText2.width <= 265)
-						layText2.x = 270 - layText2.width;
-					else
-						layText2.x = 5;
-					main.getFl().getTxtLRC2().setLayoutParams(layText2);
-
-					float FontWidth = Common.GetTextWidth(main.getLs().getStrLRCToFloat1(), main.getFl().getTxtLRC1().getTextSize());
-					if (FontWidth > 320 - 50 - 5)
-					{
-						AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) main.getFl().getTxtLRC1().getLayoutParams();
-						layText1.x = (int) (-FontWidth + 270);
-						main.getFl().getTxtLRC1().setLayoutParams(layText1);
-
-						Animation anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
-						anim.setStartOffset((long) (main.getLs().getTimeGap() * 0.25));
-						anim.setDuration((long) (main.getLs().getTimeGap() * 0.70));
-						main.getFl().getTxtLRC1().setAnimation(anim);
-					}
-				}
+					main.getFl().SetLRC(R.drawable.album_selected, main.getLs().getStrLRCToFloat1(), Color.rgb(155, 215, 255), main.getLs().getStrLRCToFloat2(), Color.WHITE,
+							main.getLs().getTimeGap(), 2);
 			}
 		}
 	};

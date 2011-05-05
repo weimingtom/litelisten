@@ -469,7 +469,7 @@ public class LRCService
 		main.getTxtLRC().setText(main.getString(R.string.lrcservice_loading_lrc));
 		IsChanged = false;
 		IsFirst = false;
-		main.getFl().SetLRC(R.drawable.album_selected, main.getMs().getStrShownTitle(), Color.WHITE, main.getString(R.string.lrcservice_loading_lrc), Color.WHITE);
+		main.getFl().SetLRC(R.drawable.album_selected, main.getMs().getStrShownTitle(), Color.WHITE, main.getString(R.string.lrcservice_loading_lrc), Color.WHITE, null, 0);
 
 		/* º”‘ÿ∏Ë¥ œﬂ≥Ã */
 		new Thread()

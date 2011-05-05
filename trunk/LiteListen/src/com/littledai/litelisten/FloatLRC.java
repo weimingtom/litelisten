@@ -17,10 +17,13 @@
 
 package com.littledai.litelisten;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,7 @@ public class FloatLRC extends LinearLayout
 	private WindowManager wm;
 	private WindowManager.LayoutParams layWM;
 	private srcMain main;
+	private int ScreenOrantation;
 
 	// 歌词秀控件
 	ImageView imgIcon;
@@ -53,6 +57,7 @@ public class FloatLRC extends LinearLayout
 		wm = (WindowManager) main.getApplicationContext().getSystemService("window");
 		layWM = main.getLayWM();
 		this.main = main;
+		ScreenOrantation = ((WindowManager) main.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
 		// 设置专辑图标
 		imgIcon = new ImageView(main);
@@ -71,7 +76,7 @@ public class FloatLRC extends LinearLayout
 		txtLRC1.setLayoutParams(layText1);
 		txtLRC1.setTextSize(22);
 		txtLRC1.setTextColor(Color.WHITE);
-		txtLRC1.setShadowLayer(2, 2, 2, Color.BLACK);
+		txtLRC1.setShadowLayer(1, 1, 1, Color.BLACK);
 		txtLRC1.setSingleLine(true);
 
 		// 第二句歌词
@@ -80,7 +85,7 @@ public class FloatLRC extends LinearLayout
 		txtLRC2.setLayoutParams(layText2);
 		txtLRC2.setTextSize(22);
 		txtLRC2.setTextColor(Color.WHITE);
-		txtLRC2.setShadowLayer(2, 2, 2, Color.BLACK);
+		txtLRC2.setShadowLayer(1, 1, 1, Color.BLACK);
 		txtLRC2.setSingleLine(true);
 
 		// 将View依次装入框架
@@ -91,20 +96,97 @@ public class FloatLRC extends LinearLayout
 	}
 
 	/* 设置歌词内容 */
-	public void SetLRC(int IconResource, String Sentence1, int Color1, String Sentence2, int Color2)
+	public void SetLRC(int IconResource, String Sentence1, int Color1, String Sentence2, int Color2, Long TimeGap, int ChangedLineNumber)
 	{
-		AbsoluteLayout.LayoutParams layLRC1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
-		layLRC1.width = (int) Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
-		layLRC1.x = 5;
-		txtLRC1.setLayoutParams(layLRC1);
+		ScreenOrantation = ((WindowManager) main.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
-		AbsoluteLayout.LayoutParams layLRC2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
-		layLRC2.width = (int) Common.GetTextWidth(Sentence2, txtLRC1.getTextSize());
-		if (layLRC2.width <= 265)
-			layLRC2.x = 270 - layLRC2.width;
+		if (ChangedLineNumber == 1)
+		{
+			Animation anim = null;
+			AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
+			float FontWidth = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
+			if ((ScreenOrantation == 1 || ScreenOrantation == 3))
+			{
+				main.getLayWM().width = 533;
+				layText2.x = (int) (483 - FontWidth);
+				if (FontWidth > 478)
+					anim = new TranslateAnimation(FontWidth - 478, 0, 0, 0);
+			}
+			else
+			{
+				main.getLayWM().width = 320;
+				layText2.x = (int) (270 - FontWidth);
+				if (FontWidth > 265)
+					anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
+			}
+
+			AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
+			layText1.x = 5;
+			layText1.width = (int) Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
+			txtLRC1.setLayoutParams(layText1);
+			layText2.width = (int) FontWidth;
+			txtLRC2.setLayoutParams(layText2);
+
+			if (main.getSp().getBoolean("chkUseAnimation", true) && anim != null && TimeGap != null)
+			{
+				anim.setStartOffset((long) (TimeGap * 0.15));
+				anim.setDuration((long) (TimeGap * 0.75));
+				txtLRC2.setAnimation(anim);
+			}
+		}
 		else
-			layLRC2.x = 5;
-		txtLRC2.setLayoutParams(layLRC2);
+		{
+			Animation anim = null;
+			AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
+			AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
+			float FontWidth1 = Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
+			float FontWidth2 = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				main.getLayWM().width = 533;
+
+				if (FontWidth2 > 478)
+					layText2.x = 5;
+				else
+					layText2.x = (int) (483 - FontWidth2);
+
+				if (FontWidth1 > 478)
+				{
+					layText1.x = (int) (483 - FontWidth1);
+					anim = new TranslateAnimation(FontWidth1 - 478, 0, 0, 0);
+				}
+				else
+					layText1.x = 5;
+			}
+			else
+			{
+				main.getLayWM().width = 320;
+
+				if (FontWidth2 > 265)
+					layText2.x = 5;
+				else
+					layText2.x = (int) (270 - FontWidth2);
+
+				if (FontWidth1 > 265)
+				{
+					layText1.x = (int) (270 - FontWidth1);
+					anim = new TranslateAnimation(FontWidth1 - 265, 0, 0, 0);
+				}
+				else
+					layText1.x = 5;
+			}
+
+			txtLRC1.setLayoutParams(layText1);
+			layText2.width = (int) Common.GetTextWidth(Sentence2, txtLRC1.getTextSize());
+			txtLRC2.setLayoutParams(layText2);
+
+			if (main.getSp().getBoolean("chkUseAnimation", true) && anim != null && TimeGap != null)
+			{
+				anim.setStartOffset((long) (TimeGap * 0.15));
+				anim.setDuration((long) (TimeGap * 0.75));
+				txtLRC1.setAnimation(anim);
+			}
+		}
 
 		imgIcon.setImageResource(IconResource);
 		txtLRC1.setText(Sentence1);
@@ -227,16 +309,6 @@ public class FloatLRC extends LinearLayout
 		this.imgIcon = imgIcon;
 	}
 
-	// public LinearLayout getLayMain()
-	// {
-	// return layMain;
-	// }
-	//
-	// public void setLayMain(LinearLayout layMain)
-	// {
-	// this.layMain = layMain;
-	// }
-
 	public AbsoluteLayout getLayMain()
 	{
 		return layMain;
@@ -265,5 +337,15 @@ public class FloatLRC extends LinearLayout
 	public void setTxtLRC2(TextView txtLRC2)
 	{
 		this.txtLRC2 = txtLRC2;
+	}
+
+	public int getScreenOrantation()
+	{
+		return ScreenOrantation;
+	}
+
+	public void setScreenOrantation(int screenOrantation)
+	{
+		ScreenOrantation = screenOrantation;
 	}
 }

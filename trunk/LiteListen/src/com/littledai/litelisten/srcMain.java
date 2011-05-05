@@ -245,7 +245,7 @@ public class srcMain extends Activity
 		}.start();
 
 		CreateFloatLRC(false);
-		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE);
+		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE, null, 1);
 	}
 
 	/* 创建浮动歌词秀 */
@@ -261,12 +261,13 @@ public class srcMain extends Activity
 		layWM.x = 0;
 		layWM.y = 10;
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			layWM.width = 480;
+			layWM.width = 533;
 		else
 			layWM.width = 320;
 		layWM.height = 60;
 
 		wm.addView(fl, layWM);
+		fl.setVisibility(View.INVISIBLE);
 	}
 
 	/* 显示音乐信息通知 */
@@ -351,7 +352,14 @@ public class srcMain extends Activity
 		else
 			lstMusic.setVisibility(View.GONE);
 
-		CreateFloatLRC(false);
+		if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			layWM.width = 533;
+		else
+			layWM.width = 320;
+
+		if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
+			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE, null, 1);
+		fl.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -364,6 +372,7 @@ public class srcMain extends Activity
 		edt.commit();
 
 		ls.RefreshLRC();
+		fl.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -421,6 +430,7 @@ public class srcMain extends Activity
 		}.start();
 
 		ls.RefreshLRC();
+		fl.setVisibility(View.INVISIBLE);
 	}
 
 	/* 歌曲信息入库 */
