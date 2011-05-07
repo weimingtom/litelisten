@@ -95,7 +95,6 @@ public class srcMain extends Activity
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
 	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
-	private boolean IsFloatLRCLocked = false; // 浮动歌词是否已锁定
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -167,7 +166,7 @@ public class srcMain extends Activity
 		FindViews();
 		ListernerBinding();
 		CallMusicNotify(getString(R.string.global_app_name_no_version), getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
-		CallFloatLRCNotify(true);
+		CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
 
 		/* 设置耳机键盘监听 */
 		ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
@@ -244,22 +243,22 @@ public class srcMain extends Activity
 			}
 		}.start();
 
-		CreateFloatLRC(false);
-		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE, null, 1);
+		CreateFloatLRC();
+		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 	}
 
 	/* 创建浮动歌词秀 */
-	private void CreateFloatLRC(boolean IsLocked)
+	public void CreateFloatLRC()
 	{
 		layWM.type = 2003; // 置于最顶层，一般为2002
 		layWM.format = 1; // 透明背景
-		if (IsLocked)
+		if (sp.getBoolean("FloatLRCLocked", false))
 			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_NOT_TOUCHABLE;
 		else
 			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 		layWM.gravity = Gravity.LEFT | Gravity.TOP;
 		layWM.x = 0;
-		layWM.y = 10;
+		layWM.y = sp.getInt("FloatLRCPos", 0);
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			layWM.width = 533;
 		else
@@ -268,6 +267,22 @@ public class srcMain extends Activity
 
 		wm.addView(fl, layWM);
 		fl.setVisibility(View.INVISIBLE);
+	}
+
+	/* 锁定/解锁歌词秀 */
+	public void LockFloatLRC(boolean NeedLocked)
+	{
+		if (NeedLocked)
+			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_NOT_TOUCHABLE;
+		else
+			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
+
+		wm.updateViewLayout(fl, layWM);
+		CallFloatLRCNotify(NeedLocked);
+
+		Editor edt = sp.edit();
+		edt.putBoolean("FloatLRCLocked", NeedLocked);
+		edt.commit();
 	}
 
 	/* 显示音乐信息通知 */
@@ -293,25 +308,27 @@ public class srcMain extends Activity
 	}
 
 	/* 显示桌面歌词锁定通知 */
-	public void CallFloatLRCNotify(boolean IsAlwaysStayOn)
+	public void CallFloatLRCNotify(boolean IsLocked)
 	{
-		Intent intent = new Intent(this, srcMain.class);
-		if (IsFloatLRCLocked)
-			intent.setAction(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK);
-		else
-			intent.setAction(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK);
-		PendingIntent pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Notification notification = new Notification(R.drawable.album_selected, getString(R.string.float_lrc_activated), System.currentTimeMillis());
-		if (IsAlwaysStayOn)
-			notification.flags = Notification.FLAG_ONGOING_EVENT;
-		else
-			notification.flags = Notification.FLAG_AUTO_CANCEL;
-
-		if (IsFloatLRCLocked)
+		Notification notification = null;
+		Intent intent = null;
+		PendingIntent pdItent = null;
+		if (IsLocked)
+		{
+			intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK);
+			pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			notification = new Notification(R.drawable.album_selected, getString(R.string.float_lrc_deactivated), System.currentTimeMillis());
 			notification.setLatestEventInfo(this, getString(R.string.float_lrc), getString(R.string.float_lrc_unlock), pdItent);
+			notification.flags = Notification.FLAG_ONGOING_EVENT;
+		}
 		else
+		{
+			intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK);
+			pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			notification = new Notification(R.drawable.album_selected, getString(R.string.float_lrc_activated), System.currentTimeMillis());
 			notification.setLatestEventInfo(this, getString(R.string.float_lrc), getString(R.string.float_lrc_lock), pdItent);
+			notification.flags = Notification.FLAG_ONGOING_EVENT;
+		}
 
 		nm.notify(LRC_NOTIFY_ID, notification);
 	}
@@ -358,7 +375,7 @@ public class srcMain extends Activity
 			layWM.width = 320;
 
 		if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
-			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_preview), Color.WHITE, null, 1);
+			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 		fl.setVisibility(View.INVISIBLE);
 	}
 

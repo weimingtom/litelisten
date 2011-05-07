@@ -133,7 +133,10 @@ public class MusicService
 				main.getLs().setStrLRCPath(strLRCPath);
 				main.getTxtTitle().setText(strShownTitle);
 				main.SetAlbumIcon();
-				main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 100, R.drawable.album_playing);
+				// main.CallMusicNotify(strShownTitle + " - " + strArtist,
+				// strShownTitle + " - " + strArtist, 0, 100,
+				// R.drawable.album_playing);
+				main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 0, R.drawable.album_playing);
 
 				new Thread()
 				{
@@ -302,7 +305,10 @@ public class MusicService
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_PAUSE;
 			main.SetAlbumIcon();
-			main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 100, R.drawable.album_paused);
+			// main.CallMusicNotify(strShownTitle + " - " + strArtist,
+			// strShownTitle + " - " + strArtist, 0, 100,
+			// R.drawable.album_paused);
+			main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, 0, 0, R.drawable.album_paused);
 		}
 
 		// 发送停止播放广播给Widget

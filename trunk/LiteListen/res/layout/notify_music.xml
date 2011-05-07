@@ -7,6 +7,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <LinearLayout android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="fill_parent" android:id="@+id/layNotifyMain" android:layout_marginLeft="10dip" android:layout_marginRight="5dip">
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/txtNotifyText" android:textColor="#000000" android:textSize="18dip" android:singleLine="true" android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever"></TextView>
         <ProgressBar android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/prgNotify" style="?android:attr/progressBarStyleHorizontal"></ProgressBar>
-        <TextView android:id="@+id/txtNotifyNoProgress" android:text="@string/widget_lrc" android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="center_vertical"></TextView>
+        <TextView android:id="@+id/txtNotifyNoProgress" android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="center_vertical" android:text="@string/notification_showmain"></TextView>
     </LinearLayout>             
 </LinearLayout> 

@@ -36,6 +36,8 @@ public class ControlsReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		abortBroadcast();
+
 		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
 		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
 			if (!IsFirstActionHeadsetPlug)
@@ -43,10 +45,12 @@ public class ControlsReceiver extends BroadcastReceiver
 			else
 				IsFirstActionHeadsetPlug = false;
 		}
+		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK))
+			main.LockFloatLRC(true);
+		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK))
+			main.LockFloatLRC(false);
 		else
 		{
-			abortBroadcast();
-
 			KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 			if (key.getAction() == KeyEvent.ACTION_UP)
 			{

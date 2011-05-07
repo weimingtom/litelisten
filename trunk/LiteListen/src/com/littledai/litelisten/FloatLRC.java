@@ -18,6 +18,7 @@
 package com.littledai.litelisten;
 
 import android.content.Context;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -107,14 +108,14 @@ public class FloatLRC extends LinearLayout
 			float FontWidth = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
 			if ((ScreenOrantation == 1 || ScreenOrantation == 3))
 			{
-				main.getLayWM().width = 533;
+				layWM.width = 533;
 				layText2.x = (int) (483 - FontWidth);
 				if (FontWidth > 478)
 					anim = new TranslateAnimation(FontWidth - 478, 0, 0, 0);
 			}
 			else
 			{
-				main.getLayWM().width = 320;
+				layWM.width = 320;
 				layText2.x = (int) (270 - FontWidth);
 				if (FontWidth > 265)
 					anim = new TranslateAnimation(FontWidth - 265, 0, 0, 0);
@@ -143,7 +144,7 @@ public class FloatLRC extends LinearLayout
 			float FontWidth2 = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			{
-				main.getLayWM().width = 533;
+				layWM.width = 533;
 
 				if (FontWidth2 > 478)
 					layText2.x = 5;
@@ -160,7 +161,7 @@ public class FloatLRC extends LinearLayout
 			}
 			else
 			{
-				main.getLayWM().width = 320;
+				layWM.width = 320;
 
 				if (FontWidth2 > 265)
 					layText2.x = 5;
@@ -188,6 +189,7 @@ public class FloatLRC extends LinearLayout
 			}
 		}
 
+		wm.updateViewLayout(main.getFl(), layWM);
 		imgIcon.setImageResource(IconResource);
 		txtLRC1.setText(Sentence1);
 		txtLRC1.setTextColor(Color1);
@@ -216,6 +218,12 @@ public class FloatLRC extends LinearLayout
 				MoveView();
 				DownPosX = 0;
 				DownPosY = 0;
+
+				// 记录当前浮动歌词的位置
+				Editor edt = main.getSp().edit();
+				edt.putInt("FloatLRCPos", layWM.y);
+				edt.commit();
+
 				break;
 		}
 		return true;

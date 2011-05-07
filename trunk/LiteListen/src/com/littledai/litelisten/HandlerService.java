@@ -84,15 +84,15 @@ public class HandlerService
 					main.getSkbMusic().setProgress(main.getMs().GetCurrTime());
 				}
 				main.getTxtTime().setText(main.getLs().IntegerToTime(main.getMs().GetCurrTime()) + " / " + main.getLs().IntegerToTime(main.getMs().GetTotalTime()));
-				main.CallMusicNotify(main.getMs().getStrShownTitle() + " - " + main.getMs().getStrArtist(), main.getMs().getStrShownTitle() + " - " + main.getMs().getStrArtist(), main.getMs()
-						.GetCurrTime(), main.getMs().GetTotalTime(), R.drawable.album_playing);
+//				main.CallMusicNotify(main.getMs().getStrShownTitle() + " - " + main.getMs().getStrArtist(), main.getMs().getStrShownTitle() + " - " + main.getMs().getStrArtist(), main.getMs()
+//						.GetCurrTime(), main.getMs().GetTotalTime(), R.drawable.album_playing);
 			}
 			else
 			{
 				main.getSkbMusic().setMax(0);
 				main.getSkbMusic().setProgress(0);
 				main.getTxtTime().setText("00:00 / 00:00");
-				main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), main.getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
+//				main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), main.getString(R.string.global_app_name_no_version), 0, 0, R.drawable.icon);
 			}
 
 			// 通过广播更新 Widget

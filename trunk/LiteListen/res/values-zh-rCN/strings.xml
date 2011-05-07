@@ -2,8 +2,8 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.5.3 build 0505.1721</string>
-	<string name="global_app_version_desk_preview">桌面歌词预览版</string>
+	<string name="global_app_version">0.5.4 build 0507.1440</string>
+	<string name="global_app_version_desk_lrc_show">桌面歌词秀</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -44,6 +44,8 @@
 	<string name="float_lrc_deactivated">桌面歌词已禁用</string>
 	<string name="float_lrc_lock">单击这里锁定桌面歌词</string>
 	<string name="float_lrc_unlock">单击这里解锁桌面歌词</string>
+
+	<string name="notification_showmain">单击这里显示播放器主界面</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
 	<string name="pfrsmain_image">选择一种看图程序</string>
@@ -94,7 +96,7 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n内部版本：2011.0505.1721\n\n更新内容：\n1、增加了桌面歌词预览版\n2、桌面歌词尚不能记录上次拖动的位置和锁定\n\n下期预告：\n增加对MIUI
+		2011\n内部版本：2011.0507.1440\n\n更新内容：\n1、歌词秀正式版\n2、歌词秀可以锁定和记录最后移动的位置\n3、通知栏不显示当前歌曲的进度以节省资源开销\n\n下期预告：\n增加对MIUI
 		ROM 的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 

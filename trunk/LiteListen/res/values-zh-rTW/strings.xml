@@ -2,8 +2,8 @@
 <resources>
 	<string name="global_app_name">輕聽音樂播放機 2011</string>
 	<string name="global_app_name_no_version">輕聽音樂播放機</string>
-	<string name="global_app_version">0.5.3 build 0505.1721</string>
-	<string name="global_app_version_desk_preview">桌面歌詞預覽版</string>
+	<string name="global_app_version">0.5.4 build 0507.1440</string>
+	<string name="global_app_version_desk_lrc_show">桌面歌詞秀</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_yes">是</string>
@@ -44,6 +44,8 @@
 	<string name="float_lrc_deactivated">桌面歌詞已禁用</string>
 	<string name="float_lrc_lock">按一下這裡鎖定桌面歌詞</string>
 	<string name="float_lrc_unlock">按一下這裡解鎖桌面歌詞</string>
+
+	<string name="notification_showmain">按一下這裡顯示播放機主介面</string>
 
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
@@ -94,7 +96,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n內部版本：2011.0505.1721\n\n更新內容：\n1、增加了桌面歌詞預覽版\n2、桌面歌詞尚不能記錄上次拖動的位置和鎖定\n\n下期預告：\n增加對MIUI
+		2011\n內部版本：2011.0507.1440\n\n更新內容：\n1、歌詞秀正式版\n2、歌詞秀可以鎖定和記錄最後移動的位置\n3、通知欄不顯示當前歌曲的進度以節省資源開銷\n\n下期預告：\n增加對MIUI
 		ROM 的介面優化。\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 

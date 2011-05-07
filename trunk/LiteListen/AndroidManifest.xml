@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.littledai.litelisten" android:versionCode="2011"
 	android:versionName="@string/global_app_version">
+
 	<application android:icon="@drawable/icon"
 		android:label="@string/global_app_name_no_version" android:debuggable="true">
 		<activity android:name=".srcMain"
@@ -19,6 +20,11 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="audio/x-mpeg" />
 			</intent-filter>
+
+			<intent-filter>
+				<action android:name="com.littledai.intent.action.float.lrc.lock" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
 		</activity>
 
 		<activity android:label="@string/pfrsmain_title"
@@ -27,13 +33,6 @@
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
-
-		<!-- <receiver android:name=".ControlsReceiver">
-			<intent-filter>
-				<action android:name="com.littledai.intent.action.float.lrc.unlock" />
-				<action android:name="com.littledai.intent.action.float.lrc.lock" />
-			</intent-filter>
-		</receiver> -->
 
 		<receiver android:name=".WidgetSmall" android:label="@string/widget_title_small">
 			<meta-data android:name="android.appwidget.provider"

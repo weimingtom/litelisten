@@ -2,8 +2,8 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.5.3 build 0505.1721</string>
-	<string name="global_app_version_desk_preview">Desk Lyric Preview</string>
+	<string name="global_app_version">0.5.4 build 0507.1440</string>
+	<string name="global_app_version_desk_lrc_show">Desk Lyric Show</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_yes">Yes</string>
@@ -46,6 +46,8 @@
 	<string name="float_lrc_deactivated">DeskLyric has been disabled</string>
 	<string name="float_lrc_lock">Click here to lock DeskLyric</string>
 	<string name="float_lrc_unlock">Click here to unlock DeskLyric</string>
+
+	<string name="notification_showmain">Click here to show player</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Choose An Image-Viewer</string>
@@ -106,10 +108,12 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInner Version:
-		2011.0505.1721\n\nUpdate Contents: \n1. Provide Desk Lyric Show.\n2.
-		Desk Lyric Cannot Record Its Position And Lock It.\n\nNext Plan:\n1.
+		2011.0507.1440\n\nUpdate Contents: \n1. Desk Lyric Show Completed.\n2.
+		Desk Lyric Can Record Its Position And Lock It.\n3. Cancel To Show
+		Song Progress In Notification Bar\n\nNext Plan:\n1.
 		Make UI To
-		Support MIUI\'s ROMs.\n\nOfficial
+		Support
+		MIUI\'s ROMs.\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
