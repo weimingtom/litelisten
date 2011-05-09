@@ -108,16 +108,8 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n\nUpdate Contents: \n1. Fixed A
-		Bug Which Happened
-		When App Is Getting Chinese Pinyin Translation\n2.
-		Remove Useless
-		Animation Of Music List Load\n3. Changed Music Reading
-		Method, Now
-		You Can See Music Immediately When App First
-		Startup\n4. Add
-		Switch For DeskLyric\n5. Compress Text Resources\n6. Fixed Some
-		Animation Bugs Of Their Wrong Positions\n\nNext
+	<string name="pfrscat_help_about_message">LiteListen 2011\n\nUpdate Contents: \nChanged
+		Position of Current Sentence And Made It Center\n\nNext
 		Plan:\n1.
 		Make
 		UI To

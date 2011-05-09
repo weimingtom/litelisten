@@ -137,9 +137,9 @@ public class LRCService
 
 				int ClearlyLineNumber = GetSentenceLines(map.get(CurrTime), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10);
 				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 80 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // ºáÆÁÆ«ÒÆ80dip
+					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 120 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // ºáÆÁÆ«ÒÆ120dip
 				else
-					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 200 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // ÊúÆÁÆ«ÒÆ200dip
+					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 300 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // ÊúÆÁÆ«ÒÆ300dip
 
 				if (main.getSp().getInt("ScreenOrantation", 0) == 1 || main.getSp().getInt("ScreenOrantation", 0) == 3)
 				{

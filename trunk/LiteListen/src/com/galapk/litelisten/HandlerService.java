@@ -94,21 +94,12 @@ public class HandlerService
 					main.getSkbMusic().setProgress(main.getMs().GetCurrTime());
 				}
 				main.getTxtTime().setText(main.getLs().IntegerToTime(main.getMs().GetCurrTime()) + " / " + main.getLs().IntegerToTime(main.getMs().GetTotalTime()));
-				// main.CallMusicNotify(main.getMs().getStrShownTitle() + " - "
-				// + main.getMs().getStrArtist(),
-				// main.getMs().getStrShownTitle() + " - " +
-				// main.getMs().getStrArtist(), main.getMs()
-				// .GetCurrTime(), main.getMs().GetTotalTime(),
-				// R.drawable.album_playing);
 			}
 			else
 			{
 				main.getSkbMusic().setMax(0);
 				main.getSkbMusic().setProgress(0);
 				main.getTxtTime().setText("00:00 / 00:00");
-				// main.CallMusicNotify(main.getString(R.string.global_app_name_no_version),
-				// main.getString(R.string.global_app_name_no_version), 0, 0,
-				// R.drawable.icon);
 			}
 
 			// 通过广播更新 Widget
@@ -149,9 +140,9 @@ public class HandlerService
 					}
 
 					// 位置不相同时才播放动画
-					int OffsetY = 200; // 默认竖屏，偏移200dip
+					int OffsetY = 300; // 默认竖屏，偏移300dip
 					if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-						OffsetY = 80; // 横屏偏移80dip
+						OffsetY = 120; // 横屏偏移120dip
 
 					if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
 					{
@@ -199,9 +190,9 @@ public class HandlerService
 		{
 			LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-				layLRC.topMargin = 80;
+				layLRC.topMargin = 120;
 			else
-				layLRC.topMargin = 200;
+				layLRC.topMargin = 300;
 			main.getTxtLRC().setLayoutParams(layLRC);
 			main.getTxtLRC().setText(main.getLs().getStrLRC());
 		}
