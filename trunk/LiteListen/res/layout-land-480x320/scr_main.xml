@@ -46,8 +46,7 @@
 				</RelativeLayout>
 				<LinearLayout android:id="@+id/layCore"
 					android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_below="@+id/laySearch">
-					<ListView android:layoutAnimation="@anim/list_item_alpha_translate_layout_anim"
-						android:scrollbarThumbVertical="@drawable/scroll_track"
+					<ListView android:scrollbarThumbVertical="@drawable/scroll_track"
 						android:listSelector="@layout/list_music_selector"
 						android:layout_height="fill_parent" android:layout_width="fill_parent"
 						android:id="@+id/lstMusic" android:smoothScrollbar="true"

@@ -60,7 +60,8 @@ public class PYProvider
 
 		for (int i = 0; i < strTemp.length; i++)
 		{
-			strRet += strTemp[i].substring(0, 1); // 取每个拼音的首字母
+			if (!strTemp[i].equals(""))
+				strRet += strTemp[i].substring(0, 1); // 取每个拼音的首字母
 		}
 
 		return strRet;

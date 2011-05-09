@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">LiteListen 2011</string>
 	<string name="global_app_name_no_version">LiteListen</string>
-	<string name="global_app_version">0.5.6 build 0509.0034</string>
+	<string name="global_app_version">0.5.7 build 0509.1713</string>
 	<string name="global_app_version_desk_lrc_show">Desk Lyric Show</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
@@ -108,12 +108,11 @@
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
 	<string name="pfrscat_help_about_message">LiteListen 2011\nInternal Version:
-		2011.0508.22.35\n\nUpdate Contents: \n1. Supported MDPI Screen.\n2.
-		Change Two Icons Of Desk LRC Show In Notification Bar.\n3. Fixed A Bug
-		That Search Box Will Overlap With Music List In Landscape
-		Mode.\n4.
-		Fixed A Bug That LRC Text Will Scale By 1.5 Times After Touch On
-		It.\n\nNext
+		2011.0509.1713\n\nUpdate Contents: \n1. Fixed A Bug Which Happened
+		When App Is Getting Chinese Pinyin Translation.\n2.
+		Remove Useless
+		Animation Of Music List Load.\n3. Changed Music Reading Method, Now
+		You Can See Music Immediately When App First Startup.\n\nNext
 		Plan:\n1.
 		Make UI To
 		Support

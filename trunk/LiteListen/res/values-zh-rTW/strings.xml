@@ -2,7 +2,7 @@
 <resources>
 	<string name="global_app_name">輕聽音樂播放機 2011</string>
 	<string name="global_app_name_no_version">輕聽音樂播放機</string>
-	<string name="global_app_version">0.5.6 build 0509.0034</string>
+	<string name="global_app_version">0.5.7 build 0509.1713</string>
 	<string name="global_app_version_desk_lrc_show">桌面歌詞秀</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
@@ -96,7 +96,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n內部版本：2011.0509.0034\n\n更新內容：\n1、增加中等解析度（480×320）的支持\n2、修改了桌面歌詞鎖定的圖示\n3、修正了橫屏視圖下搜索框會與歌曲列表重疊的問題\n4、修正了滾動歌詞觸摸後以1.5倍速率放大的問題\n\n下期預告：\n增加對MIUI
+		2011\n內部版本：2011.0509.1713\n\n更新內容：\n1、修正了拼音翻譯中一處未捕獲的可能導致崩潰的錯誤\n2、刪除了毫無用處的歌曲列表載入動畫\n3、修改了歌曲讀取模式，現在啟動時即可載入歌曲列表而不用刷新了\n\n下期預告：\n增加對MIUI
 		ROM 的介面優化。\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 
