@@ -97,7 +97,7 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n\n更新内容：\n1、修正了拼音翻译中一处未捕获的可能导致崩溃的错误\n2、删除了毫无用处的歌曲列表加载动画\n3、修改了歌曲读取模式，现在启动时即可加载歌曲列表而不用刷新了\n4、增加了桌面歌词的开关\n5、压缩文本资源大小\n\n下期预告：\n增加对MIUI
+		2011\n\n更新内容：\n1、修正了拼音翻译中一处未捕获的可能导致崩溃的错误\n2、删除了毫无用处的歌曲列表加载动画\n3、修改了歌曲读取模式，现在启动时即可加载歌曲列表而不用刷新了\n4、增加了桌面歌词的开关\n5、压缩文本资源大小\n6、修正了几处动画效果位置不正确的问题\n\n下期预告：\n增加对MIUI
 		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 

@@ -360,9 +360,9 @@ public class srcMain extends Activity
 			lstMusic.setVisibility(View.GONE);
 
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			layWM.width = 533;
+			layWM.width = 800;
 		else
-			layWM.width = 320;
+			layWM.width = 480;
 
 		if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
 			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
@@ -984,13 +984,13 @@ public class srcMain extends Activity
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			{
-				animShow = new TranslateAnimation(552, 0, 0, 0);
-				animHide = new TranslateAnimation(0, -552, 0, 0);
+				animShow = new TranslateAnimation(800, 0, 0, 0);
+				animHide = new TranslateAnimation(0, -800, 0, 0);
 			}
 			else
 			{
-				animShow = new TranslateAnimation(320, 0, 0, 0);
-				animHide = new TranslateAnimation(0, -320, 0, 0);
+				animShow = new TranslateAnimation(480, 0, 0, 0);
+				animHide = new TranslateAnimation(0, -480, 0, 0);
 			}
 
 			lstMusic.setVisibility(View.GONE);
@@ -1019,13 +1019,13 @@ public class srcMain extends Activity
 
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			{
-				animShow = new TranslateAnimation(-552, 0, 0, 0);
-				animHide = new TranslateAnimation(0, 552, 0, 0);
+				animShow = new TranslateAnimation(-800, 0, 0, 0);
+				animHide = new TranslateAnimation(0, 800, 0, 0);
 			}
 			else
 			{
-				animShow = new TranslateAnimation(-320, 0, 0, 0);
-				animHide = new TranslateAnimation(0, 320, 0, 0);
+				animShow = new TranslateAnimation(-480, 0, 0, 0);
+				animHide = new TranslateAnimation(0, 480, 0, 0);
 			}
 
 			lstMusic.setVisibility(View.VISIBLE);
