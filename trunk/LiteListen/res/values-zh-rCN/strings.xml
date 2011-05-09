@@ -2,7 +2,6 @@
 <resources>
 	<string name="global_app_name">轻听音乐播放器 2011</string>
 	<string name="global_app_name_no_version">轻听音乐播放器</string>
-	<string name="global_app_version">0.5.7 build 0509.1713</string>
 	<string name="global_app_version_desk_lrc_show">桌面歌词秀</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
@@ -14,7 +13,8 @@
 	<string name="lrcservice_no_lyric_found">没有找到相应歌词</string>
 
 	<string name="srcmain_extend_menu_settings">设置</string>
-	<string name="srcmain_extend_menu_refresh_list">更新列表</string>
+	<string name="srcmain_extend_menu_desk_lrc_show">打开浮动</string>
+	<string name="srcmain_extend_menu_desk_lrc_hide">关闭浮动</string>
 	<string name="srcmain_extend_menu_exit">退出</string>
 	<string name="srcmain_extend_menu_keep_screen_on_true">屏幕长亮</string>
 	<string name="srcmain_extend_menu_keep_screen_on_false">取消长亮</string>
@@ -33,6 +33,7 @@
 	<string name="srcmain_indexing">当前正在建立音乐数据，无需重复创建。</string>
 	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
 	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
+	<string name="srcmain_show_main">单击这里显示播放器主界面</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -44,8 +45,8 @@
 	<string name="float_lrc_locked">桌面歌词已锁定</string>
 	<string name="float_lrc_lock">单击这里锁定桌面歌词</string>
 	<string name="float_lrc_unlock">单击这里解锁桌面歌词</string>
-
-	<string name="notification_showmain">单击这里显示播放器主界面</string>
+	<string name="float_lrc_activiation">桌面歌词已激活</string>
+	<string name="float_lrc_deactivation">桌面歌词已关闭</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
 	<string name="pfrsmain_image">选择一种看图程序</string>
@@ -96,8 +97,8 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n内部版本：2011.0509.1713\n\n更新内容：\n1、修正了拼音翻译中一处未捕获的可能导致崩溃的错误\n2、删除了毫无用处的歌曲列表加载动画\n3、修改了歌曲读取模式，现在启动时即可加载歌曲列表而不用刷新了\n\n下期预告：\n增加对MIUI
-		ROM 的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n\n更新内容：\n1、修正了拼音翻译中一处未捕获的可能导致崩溃的错误\n2、删除了毫无用处的歌曲列表加载动画\n3、修改了歌曲读取模式，现在启动时即可加载歌曲列表而不用刷新了\n4、增加了桌面歌词的开关\n5、压缩文本资源大小\n\n下期预告：\n增加对MIUI
+		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -137,44 +138,5 @@
 	<string-array name="item_name_pfrscat_display_background">
 		<item>默认</item>
 		<item>自定义……</item>
-	</string-array>
-
-	<string-array name="item_value_pfrscat_general_language">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_general_convert_chinese_lrc">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_general_fit_screen_orientation">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_general_list_order">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_general_property_read_priority">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_general_play_mode">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-		<item>4</item>
-	</string-array>
-	<string-array name="item_value_pfrscat_display_background">
-		<item>0</item>
-		<item>1</item>
 	</string-array>
 </resources>

@@ -90,11 +90,10 @@ public class srcMain extends Activity
 	private int CurrentShown = 0; // 0－播放列表；1－歌词信息
 	private int SelectedItemIndex = 0; // 选中的歌曲序号
 	private boolean IsTouchToSeek = false; // 判断当前是否由用户拖动滑块
-	private boolean IsMusicRefreshing = false;
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
 	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
-	private boolean IsRefreshThreadAlive = false; // 显示刷新ID3的线程是否存活
+	private boolean IsStartup = true; // 显示应用程序是否刚启动
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -380,7 +379,9 @@ public class srcMain extends Activity
 		edt.commit();
 
 		ls.RefreshLRC();
-		fl.setVisibility(View.VISIBLE);
+
+		if (sp.getBoolean("DeskLRCStatus", true))
+			fl.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -419,7 +420,12 @@ public class srcMain extends Activity
 			ms.Play(0);
 		}
 		else
-			SetMusicToList();
+		{
+			if (IsStartup)
+				SetMusicToList();
+			else
+				SetMusicListByDB();
+		}
 
 		new Thread()
 		{
@@ -465,8 +471,8 @@ public class srcMain extends Activity
 				String strMusicPath = lstFile.get(i);
 				if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
 					strMusicPath = strMusicPath.replace("'", "''");
-				Cursor cur = db.GetDBInstance(true).query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
 
+				Cursor cur = db.GetDBInstance(true).query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
 				if (cur.moveToFirst())
 				{
 					File f = new File(cur.getString(11));
@@ -486,7 +492,7 @@ public class srcMain extends Activity
 					else
 						db.DBDelete("music_info", "music_path='" + cur.getString(11) + "'");
 				}
-
+				cur.close();
 				lstSong.add(mapInfo);
 			}
 
@@ -503,8 +509,6 @@ public class srcMain extends Activity
 		{
 			public void run()
 			{
-				IsRefreshThreadAlive = true;
-
 				for (int i = 0; i < lstSong.size(); i++)
 				{
 					Map<String, Object> mapInfo = new HashMap<String, Object>();
@@ -576,7 +580,7 @@ public class srcMain extends Activity
 						}
 					}
 				}
-				IsRefreshThreadAlive = false;
+
 				SetMusicListByDB();
 			}
 		}.start();
@@ -589,18 +593,6 @@ public class srcMain extends Activity
 		{
 			public void run()
 			{
-				while (IsRefreshThreadAlive)
-				{// 等待入库线程完成
-					try
-					{
-						sleep(1000);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-
 				Cursor cur = null;
 				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
 
@@ -666,6 +658,7 @@ public class srcMain extends Activity
 				Message msg = new Message();
 				msg.obj = adapter;
 				hs.getHdlAdapterUpdateHandler().sendMessage(msg);
+				IsStartup = false;
 			}
 		}.start();
 	}
@@ -799,8 +792,18 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_refresh);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_refresh_list));
+		map.put("ItemIcon", R.drawable.menu_desk_lrc);
+		if (sp.getBoolean("DeskLRCStatus", true))
+		{
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_desk_lrc_hide));
+			fl.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_desk_lrc_show));
+			fl.setVisibility(View.INVISIBLE);
+			nm.cancel(LRC_NOTIFY_ID);
+		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1270,37 +1273,25 @@ public class srcMain extends Activity
 						startActivity(new Intent(srcMain.this, SettingService.class));
 						break;
 					case 1:
-						// if (!IsMusicRefreshing)
-						// {
-						// dlg.ShowDialog(getString(R.string.srcmain_create_play_list_title),
-						// getString(R.string.srcmain_create_play_list_message),
-						// new OnClickListener()
-						// {
-						// public void onClick(View v)
-						// {
-						// SetMusicInfoToDB();
-						// dlg.CloseDialog();
-						// }
-						// }, new OnClickListener()
-						// {
-						// public void onClick(View v)
-						// {
-						// dlg.CloseDialog();
-						// }
-						// });
-						// }
-						// else
-						// {
-						// dlg.ShowDialog(getString(R.string.srcmain_create_play_list_title),
-						// getString(R.string.srcmain_indexing), new
-						// OnClickListener()
-						// {
-						// public void onClick(View v)
-						// {
-						// dlg.CloseDialog();
-						// }
-						// }, null);
-						// }
+						TextView txtDeskLyric = (TextView) arg1.findViewById(R.id.txtMenu);
+						if (sp.getBoolean("DeskLRCStatus", true))
+						{
+							txtDeskLyric.setText(R.string.srcmain_extend_menu_desk_lrc_show);
+							Editor edt = sp.edit();
+							edt.putBoolean("DeskLRCStatus", false);
+							edt.commit();
+							Toast.makeText(srcMain.this, getString(R.string.float_lrc_deactivation), Toast.LENGTH_SHORT).show();
+							nm.cancel(LRC_NOTIFY_ID);
+						}
+						else
+						{
+							txtDeskLyric.setText(R.string.srcmain_extend_menu_desk_lrc_hide);
+							Editor edt = sp.edit();
+							edt.putBoolean("DeskLRCStatus", true);
+							edt.commit();
+							Toast.makeText(srcMain.this, getString(R.string.float_lrc_activiation), Toast.LENGTH_SHORT).show();
+							CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
+						}
 
 						break;
 					case 2:
@@ -1698,16 +1689,6 @@ public class srcMain extends Activity
 	public void setIsTouchToSeek(boolean isTouchToSeek)
 	{
 		IsTouchToSeek = isTouchToSeek;
-	}
-
-	public boolean isIsMusicRefreshing()
-	{
-		return IsMusicRefreshing;
-	}
-
-	public void setIsMusicRefreshing(boolean isMusicRefreshing)
-	{
-		IsMusicRefreshing = isMusicRefreshing;
 	}
 
 	public boolean isIsKeepScreenOn()
