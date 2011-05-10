@@ -97,8 +97,8 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.10 build
-		0511.0003\n\n更新内容：\n1、恢复欢迎界面\n2、在“关于”信息中恢复显示版本号\n\n下期预告：\n增加对MIUI
+		2011\n0.5.11 build
+		0511.0110\n\n更新内容：\n1、修正音量可以无限放大的错误\n2、将设备的音量键关联到应用程序\n\n下期预告：\n增加对MIUI
 		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 

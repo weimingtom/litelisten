@@ -242,10 +242,6 @@ public class srcMain extends Activity
 			edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
 			edt.commit();
 
-			// 设置音量条参数
-			skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-			skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
-
 			// 设置耳机键盘监听
 			ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
 			IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // 控制键
@@ -298,6 +294,10 @@ public class srcMain extends Activity
 				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			fl.setVisibility(View.INVISIBLE);
 		}
+
+		// 设置音量条参数
+		skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
 
 		SetLanguage();
 		SetMenuList();
@@ -1720,6 +1720,20 @@ public class srcMain extends Activity
 			ExtendPanelSwitcher();
 
 			return false;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+		{
+			skbVolume.setVisibility(View.VISIBLE);
+			skbVolume.setProgress(skbVolume.getProgress() + 1);
+
+			return true;
+		}
+		else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+		{
+			skbVolume.setVisibility(View.VISIBLE);
+			skbVolume.setProgress(skbVolume.getProgress() - 1);
+
+			return true;
 		}
 
 		return super.onKeyDown(keyCode, event);

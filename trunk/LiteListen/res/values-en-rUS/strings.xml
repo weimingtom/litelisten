@@ -108,9 +108,9 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.10 build 0511.0003\n\nUpdate
-		Contents: \n1. Re-Shows Splash Screen\n2. Re-Show Version Info In
-		About Dialog\n\nNext
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.11 build 0511.0110\n\nUpdate
+		Contents: \n1. Fixed A Bug That Volume Can Be Expend Unlimited.\n2.
+		The Volume Key Was Related To App\'s Volume Controller\n\nNext
 		Plan:\nMake
 		UI To
 		Support
