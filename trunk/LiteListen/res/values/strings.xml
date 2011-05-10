@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.9 build 0510.2258</string>
+	<string name="global_app_version">0.5.10 build 0511.0003</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -149,8 +149,9 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n\nUpdate Contents: \n1. Core Code
-		Simplified\n2. Add Volume Controller\n\nNext
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.10 build 0511.0003\n\nUpdate
+		Contents: \n1. Re-Shows Splash Screen\n2. Re-Show Version Info In
+		About Dialog\n\nNext
 		Plan:\nMake
 		UI To
 		Support

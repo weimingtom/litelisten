@@ -188,6 +188,28 @@ public class srcMain extends Activity
 		}.start();
 	}
 
+	/* œ‘ æª∂”≠ª≠√Ê */
+	public void ShowSplash()
+	{
+		new Thread()
+		{
+			public void run()
+			{
+				try
+				{
+					Animation animSplash = new AlphaAnimation(1, 0);
+					laySplash.startAnimation(animSplash);
+					sleep(SPLASH_TIME);
+					hs.getHdlShowMain().sendEmptyMessage(0);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+
 	/* ∆¡ƒª∑ΩœÚ«–ªª */
 	public void DirectionSwitch(boolean IsStartup)
 	{
@@ -197,10 +219,7 @@ public class srcMain extends Activity
 
 		if (IsStartup)
 		{
-			Animation animSplash = new AlphaAnimation(1, 0);
-			animSplash.setStartOffset(SPLASH_TIME);
-			laySplash.startAnimation(animSplash);
-			laySplash.setVisibility(View.GONE);
+			ShowSplash();
 
 			ls = new LRCService(this);
 			ms = new MusicService(this);

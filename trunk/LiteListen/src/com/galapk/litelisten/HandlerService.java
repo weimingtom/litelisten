@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
@@ -42,6 +43,16 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			main.SetLanguage();
+		}
+	};
+
+	/* 启动后设置语言的Handler */
+	private Handler hdlShowMain = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getLaySplash().setVisibility(View.GONE);
 		}
 	};
 
@@ -333,5 +344,15 @@ public class HandlerService
 	public void setHdlRefreshAdapter(Handler hdlRefreshAdapter)
 	{
 		this.hdlRefreshAdapter = hdlRefreshAdapter;
+	}
+
+	public Handler getHdlShowMain()
+	{
+		return hdlShowMain;
+	}
+
+	public void setHdlShowMain(Handler hdlShowMain)
+	{
+		this.hdlShowMain = hdlShowMain;
 	}
 }
