@@ -30,6 +30,7 @@
 					android:layout_height="wrap_content" android:layout_width="110dip"
 					android:id="@+id/txtTime" android:text="00:00 / 00:00"
 					android:textColor="#FFFFFF"></TextView>
+				<ImageButton android:layout_width="wrap_content" android:id="@+id/btnVolume" android:layout_height="fill_parent" android:layout_marginTop="0.5dip" android:background="@layout/btn_volume"></ImageButton>
 				<ImageButton android:layout_height="fill_parent"
 					android:layout_width="wrap_content" android:background="@drawable/btn_play_mode_repeat_all" android:id="@+id/btnPlayMode" android:layout_marginTop="0.5dip"></ImageButton>
 				<ImageButton android:layout_height="wrap_content"
@@ -39,9 +40,10 @@
 		<RelativeLayout android:layout_height="427dip"
 			android:layout_width="wrap_content" android:layout_below="@id/layHeader"
 			android:id="@+id/layBody" android:layout_above="@+id/layBottom">
+			<SeekBar android:layout_width="fill_parent" android:layout_height="wrap_content" android:thumb="@layout/seek_bar_thumb" android:progressDrawable="@layout/seek_bar_progress" android:maxHeight="10dip" android:id="@+id/skbVolume" android:background="@drawable/bg_port_skb_volume" android:paddingLeft="15dip" android:paddingRight="15dip" android:visibility="gone"></SeekBar>
 			<RelativeLayout android:layout_height="wrap_content"
-				android:visibility="gone" android:layout_width="fill_parent"
-				android:id="@+id/laySearch">
+				android:layout_width="fill_parent"
+				android:id="@+id/laySearch" android:layout_below="@+id/skbVolume" android:visibility="gone">
 				<EditText android:layout_height="wrap_content"
 					android:layout_width="fill_parent"
 					android:paddingRight="42dip" android:hint="@string/srcmain_keyword_hint"

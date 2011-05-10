@@ -22,10 +22,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 
@@ -198,35 +195,6 @@ public class HandlerService
 		}
 	};
 
-	/* 显示主界面的 Handler */
-	private Handler hdlShowMain = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			if (main.getLaySplash().getVisibility() == View.VISIBLE)
-			{
-				main.getLaySplash().setVisibility(View.GONE);
-
-				if (main.getSp().getBoolean("chkUseAnimation", true))
-				{
-					// 托盘消失动画
-					Animation animHide = new AlphaAnimation(1, 0);
-					animHide.setDuration(srcMain.getAnimationTime());
-					animHide.setInterpolator(new DecelerateInterpolator());
-
-					// 托盘显示动画
-					Animation animShow = new AlphaAnimation(0, 1);
-					animShow.setDuration(srcMain.getAnimationTime());
-					animShow.setInterpolator(new DecelerateInterpolator());
-
-					main.getLaySplash().setAnimation(animHide);
-					main.getLayMain().setAnimation(animShow);
-				}
-			}
-		}
-	};
-
 	/* 播放/暂停的 Handler */
 	private Handler hdlPlayPause = new Handler()
 	{
@@ -355,16 +323,6 @@ public class HandlerService
 	public void setHdlLoadLRC(Handler hdlLoadLRC)
 	{
 		this.hdlLoadLRC = hdlLoadLRC;
-	}
-
-	public Handler getHdlShowMain()
-	{
-		return hdlShowMain;
-	}
-
-	public void setHdlShowMain(Handler hdlShowMain)
-	{
-		this.hdlShowMain = hdlShowMain;
 	}
 
 	public Handler getHdlRefreshAdapter()

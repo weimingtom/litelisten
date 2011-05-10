@@ -33,6 +33,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
@@ -44,11 +45,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -92,8 +93,8 @@ public class srcMain extends Activity
 	private boolean IsTouchToSeek = false; // 判断当前是否由用户拖动滑块
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
-	private boolean IsSplashThreadAlive = false; // 显示Splash的线程是否存活
 	private boolean IsStartup = true; // 显示应用程序是否刚启动
+	private boolean IsRefreshing = false; // 显示是否正在读取音乐列表
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -102,6 +103,7 @@ public class srcMain extends Activity
 	private ImageButton btnPause;
 	private ImageButton btnPlayMode;
 	private ImageButton btnLRC;
+	private ImageButton btnVolume;
 	private ImageButton btnSearch;
 	private TextView txtTitle;
 	private TextView txtTime;
@@ -116,6 +118,7 @@ public class srcMain extends Activity
 	private ListView lstMusic;
 	private GridView grdMenu;
 	private SeekBar skbMusic;
+	private SeekBar skbVolume;
 	private LRCService ls;
 	private MusicService ms;
 	private MP3Tags mt;
@@ -128,6 +131,7 @@ public class srcMain extends Activity
 	private WindowManager wm;
 	private FloatLRC fl;
 	private WindowManager.LayoutParams layWM;
+	private AudioManager am;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -138,53 +142,11 @@ public class srcMain extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题栏
 		setContentView(R.layout.scr_main);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
+	}
 
-		IsSplashThreadAlive = true;
-		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
-
-		ls = new LRCService(this);
-		ms = new MusicService(this);
-		dlg = new MessageDialog(this);
-		db = new DBProvider(this);
-		hs = new HandlerService(this);
-		mt = new MP3Tags(this);
-		py = new PYProvider();
-		hs = new HandlerService(this);
-		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
-		nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
-		layWM = new WindowManager.LayoutParams();
-		fl = new FloatLRC(this); // 浮动歌词布局
-
-		// 清除上次程序运行的历史记录
-		Editor edt = sp.edit();
-		edt.putString("LastKeyword", "");
-		edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
-		edt.commit();
-
-		FindViews();
-		ListernerBinding();
-		CallMusicNotify(getString(R.string.global_app_name_no_version), getString(R.string.global_app_name_no_version), R.drawable.icon);
-		CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
-
-		/* 设置耳机键盘监听 */
-		ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
-
-		IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // 控制键
-		registerReceiver(ctrlReceiver, ittFilterButton);
-
-		IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // 耳机插拔
-		registerReceiver(ctrlReceiver, ittFilterPlug);
-
-		IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
-		registerReceiver(ctrlReceiver, ittFilterBluetooth);
-
-		IntentFilter ittFilterLRCLock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK); // 锁定歌词
-		registerReceiver(ctrlReceiver, ittFilterLRCLock);
-
-		IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
-		registerReceiver(ctrlReceiver, ittFilterLRCUnlock);
-
+	/* 桌面小部件控制器监听线程 */
+	public void WidgetsListener()
+	{
 		new Thread()
 		{
 			public void run()
@@ -224,6 +186,137 @@ public class srcMain extends Activity
 				}
 			}
 		}.start();
+	}
+
+	/* 屏幕方向切换 */
+	public void DirectionSwitch(boolean IsStartup)
+	{
+		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+		FindViews();
+		ListernerBinding();
+
+		if (IsStartup)
+		{
+			Animation animSplash = new AlphaAnimation(1, 0);
+			animSplash.setStartOffset(SPLASH_TIME);
+			laySplash.startAnimation(animSplash);
+			laySplash.setVisibility(View.GONE);
+
+			ls = new LRCService(this);
+			ms = new MusicService(this);
+			dlg = new MessageDialog(this);
+			db = new DBProvider(this);
+			hs = new HandlerService(this);
+			mt = new MP3Tags(this);
+			py = new PYProvider();
+			hs = new HandlerService(this);
+			sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
+			nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
+			layWM = new WindowManager.LayoutParams();
+			fl = new FloatLRC(this); // 浮动歌词布局
+			am = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
+
+			// 清除上次程序运行的历史记录
+			Editor edt = sp.edit();
+			edt.putString("LastKeyword", "");
+			edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
+			edt.commit();
+
+			// 设置音量条参数
+			skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+			skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+			// 设置耳机键盘监听
+			ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
+			IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // 控制键
+			registerReceiver(ctrlReceiver, ittFilterButton);
+			IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // 耳机插拔
+			registerReceiver(ctrlReceiver, ittFilterPlug);
+			IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
+			registerReceiver(ctrlReceiver, ittFilterBluetooth);
+			IntentFilter ittFilterLRCLock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK); // 锁定歌词
+			registerReceiver(ctrlReceiver, ittFilterLRCLock);
+			IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
+			registerReceiver(ctrlReceiver, ittFilterLRCUnlock);
+
+			if (IsStartup && !IsRefreshing)
+				SetMusicToList();
+			WidgetsListener();
+			CreateFloatLRC();
+			CallMusicNotify(getString(R.string.global_app_name_no_version), getString(R.string.global_app_name_no_version), R.drawable.icon);
+			CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
+			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+		}
+		else
+		{
+			laySplash.setVisibility(View.GONE);
+			txtTitle.setText(ms.getStrShownTitle());
+
+			// 设置播放/暂停按钮
+			if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
+			{
+				btnPlay.setVisibility(View.GONE);
+				btnPause.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				btnPlay.setVisibility(View.VISIBLE);
+				btnPause.setVisibility(View.GONE);
+			}
+
+			if (CurrentShown == 0)
+				lstMusic.setVisibility(View.VISIBLE);
+			else
+				lstMusic.setVisibility(View.GONE);
+
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				layWM.width = 800;
+			else
+				layWM.width = 480;
+
+			if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
+				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+			fl.setVisibility(View.INVISIBLE);
+		}
+
+		SetLanguage();
+		SetMenuList();
+		SetPlayMode();
+		SetFonts();
+		SetBackground();
+
+		Editor edt = sp.edit();
+		edt.putBoolean("IsRunBackground", false);
+		edt.commit();
+
+		// 设置外部调用
+		Intent intent = getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
+		{
+			laySplash.setVisibility(View.GONE); // 不显示启动画面
+			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
+			strMusicFilePath = Uri.parse(strMusicFilePath).getPath(); // 解析地址
+
+			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
+			mapInfo.put("MusicPath", strMusicFilePath);
+			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
+
+			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
+			lstSongTemp.add(mapInfo);
+			lstSong = lstSongTemp;
+
+			adapter = new MusicAdapter(srcMain.this, lstSong);
+			lstMusic.setAdapter(adapter);
+			ms.Play(0);
+		}
+		else
+		{
+			if (IsRefreshing)
+				lstMusic.setAdapter(adapter);
+			else if (!IsStartup && !IsRefreshing)
+				SetMusicListByDB();
+		}
 
 		new Thread()
 		{
@@ -231,19 +324,19 @@ public class srcMain extends Activity
 			{
 				try
 				{
-					sleep(SPLASH_TIME);
-					hs.getHdlShowMain().sendEmptyMessage(0);
-					IsSplashThreadAlive = false;
+					sleep(100);
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
+				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
 		}.start();
 
-		CreateFloatLRC();
-		fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+		ls.RefreshLRC();
+		fl.setVisibility(View.INVISIBLE);
+		IsStartup = false;
 	}
 
 	/* 创建浮动歌词秀 */
@@ -328,45 +421,7 @@ public class srcMain extends Activity
 	{
 		super.onConfigurationChanged(newConfig);
 		setContentView(R.layout.scr_main);
-
-		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-		ScreenOrantation = display.getOrientation();
-		dlg.ChangeLayout();
-
-		FindViews();
-		ListernerBinding();
 		onResume();
-
-		if (!IsSplashThreadAlive)
-			laySplash.setVisibility(View.GONE);
-
-		txtTitle.setText(ms.getStrShownTitle());
-
-		// 设置播放/暂停按钮
-		if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
-		{
-			btnPlay.setVisibility(View.GONE);
-			btnPause.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			btnPlay.setVisibility(View.VISIBLE);
-			btnPause.setVisibility(View.GONE);
-		}
-
-		if (CurrentShown == 0)
-			lstMusic.setVisibility(View.VISIBLE);
-		else
-			lstMusic.setVisibility(View.GONE);
-
-		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			layWM.width = 800;
-		else
-			layWM.width = 480;
-
-		if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
-			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
-		fl.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -388,68 +443,13 @@ public class srcMain extends Activity
 	public void onResume()
 	{
 		super.onResume();
-
-		SetLanguage();
-		SetMenuList();
-		SetPlayMode();
-		SetFonts();
-		SetBackground();
-
-		Editor edt = sp.edit();
-		edt.putBoolean("IsRunBackground", false);
-		edt.commit();
-
-		// 设置外部调用
-		Intent intent = getIntent();
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
-		{
-			laySplash.setVisibility(View.GONE); // 不显示启动画面
-			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
-			strMusicFilePath = Uri.parse(strMusicFilePath).getPath(); // 解析地址
-
-			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
-			mapInfo.put("MusicPath", strMusicFilePath);
-			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
-
-			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
-			lstSongTemp.add(mapInfo);
-			lstSong = lstSongTemp;
-
-			adapter = new MusicAdapter(srcMain.this, lstSong);
-			lstMusic.setAdapter(adapter);
-			ms.Play(0);
-		}
-		else
-		{
-			if (IsStartup)
-				SetMusicToList();
-			else
-				SetMusicListByDB();
-		}
-
-		new Thread()
-		{
-			public void run()
-			{
-				try
-				{
-					sleep(100);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
-			}
-		}.start();
-
-		ls.RefreshLRC();
-		fl.setVisibility(View.INVISIBLE);
+		DirectionSwitch(IsStartup);
 	}
 
 	/* 将歌曲添加到列表 */
 	public void SetMusicToList()
 	{
+		IsRefreshing = true;
 		MusicFile mf = new MusicFile();
 		mf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean("chkIngnoreDirectory",
 				true));
@@ -568,7 +568,6 @@ public class srcMain extends Activity
 								+ strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1'");
 
 						lstSong.set(i, mapInfo);
-						hs.getHdlRefreshAdapter().sendEmptyMessage(0);
 
 						try
 						{
@@ -579,9 +578,12 @@ public class srcMain extends Activity
 							e.printStackTrace();
 						}
 					}
+
+					hs.getHdlRefreshAdapter().sendEmptyMessage(0);
 				}
 
 				SetMusicListByDB();
+				IsRefreshing = false;
 			}
 		}.start();
 	}
@@ -767,6 +769,7 @@ public class srcMain extends Activity
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
 		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
+		btnVolume = (ImageButton) findViewById(R.id.btnVolume);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
 		txtTime = (TextView) findViewById(R.id.txtTime);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
@@ -778,6 +781,7 @@ public class srcMain extends Activity
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
+		skbVolume = (SeekBar) findViewById(R.id.skbVolume);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		grdMenu = (GridView) findViewById(R.id.grdMenu);
 	}
@@ -972,6 +976,39 @@ public class srcMain extends Activity
 		anim.setDuration(ANIMATION_TIME);
 		if (sp.getBoolean("chkUseAnimation", true))
 			laySearch.startAnimation(anim);
+	}
+
+	/* 音量框切换 */
+	public void VolumeBoxSwitcher()
+	{
+		Animation anim = null; // 动画效果
+
+		if (skbVolume.getVisibility() == View.GONE)
+		{// 调用显示
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layControlPanel.setVisibility(View.GONE);
+				skbMusic.setVisibility(View.GONE);
+			}
+
+			skbVolume.setVisibility(View.VISIBLE);
+			anim = new AlphaAnimation(0, 1);
+		}
+		else
+		{// 调用隐藏
+			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			{
+				layControlPanel.setVisibility(View.VISIBLE);
+				skbMusic.setVisibility(View.GONE);
+			}
+
+			skbVolume.setVisibility(View.GONE);
+			anim = new AlphaAnimation(1, 0);
+		}
+
+		anim.setDuration(ANIMATION_TIME);
+		if (sp.getBoolean("chkUseAnimation", true))
+			skbVolume.startAnimation(anim);
 	}
 
 	/* 列表到歌词切换 */
@@ -1229,6 +1266,15 @@ public class srcMain extends Activity
 			}
 		});
 
+		/* 音量控制 */
+		btnVolume.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				VolumeBoxSwitcher();
+			}
+		});
+
 		/* 搜索按钮 */
 		btnSearch.setOnClickListener(new OnClickListener()
 		{
@@ -1242,6 +1288,25 @@ public class srcMain extends Activity
 				txtKeyword.setText("");
 				SearchBoxSwitcher();
 				txtKeyword.clearFocus();
+			}
+		});
+
+		/* 音量滑块 */
+		skbVolume.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
+			public void onStopTrackingTouch(SeekBar seekBar)
+			{
+
+			}
+
+			public void onStartTrackingTouch(SeekBar seekBar)
+			{
+
+			}
+
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+			{
+				am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
 			}
 		});
 
@@ -1944,16 +2009,6 @@ public class srcMain extends Activity
 	public static int getAnimationTime()
 	{
 		return ANIMATION_TIME;
-	}
-
-	public boolean isIsSplashThreadAlive()
-	{
-		return IsSplashThreadAlive;
-	}
-
-	public void setIsSplashThreadAlive(boolean isSplashThreadAlive)
-	{
-		IsSplashThreadAlive = isSplashThreadAlive;
 	}
 
 	public ImageButton getBtnSearch()
