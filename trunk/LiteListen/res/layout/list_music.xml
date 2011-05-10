@@ -15,31 +15,6 @@
 			android:gravity="center_vertical" android:id="@+id/txtSongInfo"
 			android:layout_width="fill_parent" android:singleLine="true"
 			android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever" android:textColor="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="1"></TextView>
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtArtist"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtAlbum"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtMusicPath"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtLRCPath"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtComment"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtYear"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtGenre"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:visibility="gone"
-			android:id="@+id/txtTrack"></TextView>
 	</LinearLayout>
 
 

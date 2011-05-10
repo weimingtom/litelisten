@@ -108,10 +108,9 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n\nUpdate Contents: \nChanged
-		Position of Current Sentence And Made It Center\n\nNext
-		Plan:\n1.
-		Make
+	<string name="pfrscat_help_about_message">LiteListen 2011\n\nUpdate Contents: \n1. Core Code
+		Simplified\n2. Add Volume Controller\n\nNext
+		Plan:\nMake
 		UI To
 		Support
 		MIUI\'s ROMs.\n\nOfficial

@@ -97,7 +97,7 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n\n更新內容：\n調整主介面中當前歌詞的高度，使其居中\n\n下期預告：\n增加對MIUI
+		2011\n\n更新內容：\n1、核心代碼簡化\n2、增加音量控制\n\n下期預告：\n增加對MIUI
 		ROM的介面優化。\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 

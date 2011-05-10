@@ -67,25 +67,9 @@ public class MusicAdapter extends BaseAdapter
 		ImageView imgAlbum = (ImageView) convertView.findViewById(R.id.imgAlbum);
 		TextView txtSongTitle = (TextView) convertView.findViewById(R.id.txtSongTitle);
 		TextView txtSongInfo = (TextView) convertView.findViewById(R.id.txtSongInfo);
-		TextView txtArtist = (TextView) convertView.findViewById(R.id.txtArtist);
-		TextView txtAlbum = (TextView) convertView.findViewById(R.id.txtAlbum);
-		TextView txtMusicPath = (TextView) convertView.findViewById(R.id.txtMusicPath);
-		TextView txtLRCPath = (TextView) convertView.findViewById(R.id.txtLRCPath);
-		TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
-		TextView txtYear = (TextView) convertView.findViewById(R.id.txtYear);
-		TextView txtGenre = (TextView) convertView.findViewById(R.id.txtGenre);
-		TextView txtTrack = (TextView) convertView.findViewById(R.id.txtTrack);
 
 		txtSongTitle.setText((String) lstSong.get(position).get("Title"));
 		txtSongInfo.setText((String) lstSong.get(position).get("SongInfo"));
-		txtArtist.setText((String) lstSong.get(position).get("Artist"));
-		txtAlbum.setText((String) lstSong.get(position).get("Album"));
-		txtMusicPath.setText((String) lstSong.get(position).get("MusicPath"));
-		txtLRCPath.setText((String) lstSong.get(position).get("LRCPath"));
-		txtComment.setText((String) lstSong.get(position).get("Comment"));
-		txtYear.setText((String) lstSong.get(position).get("Year"));
-		txtGenre.setText((String) lstSong.get(position).get("Genre"));
-		txtTrack.setText((String) lstSong.get(position).get("Track"));
 
 		if (main.getMs().getPlayerStatus() == MusicService.STATUS_PLAY && main.getMs().getCurrIndex() == position)
 		{
