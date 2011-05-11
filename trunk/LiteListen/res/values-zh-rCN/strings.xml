@@ -21,6 +21,7 @@
 	<string name="srcmain_extend_menu_search">快速搜索</string>
 	<string name="srcmain_extend_menu_order_asc">升序排列</string>
 	<string name="srcmain_extend_menu_order_desc">降序排列</string>
+	<string name="srcmain_extend_menu_ringtong">设为铃声</string>
 	<string name="srcmain_extend_menu_wait">敬请期待</string>
 	<string name="srcmain_no_id3_tag_found">没有 ID3 标签信息</string>
 	<string name="srcmain_play_mode_close">顺序播放</string>
@@ -36,6 +37,9 @@
 	<string name="srcmain_show_main">单击这里显示播放器主界面</string>
 	<string name="srcmain_volume">音量：</string>
 	<string name="srcmain_volume_mute">静音</string>
+	<string name="srcmain_ringtong_successful">已设为来电铃声</string>
+	<string name="srcmain_alarm_successful">已设为闹钟铃声</string>
+	<string name="srcmain_play_first">请先播放音乐</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>

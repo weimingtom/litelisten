@@ -29,6 +29,8 @@ import org.blinkenlights.jid3.v1.ID3V1_0Tag;
 import org.blinkenlights.jid3.v1.ID3V1_1Tag;
 import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
+import com.galapk.litelisten.Common.RingType;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -343,7 +345,6 @@ public class srcMain extends Activity
 		}
 
 		RefreshLanguage();
-		ls.RefreshLRC();
 		fl.setVisibility(View.INVISIBLE);
 		IsStartup = false;
 	}
@@ -875,8 +876,8 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemIcon", R.drawable.menu_ringtong);
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_ringtong));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1515,6 +1516,35 @@ public class srcMain extends Activity
 						SetMusicListByDB();
 
 						break;
+//					case 5:
+//						if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
+//						{
+//							// 获取正在播放的音乐文件路径
+//							Map<String, Object> mapInfo = new HashMap<String, Object>();
+//							mapInfo = lstSong.get(ms.getCurrIndex());
+//							Common.SetToRingtongs(srcMain.this, (String) mapInfo.get("MusicPath"), RingType.RINGTONE);
+//
+//							if (toast != null)
+//							{
+//								toast.setText(R.string.srcmain_ringtong_successful);
+//								toast.setDuration(Toast.LENGTH_SHORT);
+//							}
+//							else
+//								toast = Toast.makeText(srcMain.this, R.string.srcmain_ringtong_successful, Toast.LENGTH_SHORT);
+//						}
+//						else
+//						{
+//							if (toast != null)
+//							{
+//								toast.setText(R.string.srcmain_play_first);
+//								toast.setDuration(Toast.LENGTH_SHORT);
+//							}
+//							else
+//								toast = Toast.makeText(srcMain.this, R.string.srcmain_play_first, Toast.LENGTH_SHORT);
+//						}
+//						toast.show();
+//
+//						break;
 					case 7:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
 							;

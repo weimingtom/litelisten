@@ -22,6 +22,7 @@
 	<string name="srcmain_extend_menu_order_asc">ASC</string>
 	<string name="srcmain_extend_menu_order_desc">DESC</string>
 	<string name="srcmain_extend_menu_wait">Soon</string>
+	<string name="srcmain_extend_menu_ringtong">Set Ring</string>
 	<string name="srcmain_no_id3_tag_found">No ID3 Tag Found</string>
 	<string name="srcmain_play_mode_close">Play By Order</string>
 	<string name="srcmain_play_mode_repeat_all">Repeat All</string>
@@ -38,6 +39,9 @@
 	<string name="srcmain_show_main">Click here to show player</string>
 	<string name="srcmain_volume">Volume: </string>
 	<string name="srcmain_volume_mute">Mute</string>
+	<string name="srcmain_ringtong_successful">Ringtong has been set</string>
+	<string name="srcmain_alarm_successful">Alarm has been set</string>
+	<string name="srcmain_play_first">Please play a music first</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>
