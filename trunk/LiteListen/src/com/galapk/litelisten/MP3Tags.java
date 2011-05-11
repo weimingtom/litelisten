@@ -23,6 +23,8 @@ import org.blinkenlights.jid3.*;
 import org.blinkenlights.jid3.v1.*;
 import org.blinkenlights.jid3.v2.*;
 
+import android.util.Log;
+
 public class MP3Tags
 {
 	private srcMain main = null;
@@ -126,6 +128,7 @@ public class MP3Tags
 		}
 		catch (Exception e)
 		{
+			Log.e("ReadID3", e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -173,6 +176,7 @@ public class MP3Tags
 			}
 			catch (Exception e)
 			{
+				Log.e("ReCodecTag", e.getMessage());
 				e.printStackTrace();
 
 				try
@@ -184,6 +188,7 @@ public class MP3Tags
 				}
 				catch (Exception e1)
 				{
+					Log.e("ReCodecTag1", e.getMessage());
 					e1.printStackTrace();
 				}
 			}

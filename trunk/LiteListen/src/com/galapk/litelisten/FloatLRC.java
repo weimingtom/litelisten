@@ -20,7 +20,6 @@ package com.galapk.litelisten;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -46,7 +45,6 @@ public class FloatLRC extends LinearLayout
 	private WindowManager.LayoutParams layWM;
 	private srcMain main;
 	private int ScreenOrantation;
-	private DisplayMetrics dm;
 
 	// ¸è´ÊÐã¿Ø¼þ
 	ImageView imgIcon;
@@ -61,8 +59,6 @@ public class FloatLRC extends LinearLayout
 		layWM = main.getLayWM();
 		this.main = main;
 		ScreenOrantation = ((WindowManager) main.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
-		dm = new DisplayMetrics();
-		main.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
 		// ÉèÖÃ×¨¼­Í¼±ê
 		imgIcon = new ImageView(main);
@@ -110,40 +106,11 @@ public class FloatLRC extends LinearLayout
 			Animation anim = null;
 			AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
 			float FontWidth = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
-			if ((ScreenOrantation == 1 || ScreenOrantation == 3))
-			{
-				if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH)
-				{
-					layWM.width = 800;
-					layText2.x = (int) (725 - FontWidth);
-					if (FontWidth > 720)
-						anim = new TranslateAnimation(FontWidth - 720, 0, 0, 0);
-				}
-				else if (dm.densityDpi == DisplayMetrics.DENSITY_MEDIUM)
-				{
-					layWM.width = 480;
-					layText2.x = (int) (405 - FontWidth);
-					if (FontWidth > 400)
-						anim = new TranslateAnimation(FontWidth - 400, 0, 0, 0);
-				}
-			}
-			else
-			{
-				if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH)
-				{
-					layWM.width = 480;
-					layText2.x = (int) (405 - FontWidth);
-					if (FontWidth > 400)
-						anim = new TranslateAnimation(FontWidth - 400, 0, 0, 0);
-				}
-				else if (dm.densityDpi == DisplayMetrics.DENSITY_MEDIUM)
-				{
-					layWM.width = 320;
-					layText2.x = (int) (245 - FontWidth);
-					if (FontWidth > 240)
-						anim = new TranslateAnimation(FontWidth - 240, 0, 0, 0);
-				}
-			}
+
+			layWM.width = main.getDm().widthPixels;
+			layText2.x = (int) (main.getDm().widthPixels - 75 - FontWidth);
+			if (FontWidth > main.getDm().widthPixels - 80)
+				anim = new TranslateAnimation(FontWidth - (main.getDm().widthPixels - 80), 0, 0, 0);
 
 			AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
 			layText1.x = 5;
@@ -166,80 +133,20 @@ public class FloatLRC extends LinearLayout
 			AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
 			float FontWidth1 = Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
 			float FontWidth2 = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
+
+			layWM.width = main.getDm().widthPixels;
+			if (FontWidth2 > main.getDm().widthPixels - 80)
+				layText2.x = 5;
+			else
+				layText2.x = (int) (main.getDm().widthPixels - 75 - FontWidth2);
+
+			if (FontWidth1 > main.getDm().widthPixels - 80)
 			{
-				if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH)
-				{
-					layWM.width = 800;
-
-					if (FontWidth2 > 720)
-						layText2.x = 5;
-					else
-						layText2.x = (int) (725 - FontWidth2);
-
-					if (FontWidth1 > 720)
-					{
-						layText1.x = (int) (725 - FontWidth1);
-						anim = new TranslateAnimation(FontWidth1 - 720, 0, 0, 0);
-					}
-					else
-						layText1.x = 5;
-				}
-				else if (dm.densityDpi == DisplayMetrics.DENSITY_MEDIUM)
-				{
-					layWM.width = 480;
-
-					if (FontWidth2 > 400)
-						layText2.x = 5;
-					else
-						layText2.x = (int) (405 - FontWidth2);
-
-					if (FontWidth1 > 400)
-					{
-						layText1.x = (int) (405 - FontWidth1);
-						anim = new TranslateAnimation(FontWidth1 - 400, 0, 0, 0);
-					}
-					else
-						layText1.x = 5;
-				}
+				layText1.x = (int) (main.getDm().widthPixels - 75 - FontWidth1);
+				anim = new TranslateAnimation(FontWidth1 - (main.getDm().widthPixels - 80), 0, 0, 0);
 			}
 			else
-			{
-				if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH)
-				{
-					layWM.width = 480;
-
-					if (FontWidth2 > 400)
-						layText2.x = 5;
-					else
-						layText2.x = (int) (405 - FontWidth2);
-
-					if (FontWidth1 > 400)
-					{
-						layText1.x = (int) (405 - FontWidth1);
-						anim = new TranslateAnimation(FontWidth1 - 400, 0, 0, 0);
-					}
-					else
-						layText1.x = 5;
-				}
-				else if (dm.densityDpi == DisplayMetrics.DENSITY_MEDIUM)
-				{
-					layWM.width = 320;
-
-					if (FontWidth2 > 240)
-						layText2.x = 5;
-					else
-						layText2.x = (int) (245 - FontWidth2);
-
-					if (FontWidth1 > 240)
-					{
-						layText1.x = (int) (245 - FontWidth1);
-						anim = new TranslateAnimation(FontWidth1 - 240, 0, 0, 0);
-					}
-					else
-						layText1.x = 5;
-				}
-			}
+				layText1.x = 5;
 
 			txtLRC1.setLayoutParams(layText1);
 			layText2.width = (int) Common.GetTextWidth(Sentence2, txtLRC1.getTextSize());

@@ -46,7 +46,7 @@ public class HandlerService
 		}
 	};
 
-	/* 启动后设置语言的Handler */
+	/* 关闭欢迎画面的Handler */
 	private Handler hdlShowMain = new Handler()
 	{
 		@Override
@@ -66,13 +66,15 @@ public class HandlerService
 		}
 	};
 
-	/* 清空Adapter的Handler */
-	private Handler hdlAdapterClearHandler = new Handler()
+	/* 绑定Adapter并刷新ID3属性的Handler */
+	private Handler hdlAdapterBinding = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)
 		{
-			main.getLstMusic().setAdapter(null);
+			main.setAdapter(new MusicAdapter(main, main.getLstSong()));
+			main.getLstMusic().setAdapter(main.getAdapter());
+			main.RefreshID3();
 		}
 	};
 
@@ -276,16 +278,6 @@ public class HandlerService
 		this.main = main;
 	}
 
-	public Handler getHdlAdapterClearHandler()
-	{
-		return hdlAdapterClearHandler;
-	}
-
-	public void setHdlAdapterClearHandler(Handler hdlAdapterClearHandler)
-	{
-		this.hdlAdapterClearHandler = hdlAdapterClearHandler;
-	}
-
 	public Handler getHdlAdapterUpdateHandler()
 	{
 		return hdlAdapterUpdateHandler;
@@ -354,5 +346,15 @@ public class HandlerService
 	public void setHdlShowMain(Handler hdlShowMain)
 	{
 		this.hdlShowMain = hdlShowMain;
+	}
+
+	public Handler getHdlAdapterBinding()
+	{
+		return hdlAdapterBinding;
+	}
+
+	public void setHdlAdapterBinding(Handler hdlAdapterBinding)
+	{
+		this.hdlAdapterBinding = hdlAdapterBinding;
 	}
 }

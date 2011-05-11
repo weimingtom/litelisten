@@ -21,10 +21,17 @@ import android.graphics.Paint;
 
 public class Common
 {
+	/* 获取字符串宽度 */
 	public static float GetTextWidth(String Sentence, float Size)
 	{
 		Paint FontPaint = new Paint();
 		FontPaint.setTextSize(Size);
 		return FontPaint.measureText(Sentence.trim()) + (int) (Size * 0.1); // 留点余地
+	}
+
+	/* 获取随机正整数 */
+	public static int GetRandomIndex(int min, int max)
+	{
+		return (int) (Math.random() * (max - min + 1)) + min;
 	}
 }

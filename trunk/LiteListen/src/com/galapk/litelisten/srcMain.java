@@ -50,6 +50,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -95,6 +97,8 @@ public class srcMain extends Activity
 	private SharedPreferences sp = null;
 	private boolean IsStartup = true; // 显示应用程序是否刚启动
 	private boolean IsRefreshing = false; // 显示是否正在读取音乐列表
+	private Toast toast = null; // 全局的Toast
+	private int VerifyCode = 0; // 歌曲刷新的校验码
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -132,6 +136,7 @@ public class srcMain extends Activity
 	private FloatLRC fl;
 	private WindowManager.LayoutParams layWM;
 	private AudioManager am;
+	private DisplayMetrics dm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -181,6 +186,7 @@ public class srcMain extends Activity
 					}
 					catch (Exception e)
 					{
+						Log.e("WidgetsListener", e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -204,6 +210,7 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
+					Log.e("ShowSplash", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -229,12 +236,14 @@ public class srcMain extends Activity
 			mt = new MP3Tags(this);
 			py = new PYProvider();
 			hs = new HandlerService(this);
-			sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
+			sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
 			nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
 			layWM = new WindowManager.LayoutParams();
 			fl = new FloatLRC(this); // 浮动歌词布局
 			am = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
+			dm = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
 
 			// 清除上次程序运行的历史记录
 			Editor edt = sp.edit();
@@ -285,14 +294,10 @@ public class srcMain extends Activity
 			else
 				lstMusic.setVisibility(View.GONE);
 
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-				layWM.width = 800;
-			else
-				layWM.width = 480;
-
 			if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
 				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			fl.setVisibility(View.INVISIBLE);
+			layWM.width = dm.widthPixels;
 		}
 
 		// 设置音量条参数
@@ -337,6 +342,15 @@ public class srcMain extends Activity
 				SetMusicListByDB();
 		}
 
+		RefreshLanguage();
+		ls.RefreshLRC();
+		fl.setVisibility(View.INVISIBLE);
+		IsStartup = false;
+	}
+
+	/* 刷新语言线程 */
+	public void RefreshLanguage()
+	{
 		new Thread()
 		{
 			public void run()
@@ -347,15 +361,12 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
+					Log.e("RefreshLanguage", e.getMessage());
 					e.printStackTrace();
 				}
 				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
 		}.start();
-
-		ls.RefreshLRC();
-		fl.setVisibility(View.INVISIBLE);
-		IsStartup = false;
 	}
 
 	/* 创建浮动歌词秀 */
@@ -370,10 +381,7 @@ public class srcMain extends Activity
 		layWM.gravity = Gravity.LEFT | Gravity.TOP;
 		layWM.x = 0;
 		layWM.y = sp.getInt("FloatLRCPos", 0);
-		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			layWM.width = 800;
-		else
-			layWM.width = 480;
+		layWM.width = dm.widthPixels;
 		layWM.height = 80;
 
 		wm.addView(fl, layWM);
@@ -468,57 +476,59 @@ public class srcMain extends Activity
 	/* 将歌曲添加到列表 */
 	public void SetMusicToList()
 	{
-		IsRefreshing = true;
-		MusicFile mf = new MusicFile();
-		mf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean("chkIngnoreDirectory",
-				true));
-		List<String> lstFile = mf.getLstFile();
-		lstSong = new ArrayList<Map<String, Object>>();
-
-		if (lstFile.size() > 0)
+		new Thread()
 		{
-			for (int i = 0; i < lstFile.size(); i++)
+			public void run()
 			{
-				String strFileName = (String) lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3"));
+				IsRefreshing = true;
+				MusicFile mf = new MusicFile();
+				mf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
+						"chkIngnoreDirectory", true));
+				List<String> lstFile = mf.getLstFile();
+				lstSong = new ArrayList<Map<String, Object>>();
 
-				Map<String, Object> mapInfo = new HashMap<String, Object>();
-				mapInfo.put("MusicPath", lstFile.get(i));
-				mapInfo.put("LRCPath", lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3")) + ".lrc");
-				mapInfo.put("Title", strFileName.substring(strFileName.lastIndexOf("/") + 1));
-				mapInfo.put("ID3Checked", "0");
-
-				String strMusicPath = lstFile.get(i);
-				if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
-					strMusicPath = strMusicPath.replace("'", "''");
-
-				Cursor cur = db.GetDBInstance(true).query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
-				if (cur.moveToFirst())
+				if (lstFile.size() > 0)
 				{
-					File f = new File(cur.getString(11));
-					if (f.exists())
-					{
-						mapInfo.put("Title", cur.getString(0));
-						mapInfo.put("SongInfo", cur.getString(13));
-						mapInfo.put("MusicPath", cur.getString(11));
-						mapInfo.put("LRCPath", cur.getString(12));
-						mapInfo.put("Artist", cur.getString(1));
-						mapInfo.put("Album", cur.getString(2));
-						mapInfo.put("Genre", cur.getString(4));
-						mapInfo.put("Year", cur.getString(3));
-						mapInfo.put("Track", cur.getString(5));
-						mapInfo.put("ID3Checked", cur.getString(16));
-					}
-					else
-						db.DBDelete("music_info", "music_path='" + cur.getString(11) + "'");
-				}
-				cur.close();
-				lstSong.add(mapInfo);
-			}
+					VerifyCode = Common.GetRandomIndex(111111, 999999); // 获取本次列表刷新时的校验码
 
-			adapter = new MusicAdapter(srcMain.this, lstSong);
-			lstMusic.setAdapter(adapter);
-			RefreshID3();
-		}
+					for (int i = 0; i < lstFile.size(); i++)
+					{
+						String strFileName = (String) lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3"));
+
+						Map<String, Object> mapInfo = new HashMap<String, Object>();
+						mapInfo.put("MusicPath", lstFile.get(i));
+						mapInfo.put("LRCPath", lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3")) + ".lrc");
+						mapInfo.put("Title", strFileName.substring(strFileName.lastIndexOf("/") + 1));
+						mapInfo.put("ID3Checked", "0");
+
+						String strMusicPath = lstFile.get(i);
+						if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
+							strMusicPath = strMusicPath.replace("'", "''");
+
+						Cursor cur = db.GetInstance(true).query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
+						if (cur.moveToFirst())
+						{
+							mapInfo.put("Title", cur.getString(0));
+							mapInfo.put("SongInfo", cur.getString(13));
+							mapInfo.put("MusicPath", cur.getString(11));
+							mapInfo.put("LRCPath", cur.getString(12));
+							mapInfo.put("Artist", cur.getString(1));
+							mapInfo.put("Album", cur.getString(2));
+							mapInfo.put("Genre", cur.getString(4));
+							mapInfo.put("Year", cur.getString(3));
+							mapInfo.put("Track", cur.getString(5));
+							mapInfo.put("ID3Checked", cur.getString(16));
+
+							db.ModifiyData("music_info", "set verify_code='" + VerifyCode + "' where music_path='" + strMusicPath + "'");
+						}
+						cur.close();
+						lstSong.add(mapInfo);
+					}
+
+					hs.getHdlAdapterBinding().sendEmptyMessage(0);
+				}
+			}
+		}.start();
 	}
 
 	/* 更新ID3标签信息 */
@@ -581,10 +591,10 @@ public class srcMain extends Activity
 						if (strSongInfo != null && strSongInfo.indexOf("'") != -1)
 							strSongInfo = strSongInfo.replace("'", "''");
 
-						db.DBDelete("music_info", "music_path='" + strMusicPath + "'");
-						db.DBInsert("music_info", "'" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment + "','"
+						db.DeleteData("music_info", "music_path='" + strMusicPath + "'");
+						db.InsertData("music_info", "'" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment + "','"
 								+ py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','" + py.GetPYSimple(py.GetPYFull(strArtist)) + "','"
-								+ strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1'");
+								+ strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1','" + VerifyCode + "'");
 
 						lstSong.set(i, mapInfo);
 
@@ -594,6 +604,7 @@ public class srcMain extends Activity
 						}
 						catch (Exception e)
 						{
+							Log.e("RefreshID3", e.getMessage());
 							e.printStackTrace();
 						}
 					}
@@ -614,6 +625,8 @@ public class srcMain extends Activity
 		{
 			public void run()
 			{
+				db.DeleteData("music_info", "verify_code<>'" + VerifyCode + "';"); // 清理数据库中无法和文件关联的记录
+
 				Cursor cur = null;
 				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
 
@@ -622,7 +635,7 @@ public class srcMain extends Activity
 				String strOrderBy = sp.getString("OrderBy", "asc");
 				if (index.equals("0"))
 				{
-					cur = db.GetDBInstance(true)
+					cur = db.GetInstance(true)
 							.query(
 									"music_info",
 									null,
@@ -633,7 +646,7 @@ public class srcMain extends Activity
 				}
 				else if (index.equals("1"))
 				{
-					cur = db.GetDBInstance(true)
+					cur = db.GetInstance(true)
 							.query(
 									"music_info",
 									null,
@@ -644,7 +657,7 @@ public class srcMain extends Activity
 				}
 				else if (index.equals("2"))
 				{
-					cur = db.GetDBInstance(true).query(
+					cur = db.GetInstance(true).query(
 							"music_info",
 							null,
 							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
@@ -920,11 +933,19 @@ public class srcMain extends Activity
 					strGenre = Genre[Integer.parseInt(strGenre.substring(strGenre.indexOf("((") + 2, strGenre.lastIndexOf("") - 1))];
 				}
 				map.put("Genre", strGenre);
-				map.put("Title", ID3v2.getTitle());
-				map.put("SongInfo", ID3v2.getArtist() + " - " + ID3v2.getAlbum());
 				map.put("Artist", ID3v2.getArtist());
 				map.put("Album", ID3v2.getAlbum());
 				map.put("Comment", ID3v2.getComment());
+
+				if (!ID3v2.getTitle().equals(""))
+					map.put("Title", ID3v2.getTitle());
+				else
+					map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
+
+				if (!ID3v2.getArtist().equals("") && !ID3v2.getAlbum().equals(""))
+					map.put("SongInfo", ID3v2.getArtist() + " - " + ID3v2.getAlbum());
+				else if (!ID3v2.getArtist().equals("") || !ID3v2.getAlbum().equals(""))
+					map.put("SongInfo", ID3v2.getArtist() + ID3v2.getAlbum());
 
 				try
 				{
@@ -933,32 +954,49 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
+					Log.e("GetMusicID3", e.getMessage());
 					e.printStackTrace();
 				}
 			}
 			else if (ID3All instanceof ID3V1_1Tag)
 			{
 				ID3V1_1Tag ID3v1_1 = (ID3V1_1Tag) ID3All;
-				map.put("Title", ID3v1_1.getTitle());
-				map.put("SongInfo", ID3v1_1.getArtist() + " - " + ID3v1_1.getAlbum());
 				map.put("Artist", ID3v1_1.getArtist());
 				map.put("Album", ID3v1_1.getAlbum());
 				map.put("Comment", ID3v1_1.getComment());
 				map.put("Year", ID3v1_1.getYear());
 				map.put("Track", String.valueOf(ID3v1_1.getAlbumTrack()));
 				map.put("Genre", String.valueOf(ID3v1_1.getGenre()));
+
+				if (!ID3v1_1.getTitle().equals(""))
+					map.put("Title", ID3v1_1.getTitle());
+				else
+					map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
+
+				if (!ID3v1_1.getArtist().equals("") && !ID3v1_1.getAlbum().equals(""))
+					map.put("SongInfo", ID3v1_1.getArtist() + " - " + ID3v1_1.getAlbum());
+				else if (!ID3v1_1.getArtist().equals("") || !ID3v1_1.getAlbum().equals(""))
+					map.put("SongInfo", ID3v1_1.getArtist() + ID3v1_1.getAlbum());
 			}
 			else if (ID3All instanceof ID3V1_0Tag)
 			{
 				ID3V1_0Tag ID3v1_0 = (ID3V1_0Tag) ID3All;
-				map.put("Title", ID3v1_0.getTitle());
-				map.put("SongInfo", ID3v1_0.getArtist() + " - " + ID3v1_0.getAlbum());
 				map.put("Artist", ID3v1_0.getArtist());
 				map.put("Album", ID3v1_0.getAlbum());
 				map.put("Comment", ID3v1_0.getComment());
 				map.put("Year", ID3v1_0.getYear());
 				map.put("Track", getString(R.string.srcmain_no_track_number));
 				map.put("Genre", String.valueOf(ID3v1_0.getGenre()));
+
+				if (!ID3v1_0.getTitle().equals(""))
+					map.put("Title", ID3v1_0.getTitle());
+				else
+					map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
+
+				if (!ID3v1_0.getArtist().equals("") && !ID3v1_0.getAlbum().equals(""))
+					map.put("SongInfo", ID3v1_0.getArtist() + " - " + ID3v1_0.getAlbum());
+				else if (!ID3v1_0.getArtist().equals("") || !ID3v1_0.getAlbum().equals(""))
+					map.put("SongInfo", ID3v1_0.getArtist() + ID3v1_0.getAlbum());
 			}
 		}
 		else
@@ -1035,28 +1073,16 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 0)
 		{
-			Animation animShow = null;
-			Animation animHide = null;
-
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				animShow = new TranslateAnimation(800, 0, 0, 0);
-				animHide = new TranslateAnimation(0, -800, 0, 0);
-			}
-			else
-			{
-				animShow = new TranslateAnimation(480, 0, 0, 0);
-				animHide = new TranslateAnimation(0, -480, 0, 0);
-			}
-
 			lstMusic.setVisibility(View.GONE);
 			CurrentShown = 1;
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
+				Animation animShow = new TranslateAnimation(dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
 				animShow.setInterpolator(new DecelerateInterpolator());
 
+				Animation animHide = new TranslateAnimation(0, -dm.widthPixels, 0, 0);
 				animHide.setDuration(ANIMATION_TIME);
 				animHide.setInterpolator(new DecelerateInterpolator());
 
@@ -1070,28 +1096,16 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 1)
 		{
-			Animation animShow = null;
-			Animation animHide = null;
-
-			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
-				animShow = new TranslateAnimation(-800, 0, 0, 0);
-				animHide = new TranslateAnimation(0, 800, 0, 0);
-			}
-			else
-			{
-				animShow = new TranslateAnimation(-480, 0, 0, 0);
-				animHide = new TranslateAnimation(0, 480, 0, 0);
-			}
-
 			lstMusic.setVisibility(View.VISIBLE);
 			CurrentShown = 0;
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
+				Animation animShow = new TranslateAnimation(-dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
 				animShow.setInterpolator(new DecelerateInterpolator());
 
+				Animation animHide = new TranslateAnimation(0, dm.widthPixels, 0, 0);
 				animHide.setDuration(ANIMATION_TIME);
 				animHide.setInterpolator(new DecelerateInterpolator());
 
@@ -1244,34 +1258,70 @@ public class srcMain extends Activity
 				{
 					edt.putString("lstPlayMode", "1");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_all);
-					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_repeat_all), Toast.LENGTH_SHORT).show();
+
+					if (toast != null)
+					{
+						toast.setText(R.string.srcmain_play_mode_repeat_all);
+						toast.setDuration(Toast.LENGTH_SHORT);
+					}
+					else
+						toast = Toast.makeText(srcMain.this, R.string.srcmain_play_mode_repeat_all, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("1"))
 				{
 					edt.putString("lstPlayMode", "2");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_pause_current);
-					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_pause_current), Toast.LENGTH_SHORT).show();
+
+					if (toast != null)
+					{
+						toast.setText(R.string.srcmain_play_mode_pause_current);
+						toast.setDuration(Toast.LENGTH_SHORT);
+					}
+					else
+						toast = Toast.makeText(srcMain.this, R.string.srcmain_play_mode_pause_current, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("2"))
 				{
 					edt.putString("lstPlayMode", "3");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_current);
-					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_repeat_current), Toast.LENGTH_SHORT).show();
+
+					if (toast != null)
+					{
+						toast.setText(R.string.srcmain_play_mode_repeat_current);
+						toast.setDuration(Toast.LENGTH_SHORT);
+					}
+					else
+						toast = Toast.makeText(srcMain.this, R.string.srcmain_play_mode_repeat_current, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("3"))
 				{
 					edt.putString("lstPlayMode", "4");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_shuffle);
-					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_shuffle), Toast.LENGTH_SHORT).show();
+
+					if (toast != null)
+					{
+						toast.setText(R.string.srcmain_play_mode_shuffle);
+						toast.setDuration(Toast.LENGTH_SHORT);
+					}
+					else
+						toast = Toast.makeText(srcMain.this, R.string.srcmain_play_mode_shuffle, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("4"))
 				{
 					edt.putString("lstPlayMode", "0");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
-					Toast.makeText(srcMain.this, getString(R.string.srcmain_play_mode_close), Toast.LENGTH_SHORT).show();
+
+					if (toast != null)
+					{
+						toast.setText(R.string.srcmain_play_mode_close);
+						toast.setDuration(Toast.LENGTH_SHORT);
+					}
+					else
+						toast = Toast.makeText(srcMain.this, R.string.srcmain_play_mode_close, Toast.LENGTH_SHORT);
 				}
 
 				edt.commit();
+				toast.show();
 			}
 		});
 
@@ -1315,7 +1365,7 @@ public class srcMain extends Activity
 		{
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
-
+				txtTitle.setText(ms.getStrShownTitle()); // 还原标题
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar)
@@ -1326,6 +1376,14 @@ public class srcMain extends Activity
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
 				am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+
+				if (!IsStartup)
+				{
+					if (progress == 0)
+						txtTitle.setText(R.string.srcmain_volume_mute); // 显示静音
+					else
+						txtTitle.setText(getString(R.string.srcmain_volume) + progress); // 暂时显示音量
+				}
 			}
 		});
 
@@ -1364,8 +1422,15 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", false);
 							edt.commit();
-							Toast.makeText(srcMain.this, getString(R.string.float_lrc_deactivation), Toast.LENGTH_SHORT).show();
 							nm.cancel(LRC_NOTIFY_ID);
+
+							if (toast != null)
+							{
+								toast.setText(R.string.float_lrc_deactivation);
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(srcMain.this, R.string.float_lrc_deactivation, Toast.LENGTH_SHORT);
 						}
 						else
 						{
@@ -1373,9 +1438,17 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", true);
 							edt.commit();
-							Toast.makeText(srcMain.this, getString(R.string.float_lrc_activiation), Toast.LENGTH_SHORT).show();
 							CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
+
+							if (toast != null)
+							{
+								toast.setText(R.string.float_lrc_activiation);
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(srcMain.this, R.string.float_lrc_activiation, Toast.LENGTH_SHORT);
 						}
+						toast.show();
 
 						break;
 					case 2:
@@ -1388,7 +1461,14 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", true);
 							edt.commit();
-							Toast.makeText(srcMain.this, getString(R.string.srcmain_extend_menu_keep_screen_on_true), Toast.LENGTH_SHORT).show();
+
+							if (toast != null)
+							{
+								toast.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(srcMain.this, R.string.srcmain_extend_menu_keep_screen_on_true, Toast.LENGTH_SHORT);
 						}
 						else
 						{
@@ -1397,8 +1477,16 @@ public class srcMain extends Activity
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", false);
 							edt.commit();
-							Toast.makeText(srcMain.this, getString(R.string.srcmain_extend_menu_keep_screen_on_false), Toast.LENGTH_SHORT).show();
+
+							if (toast != null)
+							{
+								toast.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(srcMain.this, R.string.srcmain_extend_menu_keep_screen_on_false, Toast.LENGTH_SHORT);
 						}
+						toast.show();
 
 						break;
 					case 3:
@@ -1456,6 +1544,7 @@ public class srcMain extends Activity
 
 						break;
 				}
+
 				HideExtendPanel();
 			}
 		});
@@ -1725,6 +1814,7 @@ public class srcMain extends Activity
 		{
 			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() + 1);
+			txtTitle.setText(ms.getStrShownTitle());
 
 			return true;
 		}
@@ -1732,6 +1822,7 @@ public class srcMain extends Activity
 		{
 			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() - 1);
+			txtTitle.setText(ms.getStrShownTitle());
 
 			return true;
 		}
@@ -2142,5 +2233,70 @@ public class srcMain extends Activity
 	public void setLayWM(WindowManager.LayoutParams layWM)
 	{
 		this.layWM = layWM;
+	}
+
+	public boolean isIsStartup()
+	{
+		return IsStartup;
+	}
+
+	public void setIsStartup(boolean isStartup)
+	{
+		IsStartup = isStartup;
+	}
+
+	public boolean isIsRefreshing()
+	{
+		return IsRefreshing;
+	}
+
+	public void setIsRefreshing(boolean isRefreshing)
+	{
+		IsRefreshing = isRefreshing;
+	}
+
+	public ImageButton getBtnVolume()
+	{
+		return btnVolume;
+	}
+
+	public void setBtnVolume(ImageButton btnVolume)
+	{
+		this.btnVolume = btnVolume;
+	}
+
+	public SeekBar getSkbVolume()
+	{
+		return skbVolume;
+	}
+
+	public void setSkbVolume(SeekBar skbVolume)
+	{
+		this.skbVolume = skbVolume;
+	}
+
+	public AudioManager getAm()
+	{
+		return am;
+	}
+
+	public void setAm(AudioManager am)
+	{
+		this.am = am;
+	}
+
+	public DisplayMetrics getDm()
+	{
+		return dm;
+	}
+
+	public void setDm(DisplayMetrics dm)
+	{
+		this.dm = dm;
+	}
+
+	public static int getLrcNotifyId()
+	{
+		return LRC_NOTIFY_ID;
 	}
 }

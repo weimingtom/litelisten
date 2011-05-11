@@ -34,6 +34,8 @@
 	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
 	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
 	<string name="srcmain_show_main">单击这里显示播放器主界面</string>
+	<string name="srcmain_volume">音量：</string>
+	<string name="srcmain_volume_mute">静音</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -98,7 +100,8 @@
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
 		2011\n0.5.11 build
-		0511.0110\n\n更新内容：\n1、修正音量可以无限放大的错误\n2、将设备的音量键关联到应用程序\n\n下期预告：\n增加对MIUI
+		0511.1706\n\n更新内容：\n1、控件尺寸和位置自适应各种分辨率（界面图片暂仅支持M和H两种分辨率）\n2、修正了某些情况下搜索功能报错的问题\n3、修正了音乐文件路径设置失效的问题\n4、启动时自动删除不存在或关联错误的歌曲\n5、修正了一些音乐名称为空的问题\n6、浮动提示窗口（Toast）的内容可以实时更新了\n7、通过滑块调整音量时会在标题处显示
+		\n\n下期预告：\n增加对MIUI
 		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 

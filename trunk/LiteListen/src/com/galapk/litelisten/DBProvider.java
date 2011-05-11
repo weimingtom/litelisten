@@ -19,11 +19,12 @@ package com.galapk.litelisten;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBProvider extends SQLiteOpenHelper
 {
 	private static String DBName = "db_main"; // 数据库名
-	private static int DBVersion = 1; // 数据库版本
+	private static int DBVersion = 2; // 数据库版本
 
 	private srcMain main = null;
 
@@ -36,18 +37,22 @@ public class DBProvider extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		String strCreateMusicInfo = "create table music_info(title text, artist text, album text, year text, genre text, track text, comment text, title_py text, title_simple_py text, artist_py text, artist_simple_py text, music_path text, lrc_path text, song_info text, play_times number, is_last_played number, id3_checked text);";
+		String strCreateMusicInfo = "create table music_info(title text, artist text, album text, year text, genre text, track text, comment text, title_py text, title_simple_py text, artist_py text, artist_simple_py text, music_path text primary key, lrc_path text, song_info text, play_times number, is_last_played number, id3_checked text, verify_code text);";
 		db.execSQL(strCreateMusicInfo);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		;
+		if (oldVersion == 1)
+		{
+			String strModifyMusicInfo = "alter table music_info add verify_code text; alter table music_info add primary key (music_path);";
+			db.execSQL(strModifyMusicInfo);
+		}
 	}
 
 	/* 获取当前程序的数据库实例 */
-	public SQLiteDatabase GetDBInstance(boolean IsReadOnly)
+	public SQLiteDatabase GetInstance(boolean IsReadOnly)
 	{
 		SQLiteDatabase db; // 数据库
 
@@ -64,16 +69,16 @@ public class DBProvider extends SQLiteOpenHelper
 	{
 		String strCreateMusicInfo = "create table music_info(title text, artist text, album text, year text, genre text, track text, comment text, title_py text, title_simple_py text, artist_py, artist_simple_py, music_path text, lrc_path text, song_info text, play_times number, is_last_played number, id3_checked text);";
 
-		if (!DBDrop(strTable))
+		if (!DropTable(strTable))
 		{// 如果删除表失败
-			if (DBCreate(strCreateMusicInfo))
+			if (CreateTable(strCreateMusicInfo))
 				return true; // 创建成功
 			else
 				return false; // 创建失败
 		}
 		else
 		{// 删除表成功
-			if (DBCreate(strCreateMusicInfo)) // 创建新表
+			if (CreateTable(strCreateMusicInfo)) // 创建新表
 				return true;
 			else
 				return false;
@@ -81,9 +86,9 @@ public class DBProvider extends SQLiteOpenHelper
 	}
 
 	/* 创建数据表 */
-	public boolean DBCreate(String strSQLTable)
+	public boolean CreateTable(String strSQLTable)
 	{
-		SQLiteDatabase dbContact = GetDBInstance(false); // 数据库实例
+		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
 		try
 		{
 			dbContact.execSQL(strSQLTable);
@@ -93,6 +98,7 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{// 可能是数据表不存在
+			Log.e("DBCreate", e.getMessage() + "|" + strSQLTable);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -101,9 +107,9 @@ public class DBProvider extends SQLiteOpenHelper
 	}
 
 	/* 删除数据表 */
-	public boolean DBDrop(String strTable)
+	public boolean DropTable(String strTable)
 	{
-		SQLiteDatabase dbContact = GetDBInstance(false); // 数据库实例
+		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
 		try
 		{
 			String strSQLDrop = "drop table " + strTable + ";";
@@ -114,6 +120,7 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{// 可能是数据表不存在
+			Log.e("DBDrop", e.getMessage() + "|" + strTable);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -122,9 +129,9 @@ public class DBProvider extends SQLiteOpenHelper
 	}
 
 	/* 插入数据 */
-	public boolean DBInsert(String strTable, String strData)
+	public boolean InsertData(String strTable, String strData)
 	{
-		SQLiteDatabase dbContact = GetDBInstance(false); // 数据库实例
+		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
 		try
 		{
 			if (strData.equals("") || strData.equals(null))
@@ -138,6 +145,7 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
+			Log.e("DBInsert", e.getMessage() + "|" + strTable + "|" + strData);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -146,9 +154,9 @@ public class DBProvider extends SQLiteOpenHelper
 	}
 
 	/* 修改数据 */
-	public boolean DBModifiy(String strTable, String strSubStringOfSet)
+	public boolean ModifiyData(String strTable, String strSubStringOfSet)
 	{
-		SQLiteDatabase dbContact = GetDBInstance(false); // 数据库实例
+		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
 		try
 		{
 			if (strSubStringOfSet.equals("") || strSubStringOfSet.equals(null))
@@ -162,6 +170,7 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
+			Log.e("DBModifiy", e.getMessage() + "|" + strTable + "|" + strSubStringOfSet);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -170,9 +179,9 @@ public class DBProvider extends SQLiteOpenHelper
 	}
 
 	/* 删除数据 */
-	public boolean DBDelete(String strTable, String strCondition)
+	public boolean DeleteData(String strTable, String strCondition)
 	{
-		SQLiteDatabase dbContact = GetDBInstance(false); // 数据库实例
+		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
 		try
 		{
 			String strSQLDelete = "delete from " + strTable;
@@ -185,6 +194,7 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
+			Log.e("DBDelete", e.getMessage() + "|" + strTable + "|" + strCondition);
 			dbContact.close();
 			e.printStackTrace();
 

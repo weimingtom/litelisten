@@ -248,7 +248,7 @@ public class MusicService
 			}
 		}
 		else if (ModeIndex.equals("4"))
-			index = GetRandomIndex(0, main.getLstSong().size() - 1);
+			index = Common.GetRandomIndex(0, main.getLstSong().size() - 1);
 
 		Stop();
 		Play(index);
@@ -323,12 +323,6 @@ public class MusicService
 			Pause();
 		else
 			Play(CurrIndex);
-	}
-
-	/* 随机获取音乐序号 */
-	public int GetRandomIndex(int min, int max)
-	{
-		return (int) (Math.random() * (max - min + 1)) + min;
 	}
 
 	/* 获取当前播放的时间 */

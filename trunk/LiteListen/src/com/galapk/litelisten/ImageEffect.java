@@ -35,6 +35,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class ImageEffect
 {
@@ -82,6 +83,7 @@ public class ImageEffect
 		}
 		catch (Exception e)
 		{
+			Log.e("SaveBitmap", e.getMessage());
 			e.printStackTrace();
 			return false;
 		}

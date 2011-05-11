@@ -20,6 +20,7 @@ package com.galapk.litelisten;
 import java.io.File;
 import java.util.Locale;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -37,6 +38,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -90,7 +92,7 @@ public class SettingService extends PreferenceActivity
 		dlgColor = new ColorDialog(this);
 		dlgText = new TextDialog(this);
 		dlgAlert = new MessageDialog(this);
-		sp = getSharedPreferences("com.littledai.litelisten_preferences", 0); // 读取配置文件
+		sp = getPreferences(Context.MODE_PRIVATE); // 读取配置文件
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
 		String index = sp.getString("lstLanguage", "0");
@@ -129,6 +131,7 @@ public class SettingService extends PreferenceActivity
 					}
 					catch (Exception e)
 					{
+						Log.e("onActivityResult", e.getMessage());
 						e.printStackTrace();
 					}
 
@@ -150,6 +153,7 @@ public class SettingService extends PreferenceActivity
 					}
 					catch (Exception e)
 					{
+						Log.e("onActivityResult", e.getMessage());
 						e.printStackTrace();
 					}
 

@@ -35,6 +35,7 @@ import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
@@ -236,6 +237,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			Log.e("ReadLRC", e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -288,6 +290,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			Log.e("AnalyzeLRC", e.getMessage());
 			e.printStackTrace();
 			return "";
 		}
@@ -337,6 +340,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			Log.e("TimeToLong", e.getMessage());
 			return -1;
 		}
 	}
@@ -356,6 +360,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			Log.e("IntegerToTime", e.getMessage());
 			return null;
 		}
 	}
@@ -446,6 +451,7 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
+			Log.e("GetCharset", e.getMessage());
 			e.printStackTrace();
 		}
 
