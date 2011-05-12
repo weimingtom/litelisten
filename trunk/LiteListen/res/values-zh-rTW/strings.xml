@@ -21,6 +21,9 @@
 	<string name="srcmain_extend_menu_search">快速搜索</string>
 	<string name="srcmain_extend_menu_order_asc">昇冪排列</string>
 	<string name="srcmain_extend_menu_order_desc">降冪排列</string>
+	<string name="srcmain_extend_menu_ringtong">設為鈴聲</string>
+	<string name="srcmain_extend_menu_favourite">最愛歌曲</string>
+	<string name="srcmain_extend_menu_list">返回列表</string>
 	<string name="srcmain_extend_menu_wait">敬請期待</string>
 	<string name="srcmain_no_id3_tag_found">沒有 ID3 標籤資訊</string>
 	<string name="srcmain_play_mode_close">順序播放</string>
@@ -36,6 +39,9 @@
 	<string name="srcmain_show_main">按一下這裡顯示播放機主介面</string>
 	<string name="srcmain_volume">音量：</string>
 	<string name="srcmain_volume_mute">靜音</string>
+	<string name="srcmain_ringtong_successful">已設為來電鈴聲</string>
+	<string name="srcmain_alarm_successful">已設為鬧鐘鈴聲</string>
+	<string name="srcmain_play_first">請先播放音樂</string>
 
 	<string name="widget_title_small">輕聽音樂 4×2</string>
 	<string name="widget_title_medium">輕聽音樂 4×3</string>
@@ -49,6 +55,8 @@
 	<string name="float_lrc_unlock">按一下這裡解鎖桌面歌詞</string>
 	<string name="float_lrc_activiation">桌面歌詞已啟動</string>
 	<string name="float_lrc_deactivation">桌面歌詞已關閉</string>
+	<string name="notification_show">按一下這裡返回播放機</string>
+	<string name="notification_play">按一下這裡播放下一首</string>
 
 	<string name="pfrsmain_title">設置輕聽音樂播放機</string>
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
@@ -69,7 +77,10 @@
 	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲開始播放後立即顯示歌詞</string>
 	<string name="pfrscat_general_property_read_priority">屬性掃描優先順序</string>
 	<string name="pfrscat_general_play_mode">播放模式</string>
+	<string name="pfrscat_general_notify_next">通知欄消息點擊動作</string>
+	<string name="pfrscat_general_favourite_max">最愛歌曲列表的大數量</string>
 	<string name="pfrscat_display_title">視覺效果</string>
+	<string name="pfrscat_display_lrc_scroll_style">歌詞滾動樣式</string>
 	<string name="pfrscat_display_background_port">豎屏背景圖</string>
 	<string name="pfrscat_display_background_land">橫屏背景圖</string>
 	<string name="pfrscat_display_background_brightness">背景圖亮度</string>
@@ -99,10 +110,9 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n0.5.11 build
-		0511.1706\n\n更新內容：\n1、控制項尺寸和位置自我調整各種解析度（介面圖片暫僅支援M和H兩種解析度）\n2、修正了某些情況下搜索功能報錯的問題\n3、修正了音樂檔路徑設置失效的問題\n4、啟動時自動刪除不存在或關聯錯誤的歌曲\n5、修正了一些音樂名稱為空的問題\n6、浮動提示視窗（Toast）的內容可以即時更新了\n7、通過滑塊調整音量時會在標題處顯示
-		\n\n下期預告：\n增加對MIUI
-		ROM的介面優化。\n\n官方網站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.12 build
+		0512.1705\n\n更新內容：\n1、通知欄換歌\n2、歌詞平滑滾動\n3、修正某些情況下通知欄歌曲名稱顯示錯誤\n4、最愛歌曲列表\n5、修正了多次最小化而產生多個桌面歌詞的問題\n6、優化搜索效率\n7、優化“播放”按鈕行為\n8、當沒有顯示歌詞時，返回鍵可以使程式最小化到桌面\n9、通過音量按鍵調整音量時會出現浮動提示
+		\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -139,8 +149,16 @@
 		<item>單曲迴圈</item>
 		<item>隨機播放</item>
 	</string-array>
+	<string-array name="item_name_pfrscat_general_notify_next">
+		<item>顯示播放機</item>
+		<item>播放下一首歌曲</item>
+	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
 		<item>默認</item>
 		<item>自訂……</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
+		<item>逐行滾動</item>
+		<item>平滑滾動</item>
 	</string-array>
 </resources>

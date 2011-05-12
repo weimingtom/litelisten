@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -157,6 +158,12 @@ public class LRCService
 
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
+
+				// 计算当前和下一句之间的时差
+				Bundle b = new Bundle();
+				b.putLong("TimeGap", lstTimeStamp.get(index + 1) - CurrTime);
+				msg.setData(b);
+
 				main.getHs().getHdlLRCSync().sendMessage(msg);
 
 				LastIndex = index; // 记录本句歌词的序号

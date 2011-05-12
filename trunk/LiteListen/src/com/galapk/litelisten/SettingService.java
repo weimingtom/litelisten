@@ -56,19 +56,17 @@ public class SettingService extends PreferenceActivity
 	/* 定义选项列表控件 */
 	private ListPreference lstLanguage;
 	private EditTextPreference txtMusicPath;
-	private CheckBoxPreference chkIncludeSubDirectories;
-	private CheckBoxPreference chkIgnoreDirectory;
-	private CheckBoxPreference chkAutoPlay;
-	private CheckBoxPreference chkRemeberLastPlayed;
 	private ListPreference lstConvertChineseLRC;
 	private ListPreference lstFitScreenOrientation;
+	private ListPreference lstLRCScrollStyle;
 	private ListPreference lstListOrder;
-	private CheckBoxPreference chkAutoSwitchToLRC;
 	private ListPreference lstPropertyReadPriority;
 	private ListPreference lstPlayMode;
 	private ListPreference lstBackgroundPort;
 	private ListPreference lstBackgroundLand;
+	private ListPreference lstNotifyNext;
 	private EditTextPreference txtBackgroundBrightness;
+	private EditTextPreference txtFavouriteMax;
 	private CheckBoxPreference chkBackgroundBlur;
 	private CheckBoxPreference chkUseAnimation;
 	private EditTextPreference txtListFontSize;
@@ -179,19 +177,17 @@ public class SettingService extends PreferenceActivity
 	{
 		lstLanguage = (ListPreference) findPreference("lstLanguage");
 		txtMusicPath = (EditTextPreference) findPreference("txtMusicPath");
-		chkIncludeSubDirectories = (CheckBoxPreference) findPreference("chkIncludeSubDirectories");
-		chkIgnoreDirectory = (CheckBoxPreference) findPreference("chkIgnoreDirectory");
-		chkAutoPlay = (CheckBoxPreference) findPreference("chkAutoPlay");
-		chkRemeberLastPlayed = (CheckBoxPreference) findPreference("chkRemeberLastPlayed");
 		lstConvertChineseLRC = (ListPreference) findPreference("lstConvertChineseLRC");
 		lstFitScreenOrientation = (ListPreference) findPreference("lstFitScreenOrientation");
+		lstLRCScrollStyle = (ListPreference) findPreference("lstLRCScrollStyle");
 		lstListOrder = (ListPreference) findPreference("lstListOrder");
-		chkAutoSwitchToLRC = (CheckBoxPreference) findPreference("chkAutoSwitchToLRC");
 		lstPropertyReadPriority = (ListPreference) findPreference("lstPropertyReadPriority");
 		lstPlayMode = (ListPreference) findPreference("lstPlayMode");
 		lstBackgroundPort = (ListPreference) findPreference("lstBackgroundPort");
 		lstBackgroundLand = (ListPreference) findPreference("lstBackgroundLand");
+		lstNotifyNext = (ListPreference) findPreference("lstNotifyNext");
 		txtBackgroundBrightness = (EditTextPreference) findPreference("txtBackgroundBrightness");
+		txtFavouriteMax = (EditTextPreference) findPreference("txtFavouriteMax");
 		chkBackgroundBlur = (CheckBoxPreference) findPreference("chkBackgroundBlur");
 		chkUseAnimation = (CheckBoxPreference) findPreference("chkUseAnimation");
 		txtListFontSize = (EditTextPreference) findPreference("txtListFontSize");
@@ -490,14 +486,20 @@ public class SettingService extends PreferenceActivity
 
 			if (preference.getKey().equals("txtMusicPath"))
 				txtMusicPath.setSummary((String) Value);
+			if (preference.getKey().equals("txtFavouriteMax"))
+				txtFavouriteMax.setSummary((String) Value);
 			if (preference.getKey().equals("lstConvertChineseLRC"))
 				lstConvertChineseLRC.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_convert_chinese_lrc)[Integer.parseInt((String) Value)]);
+			if (preference.getKey().equals("lstLRCScrollStyle"))
+				lstLRCScrollStyle.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_display_lrc_scroll_style)[Integer.parseInt((String) Value)]);
 			if (preference.getKey().equals("lstFitScreenOrientation"))
 				lstFitScreenOrientation.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_fit_screen_orientation)[Integer.parseInt((String) Value)]);
 			if (preference.getKey().equals("lstListOrder"))
 				lstListOrder.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_list_order)[Integer.parseInt((String) Value)]);
 			if (preference.getKey().equals("lstPropertyReadPriority"))
 				lstPropertyReadPriority.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_property_read_priority)[Integer.parseInt((String) Value)]);
+			if (preference.getKey().equals("lstNotifyNext"))
+				lstNotifyNext.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next)[Integer.parseInt((String) Value)]);
 			if (preference.getKey().equals("lstPlayMode"))
 				lstPlayMode.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode)[Integer.parseInt((String) Value)]);
 			if (preference.getKey().equals("txtListFontSize"))
@@ -511,12 +513,15 @@ public class SettingService extends PreferenceActivity
 			lstBackgroundLand.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_display_background)[Integer.parseInt(lstBackgroundLand.getValue())]);
 			lstLanguage.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt(lstLanguage.getValue())]);
 			txtMusicPath.setSummary(txtMusicPath.getText());
+			txtFavouriteMax.setSummary(txtFavouriteMax.getText());
 			lstConvertChineseLRC.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_convert_chinese_lrc)[Integer.parseInt(lstConvertChineseLRC.getValue())]);
+			lstLRCScrollStyle.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_display_lrc_scroll_style)[Integer.parseInt(lstLRCScrollStyle.getValue())]);
 			lstFitScreenOrientation.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_fit_screen_orientation)[Integer.parseInt(lstFitScreenOrientation
 					.getValue())]);
 			lstListOrder.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_list_order)[Integer.parseInt(lstListOrder.getValue())]);
 			lstPropertyReadPriority.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_property_read_priority)[Integer.parseInt(lstPropertyReadPriority
 					.getValue())]);
+			lstNotifyNext.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next)[Integer.parseInt(lstPropertyReadPriority.getValue())]);
 			lstPlayMode.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode)[Integer.parseInt(lstPlayMode.getValue())]);
 			txtListFontSize.setSummary(txtListFontSize.getText() + " dip");
 			txtLRCFontSize.setSummary(txtLRCFontSize.getText() + " dip");
@@ -666,46 +671,6 @@ public class SettingService extends PreferenceActivity
 		this.txtMusicPath = txtMusicPath;
 	}
 
-	public CheckBoxPreference getChkIncludeSubDirectories()
-	{
-		return chkIncludeSubDirectories;
-	}
-
-	public void setChkIncludeSubDirectories(CheckBoxPreference chkIncludeSubDirectories)
-	{
-		this.chkIncludeSubDirectories = chkIncludeSubDirectories;
-	}
-
-	public CheckBoxPreference getChkIgnoreDirectory()
-	{
-		return chkIgnoreDirectory;
-	}
-
-	public void setChkIgnoreDirectory(CheckBoxPreference chkIgnoreDirectory)
-	{
-		this.chkIgnoreDirectory = chkIgnoreDirectory;
-	}
-
-	public CheckBoxPreference getChkAutoPlay()
-	{
-		return chkAutoPlay;
-	}
-
-	public void setChkAutoPlay(CheckBoxPreference chkAutoPlay)
-	{
-		this.chkAutoPlay = chkAutoPlay;
-	}
-
-	public CheckBoxPreference getChkRemeberLastPlayed()
-	{
-		return chkRemeberLastPlayed;
-	}
-
-	public void setChkRemeberlastPlayed(CheckBoxPreference chkRemeberLastPlayed)
-	{
-		this.chkRemeberLastPlayed = chkRemeberLastPlayed;
-	}
-
 	public ListPreference getLstConvertChineseLRC()
 	{
 		return lstConvertChineseLRC;
@@ -734,16 +699,6 @@ public class SettingService extends PreferenceActivity
 	public void setLstListOrder(ListPreference lstListOrder)
 	{
 		this.lstListOrder = lstListOrder;
-	}
-
-	public CheckBoxPreference getChkAutoSwitchToLRC()
-	{
-		return chkAutoSwitchToLRC;
-	}
-
-	public void setChkAutoSwitchToLRC(CheckBoxPreference chkAutoSwitchToLRC)
-	{
-		this.chkAutoSwitchToLRC = chkAutoSwitchToLRC;
 	}
 
 	public ListPreference getLstPropertyReadPriority()
@@ -934,5 +889,35 @@ public class SettingService extends PreferenceActivity
 	public void setBtnAbout(Preference btnAbout)
 	{
 		this.btnAbout = btnAbout;
+	}
+
+	public ListPreference getLstLRCScrollStyle()
+	{
+		return lstLRCScrollStyle;
+	}
+
+	public void setLstLRCScrollStyle(ListPreference lstLRCScrollStyle)
+	{
+		this.lstLRCScrollStyle = lstLRCScrollStyle;
+	}
+
+	public ListPreference getLstNotifyNext()
+	{
+		return lstNotifyNext;
+	}
+
+	public void setLstNotifyNext(ListPreference lstNotifyNext)
+	{
+		this.lstNotifyNext = lstNotifyNext;
+	}
+
+	public EditTextPreference getTxtFavouriteMax()
+	{
+		return txtFavouriteMax;
+	}
+
+	public void setTxtFavouriteMax(EditTextPreference txtFavouriteMax)
+	{
+		this.txtFavouriteMax = txtFavouriteMax;
 	}
 }

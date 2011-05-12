@@ -25,6 +25,7 @@ public class IntentConst
 	public static String INTENT_ACTION_NOT_PLAYING = "com.littledai.intent.action.not.playing"; // 停止播放
 	public static String INTENT_ACTION_FLOAT_LRC_UNLOCK = "com.littledai.intent.action.float.lrc.unlock"; // 解锁桌面歌词
 	public static String INTENT_ACTION_FLOAT_LRC_LOCK = "com.littledai.intent.action.float.lrc.lock"; // 锁定桌面歌词
+	public static String INTENT_ACTION_NOTIFICATION_NEXT = "com.littledai.intent.action.notification.next"; // 单击通知栏播放下一首
 
 	public static String getINTENT_ACTION_REFRESH_LRC()
 	{

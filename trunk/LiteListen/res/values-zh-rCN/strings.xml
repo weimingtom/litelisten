@@ -22,6 +22,8 @@
 	<string name="srcmain_extend_menu_order_asc">升序排列</string>
 	<string name="srcmain_extend_menu_order_desc">降序排列</string>
 	<string name="srcmain_extend_menu_ringtong">设为铃声</string>
+	<string name="srcmain_extend_menu_favourite">最爱歌曲</string>
+	<string name="srcmain_extend_menu_list">返回列表</string>
 	<string name="srcmain_extend_menu_wait">敬请期待</string>
 	<string name="srcmain_no_id3_tag_found">没有 ID3 标签信息</string>
 	<string name="srcmain_play_mode_close">顺序播放</string>
@@ -53,6 +55,8 @@
 	<string name="float_lrc_unlock">单击这里解锁桌面歌词</string>
 	<string name="float_lrc_activiation">桌面歌词已激活</string>
 	<string name="float_lrc_deactivation">桌面歌词已关闭</string>
+	<string name="notification_show">单击这里返回播放器</string>
+	<string name="notification_play">单击这里播放下一首</string>
 
 	<string name="pfrsmain_title">设置轻听音乐播放器</string>
 	<string name="pfrsmain_image">选择一种看图程序</string>
@@ -73,7 +77,10 @@
 	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲开始播放后立即显示歌词</string>
 	<string name="pfrscat_general_property_read_priority">属性扫描优先级</string>
 	<string name="pfrscat_general_play_mode">播放模式</string>
+	<string name="pfrscat_general_notify_next">通知栏消息点击动作</string>
+	<string name="pfrscat_general_favourite_max">最爱歌曲列表的大数量</string>
 	<string name="pfrscat_display_title">视觉效果</string>
+	<string name="pfrscat_display_lrc_scroll_style">歌词滚动样式</string>
 	<string name="pfrscat_display_background_port">竖屏背景图</string>
 	<string name="pfrscat_display_background_land">横屏背景图</string>
 	<string name="pfrscat_display_background_brightness">背景图亮度</string>
@@ -103,10 +110,9 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.11 build
-		0511.1706\n\n更新内容：\n1、控件尺寸和位置自适应各种分辨率（界面图片暂仅支持M和H两种分辨率）\n2、修正了某些情况下搜索功能报错的问题\n3、修正了音乐文件路径设置失效的问题\n4、启动时自动删除不存在或关联错误的歌曲\n5、修正了一些音乐名称为空的问题\n6、浮动提示窗口（Toast）的内容可以实时更新了\n7、通过滑块调整音量时会在标题处显示
-		\n\n下期预告：\n增加对MIUI
-		ROM的界面优化。\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.12 build
+		0512.1705\n\n更新内容：\n1、通知栏换歌\n2、歌词平滑滚动\n3、修正某些情况下通知栏歌曲名称显示错误\n4、最爱歌曲列表\n5、修正了多次最小化而产生多个桌面歌词的问题\n6、优化搜索效率\n7、优化“播放”按钮行为\n8、当没有显示歌词时，返回键可以使程序最小化到桌面\n9、通过音量按键调整音量时会出现浮动提示
+		\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -143,8 +149,16 @@
 		<item>单曲循环</item>
 		<item>随机播放</item>
 	</string-array>
+	<string-array name="item_name_pfrscat_general_notify_next">
+		<item>显示播放器</item>
+		<item>播放下一首歌曲</item>
+	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
 		<item>默认</item>
 		<item>自定义……</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
+		<item>逐行滚动</item>
+		<item>平滑滚动</item>
 	</string-array>
 </resources>

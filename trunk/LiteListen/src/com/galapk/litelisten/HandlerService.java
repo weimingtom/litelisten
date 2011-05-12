@@ -19,6 +19,7 @@ package com.galapk.litelisten;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
@@ -159,7 +160,15 @@ public class HandlerService
 						if (main.getSp().getBoolean("chkUseAnimation", true))
 						{
 							Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
-							anim.setDuration(200);
+
+							if (main.getSp().getString("lstLRCScrollStyle", "0").equals("0")) // 逐行滚动
+								anim.setDuration(200);
+							else
+							{// 连续滚动
+								Bundle b = msg.getData();
+								anim.setDuration(b.getLong("TimeGap"));
+							}
+
 							main.getTxtLRC().setAnimation(anim);
 						}
 

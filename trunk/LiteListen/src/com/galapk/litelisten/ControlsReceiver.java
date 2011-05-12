@@ -49,6 +49,8 @@ public class ControlsReceiver extends BroadcastReceiver
 			main.LockFloatLRC(true);
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK))
 			main.LockFloatLRC(false);
+		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT))
+			main.getMs().Next(false);
 		else
 		{
 			KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);

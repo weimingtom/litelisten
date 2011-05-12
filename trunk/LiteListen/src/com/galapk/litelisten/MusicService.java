@@ -133,10 +133,11 @@ public class MusicService
 				main.getLs().setStrLRCPath(strLRCPath);
 				main.getTxtTitle().setText(strShownTitle);
 				main.SetAlbumIcon();
-				// main.CallMusicNotify(strShownTitle + " - " + strArtist,
-				// strShownTitle + " - " + strArtist, 0, 100,
-				// R.drawable.album_playing);
-				main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, R.drawable.album_playing);
+
+				if (!strShownTitle.equals("") && !strArtist.equals(""))
+					main.CallMusicNotify(strShownTitle + " - " + strArtist, R.drawable.album_playing);
+				else
+					main.CallMusicNotify(strShownTitle + strArtist, R.drawable.album_playing);
 
 				new Thread()
 				{
@@ -184,7 +185,7 @@ public class MusicService
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_STOP;
-			main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), main.getString(R.string.global_app_name_no_version), R.drawable.icon);
+			main.CallMusicNotify(main.getString(R.string.global_app_name_no_version), R.drawable.icon);
 
 			// 发送停止播放广播给Widget
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_NOT_PLAYING);
@@ -281,6 +282,19 @@ public class MusicService
 	/* 停止 */
 	public void Stop()
 	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = main.getLstSong().get(CurrIndex);
+
+		// 计算最爱歌曲
+		String strMusicPath = (String) map.get("MusicPath");
+		if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
+			strMusicPath = strMusicPath.replace("'", "''");
+
+		if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
+			main.getDb().ModifiyData("music_info", "set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+		else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
+			main.getDb().ModifiyData("music_info", "set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+
 		mp.reset();
 		CanRefreshTime = false;
 		main.getHs().getHdlRefreshTime().sendEmptyMessage(0);
@@ -305,10 +319,11 @@ public class MusicService
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_PAUSE;
 			main.SetAlbumIcon();
-			// main.CallMusicNotify(strShownTitle + " - " + strArtist,
-			// strShownTitle + " - " + strArtist, 0, 100,
-			// R.drawable.album_paused);
-			main.CallMusicNotify(strShownTitle + " - " + strArtist, strShownTitle + " - " + strArtist, R.drawable.album_paused);
+
+			if (!strShownTitle.equals("") && !strArtist.equals(""))
+				main.CallMusicNotify(strShownTitle + " - " + strArtist, R.drawable.album_paused);
+			else
+				main.CallMusicNotify(strShownTitle + strArtist, R.drawable.album_paused);
 		}
 
 		// 发送停止播放广播给Widget

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten"
-	android:versionCode="11">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="12">
 
 	<application android:icon="@drawable/icon"
 		android:label="@string/global_app_name_no_version">

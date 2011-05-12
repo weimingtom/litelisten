@@ -21,8 +21,10 @@
 	<string name="srcmain_extend_menu_search">Search</string>
 	<string name="srcmain_extend_menu_order_asc">ASC</string>
 	<string name="srcmain_extend_menu_order_desc">DESC</string>
-	<string name="srcmain_extend_menu_wait">Soon</string>
 	<string name="srcmain_extend_menu_ringtong">Set Ring</string>
+	<string name="srcmain_extend_menu_favourite">Favourite</string>
+	<string name="srcmain_extend_menu_list">List</string>
+	<string name="srcmain_extend_menu_wait">Soon</string>
 	<string name="srcmain_no_id3_tag_found">No ID3 Tag Found</string>
 	<string name="srcmain_play_mode_close">Play By Order</string>
 	<string name="srcmain_play_mode_repeat_all">Repeat All</string>
@@ -55,6 +57,8 @@
 	<string name="float_lrc_unlock">Click here to unlock DeskLyric</string>
 	<string name="float_lrc_activiation">DeskLyric has been enabled</string>
 	<string name="float_lrc_deactivation">DeskLyric has been disabled</string>
+	<string name="notification_show">Click here to back to player</string>
+	<string name="notification_play">Click here to play next</string>
 
 	<string name="pfrsmain_title">Settings of LiteListen</string>
 	<string name="pfrsmain_image">Choose An Image-Viewer</string>
@@ -78,7 +82,10 @@
 		played</string>
 	<string name="pfrscat_general_property_read_priority">Music Property Scan Priority</string>
 	<string name="pfrscat_general_play_mode">Play Mode</string>
+	<string name="pfrscat_general_notify_next">Notification Action</string>
+	<string name="pfrscat_general_favourite_max">Show Count Of Favourite Music</string>
 	<string name="pfrscat_display_title">Visual Preference</string>
+	<string name="pfrscat_display_lrc_scroll_style">LRC Scroll Style</string>
 	<string name="pfrscat_display_background">Background Image</string>
 	<string name="pfrscat_display_background_port">Background Image Of Portrait</string>
 	<string name="pfrscat_display_background_land">Background Image Of Landscape</string>
@@ -114,21 +121,23 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.11 build 0511.1706\n\nUpdate
-		Contents: \n1. UI size and position can auto fit to screen resolution
-		(pictures of UI only support mdpi and hdpi)\n2.
-		Fixed a crash problem
-		which caused by search\n3. Fixed a bug that the setting of music path
-		cannot take effect\n4. App will delete unused music records
-		automatically when startup\n5. Fixed a bug that some music title
-		cannot be displayed\n6. Toast info can be updated in real-time\n7.
-		Volume will displayed at title while adjust it by using
-		seekbar\n\nNext
-		Plan:\nMake
-		UI To
-		Support
-		MIUI\'s
-		ROMs.\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.12 build 0512.1705\n\nUpdate
+		Contents: \n1. Play next music by touch notification\n2. Smooth scroll
+		effect for
+		LRC\n3. Fixed a display problem of notification\n4.
+		Favourite music
+		list\n5. Fixed a bug that it
+		will make so much desk
+		lyric after app was
+		minimized\n6. Improve search
+		performace\n7. Optimize
+		action of "Play"
+		button\n8. You can use "Back"
+		button to return to the
+		launcher (desktop) when music list is
+		showing\n9. An toast infomation
+		will be appeared when adjust volume by
+		Volume button\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
@@ -167,8 +176,16 @@
 		<item>Repeat Single</item>
 		<item>Shuffle</item>
 	</string-array>
+	<string-array name="item_name_pfrscat_general_notify_next">
+		<item>Show Player</item>
+		<item>Play Next Music</item>
+	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
 		<item>Default</item>
 		<item>Choose An Image...</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
+		<item>Progressive</item>
+		<item>Smooth</item>
 	</string-array>
 </resources>

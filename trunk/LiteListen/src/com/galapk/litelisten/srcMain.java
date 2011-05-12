@@ -29,8 +29,6 @@ import org.blinkenlights.jid3.v1.ID3V1_0Tag;
 import org.blinkenlights.jid3.v1.ID3V1_1Tag;
 import org.blinkenlights.jid3.v2.ID3V2_3_0Tag;
 
-import com.galapk.litelisten.Common.RingType;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -101,6 +99,9 @@ public class srcMain extends Activity
 	private boolean IsRefreshing = false; // 显示是否正在读取音乐列表
 	private Toast toast = null; // 全局的Toast
 	private int VerifyCode = 0; // 歌曲刷新的校验码
+	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
+
+	/* Preference值 */
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -205,8 +206,6 @@ public class srcMain extends Activity
 			{
 				try
 				{
-					Animation animSplash = new AlphaAnimation(1, 0);
-					laySplash.startAnimation(animSplash);
 					sleep(SPLASH_TIME);
 					hs.getHdlShowMain().sendEmptyMessage(0);
 				}
@@ -265,14 +264,17 @@ public class srcMain extends Activity
 			registerReceiver(ctrlReceiver, ittFilterLRCLock);
 			IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
 			registerReceiver(ctrlReceiver, ittFilterLRCUnlock);
+			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
+			registerReceiver(ctrlReceiver, ittFilterNotifyNext);
 
 			if (IsStartup && !IsRefreshing)
 				SetMusicToList();
 			WidgetsListener();
 			CreateFloatLRC();
-			CallMusicNotify(getString(R.string.global_app_name_no_version), getString(R.string.global_app_name_no_version), R.drawable.icon);
+			CallMusicNotify(getString(R.string.global_app_name_no_version), R.drawable.icon);
 			CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
 			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+			IsStartup = false;
 		}
 		else
 		{
@@ -346,7 +348,6 @@ public class srcMain extends Activity
 
 		RefreshLanguage();
 		fl.setVisibility(View.INVISIBLE);
-		IsStartup = false;
 	}
 
 	/* 刷新语言线程 */
@@ -406,15 +407,30 @@ public class srcMain extends Activity
 	}
 
 	/* 显示音乐信息通知 */
-	public void CallMusicNotify(String Title, String Message, int NotifyIconResource)
+	public void CallMusicNotify(String Title, int NotifyIconResource)
 	{
-		Intent intent = new Intent(this, srcMain.class);
-		PendingIntent pdItent = PendingIntent.getActivity(this, 0, intent, 0);
+		Intent intent = null;
+		PendingIntent pdItent = null;
+		Notification notification = null;
 
-		Notification notification = new Notification(NotifyIconResource, Message, System.currentTimeMillis());
+		if (sp.getString("lstNotifyNext", "0").equals("0"))
+		{// 显示主界面
+			intent = new Intent(this, srcMain.class);
+			pdItent = PendingIntent.getActivity(this, 0, intent, 0);
+
+			notification = new Notification(NotifyIconResource, Title, System.currentTimeMillis());
+			notification.setLatestEventInfo(this, Title, getString(R.string.notification_show), pdItent);
+		}
+		else
+		{// 播放下一首
+			intent = new Intent(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT);
+			pdItent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+			notification = new Notification(NotifyIconResource, Title, System.currentTimeMillis());
+			notification.setLatestEventInfo(this, Title, getString(R.string.notification_play), pdItent);
+		}
+
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
-		notification.setLatestEventInfo(this, Title, Message, pdItent);
-
 		nm.notify(MUSIC_NOTIFY_ID, notification);
 	}
 
@@ -629,46 +645,41 @@ public class srcMain extends Activity
 				db.DeleteData("music_info", "verify_code<>'" + VerifyCode + "';"); // 清理数据库中无法和文件关联的记录
 
 				Cursor cur = null;
-				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
-
-				// 决定排序方式
-				String index = sp.getString("lstListOrder", "1");
-				String strOrderBy = sp.getString("OrderBy", "asc");
-				if (index.equals("0"))
-				{
-					cur = db.GetInstance(true)
-							.query(
-									"music_info",
-									null,
-									"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-											+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-											+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null,
-									"title_simple_py " + strOrderBy + ", artist_simple_py");
-				}
-				else if (index.equals("1"))
-				{
-					cur = db.GetInstance(true)
-							.query(
-									"music_info",
-									null,
-									"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-											+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-											+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null,
-									"artist_simple_py " + strOrderBy + ", title_simple_py");
-				}
-				else if (index.equals("2"))
-				{
-					cur = db.GetInstance(true).query(
-							"music_info",
-							null,
-							"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-									+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-									+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, null);
-				}
-
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
+				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
+				String index = sp.getString("lstListOrder", "1");
+				String strOrderBy = sp.getString("OrderBy", "asc"); // 决定排序方式
+
+				String strParOrderBy = "";
+
+				if (index.equals("0"))
+					strParOrderBy = "title_simple_py " + strOrderBy + ", artist_simple_py " + strOrderBy;
+				else if (index.equals("1"))
+					strParOrderBy = "artist_simple_py " + strOrderBy + ", title_simple_py " + strOrderBy;
+				else if (index.equals("2"))
+					strParOrderBy = "";
+
+				if (IsShowingFavourite)
+					strParOrderBy = "play_times desc, " + strParOrderBy;
+
+				cur = db.GetInstance(true).query(
+						"music_info",
+						null,
+						"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
+								+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
+								+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, strParOrderBy);
+
+				int i = 0; // 游标计数器
 				while (cur.moveToNext())
 				{
+					if (IsShowingFavourite)
+					{// 最爱歌曲
+						if (i > Integer.parseInt(sp.getString("txtFavouriteMax", "30")))
+							break;
+						else
+							i++;
+					}
+
 					// 更新界面
 					Map<String, Object> mapItem = new HashMap<String, Object>();
 					mapItem.put("Title", cur.getString(0));
@@ -881,8 +892,8 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_wait);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
+		map.put("ItemIcon", R.drawable.menu_favourite);
+		map.put("ItemText", getString(R.string.srcmain_extend_menu_favourite));
 		lstMenuItem.add(map);
 
 		// 横屏多一项菜单
@@ -1222,10 +1233,7 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				if (sp.getBoolean("btnPlayForContinue", true))
-					ms.Play(SelectedItemIndex);
-				else
-					ms.Play(ms.getCurrIndex());
+				ms.Play(ms.getCurrIndex());
 			}
 		});
 
@@ -1516,35 +1524,62 @@ public class srcMain extends Activity
 						SetMusicListByDB();
 
 						break;
-//					case 5:
-//						if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
-//						{
-//							// 获取正在播放的音乐文件路径
-//							Map<String, Object> mapInfo = new HashMap<String, Object>();
-//							mapInfo = lstSong.get(ms.getCurrIndex());
-//							Common.SetToRingtongs(srcMain.this, (String) mapInfo.get("MusicPath"), RingType.RINGTONE);
-//
-//							if (toast != null)
-//							{
-//								toast.setText(R.string.srcmain_ringtong_successful);
-//								toast.setDuration(Toast.LENGTH_SHORT);
-//							}
-//							else
-//								toast = Toast.makeText(srcMain.this, R.string.srcmain_ringtong_successful, Toast.LENGTH_SHORT);
-//						}
-//						else
-//						{
-//							if (toast != null)
-//							{
-//								toast.setText(R.string.srcmain_play_first);
-//								toast.setDuration(Toast.LENGTH_SHORT);
-//							}
-//							else
-//								toast = Toast.makeText(srcMain.this, R.string.srcmain_play_first, Toast.LENGTH_SHORT);
-//						}
-//						toast.show();
-//
-//						break;
+					// case 5:
+					// if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
+					// {
+					// // 获取正在播放的音乐文件路径
+					// Map<String, Object> mapInfo = new HashMap<String,
+					// Object>();
+					// mapInfo = lstSong.get(ms.getCurrIndex());
+					// Common.SetToRingtongs(srcMain.this, (String)
+					// mapInfo.get("MusicPath"), RingType.RINGTONE);
+					//
+					// if (toast != null)
+					// {
+					// toast.setText(R.string.srcmain_ringtong_successful);
+					// toast.setDuration(Toast.LENGTH_SHORT);
+					// }
+					// else
+					// toast = Toast.makeText(srcMain.this,
+					// R.string.srcmain_ringtong_successful,
+					// Toast.LENGTH_SHORT);
+					// }
+					// else
+					// {
+					// if (toast != null)
+					// {
+					// toast.setText(R.string.srcmain_play_first);
+					// toast.setDuration(Toast.LENGTH_SHORT);
+					// }
+					// else
+					// toast = Toast.makeText(srcMain.this,
+					// R.string.srcmain_play_first, Toast.LENGTH_SHORT);
+					// }
+					// toast.show();
+					//
+					// break;
+					case 6:
+						TextView txtFavourite = (TextView) arg1.findViewById(R.id.txtMenu);
+						ImageView imgFavourite = (ImageView) arg1.findViewById(R.id.imgMenu);
+
+						if (IsShowingFavourite)
+						{// 最爱-->列表
+							txtFavourite.setText(R.string.srcmain_extend_menu_favourite);
+							imgFavourite.setImageResource(R.drawable.menu_favourite);
+
+							IsShowingFavourite = false;
+						}
+						else
+						{// 列表-->最爱
+							txtFavourite.setText(R.string.srcmain_extend_menu_list);
+							imgFavourite.setImageResource(R.drawable.menu_list);
+
+							IsShowingFavourite = true;
+						}
+
+						SetMusicListByDB();
+
+						break;
 					case 7:
 						if (ScreenOrantation == 1 || ScreenOrantation == 3)
 							;
@@ -1829,8 +1864,19 @@ public class srcMain extends Activity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			LRC2ListSwitcher();
-			Progress2ControlSwitcher();
+			// 如果当前显示的是列表，那么最小化
+			if (CurrentShown == 0)
+			{
+				Intent i = new Intent(Intent.ACTION_MAIN);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				i.addCategory(Intent.CATEGORY_HOME);
+				startActivity(i);
+			}
+			else
+			{
+				LRC2ListSwitcher();
+				Progress2ControlSwitcher();
+			}
 
 			return true;
 		}
@@ -1846,6 +1892,16 @@ public class srcMain extends Activity
 			skbVolume.setProgress(skbVolume.getProgress() + 1);
 			txtTitle.setText(ms.getStrShownTitle());
 
+			if (toast != null)
+			{
+				toast.setText(getString(R.string.srcmain_volume) + skbVolume.getProgress());
+				toast.setDuration(Toast.LENGTH_SHORT);
+			}
+			else
+				toast = Toast.makeText(srcMain.this, getString(R.string.srcmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
+
+			toast.show();
+
 			return true;
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
@@ -1853,6 +1909,19 @@ public class srcMain extends Activity
 			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() - 1);
 			txtTitle.setText(ms.getStrShownTitle());
+
+			if (toast != null)
+			{
+				if (skbVolume.getProgress() == 0)
+					toast.setText(R.string.srcmain_volume_mute);
+				else
+					toast.setText(getString(R.string.srcmain_volume) + skbVolume.getProgress());
+				toast.setDuration(Toast.LENGTH_SHORT);
+			}
+			else
+				toast = Toast.makeText(srcMain.this, getString(R.string.srcmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
+
+			toast.show();
 
 			return true;
 		}
@@ -2328,5 +2397,35 @@ public class srcMain extends Activity
 	public static int getLrcNotifyId()
 	{
 		return LRC_NOTIFY_ID;
+	}
+
+	public Toast getToast()
+	{
+		return toast;
+	}
+
+	public void setToast(Toast toast)
+	{
+		this.toast = toast;
+	}
+
+	public int getVerifyCode()
+	{
+		return VerifyCode;
+	}
+
+	public void setVerifyCode(int verifyCode)
+	{
+		VerifyCode = verifyCode;
+	}
+
+	public boolean isIsShowingFavourite()
+	{
+		return IsShowingFavourite;
+	}
+
+	public void setIsShowingFavourite(boolean isShowingFavourite)
+	{
+		IsShowingFavourite = isShowingFavourite;
 	}
 }
