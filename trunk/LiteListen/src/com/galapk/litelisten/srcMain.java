@@ -307,6 +307,7 @@ public class srcMain extends Activity
 		// 设置音量条参数
 		skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
+		txtTitle.setText(ms.getStrShownTitle());
 
 		SetLanguage();
 		SetMenuList();

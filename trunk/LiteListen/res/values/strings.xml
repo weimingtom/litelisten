@@ -177,7 +177,9 @@
 		desk lyric error when a music is going to the end\n4.
 		Fixed a bug that
 		desk lyric always shows loading lyrics when you playing a music which
-		have no lyrics\n5. Delete unwanted permissions\n\nOfficial
+		have no lyrics\n5. Delete unwanted permissions\n6. Fixed a problem
+		that volume will be displayed at title when you changed direction of
+		your device\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
