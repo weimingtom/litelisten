@@ -114,21 +114,6 @@ public class LRCService
 						break;
 				}
 
-				// 获取桌面歌词
-				TimeGap = lstTimeStamp.get(index + 1) - CurrTime; // 获取时间差
-				if (CanRefreshFloatRC)
-				{
-					strLRCToFloat1 = map.get(lstTimeStamp.get(index));
-					strLRCToFloat2 = map.get(lstTimeStamp.get(index + 1));
-					CanRefreshFloatRC = false;
-				}
-				else
-				{
-					strLRCToFloat1 = map.get(lstTimeStamp.get(index + 1));
-					strLRCToFloat2 = map.get(lstTimeStamp.get(index));
-					CanRefreshFloatRC = true;
-				}
-
 				SpannableStringBuilder ssb = new SpannableStringBuilder(strLRC);
 				if (strLRC.length() > strLRCTemp.length() - 1)
 					ssb.setSpan(new ForegroundColorSpan(Color.parseColor(main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00"))), strLRCTemp.length() - map.get(CurrTime).length() - 1,
@@ -156,20 +141,49 @@ public class LRCService
 					strCurrLRCSentenceLarge = GetWidgetLRC(index, 17);
 				}
 
+				// 获取桌面歌词
+				if (index + 1 >= lstTimeStamp.size())
+					TimeGap = (long) 0;
+				else
+				{
+					TimeGap = lstTimeStamp.get(index + 1) - CurrTime; // 获取时间差
+
+					if (CanRefreshFloatRC)
+					{
+						strLRCToFloat1 = map.get(lstTimeStamp.get(index));
+						strLRCToFloat2 = map.get(lstTimeStamp.get(index + 1));
+						CanRefreshFloatRC = false;
+					}
+					else
+					{
+						strLRCToFloat1 = map.get(lstTimeStamp.get(index + 1));
+						strLRCToFloat2 = map.get(lstTimeStamp.get(index));
+						CanRefreshFloatRC = true;
+					}
+				}
+
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
 
 				// 计算当前和下一句之间的时差
 				Bundle b = new Bundle();
-				b.putLong("TimeGap", lstTimeStamp.get(index + 1) - CurrTime);
+				b.putLong("TimeGap", TimeGap);
 				msg.setData(b);
-
 				main.getHs().getHdlLRCSync().sendMessage(msg);
 
 				LastIndex = index; // 记录本句歌词的序号
 			}
 			else
 				IsChanged = false;
+		}
+		else
+		{// 如果没有歌词，清除浮动歌词的文字
+			Bundle b = new Bundle();
+			b.putString("Sentence1", main.getMs().getStrShownTitle());
+			b.putString("Sentence2", "");
+			Message msg = new Message();
+			msg.setData(b);
+			main.getHs().getHdlSetFloatLRC().sendMessage(msg);
 		}
 	}
 

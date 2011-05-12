@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="12">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten"
+	android:versionCode="13">
 
 	<application android:icon="@drawable/icon"
 		android:label="@string/global_app_name_no_version">
@@ -75,7 +76,6 @@
 
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="5"
 		android:maxSdkVersion="10" />

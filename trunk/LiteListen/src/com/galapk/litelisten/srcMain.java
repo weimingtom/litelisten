@@ -477,8 +477,6 @@ public class srcMain extends Activity
 		edt.putBoolean("IsRunBackground", true);
 		edt.commit();
 
-		ls.RefreshLRC();
-
 		if (sp.getBoolean("DeskLRCStatus", true))
 			fl.setVisibility(View.VISIBLE);
 	}

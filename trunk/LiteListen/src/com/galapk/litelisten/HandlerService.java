@@ -160,14 +160,11 @@ public class HandlerService
 						if (main.getSp().getBoolean("chkUseAnimation", true))
 						{
 							Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
-
-							if (main.getSp().getString("lstLRCScrollStyle", "0").equals("0")) // 逐行滚动
-								anim.setDuration(200);
+							Bundle b = msg.getData();
+							if (main.getSp().getString("lstLRCScrollStyle", "0").equals("1"))
+								anim.setDuration(b.getLong("TimeGap")); // 平滑滚动
 							else
-							{// 连续滚动
-								Bundle b = msg.getData();
-								anim.setDuration(b.getLong("TimeGap"));
-							}
+								anim.setDuration(200); // 逐行滚动
 
 							main.getTxtLRC().setAnimation(anim);
 						}
@@ -201,13 +198,23 @@ public class HandlerService
 		}
 	};
 
+	/* 更新浮动歌词的Handler */
+	private Handler hdlSetFloatLRC = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getFl().SetLRC(R.drawable.album_selected, msg.getData().getString("Sentence1"), Color.WHITE, msg.getData().getString("Sentence2"), Color.rgb(155, 215, 255), (long) 0, 1);
+		}
+	};
+
 	/* 刷新横竖屏的 Handler */
 	private Handler hdlLoadLRC = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)
 		{
-			LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取scrLRC尺寸参数
+			LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取txtLRC尺寸参数
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 				layLRC.topMargin = 120;
 			else
@@ -365,5 +372,15 @@ public class HandlerService
 	public void setHdlAdapterBinding(Handler hdlAdapterBinding)
 	{
 		this.hdlAdapterBinding = hdlAdapterBinding;
+	}
+
+	public Handler getHdlSetFloatLRC()
+	{
+		return hdlSetFloatLRC;
+	}
+
+	public void setHdlSetFloatLRC(Handler hdlSetFloatLRC)
+	{
+		this.hdlSetFloatLRC = hdlSetFloatLRC;
 	}
 }

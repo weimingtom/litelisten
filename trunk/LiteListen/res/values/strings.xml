@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.12 build 0512.1705</string>
+	<string name="global_app_version">0.5.13 build 0512.2211</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -170,23 +170,14 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.12 build 0512.1705\n\nUpdate
-		Contents: \n1. Play next music by touch notification\n2. Smooth scroll
-		effect for
-		LRC\n3. Fixed a display problem of notification\n4.
-		Favourite music
-		list\n5. Fixed a bug that it
-		will make so much desk
-		lyric after app was
-		minimized\n6. Improve search
-		performace\n7. Optimize
-		action of "Play"
-		button\n8. You can use "Back"
-		button to return to the
-		launcher (desktop) when music list is
-		showing\n9. An toast infomation
-		will be appeared when adjust volume by
-		Volume button\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.13 build 0512.2211\n\nUpdate
+		Contents: \n1. Fixed a bug that player cannot working when artist
+		infomation is null\n2. And also resolved problem of music auto stop
+		after a music finishes while app is scanning music tags\n3. Fixed a
+		desk lyric error when a music is going to the end\n4.
+		Fixed a bug that
+		desk lyric always shows loading lyrics when you playing a music which
+		have no lyrics\n5. Delete unwanted permissions\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

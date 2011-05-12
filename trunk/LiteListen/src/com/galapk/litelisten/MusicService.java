@@ -134,7 +134,7 @@ public class MusicService
 				main.getTxtTitle().setText(strShownTitle);
 				main.SetAlbumIcon();
 
-				if (!strShownTitle.equals("") && !strArtist.equals(""))
+				if (!strShownTitle.equals("") && strArtist != null && !strArtist.equals(""))
 					main.CallMusicNotify(strShownTitle + " - " + strArtist, R.drawable.album_playing);
 				else
 					main.CallMusicNotify(strShownTitle + strArtist, R.drawable.album_playing);
