@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.13 build 0512.2211</string>
+	<string name="global_app_version">0.5.14 build 0514.0215</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
