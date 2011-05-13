@@ -42,6 +42,8 @@
 	<string name="srcmain_ringtong_successful">已设为来电铃声</string>
 	<string name="srcmain_alarm_successful">已设为闹钟铃声</string>
 	<string name="srcmain_play_first">请先播放音乐</string>
+	<string name="srcmain_context_menu_lrc">歌词选项</string>
+	<string name="srcmain_context_menu_lrc_links">从文件中选择歌词</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>

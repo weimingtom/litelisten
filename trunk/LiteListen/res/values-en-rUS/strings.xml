@@ -44,6 +44,8 @@
 	<string name="srcmain_ringtong_successful">Ringtong has been set</string>
 	<string name="srcmain_alarm_successful">Alarm has been set</string>
 	<string name="srcmain_play_first">Please play a music first</string>
+	<string name="srcmain_context_menu_lrc">Lyric Options</string>
+	<string name="srcmain_context_menu_lrc_links">Select a lyric from file</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>

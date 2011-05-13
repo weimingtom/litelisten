@@ -166,7 +166,9 @@ public class HandlerService
 							else
 								anim.setDuration(200); // 逐行滚动
 
-							main.getTxtLRC().setAnimation(anim);
+							// 显示时才播放动画
+							if (main.getTxtLRC().getVisibility() == View.VISIBLE)
+								main.getTxtLRC().startAnimation(anim);
 						}
 
 						LastPos = layLRC.topMargin;

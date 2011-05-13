@@ -52,13 +52,17 @@ import android.os.Environment;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
@@ -66,6 +70,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView;
@@ -100,8 +105,7 @@ public class srcMain extends Activity
 	private Toast toast = null; // 全局的Toast
 	private int VerifyCode = 0; // 歌曲刷新的校验码
 	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
-
-	/* Preference值 */
+	private boolean IsLRCMoved = false; // 歌词是否经过手指移动
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -112,6 +116,8 @@ public class srcMain extends Activity
 	private ImageButton btnLRC;
 	private ImageButton btnVolume;
 	private ImageButton btnSearch;
+	private Button btnFileOK;
+	private Button btnFileCancel;
 	private TextView txtTitle;
 	private TextView txtTime;
 	private TextView txtLRC;
@@ -126,6 +132,7 @@ public class srcMain extends Activity
 	private GridView grdMenu;
 	private SeekBar skbMusic;
 	private SeekBar skbVolume;
+	private LinearLayout layLyricController;
 	private LRCService ls;
 	private MusicService ms;
 	private MP3Tags mt;
@@ -189,7 +196,8 @@ public class srcMain extends Activity
 					}
 					catch (Exception e)
 					{
-						Log.e("WidgetsListener", e.getMessage());
+						if (e.getMessage() != null)
+							Log.e("WidgetsListener", e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -211,7 +219,8 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
-					Log.e("ShowSplash", e.getMessage());
+					if (e.getMessage() != null)
+						Log.e("ShowSplash", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -252,20 +261,22 @@ public class srcMain extends Activity
 			edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
 			edt.commit();
 
-			// 设置耳机键盘监听
-			ControlsReceiver ctrlReceiver = new ControlsReceiver(this);
+			// 消息监听器
+			ActionReceiver actReceiver = new ActionReceiver(this);
 			IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // 控制键
-			registerReceiver(ctrlReceiver, ittFilterButton);
+			registerReceiver(actReceiver, ittFilterButton);
 			IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // 耳机插拔
-			registerReceiver(ctrlReceiver, ittFilterPlug);
+			registerReceiver(actReceiver, ittFilterPlug);
 			IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
-			registerReceiver(ctrlReceiver, ittFilterBluetooth);
+			registerReceiver(actReceiver, ittFilterBluetooth);
 			IntentFilter ittFilterLRCLock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK); // 锁定歌词
-			registerReceiver(ctrlReceiver, ittFilterLRCLock);
+			registerReceiver(actReceiver, ittFilterLRCLock);
 			IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
-			registerReceiver(ctrlReceiver, ittFilterLRCUnlock);
+			registerReceiver(actReceiver, ittFilterLRCUnlock);
 			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
-			registerReceiver(ctrlReceiver, ittFilterNotifyNext);
+			registerReceiver(actReceiver, ittFilterNotifyNext);
+			IntentFilter ittFilterOutGoing = new IntentFilter(Intent.ACTION_NEW_OUTGOING_CALL); // 拨出电话，来电无法获取Action，在配置文件中设置
+			registerReceiver(actReceiver, ittFilterOutGoing);
 
 			if (IsStartup && !IsRefreshing)
 				SetMusicToList();
@@ -364,7 +375,8 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
-					Log.e("RefreshLanguage", e.getMessage());
+					if (e.getMessage() != null)
+						Log.e("RefreshLanguage", e.getMessage());
 					e.printStackTrace();
 				}
 				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
@@ -620,7 +632,8 @@ public class srcMain extends Activity
 						}
 						catch (Exception e)
 						{
-							Log.e("RefreshID3", e.getMessage());
+							if (e.getMessage() != null)
+								Log.e("RefreshID3", e.getMessage());
 							e.printStackTrace();
 						}
 					}
@@ -811,6 +824,8 @@ public class srcMain extends Activity
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
 		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
+		btnFileOK = (Button) findViewById(R.id.btnFileOK);
+		btnFileCancel = (Button) findViewById(R.id.btnFileCancel);
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
 		btnVolume = (ImageButton) findViewById(R.id.btnVolume);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
@@ -827,6 +842,7 @@ public class srcMain extends Activity
 		skbVolume = (SeekBar) findViewById(R.id.skbVolume);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		grdMenu = (GridView) findViewById(R.id.grdMenu);
+		layLyricController = (LinearLayout) findViewById(R.id.layLyricController);
 	}
 
 	/* 设置菜单列表 */
@@ -891,8 +907,16 @@ public class srcMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_favourite);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_favourite));
+		if (IsShowingFavourite)
+		{// 最爱
+			map.put("ItemIcon", R.drawable.menu_list);
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_list));
+		}
+		else
+		{// 列表
+			map.put("ItemIcon", R.drawable.menu_favourite);
+			map.put("ItemText", getString(R.string.srcmain_extend_menu_favourite));
+		}
 		lstMenuItem.add(map);
 
 		// 横屏多一项菜单
@@ -911,6 +935,49 @@ public class srcMain extends Activity
 
 		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
 		grdMenu.setAdapter(adapter);
+	}
+
+	/* 设置ContextMenu事件 */
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		if (item.getTitle().equals(getString(R.string.srcmain_context_menu_lrc_links)))
+			txtLRC.setVisibility(View.GONE);
+		// String strTitle = (String)item.getTitle(); //获取菜单标题
+		//		
+		// if(strContextMenuFlag.equals("btnSearchType")) //由搜索类型按钮触发
+		// btnSearchType.setText(item.getTitle());
+		// //将菜单项名（搜索类型）显示到btnSearchType上
+		// else if(strContextMenuFlag.equals("lstContact"))
+		// {//由联系人列表控件操作触发
+		// if(item.getSubMenu() == null)
+		// {//没有子菜单的情况下直接继续（只有一个电话号码）
+		// if(item.getOrder() == 0)
+		// PhoneCall(strPhoneNumber, strName); //拨打电话
+		// else if(item.getOrder() == 1)
+		// SMSSend(strPhoneNumber, strName); //发送短信
+		// }
+		// else
+		// {//有子菜单（有多个电话号码供选择）
+		// //通过菜单标题决定子菜单动作类型，用户选择后先设置下一步子菜单的指令
+		// if(strTitle.equals("给" + strName + "打电话"))
+		// strCurrOperation = "CALL";
+		// else if(strTitle.equals("给" + strName + "发短信"))
+		// strCurrOperation = "SMS";
+		// }
+		// }
+		// else
+		// {//由子菜单触发，子菜单标题就是电话号码
+		// if(strCurrOperation.equals("CALL"))
+		// PhoneCall(strTitle, strName); //拨打电话
+		// else if(strCurrOperation.equals("SMS"))
+		// SMSSend(strTitle, strName); //发送短信
+		//			
+		// strCurrOperation = ""; //还原子菜单功能
+		// }
+		// strContextMenuFlag = ""; //还原触发控件标志
+
+		return super.onContextItemSelected(item);
 	}
 
 	/* 设置播放列表项目内容 */
@@ -965,7 +1032,8 @@ public class srcMain extends Activity
 				}
 				catch (Exception e)
 				{
-					Log.e("GetMusicID3", e.getMessage());
+					if (e.getMessage() != null)
+						Log.e("GetMusicID3", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -1097,12 +1165,13 @@ public class srcMain extends Activity
 				animHide.setDuration(ANIMATION_TIME);
 				animHide.setInterpolator(new DecelerateInterpolator());
 
-				txtLRC.startAnimation(animShow);
+				layLyricController.startAnimation(animShow);
 				lstMusic.startAnimation(animHide);
 			}
 		}
 	}
 
+	/* 歌词到列表切换 */
 	public void LRC2ListSwitcher()
 	{
 		if (CurrentShown == 1)
@@ -1120,7 +1189,7 @@ public class srcMain extends Activity
 				animHide.setDuration(ANIMATION_TIME);
 				animHide.setInterpolator(new DecelerateInterpolator());
 
-				txtLRC.startAnimation(animHide);
+				layLyricController.startAnimation(animHide);
 				lstMusic.startAnimation(animShow);
 			}
 		}
@@ -1352,6 +1421,24 @@ public class srcMain extends Activity
 			}
 		});
 
+		/* 文件列表确定 */
+		btnFileOK.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+
+			}
+		});
+
+		/* 文件列表取消 */
+		btnFileCancel.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				txtLRC.setVisibility(View.VISIBLE);
+			}
+		});
+
 		/* 搜索按钮 */
 		btnSearch.setOnClickListener(new OnClickListener()
 		{
@@ -1391,6 +1478,20 @@ public class srcMain extends Activity
 						txtTitle.setText(R.string.srcmain_volume_mute); // 显示静音
 					else
 						txtTitle.setText(getString(R.string.srcmain_volume) + progress); // 暂时显示音量
+				}
+			}
+		});
+
+		/* 创建歌词ContextMenu */
+		txtLRC.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
+		{
+			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+			{
+				if (!IsLRCMoved)
+				{
+					menu.setHeaderIcon(R.drawable.icon);
+					menu.setHeaderTitle(R.string.srcmain_context_menu_lrc);
+					menu.add(R.string.srcmain_context_menu_lrc_links);
 				}
 			}
 		});
@@ -1620,7 +1721,6 @@ public class srcMain extends Activity
 			float DownPosX[] = { -1, -1 };
 			float DownPosY[] = { -1, -1 };
 
-			boolean IsMoved = false; // 是否经过ACTION_MOVE事件
 			boolean Switch2List = false; // 是否需要将歌词切换到播放列表
 			float LastDistance = -1; // 上一次两指间的距离
 			int FingerDownPosY = -1; // 手指按下时歌词的Y坐标
@@ -1640,7 +1740,7 @@ public class srcMain extends Activity
 						DownPosY[i] = event.getY(i);
 					}
 
-					LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
+					LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取txtLRC尺寸参数
 					FingerDownPosY = layLRC.topMargin;
 					LastDistance = GetFingerDistance(DownPosX[0], DownPosY[0], DownPosX[1], DownPosY[1]);
 				}
@@ -1650,11 +1750,12 @@ public class srcMain extends Activity
 					if (Switch2List)
 					{
 						Switch2List = false;
-						IsMoved = false;
+						IsLRCMoved = false;
 						LRC2ListSwitcher();
+						Progress2ControlSwitcher();
 					}
-					else if (IsMoved) // Move过不执行托盘变化
-						IsMoved = false;
+					else if (IsLRCMoved) // Move过不执行托盘变化
+						IsLRCMoved = false;
 					else
 						ControlProgressSwitcher();
 
@@ -1717,7 +1818,7 @@ public class srcMain extends Activity
 						FingerDownPosY = layLRC.topMargin;
 					}
 
-					IsMoved = true; // Move过的标记
+					IsLRCMoved = true; // Move过的标记
 				}
 				else if (event.getAction() == MotionEvent.ACTION_DOWN)
 				{
@@ -1727,7 +1828,7 @@ public class srcMain extends Activity
 					DownPosY[0] = event.getY();
 				}
 
-				return true; // 继续回传，否则ACTION_DOWN后接收不到其它事件
+				return false; // 继续回传，否则ACTION_DOWN后接收不到其它事件
 			}
 		});
 
@@ -2426,5 +2527,45 @@ public class srcMain extends Activity
 	public void setIsShowingFavourite(boolean isShowingFavourite)
 	{
 		IsShowingFavourite = isShowingFavourite;
+	}
+
+	public boolean isIsLRCMoved()
+	{
+		return IsLRCMoved;
+	}
+
+	public void setIsLRCMoved(boolean isLRCMoved)
+	{
+		IsLRCMoved = isLRCMoved;
+	}
+
+	public Button getBtnFileOK()
+	{
+		return btnFileOK;
+	}
+
+	public void setBtnFileOK(Button btnFileOK)
+	{
+		this.btnFileOK = btnFileOK;
+	}
+
+	public Button getBtnFileCancel()
+	{
+		return btnFileCancel;
+	}
+
+	public void setBtnFileCancel(Button btnFileCancel)
+	{
+		this.btnFileCancel = btnFileCancel;
+	}
+
+	public LinearLayout getLayLyricController()
+	{
+		return layLyricController;
+	}
+
+	public void setLayLyricController(LinearLayout layLyricController)
+	{
+		this.layLyricController = layLyricController;
 	}
 }

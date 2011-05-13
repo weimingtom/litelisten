@@ -17,18 +17,21 @@
 
 package com.galapk.litelisten;
 
+import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 
-public class ControlsReceiver extends BroadcastReceiver
+public class ActionReceiver extends BroadcastReceiver
 {
 	private srcMain main = null;
 	private boolean IsFirstActionHeadsetPlug = true; // 是否第一次收到ACTION_HEADSET_PLUG消息
+	private int MusicStatus = -1; // 音乐状态
 
-	public ControlsReceiver(srcMain main)
+	public ActionReceiver(srcMain main)
 	{
 		this.main = main;
 	}
@@ -38,7 +41,7 @@ public class ControlsReceiver extends BroadcastReceiver
 	{
 		abortBroadcast();
 
-		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
+		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG) || intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL))
 		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
 			if (!IsFirstActionHeadsetPlug)
 				main.getMs().Pause();
@@ -53,6 +56,19 @@ public class ControlsReceiver extends BroadcastReceiver
 			main.getMs().Next(false);
 		else
 		{
+			TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
+			switch (tm.getCallState())
+			{
+				case TelephonyManager.CALL_STATE_RINGING: // 来电
+					MusicStatus = main.getMs().getPlayerStatus();
+					main.getMs().Pause();
+					return;
+				case TelephonyManager.CALL_STATE_OFFHOOK: // 挂断
+					if (MusicStatus == MusicService.STATUS_PLAY)
+						main.getMs().PlayPause();
+					return;
+			}
+
 			KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 			if (key.getAction() == KeyEvent.ACTION_UP)
 			{

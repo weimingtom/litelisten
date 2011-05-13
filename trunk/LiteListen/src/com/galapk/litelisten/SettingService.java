@@ -129,7 +129,8 @@ public class SettingService extends PreferenceActivity
 					}
 					catch (Exception e)
 					{
-						Log.e("onActivityResult", e.getMessage());
+						if (e.getMessage() != null)
+							Log.e("onActivityResult", e.getMessage());
 						e.printStackTrace();
 					}
 
@@ -151,7 +152,8 @@ public class SettingService extends PreferenceActivity
 					}
 					catch (Exception e)
 					{
-						Log.e("onActivityResult", e.getMessage());
+						if (e.getMessage() != null)
+							Log.e("onActivityResult", e.getMessage());
 						e.printStackTrace();
 					}
 
@@ -330,6 +332,7 @@ public class SettingService extends PreferenceActivity
 				bmpBackground = ImageEffect.ImageCut(ImageEffect.SetAlpha(ImageEffect.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75"))), 10, 10, 10, 10);
 			else
 				bmpBackground = ImageEffect.ImageCut(ImageEffect.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75"))), 10, 10, 10, 10);
+
 			ImageEffect.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_land.png", "png", 100, true);
 		}
 
@@ -439,6 +442,9 @@ public class SettingService extends PreferenceActivity
 				if ((((String) Value).equals("ÊÇ") || ((String) Value).toLowerCase().equals("yes")))
 				{
 					Editor edt = sp.edit();
+					edt.putString("lstNotifyNext", "0");
+					edt.putString("txtFavouriteMax", "30");
+					edt.putString("lstLRCScrollStyle", "0");
 					edt.putString("lstFitScreenOrientation", "2");
 					edt.putBoolean("chkIgnoreDirectory", true);
 					edt.putString("lstPropertyReadPriority", "0");
@@ -577,6 +583,9 @@ public class SettingService extends PreferenceActivity
 			else
 				btnLRCFontShadowColor.setEnabled(false);
 		}
+
+		if (preference.getKey().equals("txtRestore"))
+			txtRestore.setText("");
 
 		return false;
 	}

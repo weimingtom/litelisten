@@ -123,7 +123,7 @@ public class FloatLRC extends LinearLayout
 			{
 				anim.setStartOffset((long) (TimeGap * 0.15));
 				anim.setDuration((long) (TimeGap * 0.75));
-				txtLRC2.setAnimation(anim);
+				txtLRC2.startAnimation(anim);
 			}
 		}
 		else
@@ -156,7 +156,7 @@ public class FloatLRC extends LinearLayout
 			{
 				anim.setStartOffset((long) (TimeGap * 0.15));
 				anim.setDuration((long) (TimeGap * 0.75));
-				txtLRC1.setAnimation(anim);
+				txtLRC1.startAnimation(anim);
 			}
 		}
 

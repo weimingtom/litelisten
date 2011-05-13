@@ -98,7 +98,8 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{// 可能是数据表不存在
-			Log.e("DBCreate", e.getMessage() + "|" + strSQLTable);
+			if (e.getMessage() != null)
+				Log.e("DBCreate", e.getMessage() + "|" + strSQLTable);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -120,7 +121,8 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{// 可能是数据表不存在
-			Log.e("DBDrop", e.getMessage() + "|" + strTable);
+			if (e.getMessage() != null)
+				Log.e("DBDrop", e.getMessage() + "|" + strTable);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -145,7 +147,8 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
-			Log.e("DBInsert", e.getMessage() + "|" + strTable + "|" + strData);
+			if (e.getMessage() != null)
+				Log.e("DBInsert", e.getMessage() + "|" + strTable + "|" + strData);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -170,7 +173,8 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
-			Log.e("DBModifiy", e.getMessage() + "|" + strTable + "|" + strSubStringOfSet);
+			if (e.getMessage() != null)
+				Log.e("DBModifiy", e.getMessage() + "|" + strTable + "|" + strSubStringOfSet);
 			dbContact.close();
 			e.printStackTrace();
 
@@ -194,7 +198,8 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 		catch (Exception e)
 		{
-			Log.e("DBDelete", e.getMessage() + "|" + strTable + "|" + strCondition);
+			if (e.getMessage() != null)
+				Log.e("DBDelete", e.getMessage() + "|" + strTable + "|" + strCondition);
 			dbContact.close();
 			e.printStackTrace();
 

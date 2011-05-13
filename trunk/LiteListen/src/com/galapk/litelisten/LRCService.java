@@ -311,7 +311,6 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
-			Log.e("AnalyzeLRC", e.getMessage());
 			e.printStackTrace();
 			return "";
 		}
@@ -347,23 +346,25 @@ public class LRCService
 	/* 将时间转换为毫秒数 */
 	public long TimeToLong(String Time)
 	{
-		try
-		{
-			String[] s1 = Time.split(":");
-			int min = Integer.parseInt(s1[0]);
-			String[] s2 = s1[1].split("\\.");
-			int sec = Integer.parseInt(s2[0]);
-			int mill = 0;
-			if (s2.length > 1)
-				mill = Integer.parseInt(s2[1]);
+		int min = -1;
+		int sec = -1;
+		int mill = -1;
 
-			return min * 60 * 1000 + sec * 1000 + mill * 10;
-		}
-		catch (Exception e)
-		{
-			Log.e("TimeToLong", e.getMessage());
+		String[] s1 = Time.split(":");
+		if (Common.IsNumeric(s1[0]))
+			min = Integer.parseInt(s1[0]);
+
+		String[] s2 = s1[1].split("\\.");
+		if (Common.IsNumeric(s2[0]))
+			sec = Integer.parseInt(s2[0]);
+
+		if (s2.length > 1 && Common.IsNumeric(s2[1]))
+			mill = Integer.parseInt(s2[1]);
+
+		if (min == -1 || sec == -1)
 			return -1;
-		}
+		else
+			return min * 60 * 1000 + sec * 1000 + mill * 10;
 	}
 
 	/* 将毫秒数转换为时间 */

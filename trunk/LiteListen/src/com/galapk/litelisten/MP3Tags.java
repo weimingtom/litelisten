@@ -128,7 +128,8 @@ public class MP3Tags
 		}
 		catch (Exception e)
 		{
-			Log.e("ReadID3", e.getMessage());
+			if (e.getMessage() != null)
+				Log.e("ReadID3", e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -176,7 +177,8 @@ public class MP3Tags
 			}
 			catch (Exception e)
 			{
-				Log.e("ReCodecTag", e.getMessage());
+				if (e.getMessage() != null)
+					Log.e("ReCodecTag", e.getMessage());
 				e.printStackTrace();
 
 				try
@@ -188,7 +190,8 @@ public class MP3Tags
 				}
 				catch (Exception e1)
 				{
-					Log.e("ReCodecTag1", e.getMessage());
+					if (e.getMessage() != null)
+						Log.e("ReCodecTag1", e.getMessage());
 					e1.printStackTrace();
 				}
 			}

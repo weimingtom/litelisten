@@ -83,7 +83,8 @@ public class ImageEffect
 		}
 		catch (Exception e)
 		{
-			Log.e("SaveBitmap", e.getMessage());
+			if (e.getMessage() != null)
+				Log.e("SaveBitmap", e.getMessage());
 			e.printStackTrace();
 			return false;
 		}

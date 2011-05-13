@@ -35,15 +35,28 @@ public class Common
 		return (int) (Math.random() * (max - min + 1)) + min;
 	}
 
-	/* 铃声类型 */
-	public enum RingType
+	/* 判断是否为数字 */
+	public static boolean IsNumeric(String number)
 	{
-		RINGTONE, ALARM
+		for (int i = 0; i < number.length(); i++)
+		{
+			if (!Character.isDigit(number.charAt(i)))
+				return false;
+		}
+
+		return true;
 	}
 
-//	/* 将指定路径的音乐设为铃声 */
-//	public static void SetToRingtongs(Context context, String path, RingType rt)
-//	{
-//
-//	}
+	// /* 铃声类型 */
+	// public enum RingType
+	// {
+	// RINGTONE, ALARM
+	// }
+	//
+	// /* 将指定路径的音乐设为铃声 */
+	// public static void SetToRingtongs(Context context, String path, RingType
+	// rt)
+	// {
+	//
+	// }
 }
