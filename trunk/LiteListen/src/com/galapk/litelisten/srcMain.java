@@ -94,9 +94,11 @@ public class srcMain extends Activity
 	private static final int LRC_NOTIFY_ID = 2; // 浮动歌词锁定通知序号
 
 	private List<Map<String, Object>> lstSong = new ArrayList<Map<String, Object>>(); // 播放列表
+	private List<Map<String, String>> lstLRCFile = new ArrayList<Map<String, String>>(); // 文件列表
 	private int ScreenOrantation = 0;// 屏幕方向
 	private int CurrentShown = 0; // 0－播放列表；1－歌词信息
 	private int SelectedItemIndex = 0; // 选中的歌曲序号
+	private int SelectedFileIndex = 0; // 选中的文件序号
 	private boolean IsTouchToSeek = false; // 判断当前是否由用户拖动滑块
 	private boolean IsKeepScreenOn = false; // 当前是否保持屏幕常亮
 	private SharedPreferences sp = null;
@@ -105,7 +107,7 @@ public class srcMain extends Activity
 	private Toast toast = null; // 全局的Toast
 	private int VerifyCode = 0; // 歌曲刷新的校验码
 	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
-	private boolean IsLRCMoved = false; // 歌词是否经过手指移动
+	private float MovedDistance = 0; // 手指在歌词控件上移动的距离
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -122,6 +124,7 @@ public class srcMain extends Activity
 	private TextView txtTime;
 	private TextView txtLRC;
 	private TextView txtKeyword;
+	private TextView txtCurrentPath;
 	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
 	private RelativeLayout laySearch;
@@ -129,6 +132,7 @@ public class srcMain extends Activity
 	private LinearLayout laySplash;
 	private RelativeLayout layBody;
 	private ListView lstMusic;
+	private ListView lstFile;
 	private GridView grdMenu;
 	private SeekBar skbMusic;
 	private SeekBar skbVolume;
@@ -141,6 +145,7 @@ public class srcMain extends Activity
 	private PYProvider py;
 	private HandlerService hs;
 	private MusicAdapter adapter;
+	private FileAdapter fAdapter;
 	private NotificationManager nm;
 	private WindowManager wm;
 	private FloatLRC fl;
@@ -275,8 +280,6 @@ public class srcMain extends Activity
 			registerReceiver(actReceiver, ittFilterLRCUnlock);
 			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
 			registerReceiver(actReceiver, ittFilterNotifyNext);
-			IntentFilter ittFilterOutGoing = new IntentFilter(Intent.ACTION_NEW_OUTGOING_CALL); // 拨出电话，来电无法获取Action，在配置文件中设置
-			registerReceiver(actReceiver, ittFilterOutGoing);
 
 			if (IsStartup && !IsRefreshing)
 				SetMusicToList();
@@ -499,6 +502,43 @@ public class srcMain extends Activity
 	{
 		super.onResume();
 		DirectionSwitch(IsStartup);
+	}
+
+	/* 刷新文件列表 */
+	public void SetFileList(String path)
+	{
+		SelectedFileIndex = 0;
+		txtCurrentPath.setText(path);
+		File[] files = new File(path).listFiles();
+		List<Map<String, String>> lstFileTemp = new ArrayList<Map<String, String>>();
+
+		if (!path.equals("/sdcard"))
+		{
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("ShowPath", getString(R.string.srcmain_file_list));
+			map.put("AbsolutePath", path.substring(0, path.lastIndexOf("/")));
+			lstFileTemp.add(map);
+		}
+
+		for (int i = 0; i < files.length; i++)
+		{
+			// 忽略点文件
+			if (files[i].getName().indexOf(".") == 0)
+				continue;
+
+			// 忽略其他类型的文件
+			if (files[i].isFile() && !files[i].getName().substring(files[i].getName().length() - 4).toLowerCase().equals(".lrc"))
+				continue;
+
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("ShowPath", files[i].getName());
+			map.put("AbsolutePath", files[i].getAbsolutePath());
+			lstFileTemp.add(map);
+		}
+
+		lstLRCFile = lstFileTemp;
+		fAdapter = new FileAdapter(this, lstLRCFile);
+		lstFile.setAdapter(fAdapter);
 	}
 
 	/* 将歌曲添加到列表 */
@@ -832,6 +872,7 @@ public class srcMain extends Activity
 		txtTime = (TextView) findViewById(R.id.txtTime);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
 		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
+		txtCurrentPath = (TextView) findViewById(R.id.txtCurrentPath);
 		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
@@ -841,6 +882,7 @@ public class srcMain extends Activity
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
 		skbVolume = (SeekBar) findViewById(R.id.skbVolume);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
+		lstFile = (ListView) findViewById(R.id.lstFile);
 		grdMenu = (GridView) findViewById(R.id.grdMenu);
 		layLyricController = (LinearLayout) findViewById(R.id.layLyricController);
 	}
@@ -942,40 +984,10 @@ public class srcMain extends Activity
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		if (item.getTitle().equals(getString(R.string.srcmain_context_menu_lrc_links)))
+		{
 			txtLRC.setVisibility(View.GONE);
-		// String strTitle = (String)item.getTitle(); //获取菜单标题
-		//		
-		// if(strContextMenuFlag.equals("btnSearchType")) //由搜索类型按钮触发
-		// btnSearchType.setText(item.getTitle());
-		// //将菜单项名（搜索类型）显示到btnSearchType上
-		// else if(strContextMenuFlag.equals("lstContact"))
-		// {//由联系人列表控件操作触发
-		// if(item.getSubMenu() == null)
-		// {//没有子菜单的情况下直接继续（只有一个电话号码）
-		// if(item.getOrder() == 0)
-		// PhoneCall(strPhoneNumber, strName); //拨打电话
-		// else if(item.getOrder() == 1)
-		// SMSSend(strPhoneNumber, strName); //发送短信
-		// }
-		// else
-		// {//有子菜单（有多个电话号码供选择）
-		// //通过菜单标题决定子菜单动作类型，用户选择后先设置下一步子菜单的指令
-		// if(strTitle.equals("给" + strName + "打电话"))
-		// strCurrOperation = "CALL";
-		// else if(strTitle.equals("给" + strName + "发短信"))
-		// strCurrOperation = "SMS";
-		// }
-		// }
-		// else
-		// {//由子菜单触发，子菜单标题就是电话号码
-		// if(strCurrOperation.equals("CALL"))
-		// PhoneCall(strTitle, strName); //拨打电话
-		// else if(strCurrOperation.equals("SMS"))
-		// SMSSend(strTitle, strName); //发送短信
-		//			
-		// strCurrOperation = ""; //还原子菜单功能
-		// }
-		// strContextMenuFlag = ""; //还原触发控件标志
+			SetFileList("/sdcard");
+		}
 
 		return super.onContextItemSelected(item);
 	}
@@ -1426,7 +1438,26 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
+				Map<String, String> map = new HashMap<String, String>();
+				map = lstLRCFile.get(SelectedFileIndex);
+				String strPath = map.get("AbsolutePath");
+				File f = new File(strPath);
+				if (f.isDirectory()) // 进入目录
+					SetFileList(strPath);
+				else
+				{
+					// 修改歌词关联
+					Map<String, Object> mapMusic = new HashMap<String, Object>();
+					mapMusic = lstSong.get(ms.getCurrIndex());
+					db.ModifiyData("music_info", "set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
+					ls.setStrLRCPath(strPath); // 设置新的歌词
 
+					// 更新列表中的歌词路径
+					mapMusic.put("LRCPath", strPath);
+					lstSong.set(ms.getCurrIndex(), mapMusic);
+
+					txtLRC.setVisibility(View.VISIBLE); // 关闭自己
+				}
 			}
 		});
 
@@ -1487,8 +1518,8 @@ public class srcMain extends Activity
 		{
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 			{
-				if (!IsLRCMoved)
-				{
+				if (MovedDistance < (float) 10)
+				{// 小于10像素则认为需要弹出菜单
 					menu.setHeaderIcon(R.drawable.icon);
 					menu.setHeaderTitle(R.string.srcmain_context_menu_lrc);
 					menu.add(R.string.srcmain_context_menu_lrc_links);
@@ -1724,6 +1755,7 @@ public class srcMain extends Activity
 			boolean Switch2List = false; // 是否需要将歌词切换到播放列表
 			float LastDistance = -1; // 上一次两指间的距离
 			int FingerDownPosY = -1; // 手指按下时歌词的Y坐标
+			boolean IsLRCMoved = false; // 歌词是否经过手指移动
 
 			private float GetFingerDistance(float PosX1, float PosY1, float PosX2, float PosY2)
 			{
@@ -1777,6 +1809,8 @@ public class srcMain extends Activity
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
 				{
+					MovedDistance = GetFingerDistance(DownPosX[0], DownPosY[0], event.getX(0), event.getY(0)); // 计算手指划过的距离，给ContextMenu判断
+
 					if (DownPosY[1] == -1 && DownPosX[1] == -1)
 					{
 						// 获取垂直/水平方向手指移动绝对值
@@ -1829,6 +1863,30 @@ public class srcMain extends Activity
 				}
 
 				return false; // 继续回传，否则ACTION_DOWN后接收不到其它事件
+			}
+		});
+
+		/* 文件列表 */
+		lstFile.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				if (arg2 == SelectedFileIndex)
+				{
+					Map<String, String> map = new HashMap<String, String>();
+					map = lstLRCFile.get(arg2);
+					String strPath = map.get("AbsolutePath");
+					File f = new File(strPath);
+					if (f.isDirectory()) // 进入目录
+						SetFileList(strPath);
+				}
+				else
+				{
+					SelectedFileIndex = arg2;
+
+					fAdapter.getView(arg2, null, lstFile);
+					fAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 
@@ -2529,16 +2587,6 @@ public class srcMain extends Activity
 		IsShowingFavourite = isShowingFavourite;
 	}
 
-	public boolean isIsLRCMoved()
-	{
-		return IsLRCMoved;
-	}
-
-	public void setIsLRCMoved(boolean isLRCMoved)
-	{
-		IsLRCMoved = isLRCMoved;
-	}
-
 	public Button getBtnFileOK()
 	{
 		return btnFileOK;
@@ -2567,5 +2615,65 @@ public class srcMain extends Activity
 	public void setLayLyricController(LinearLayout layLyricController)
 	{
 		this.layLyricController = layLyricController;
+	}
+
+	public List<Map<String, String>> getLstLRCFile()
+	{
+		return lstLRCFile;
+	}
+
+	public void setLstLRCFile(List<Map<String, String>> lstLRCFile)
+	{
+		this.lstLRCFile = lstLRCFile;
+	}
+
+	public int getSelectedFileIndex()
+	{
+		return SelectedFileIndex;
+	}
+
+	public void setSelectedFileIndex(int selectedFileIndex)
+	{
+		SelectedFileIndex = selectedFileIndex;
+	}
+
+	public ListView getLstFile()
+	{
+		return lstFile;
+	}
+
+	public void setLstFile(ListView lstFile)
+	{
+		this.lstFile = lstFile;
+	}
+
+	public FileAdapter getfAdapter()
+	{
+		return fAdapter;
+	}
+
+	public void setfAdapter(FileAdapter fAdapter)
+	{
+		this.fAdapter = fAdapter;
+	}
+
+	public float getMovedDistance()
+	{
+		return MovedDistance;
+	}
+
+	public void setMovedDistance(float movedDistance)
+	{
+		MovedDistance = movedDistance;
+	}
+
+	public TextView getTxtCurrentPath()
+	{
+		return txtCurrentPath;
+	}
+
+	public void setTxtCurrentPath(TextView txtCurrentPath)
+	{
+		this.txtCurrentPath = txtCurrentPath;
 	}
 }

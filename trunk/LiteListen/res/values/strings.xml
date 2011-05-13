@@ -93,6 +93,9 @@
 	<string name="srcmain_ringtong_successful">Ringtong has been set</string>
 	<string name="srcmain_alarm_successful">Alarm has been set</string>
 	<string name="srcmain_play_first">Please play a music first</string>
+	<string name="srcmain_context_menu_lrc">Lyric Options</string>
+	<string name="srcmain_context_menu_lrc_links">Select a lyric from file</string>
+	<string name="srcmain_file_list">[Back]</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>
@@ -170,16 +173,17 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.13 build 0512.2211\n\nUpdate
-		Contents: \n1. Fixed a bug that player cannot working when artist
-		infomation is null\n2. And also resolved problem of music auto stop
-		after a music finishes while app is scanning music tags\n3. Fixed a
-		desk lyric error when a music is going to the end\n4.
-		Fixed a bug that
-		desk lyric always shows loading lyrics when you playing a music which
-		have no lyrics\n5. Delete unwanted permissions\n6. Fixed a problem
-		that volume will be displayed at title when you changed direction of
-		your device\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.14 build 0514.0215\n\nUpdate
+		Contents: \n1. Fixed an error of reading some lyrics\' time tag\n2.
+		Fixed a bug that some options cannot be restored when user choose to
+		restore to default\n3. Fixed the problem that always shows "yes" in
+		the text box of restore window\n4.
+		Fixed a problem that controllers
+		cannot be shown while switch LRC window to music list by using
+		fingers\n5. Fixed a display bug of favourite/list icon after changed
+		screen orientation\n6. Fixed a big problem that lyric shows
+		incorrectly which caused by a failure analyze\n7. Adjust some icon
+		resource\n8. LRC can associated to any LRC file by user\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/layActivity" android:background="@drawable/bg_port_default">
+<LinearLayout android:layout_width="wrap_content"
+	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layActivity" android:background="@drawable/bg_port_default">
 	<LinearLayout android:id="@+id/laySplash"
 		android:layout_height="wrap_content" android:layout_width="wrap_content"
 		android:gravity="bottom|right" android:background="@drawable/splash_port">
@@ -13,8 +15,8 @@
 		<LinearLayout android:id="@+id/layHeader"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:orientation="vertical">
-			<TextView android:ellipsize="marquee" android:shadowDx="1" android:layout_marginLeft="105dip"
-				android:gravity="center_vertical|center_horizontal|center"
+			<TextView android:ellipsize="marquee" android:shadowDx="1"
+				android:layout_marginLeft="105dip" android:gravity="center_vertical|center_horizontal|center"
 				android:textSize="25dip" android:shadowColor="#000000"
 				android:shadowDy="1" android:shadowRadius="1"
 				android:layout_marginRight="5dip" android:layout_height="47dip"
@@ -30,43 +32,88 @@
 					android:layout_height="wrap_content" android:layout_width="110dip"
 					android:id="@+id/txtTime" android:text="00:00 / 00:00"
 					android:textColor="#FFFFFF"></TextView>
-				<ImageButton android:layout_width="wrap_content" android:id="@+id/btnVolume" android:layout_height="fill_parent" android:layout_marginTop="0.5dip" android:background="@layout/btn_volume"></ImageButton>
+				<ImageButton android:layout_width="wrap_content"
+					android:id="@+id/btnVolume" android:layout_height="fill_parent"
+					android:layout_marginTop="0.5dip" android:background="@layout/btn_volume"></ImageButton>
 				<ImageButton android:layout_height="fill_parent"
-					android:layout_width="wrap_content" android:background="@drawable/btn_play_mode_repeat_all" android:id="@+id/btnPlayMode" android:layout_marginTop="0.5dip"></ImageButton>
+					android:layout_width="wrap_content" android:background="@drawable/btn_play_mode_repeat_all"
+					android:id="@+id/btnPlayMode" android:layout_marginTop="0.5dip"></ImageButton>
 				<ImageButton android:layout_height="wrap_content"
-					android:layout_width="wrap_content" android:background="@layout/btn_lrc" android:id="@+id/btnLRC" android:layout_marginTop="0.5dip"></ImageButton>
+					android:layout_width="wrap_content" android:background="@layout/btn_lrc"
+					android:id="@+id/btnLRC" android:layout_marginTop="0.5dip"></ImageButton>
 			</LinearLayout>
 		</LinearLayout>
 		<RelativeLayout android:layout_height="427dip"
 			android:layout_width="wrap_content" android:layout_below="@id/layHeader"
 			android:id="@+id/layBody" android:layout_above="@+id/layBottom">
-			<SeekBar android:layout_width="fill_parent" android:layout_height="wrap_content" android:thumb="@layout/seek_bar_thumb" android:progressDrawable="@layout/seek_bar_progress" android:maxHeight="10dip" android:id="@+id/skbVolume" android:background="@drawable/bg_port_skb_volume" android:paddingLeft="15dip" android:paddingRight="15dip" android:visibility="gone"></SeekBar>
+			<SeekBar android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:thumb="@layout/seek_bar_thumb"
+				android:progressDrawable="@layout/seek_bar_progress"
+				android:maxHeight="10dip" android:id="@+id/skbVolume"
+				android:background="@drawable/bg_port_skb_volume"
+				android:paddingLeft="15dip" android:paddingRight="15dip"
+				android:visibility="gone"></SeekBar>
 			<RelativeLayout android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:id="@+id/laySearch" android:layout_below="@+id/skbVolume" android:visibility="gone">
+				android:layout_width="fill_parent" android:id="@+id/laySearch"
+				android:layout_below="@+id/skbVolume" android:visibility="gone">
 				<EditText android:layout_height="wrap_content"
-					android:layout_width="fill_parent"
-					android:paddingRight="42dip" android:hint="@string/srcmain_keyword_hint"
-					android:shadowDy="0" android:shadowDx="0" android:background="@drawable/txt_keyword"
+					android:layout_width="fill_parent" android:paddingRight="42dip"
+					android:hint="@string/srcmain_keyword_hint" android:shadowDy="0"
+					android:shadowDx="0" android:background="@drawable/txt_keyword"
 					android:singleLine="true" android:lines="1" android:id="@+id/txtKeyword"
 					android:shadowRadius="1" android:layout_marginTop="5dip"
 					android:paddingLeft="8dip" android:layout_marginLeft="5dip"
 					android:shadowColor="#0099FF" android:textColorHint="#FFFFFF"
 					android:layout_toLeftOf="@+id/btnSearch"></EditText>
-				<ImageButton android:layout_width="wrap_content" android:background="@layout/btn_search"
-					android:layout_marginTop="5dip" android:layout_alignParentRight="true"
-					android:id="@+id/btnSearch" android:layout_height="42dip"></ImageButton>
+				<ImageButton android:layout_width="wrap_content"
+					android:background="@layout/btn_search" android:layout_marginTop="5dip"
+					android:layout_alignParentRight="true" android:id="@+id/btnSearch"
+					android:layout_height="42dip"></ImageButton>
 			</RelativeLayout>
-			<LinearLayout android:id="@+id/layCore" android:layout_above="@+id/grdMenu" android:layout_below="@+id/laySearch" android:layout_height="fill_parent" android:layout_width="fill_parent">
-				<ListView android:id="@+id/lstMusic" android:cacheColorHint="#00000000" android:layout_width="fill_parent" android:scrollbarThumbVertical="@drawable/scroll_track" android:divider="#00000000" android:layout_height="fill_parent" android:smoothScrollbar="true" android:listSelector="@layout/list_music_selector"></ListView>
-				<LinearLayout android:layout_height="fill_parent" android:id="@+id/layLyricController" android:paddingRight="5dip" android:paddingLeft="5dip" android:layout_width="fill_parent">
-					<TextView android:shadowRadius="1" android:textSize="18dip" android:gravity="center_vertical|center_horizontal|center" android:id="@+id/txtLRC" android:layout_width="fill_parent" android:layout_height="fill_parent" android:shadowDy="1" android:shadowDx="1" android:shadowColor="#0099FF" android:textColor="#FFFFFF"></TextView>
-					<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/layFileSelector">
-						<TextView android:id="@+id/txtCurrentPath" android:text="TextView" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-						<ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/lstFile" android:layout_below="@+id/txtCurrentPath" android:layout_above="@+id/layOkCancel"></ListView>
-						<LinearLayout android:layout_alignParentBottom="true" android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center" android:layout_height="wrap_content" android:id="@+id/layOkCancel">
-							<Button android:layout_height="wrap_content" android:background="@layout/alertdialog_button" android:id="@+id/btnFileOK" android:text="@string/global_ok" android:layout_width="50dip" android:textSize="18dip" android:textColor="#FFFFFF"></Button>
-							<Button android:layout_height="wrap_content" android:background="@layout/alertdialog_button" android:id="@+id/btnFileCancel" android:text="@string/global_cancel" android:layout_width="50dip" android:textSize="18dip" android:textColor="#FFFFFF"></Button>
+			<LinearLayout android:id="@+id/layCore"
+				android:layout_above="@+id/grdMenu" android:layout_below="@+id/laySearch"
+				android:layout_height="fill_parent" android:layout_width="fill_parent">
+				<ListView android:id="@+id/lstMusic"
+					android:cacheColorHint="#00000000" android:layout_width="fill_parent"
+					android:scrollbarThumbVertical="@drawable/scroll_track"
+					android:divider="#00000000" android:layout_height="fill_parent"
+					android:smoothScrollbar="true" android:listSelector="@layout/list_music_selector"></ListView>
+				<LinearLayout android:layout_height="fill_parent"
+					android:id="@+id/layLyricController" android:layout_width="fill_parent">
+					<TextView android:shadowRadius="1" android:textSize="18dip"
+						android:gravity="center_vertical|center_horizontal|center"
+						android:id="@+id/txtLRC" android:layout_width="fill_parent"
+						android:layout_height="fill_parent" android:shadowDy="1"
+						android:shadowDx="1" android:shadowColor="#0099FF"
+						android:textColor="#FFFFFF" android:layout_marginLeft="5dip"
+						android:layout_marginRight="5dip"></TextView>
+					<RelativeLayout android:layout_width="fill_parent"
+						android:layout_height="fill_parent" android:id="@+id/layFileSelector">
+						<TextView android:id="@+id/txtCurrentPath"
+							android:layout_width="fill_parent" android:layout_height="wrap_content"
+							android:textSize="18dip" android:textColor="#FFFFFF"
+							android:text="/sdcard" android:layout_marginLeft="5dip"
+							android:layout_marginRight="5dip"></TextView>
+						<ListView android:layout_width="fill_parent"
+							android:layout_height="fill_parent" android:id="@+id/lstFile"
+							android:layout_below="@+id/txtCurrentPath" android:layout_above="@+id/layOkCancel"
+							android:cacheColorHint="#00000000" android:divider="#00000000"
+							android:listSelector="@layout/list_file_selector"
+							android:scrollbarThumbVertical="@drawable/scroll_track"
+							android:smoothScrollbar="true"></ListView>
+						<LinearLayout android:layout_alignParentBottom="true"
+							android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
+							android:layout_height="wrap_content" android:id="@+id/layOkCancel">
+							<Button android:layout_height="wrap_content"
+								android:background="@layout/alertdialog_button" android:id="@+id/btnFileOK"
+								android:text="@string/global_ok" android:textSize="18dip"
+								android:textColor="#FFFFFF" android:layout_width="150dip"
+								android:layout_marginRight="2.5dip"></Button>
+							<Button android:background="@layout/alertdialog_button"
+								android:id="@+id/btnFileCancel" android:text="@string/global_cancel"
+								android:textSize="18dip" android:textColor="#FFFFFF"
+								android:layout_height="wrap_content" android:layout_width="150dip"
+								android:layout_marginLeft="2.5dip"></Button>
 						</LinearLayout>
 					</RelativeLayout>
 				</LinearLayout>
@@ -100,10 +147,10 @@
 					android:layout_marginLeft="70dip" android:layout_width="wrap_content"
 					android:background="@layout/btn_next" android:id="@+id/btnNext"></ImageButton>
 			</LinearLayout>
-			<SeekBar android:id="@+id/skbMusic"
-				android:layout_width="fill_parent" android:thumb="@layout/seek_bar_thumb"
-				android:visibility="gone" android:maxHeight="10dip"
-				android:paddingLeft="15dip" android:progressDrawable="@layout/seek_bar_progress"
+			<SeekBar android:id="@+id/skbMusic" android:layout_width="fill_parent"
+				android:thumb="@layout/seek_bar_thumb" android:visibility="gone"
+				android:maxHeight="10dip" android:paddingLeft="15dip"
+				android:progressDrawable="@layout/seek_bar_progress"
 				android:paddingRight="15dip" android:layout_height="fill_parent"></SeekBar>
 		</LinearLayout>
 	</RelativeLayout>

@@ -44,6 +44,7 @@
 	<string name="srcmain_play_first">请先播放音乐</string>
 	<string name="srcmain_context_menu_lrc">歌词选项</string>
 	<string name="srcmain_context_menu_lrc_links">从文件中选择歌词</string>
+	<string name="srcmain_file_list">【返回上级目录】</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -112,8 +113,8 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.13 build
-		0512.2222\n\n更新内容：\n1、修正了当歌曲艺术家属性为空时无法播放的问题\n2、同时解决了歌曲属性扫描过程中歌曲播放完后停止的问题\n3、修正了歌曲进入尾声时浮动歌词的错误\n4、修正了播放没有歌词的歌曲时，浮动歌词始终显示“加载中”的错误\n5、删除多余的权限\n6、修正了屏幕方向改变后标题栏自动显示音量值的问题
+		2011\n0.5.14 build
+		0514.0215\n\n更新内容：\n1、修正了识别某些特殊歌词文件的时间标签时出现的错误\n2、修正了设置还原时一些设置没有被还原的问题\n3、修正了设置还原窗口默认显示“是”的错误\n4、修正了用手指将歌词切换为列表时控制按钮不显示的问题\n5、修正了屏幕方向切换后最爱/列表图标显示不正确的问题\n6、修正了一个由于某行歌词分析失败而导致的歌词显示不正确的问题\n7、调整了一些图标资源\n8、新增歌词关联
 		\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 
