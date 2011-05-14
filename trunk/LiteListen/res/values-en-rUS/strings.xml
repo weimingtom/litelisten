@@ -124,17 +124,10 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.14 build 0514.0215\n\nUpdate
-		Contents: \n1. Fixed an error of reading some lyrics\' time tag\n2.
-		Fixed a bug that some options cannot be restored when user choose to
-		restore to default\n3. Fixed the problem that always shows "yes" in
-		the text box of restore window\n4.
-		Fixed a problem that controllers
-		cannot be shown while switch LRC window to music list by using
-		fingers\n5. Fixed a display bug of favourite/list icon after changed
-		screen orientation\n6. Fixed a big problem that lyric shows
-		incorrectly which caused by a failure analyze\n7. Adjust some icon
-		resource\n8. LRC can associated to any LRC file by user\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.15 build 0514.1540\n\nUpdate
+		Contents: \nFixed a bug that app will create one more Desk Lyric Shows
+		if user toggle app from background to forground while music infomation
+		is scanning\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

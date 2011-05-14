@@ -233,7 +233,7 @@ public class srcMain extends Activity
 	}
 
 	/* 屏幕方向切换 */
-	public void DirectionSwitch(boolean IsStartup)
+	public void DirectionSwitch()
 	{
 		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 		FindViews();
@@ -501,7 +501,7 @@ public class srcMain extends Activity
 	public void onResume()
 	{
 		super.onResume();
-		DirectionSwitch(IsStartup);
+		DirectionSwitch();
 	}
 
 	/* 刷新文件列表 */

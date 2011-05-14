@@ -113,9 +113,8 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.14 build
-		0514.0215\n\n更新内容：\n1、修正了识别某些特殊歌词文件的时间标签时出现的错误\n2、修正了设置还原时一些设置没有被还原的问题\n3、修正了设置还原窗口默认显示“是”的错误\n4、修正了用手指将歌词切换为列表时控制按钮不显示的问题\n5、修正了屏幕方向切换后最爱/列表图标显示不正确的问题\n6、修正了一个由于某行歌词分析失败而导致的歌词显示不正确的问题\n7、调整了一些图标资源\n8、新增歌词关联
-		\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.15 build
+		0514.1540\n\n更新内容：\n修正了歌曲扫描时最小化/最大化切换后会产生多个浮动歌词的问题\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
