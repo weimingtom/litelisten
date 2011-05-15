@@ -41,7 +41,7 @@
 			android:defaultValue="1"></ListPreference>
 		<CheckBoxPreference android:key="chkAutoSwitchToLRC"
 			android:title="@string/pfrscat_general_auto_switch_to_lrc"
-			android:summary="@string/pfrscat_general_auto_switch_to_lrc_summary"></CheckBoxPreference>
+			android:summary="@string/pfrscat_general_auto_switch_to_lrc_summary" android:defaultValue="true"></CheckBoxPreference>
 
 
 		<ListPreference android:defaultValue="0"

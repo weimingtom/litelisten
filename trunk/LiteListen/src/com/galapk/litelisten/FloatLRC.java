@@ -17,9 +17,9 @@
 
 package com.galapk.litelisten;
 
-import android.content.Context;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -44,7 +44,7 @@ public class FloatLRC extends LinearLayout
 	private WindowManager wm;
 	private WindowManager.LayoutParams layWM;
 	private srcMain main;
-	private int ScreenOrantation;
+	private DisplayMetrics dm;
 
 	// ¸è´ÊÐã¿Ø¼þ
 	ImageView imgIcon;
@@ -58,7 +58,7 @@ public class FloatLRC extends LinearLayout
 		wm = (WindowManager) main.getApplicationContext().getSystemService("window");
 		layWM = main.getLayWM();
 		this.main = main;
-		ScreenOrantation = ((WindowManager) main.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+		dm = new DisplayMetrics();
 
 		// ÉèÖÃ×¨¼­Í¼±ê
 		imgIcon = new ImageView(main);
@@ -99,7 +99,7 @@ public class FloatLRC extends LinearLayout
 	/* ÉèÖÃ¸è´ÊÄÚÈÝ */
 	public void SetLRC(int IconResource, String Sentence1, int Color1, String Sentence2, int Color2, Long TimeGap, int ChangedLineNumber)
 	{
-		ScreenOrantation = ((WindowManager) main.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+		main.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
 		if (ChangedLineNumber == 1)
 		{
@@ -107,10 +107,10 @@ public class FloatLRC extends LinearLayout
 			AbsoluteLayout.LayoutParams layText2 = (AbsoluteLayout.LayoutParams) txtLRC2.getLayoutParams();
 			float FontWidth = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
 
-			layWM.width = main.getDm().widthPixels;
-			layText2.x = (int) (main.getDm().widthPixels - 75 - FontWidth);
-			if (FontWidth > main.getDm().widthPixels - 80)
-				anim = new TranslateAnimation(FontWidth - (main.getDm().widthPixels - 80), 0, 0, 0);
+			layWM.width = dm.widthPixels;
+			layText2.x = (int) (dm.widthPixels - 75 - FontWidth);
+			if (FontWidth > dm.widthPixels - 80)
+				anim = new TranslateAnimation(FontWidth - (dm.widthPixels - 80), 0, 0, 0);
 
 			AbsoluteLayout.LayoutParams layText1 = (AbsoluteLayout.LayoutParams) txtLRC1.getLayoutParams();
 			layText1.x = 5;
@@ -134,16 +134,16 @@ public class FloatLRC extends LinearLayout
 			float FontWidth1 = Common.GetTextWidth(Sentence1, txtLRC1.getTextSize());
 			float FontWidth2 = Common.GetTextWidth(Sentence2, txtLRC2.getTextSize());
 
-			layWM.width = main.getDm().widthPixels;
-			if (FontWidth2 > main.getDm().widthPixels - 80)
+			layWM.width = dm.widthPixels;
+			if (FontWidth2 > dm.widthPixels - 80)
 				layText2.x = 5;
 			else
-				layText2.x = (int) (main.getDm().widthPixels - 75 - FontWidth2);
+				layText2.x = (int) (dm.widthPixels - 75 - FontWidth2);
 
-			if (FontWidth1 > main.getDm().widthPixels - 80)
+			if (FontWidth1 > dm.widthPixels - 80)
 			{
-				layText1.x = (int) (main.getDm().widthPixels - 75 - FontWidth1);
-				anim = new TranslateAnimation(FontWidth1 - (main.getDm().widthPixels - 80), 0, 0, 0);
+				layText1.x = (int) (dm.widthPixels - 75 - FontWidth1);
+				anim = new TranslateAnimation(FontWidth1 - (dm.widthPixels - 80), 0, 0, 0);
 			}
 			else
 				layText1.x = 5;
@@ -316,15 +316,5 @@ public class FloatLRC extends LinearLayout
 	public void setTxtLRC2(TextView txtLRC2)
 	{
 		this.txtLRC2 = txtLRC2;
-	}
-
-	public int getScreenOrantation()
-	{
-		return ScreenOrantation;
-	}
-
-	public void setScreenOrantation(int screenOrantation)
-	{
-		ScreenOrantation = screenOrantation;
 	}
 }

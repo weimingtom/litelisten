@@ -130,8 +130,9 @@ public class SettingService extends PreferenceActivity
 					catch (Exception e)
 					{
 						if (e.getMessage() != null)
-							Log.e("onActivityResult", e.getMessage());
-						e.printStackTrace();
+							Log.w(Common.LOGCAT_TAG, e.getMessage());
+						else
+							e.printStackTrace();
 					}
 
 					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_port.png", "png", 100, true);
@@ -153,8 +154,9 @@ public class SettingService extends PreferenceActivity
 					catch (Exception e)
 					{
 						if (e.getMessage() != null)
-							Log.e("onActivityResult", e.getMessage());
-						e.printStackTrace();
+							Log.w(Common.LOGCAT_TAG, e.getMessage());
+						else
+							e.printStackTrace();
 					}
 
 					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_land.png", "png", 100, true);

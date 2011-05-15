@@ -70,6 +70,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -86,6 +87,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+@SuppressWarnings("deprecation")
 public class srcMain extends Activity
 {
 	private static final int ANIMATION_TIME = 500; // 动画时长
@@ -107,6 +109,7 @@ public class srcMain extends Activity
 	private Toast toast = null; // 全局的Toast
 	private int VerifyCode = 0; // 歌曲刷新的校验码
 	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
+	private boolean IsPlayingExternal = false; // 是否播放外部文件
 	private float MovedDistance = 0; // 手指在歌词控件上移动的距离
 
 	/* 定义控件和自定义类 */
@@ -164,6 +167,28 @@ public class srcMain extends Activity
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
 	}
 
+	/* 记录Logcat的线程 */
+	public void GetLogcat()
+	{
+		new Thread()
+		{
+			public void run()
+			{
+				try
+				{
+					Runtime.getRuntime().exec("logcat -s " + Common.LOGCAT_TAG + ":*");
+				}
+				catch (Exception e)
+				{
+					if (e.getMessage() != null)
+						Log.w(Common.LOGCAT_TAG, e.getMessage());
+					else
+						e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+
 	/* 桌面小部件控制器监听线程 */
 	public void WidgetsListener()
 	{
@@ -202,8 +227,9 @@ public class srcMain extends Activity
 					catch (Exception e)
 					{
 						if (e.getMessage() != null)
-							Log.e("WidgetsListener", e.getMessage());
-						e.printStackTrace();
+							Log.w(Common.LOGCAT_TAG, e.getMessage());
+						else
+							e.printStackTrace();
 					}
 				}
 			}
@@ -225,11 +251,36 @@ public class srcMain extends Activity
 				catch (Exception e)
 				{
 					if (e.getMessage() != null)
-						Log.e("ShowSplash", e.getMessage());
-					e.printStackTrace();
+						Log.w(Common.LOGCAT_TAG, e.getMessage());
+					else
+						e.printStackTrace();
 				}
 			}
 		}.start();
+	}
+
+	/* 设置标题 */
+	public void SetCurrentTitle(String title)
+	{
+		txtTitle.setText(title);
+
+		// 如果超长则播放动画滚动
+		float CurrWidth = Common.GetTextWidth(title, txtTitle.getTextSize());
+		if (CurrWidth > dm.widthPixels - 165)
+		{
+			AbsoluteLayout.LayoutParams layTitle = (AbsoluteLayout.LayoutParams) txtTitle.getLayoutParams();
+			layTitle.width = (int) CurrWidth;
+			txtTitle.setLayoutParams(layTitle);
+
+			Animation anim = new TranslateAnimation(0, -(CurrWidth - dm.widthPixels + 165), 0, 0);
+			anim.setDuration(2500);
+			anim.setStartOffset(2500);
+			anim.setRepeatCount(100);
+			anim.setRepeatMode(Animation.REVERSE);
+			txtTitle.startAnimation(anim);
+		}
+		else
+			txtTitle.clearAnimation();
 	}
 
 	/* 屏幕方向切换 */
@@ -238,6 +289,7 @@ public class srcMain extends Activity
 		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 		FindViews();
 		ListernerBinding();
+		Intent intent = getIntent();
 
 		if (IsStartup)
 		{
@@ -281,7 +333,7 @@ public class srcMain extends Activity
 			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
 			registerReceiver(actReceiver, ittFilterNotifyNext);
 
-			if (IsStartup && !IsRefreshing)
+			if (IsStartup && !IsRefreshing && !(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))) // 如果外部调用则不刷新列表
 				SetMusicToList();
 			WidgetsListener();
 			CreateFloatLRC();
@@ -293,7 +345,7 @@ public class srcMain extends Activity
 		else
 		{
 			laySplash.setVisibility(View.GONE);
-			txtTitle.setText(ms.getStrShownTitle());
+			SetCurrentTitle(ms.getStrShownTitle());
 
 			// 设置播放/暂停按钮
 			if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
@@ -321,7 +373,7 @@ public class srcMain extends Activity
 		// 设置音量条参数
 		skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
-		txtTitle.setText(ms.getStrShownTitle());
+		SetCurrentTitle(ms.getStrShownTitle());
 
 		SetLanguage();
 		SetMenuList();
@@ -334,14 +386,13 @@ public class srcMain extends Activity
 		edt.commit();
 
 		// 设置外部调用
-		Intent intent = getIntent();
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
+		if (!IsPlayingExternal && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
 		{
 			laySplash.setVisibility(View.GONE); // 不显示启动画面
-			String strMusicFilePath = intent.getDataString(); // 从外部打开的音乐文件路径
-			strMusicFilePath = Uri.parse(strMusicFilePath).getPath(); // 解析地址
+			String strMusicFilePath = Uri.parse(intent.getDataString()).getPath(); // 解析地址
 
-			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
+			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")));
+			// 获取读到的MP3属性
 			mapInfo.put("MusicPath", strMusicFilePath);
 			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
 
@@ -353,7 +404,7 @@ public class srcMain extends Activity
 			lstMusic.setAdapter(adapter);
 			ms.Play(0);
 		}
-		else
+		else if (!IsPlayingExternal)
 		{
 			if (IsRefreshing)
 				lstMusic.setAdapter(adapter);
@@ -363,6 +414,32 @@ public class srcMain extends Activity
 
 		RefreshLanguage();
 		fl.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	public void onNewIntent(Intent intent)
+	{
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))
+		{
+			IsPlayingExternal = true;
+			laySplash.setVisibility(View.GONE); // 不显示启动画面
+			String strMusicFilePath = Uri.parse(intent.getDataString()).getPath(); // 解析地址
+			ms.Stop();
+
+			// 获取读到的MP3属性
+			Map<String, Object> mapInfo = GetMusicID3(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")));
+			mapInfo.put("MusicPath", strMusicFilePath);
+			mapInfo.put("LRCPath", strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".mp3")) + ".lrc");
+
+			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
+			lstSongTemp.add(mapInfo);
+			lstSong = lstSongTemp;
+
+			adapter = new MusicAdapter(srcMain.this, lstSong);
+			lstMusic.setAdapter(adapter);
+
+			ms.Play(0);
+		}
 	}
 
 	/* 刷新语言线程 */
@@ -379,8 +456,9 @@ public class srcMain extends Activity
 				catch (Exception e)
 				{
 					if (e.getMessage() != null)
-						Log.e("RefreshLanguage", e.getMessage());
-					e.printStackTrace();
+						Log.w(Common.LOGCAT_TAG, e.getMessage());
+					else
+						e.printStackTrace();
 				}
 				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
@@ -612,7 +690,7 @@ public class srcMain extends Activity
 					mapInfo = lstSong.get(i);
 					String strMusicPath = (String) mapInfo.get("MusicPath");
 					String strID3Check = (String) mapInfo.get("ID3Checked");
-					if (strID3Check.equals("0"))
+					if (strID3Check != null && strID3Check.equals("0"))
 					{
 						mapInfo = GetMusicID3(strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf(".mp3"))); // 获取读到的MP3属性
 						mapInfo.put("MusicPath", strMusicPath);
@@ -673,8 +751,9 @@ public class srcMain extends Activity
 						catch (Exception e)
 						{
 							if (e.getMessage() != null)
-								Log.e("RefreshID3", e.getMessage());
-							e.printStackTrace();
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
 						}
 					}
 
@@ -917,11 +996,13 @@ public class srcMain extends Activity
 		{
 			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_false));
 			layActivity.setKeepScreenOn(true);
+			fl.setKeepScreenOn(true);
 		}
 		else
 		{
 			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_true));
 			layActivity.setKeepScreenOn(false);
+			fl.setKeepScreenOn(false);
 		}
 		lstMenuItem.add(map);
 
@@ -1020,7 +1101,10 @@ public class srcMain extends Activity
 							"Terror", "Indie", "BritPop", "Negerpunk", "PolskPunk", "Beat", "ChristianGangstaRap", "HeavyMetal", "BlackMetal", "Crossover", "ContemporaryChristian", "ChristianRock",
 							"Merengue", "Salsa", "TrashMetal", "Anime", "JPop", "Synthpop" };
 
-					strGenre = Genre[Integer.parseInt(strGenre.substring(strGenre.indexOf("((") + 2, strGenre.lastIndexOf("") - 1))];
+					if (Common.IsNumeric(strGenre.substring(strGenre.indexOf("((") + 2, strGenre.lastIndexOf("") - 1)))
+						strGenre = Genre[Integer.parseInt(strGenre.substring(strGenre.indexOf("((") + 2, strGenre.lastIndexOf("") - 1))];
+					else
+						strGenre = Genre[12]; // 其他
 				}
 				map.put("Genre", strGenre);
 				map.put("Artist", ID3v2.getArtist());
@@ -1045,8 +1129,9 @@ public class srcMain extends Activity
 				catch (Exception e)
 				{
 					if (e.getMessage() != null)
-						Log.e("GetMusicID3", e.getMessage());
-					e.printStackTrace();
+						Log.w(Common.LOGCAT_TAG, e.getMessage());
+					else
+						e.printStackTrace();
 				}
 			}
 			else if (ID3All instanceof ID3V1_1Tag)
@@ -1491,7 +1576,7 @@ public class srcMain extends Activity
 		{
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
-				txtTitle.setText(ms.getStrShownTitle()); // 还原标题
+				SetCurrentTitle(ms.getStrShownTitle()); // 还原标题
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar)
@@ -1506,9 +1591,9 @@ public class srcMain extends Activity
 				if (!IsStartup)
 				{
 					if (progress == 0)
-						txtTitle.setText(R.string.srcmain_volume_mute); // 显示静音
+						SetCurrentTitle(getString(R.string.srcmain_volume_mute)); // 显示静音
 					else
-						txtTitle.setText(getString(R.string.srcmain_volume) + progress); // 暂时显示音量
+						SetCurrentTitle(getString(R.string.srcmain_volume) + progress); // 暂时显示音量
 				}
 			}
 		});
@@ -1532,15 +1617,10 @@ public class srcMain extends Activity
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
-				if (arg2 == SelectedItemIndex)
-					ms.Play(SelectedItemIndex);
-				else
-				{
-					SelectedItemIndex = arg2; // 更新当前选中的序号
+				SelectedItemIndex = arg2; // 更新当前选中的序号
 
-					adapter.getView(arg2, null, lstMusic);
-					adapter.notifyDataSetChanged();
-				}
+				adapter.getView(arg2, null, lstMusic);
+				adapter.notifyDataSetChanged();
 			}
 		});
 
@@ -2048,7 +2128,7 @@ public class srcMain extends Activity
 		{
 			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() + 1);
-			txtTitle.setText(ms.getStrShownTitle());
+			SetCurrentTitle(ms.getStrShownTitle());
 
 			if (toast != null)
 			{
@@ -2066,7 +2146,7 @@ public class srcMain extends Activity
 		{
 			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() - 1);
-			txtTitle.setText(ms.getStrShownTitle());
+			SetCurrentTitle(ms.getStrShownTitle());
 
 			if (toast != null)
 			{

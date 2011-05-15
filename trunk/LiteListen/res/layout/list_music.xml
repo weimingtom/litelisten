@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layMusicList" android:layout_height="wrap_content"
-	android:layout_width="fill_parent" android:gravity="center_vertical" android:background="@drawable/bg_list_music_height">
-	<ImageView android:id="@+id/imgAlbum" android:layout_marginLeft="7dip" android:background="@drawable/album_normal" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageView>
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:id="@+id/laySongInfo" android:layout_marginLeft="5dip"
-		android:layout_marginRight="7dip" android:layout_height="wrap_content">
-		<TextView android:layout_width="fill_parent"
-			android:shadowColor="#0099FF"
-			android:textColor="#FFFFFF" android:layout_height="wrap_content"
-			android:singleLine="true" android:ellipsize="marquee"
-			android:marqueeRepeatLimit="marquee_forever" android:id="@+id/txtSongTitle" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:textSize="18dip"/>
-		<TextView android:layout_height="fill_parent"
-			android:gravity="center_vertical" android:id="@+id/txtSongInfo"
-			android:layout_width="fill_parent" android:singleLine="true"
-			android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever" android:textColor="#FFFFFF" android:shadowColor="#0099FF" android:shadowDx="0.5" android:shadowDy="0.5" android:shadowRadius="1"></TextView>
-	</LinearLayout>
+<RelativeLayout android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:id="@+id/layMusicList"
+	xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/bg_list_music_height">
+	<ImageView android:id="@+id/imgAlbum" android:layout_width="wrap_content"
+		android:layout_marginLeft="7dip" android:background="@drawable/album_normal"
+		android:layout_height="wrap_content"></ImageView>
+	<AbsoluteLayout android:layout_height="wrap_content" android:layout_toLeftOf="@+id/btnListPlay" android:layout_width="fill_parent" android:layout_toRightOf="@+id/imgAlbum" android:layout_marginRight="7dip" android:id="@+id/layMusicListBody">
+		<LinearLayout android:id="@+id/laySongInfo" android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="fill_parent">
+			<TextView android:id="@+id/txtSongTitle" android:shadowRadius="1" android:shadowDx="1" android:textColor="#FFFFFF" android:textSize="18dip" android:ellipsize="marquee" android:shadowDy="1" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" android:layout_height="wrap_content" android:shadowColor="#0099FF" android:layout_width="wrap_content"></TextView>
+			<TextView android:id="@+id/txtSongInfo" android:shadowRadius="1" android:shadowDx="0.5" android:gravity="center_vertical" android:textColor="#FFFFFF" android:ellipsize="marquee" android:shadowDy="0.5" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" android:layout_height="fill_parent" android:shadowColor="#0099FF" android:layout_width="wrap_content"></TextView>
+		</LinearLayout>
+	</AbsoluteLayout>
+	<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btnListPlay" android:layout_alignParentRight="true" android:background="@layout/btn_list_play" android:visibility="gone"></ImageButton>
+</RelativeLayout>
 
-
-
-
-
-
-
-
-</LinearLayout>

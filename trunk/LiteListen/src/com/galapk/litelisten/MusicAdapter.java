@@ -24,9 +24,14 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MusicAdapter extends BaseAdapter
@@ -63,10 +68,11 @@ public class MusicAdapter extends BaseAdapter
 		if (convertView == null)
 			convertView = LayoutInflater.from(main).inflate(R.layout.list_music, null);
 
-		LinearLayout layMusicList = (LinearLayout) convertView.findViewById(R.id.layMusicList);
+		RelativeLayout layMusicList = (RelativeLayout) convertView.findViewById(R.id.layMusicList);
 		ImageView imgAlbum = (ImageView) convertView.findViewById(R.id.imgAlbum);
 		TextView txtSongTitle = (TextView) convertView.findViewById(R.id.txtSongTitle);
 		TextView txtSongInfo = (TextView) convertView.findViewById(R.id.txtSongInfo);
+		ImageButton btnListPlay = (ImageButton) convertView.findViewById(R.id.btnListPlay);
 
 		txtSongTitle.setText((String) lstSong.get(position).get("Title"));
 		txtSongInfo.setText((String) lstSong.get(position).get("SongInfo"));
@@ -97,10 +103,40 @@ public class MusicAdapter extends BaseAdapter
 		}
 
 		if (main.getSelectedItemIndex() != position)
+		{
 			layMusicList.setBackgroundResource(R.drawable.bg_list_music_height);
+			btnListPlay.setVisibility(View.GONE);
+			txtSongInfo.clearAnimation();
+		}
 		else
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_selected);
+			btnListPlay.setVisibility(View.VISIBLE);
+
+			// 如果超长则播放动画滚动
+			float CurrWidth = Common.GetTextWidth(txtSongInfo.getText().toString(), txtSongInfo.getTextSize());
+			if (CurrWidth > main.getDm().widthPixels - 165)
+			{
+				LinearLayout.LayoutParams laySongInfo = (LinearLayout.LayoutParams) txtSongInfo.getLayoutParams();
+				laySongInfo.width = (int) CurrWidth;
+				txtSongInfo.setLayoutParams(laySongInfo);
+
+				Animation anim = new TranslateAnimation(0, -(CurrWidth - main.getDm().widthPixels + 165), 0, 0);
+				anim.setDuration(2500);
+				anim.setStartOffset(1000);
+				anim.setRepeatCount(100);
+				anim.setRepeatMode(Animation.REVERSE);
+				txtSongInfo.startAnimation(anim);
+			}
+
+			// 列表项播放按钮
+			btnListPlay.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v)
+				{
+					main.getMs().Play(main.getSelectedItemIndex());
+				}
+			});
 
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 				layMusicList.setBackgroundResource(R.drawable.bg_land_list_highlight);

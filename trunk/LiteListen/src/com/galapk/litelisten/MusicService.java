@@ -23,6 +23,7 @@ import java.util.Map;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.util.Log;
 import android.view.View;
 
 public class MusicService
@@ -96,7 +97,10 @@ public class MusicService
 							}
 							catch (Exception e)
 							{
-								e.printStackTrace();
+								if (e.getMessage() != null)
+									Log.w(Common.LOGCAT_TAG, e.getMessage());
+								else
+									e.printStackTrace();
 							}
 						}
 					}
@@ -131,7 +135,7 @@ public class MusicService
 				strArtist = (String) map.get("Artist");
 
 				main.getLs().setStrLRCPath(strLRCPath);
-				main.getTxtTitle().setText(strShownTitle);
+				main.SetCurrentTitle(strShownTitle);
 				main.SetAlbumIcon();
 
 				if (!strShownTitle.equals("") && strArtist != null && !strArtist.equals(""))
@@ -165,7 +169,10 @@ public class MusicService
 							}
 							catch (Exception e)
 							{
-								e.printStackTrace();
+								if (e.getMessage() != null)
+									Log.w(Common.LOGCAT_TAG, e.getMessage());
+								else
+									e.printStackTrace();
 							}
 						}
 					}
@@ -181,7 +188,11 @@ public class MusicService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			getMain().getBtnPlay().setVisibility(View.VISIBLE);
 			getMain().getBtnPause().setVisibility(View.GONE);
 			PlayerStatus = MusicService.STATUS_STOP;

@@ -30,27 +30,24 @@ public class MusicFile
 	{
 		File[] files = new File(Path).listFiles();
 
-		if (SkipNomedia)
+		if (SkipNomedia && files != null)
 		{// ¼ì²é.nomediaÎÄ¼þ
 			for (int i = 0; i < files.length; i++)
 			{
 				if (files[i].isFile() && files[i].getName().indexOf(".nomedia") != -1)
 					return;
-			}
-		}
 
-		for (int i = 0; i < files.length; i++)
-		{
-			if (files[i].isFile())
-			{
-				if (files[i].getPath().substring(files[i].getPath().length() - Extension.length()).equals(Extension))
-					lstFile.add(files[i].getPath());
+				if (files[i].isFile())
+				{
+					if (files[i].getPath().substring(files[i].getPath().length() - Extension.length()).equals(Extension))
+						lstFile.add(files[i].getPath());
 
-				if (!IsIterative)
-					break;
+					if (!IsIterative)
+						break;
+				}
+				else if (files[i].isDirectory() && files[i].getPath().indexOf("/.") == -1)
+					GetFiles(files[i].getPath(), Extension, IsIterative, SkipNomedia);
 			}
-			else if (files[i].isDirectory() && files[i].getPath().indexOf("/.") == -1)
-				GetFiles(files[i].getPath(), Extension, IsIterative, SkipNomedia);
 		}
 	}
 

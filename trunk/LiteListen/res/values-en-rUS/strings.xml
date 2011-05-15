@@ -124,10 +124,17 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.15 build 0514.1540\n\nUpdate
-		Contents: \nFixed a bug that app will create one more Desk Lyric Shows
-		if user toggle app from background to forground while music infomation
-		is scanning\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.16 build 0515.2356\n\nUpdate
+		Contents: \n[New] Music list fast drag handles\n[New] Play button
+		appears at right side of selected music (double click play
+		cancelled)\n[New] Automatically scrolling when music list item was out
+		of screen width\n[New] Automatically scrolling when music title was
+		out of screen width\n[New] Desk lyric show could keep screen
+		on\n[Fixed] Width of Desk lyric show cannot be changed when
+		landscape\n[Fixed] A crash problem that open a music file from
+		third-party file manager\n[Fixed] A crash problem that read genre is
+		not numeric\n[Fixed] A crash problem that music path does not
+		exist\n[Optimized] Performance of music file scanning\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

@@ -21,6 +21,8 @@ import android.graphics.Paint;
 
 public class Common
 {
+	public static String LOGCAT_TAG = "LiteListenLog"; // Logcat标签
+
 	/* 获取字符串宽度 */
 	public static float GetTextWidth(String Sentence, float Size)
 	{
@@ -45,6 +47,16 @@ public class Common
 		}
 
 		return true;
+	}
+
+	public static String getLOGCAT_TAG()
+	{
+		return LOGCAT_TAG;
+	}
+
+	public static void setLOGCAT_TAG(String lOGCATTAG)
+	{
+		LOGCAT_TAG = lOGCATTAG;
 	}
 
 	// /* 铃声类型 */

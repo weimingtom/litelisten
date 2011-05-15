@@ -258,8 +258,10 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
-			Log.e("ReadLRC", e.getMessage());
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
 		}
 	}
 
@@ -311,7 +313,11 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return "";
 		}
 	}
@@ -382,7 +388,11 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
-			Log.e("IntegerToTime", e.getMessage());
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return null;
 		}
 	}
@@ -473,7 +483,11 @@ public class LRCService
 		}
 		catch (Exception e)
 		{
-			Log.e("GetCharset", e.getMessage());
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			e.printStackTrace();
 		}
 

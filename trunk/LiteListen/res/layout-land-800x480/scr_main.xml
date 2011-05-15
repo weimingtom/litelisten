@@ -15,14 +15,9 @@
 		<LinearLayout android:id="@+id/layHeader"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:orientation="vertical">
-			<TextView android:ellipsize="marquee" android:shadowDx="1"
-				android:layout_marginLeft="105dip" android:gravity="center_vertical|center_horizontal|center"
-				android:textSize="25dip" android:shadowColor="#000000"
-				android:shadowDy="1" android:shadowRadius="1"
-				android:layout_marginRight="5dip" android:layout_height="47dip"
-				android:layout_width="fill_parent" android:id="@+id/txtTitle"
-				android:marqueeRepeatLimit="marquee_forever" android:singleLine="true"
-				android:textColor="#9BD7FF"></TextView>
+			<AbsoluteLayout android:layout_width="fill_parent" android:layout_height="47dip" android:layout_marginLeft="105dip" android:layout_marginRight="5dip" android:id="@+id/layTitle">
+				<TextView android:textColor="#9BD7FF" android:shadowDx="1" android:ellipsize="marquee" android:singleLine="true" android:layout_width="fill_parent" android:textSize="25dip" android:shadowDy="1" android:id="@+id/txtTitle" android:marqueeRepeatLimit="marquee_forever" android:shadowColor="#000000" android:gravity="center_vertical|center_horizontal|center" android:shadowRadius="1" android:layout_height="fill_parent"></TextView>
+			</AbsoluteLayout>
 		</LinearLayout>
 		<RelativeLayout android:layout_height="wrap_content"
 			android:layout_width="fill_parent" android:layout_below="@+id/layHeader"
