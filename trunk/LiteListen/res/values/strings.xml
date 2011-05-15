@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.16 build 0515.2356</string>
+	<string name="global_app_version">0.5.16 build 0516.0027</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -173,7 +173,7 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.16 build 0515.2356\n\nUpdate
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.16 build 0516.0027\n\nUpdate
 		Contents: \n[New] Music list fast drag handles\n[New] Play button
 		appears at right side of selected music (double click play
 		cancelled)\n[New] Automatically scrolling when music list item was out
@@ -183,7 +183,10 @@
 		landscape\n[Fixed] A crash problem that open a music file from
 		third-party file manager\n[Fixed] A crash problem that read genre is
 		not numeric\n[Fixed] A crash problem that music path does not
-		exist\n[Optimized] Performance of music file scanning\n\nOfficial
+		exist\n[Fixed] A animation bug while switch lyric page to music
+		list\n[Fixed] A display bug that lyric file browser won\'t show in
+		landscape and MDPI mode\n[Optimized] Performance of music file
+		scanning\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

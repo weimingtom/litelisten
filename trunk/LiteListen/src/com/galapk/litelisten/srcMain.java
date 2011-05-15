@@ -344,6 +344,7 @@ public class srcMain extends Activity
 		}
 		else
 		{
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
 			laySplash.setVisibility(View.GONE);
 			SetCurrentTitle(ms.getStrShownTitle());
 
