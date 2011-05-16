@@ -153,9 +153,9 @@ public class HandlerService
 					}
 
 					// 位置不相同时才播放动画
-					int OffsetY = 300; // 默认竖屏，偏移300dip
+					int OffsetY = 275; // 默认竖屏，偏移275dip
 					if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-						OffsetY = 120; // 横屏偏移120dip
+						OffsetY = 95; // 横屏偏移95dip
 
 					if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
 					{
@@ -220,9 +220,9 @@ public class HandlerService
 		{
 			LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) main.getTxtLRC().getLayoutParams(); // 获取txtLRC尺寸参数
 			if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
-				layLRC.topMargin = 120;
+				layLRC.topMargin = 95;
 			else
-				layLRC.topMargin = 300;
+				layLRC.topMargin = 275;
 			main.getTxtLRC().setLayoutParams(layLRC);
 			main.getTxtLRC().setText(main.getLs().getStrLRC());
 		}

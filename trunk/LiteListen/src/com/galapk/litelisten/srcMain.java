@@ -111,6 +111,7 @@ public class srcMain extends Activity
 	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
 	private boolean IsPlayingExternal = false; // 是否播放外部文件
 	private float MovedDistance = 0; // 手指在歌词控件上移动的距离
+	private boolean IsStartedUp = false; // 显示程序是否启动完成
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -168,28 +169,6 @@ public class srcMain extends Activity
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
 	}
 
-	/* 记录Logcat的线程 */
-	public void GetLogcat()
-	{
-		new Thread()
-		{
-			public void run()
-			{
-				try
-				{
-					Runtime.getRuntime().exec("logcat -s " + Common.LOGCAT_TAG + ":*");
-				}
-				catch (Exception e)
-				{
-					if (e.getMessage() != null)
-						Log.w(Common.LOGCAT_TAG, e.getMessage());
-					else
-						e.printStackTrace();
-				}
-			}
-		}.start();
-	}
-
 	/* 桌面小部件控制器监听线程 */
 	public void WidgetsListener()
 	{
@@ -237,29 +216,6 @@ public class srcMain extends Activity
 		}.start();
 	}
 
-	/* 显示欢迎画面 */
-	public void ShowSplash()
-	{
-		new Thread()
-		{
-			public void run()
-			{
-				try
-				{
-					sleep(SPLASH_TIME);
-					hs.getHdlShowMain().sendEmptyMessage(0);
-				}
-				catch (Exception e)
-				{
-					if (e.getMessage() != null)
-						Log.w(Common.LOGCAT_TAG, e.getMessage());
-					else
-						e.printStackTrace();
-				}
-			}
-		}.start();
-	}
-
 	/* 设置标题 */
 	public void SetCurrentTitle(String title)
 	{
@@ -294,7 +250,7 @@ public class srcMain extends Activity
 
 		if (IsStartup)
 		{
-			ShowSplash();
+			// ShowSplash();
 
 			ls = new LRCService(this);
 			ms = new MusicService(this);
@@ -346,7 +302,8 @@ public class srcMain extends Activity
 		else
 		{
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
-			laySplash.setVisibility(View.GONE);
+			if (IsStartedUp)
+				laySplash.setVisibility(View.GONE);
 			SetCurrentTitle(ms.getStrShownTitle());
 
 			// 设置播放/暂停按钮
@@ -675,6 +632,9 @@ public class srcMain extends Activity
 
 					hs.getHdlAdapterBinding().sendEmptyMessage(0);
 				}
+
+				IsStartedUp = true;
+				hs.getHdlShowMain().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -1246,8 +1206,8 @@ public class srcMain extends Activity
 
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
-				skbVolume.startAnimation(animShow);
-				layControlPanel.startAnimation(animHide);
+				skbVolume.startAnimation(animHide);
+				layControlPanel.startAnimation(animShow);
 			}
 		}
 	}
