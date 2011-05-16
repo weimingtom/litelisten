@@ -104,18 +104,20 @@ public class HandlerService
 					main.getSkbMusic().setMax(main.getMs().GetTotalTime());
 					main.getSkbMusic().setProgress(main.getMs().GetCurrTime());
 				}
-				main.getTxtTime().setText(main.getLs().IntegerToTime(main.getMs().GetCurrTime()) + " / " + main.getLs().IntegerToTime(main.getMs().GetTotalTime()));
+				main.getTxtTimeCurrent().setText(main.getLs().IntegerToTime(main.getMs().GetCurrTime()));
+				main.getTxtTimeTotal().setText(main.getLs().IntegerToTime(main.getMs().GetTotalTime()));
 			}
 			else
 			{
 				main.getSkbMusic().setMax(0);
 				main.getSkbMusic().setProgress(0);
-				main.getTxtTime().setText("00:00 / 00:00");
+				main.getTxtTimeCurrent().setText("00:00");
+				main.getTxtTimeTotal().setText("00:00");
 			}
 
 			// 通过广播更新 Widget
 			Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_TIME_N_TITLE);
-			intent.putExtra("Time", main.getTxtTime().getText().toString());
+			intent.putExtra("Time", main.getTxtTimeCurrent().getText().toString());
 			intent.putExtra("Title", main.getMs().getStrArtist() + " - " + main.getMs().getStrShownTitle());
 			main.sendBroadcast(intent);
 		}

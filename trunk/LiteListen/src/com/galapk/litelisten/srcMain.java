@@ -124,7 +124,8 @@ public class srcMain extends Activity
 	private Button btnFileOK;
 	private Button btnFileCancel;
 	private TextView txtTitle;
-	private TextView txtTime;
+	private TextView txtTimeCurrent;
+	private TextView txtTimeTotal;
 	private TextView txtLRC;
 	private TextView txtKeyword;
 	private TextView txtCurrentPath;
@@ -949,7 +950,8 @@ public class srcMain extends Activity
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
 		btnVolume = (ImageButton) findViewById(R.id.btnVolume);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
-		txtTime = (TextView) findViewById(R.id.txtTime);
+		txtTimeTotal = (TextView) findViewById(R.id.txtTimeTotal);
+		txtTimeCurrent = (TextView) findViewById(R.id.txtTimeCurrent);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
 		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
 		txtCurrentPath = (TextView) findViewById(R.id.txtCurrentPath);
@@ -1215,34 +1217,35 @@ public class srcMain extends Activity
 	/* 音量框切换 */
 	public void VolumeBoxSwitcher()
 	{
-		Animation anim = null; // 动画效果
+		Animation animShow = new AlphaAnimation(0, 1);
+		Animation animHide = new AlphaAnimation(1, 0);
+		animShow.setDuration(ANIMATION_TIME);
+		animHide.setDuration(ANIMATION_TIME);
 
 		if (skbVolume.getVisibility() == View.GONE)
 		{// 调用显示
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
 				layControlPanel.setVisibility(View.GONE);
-				skbMusic.setVisibility(View.GONE);
-			}
-
 			skbVolume.setVisibility(View.VISIBLE);
-			anim = new AlphaAnimation(0, 1);
+
+			if (sp.getBoolean("chkUseAnimation", true))
+			{
+				skbVolume.startAnimation(animShow);
+				layControlPanel.startAnimation(animHide);
+			}
 		}
 		else
 		{// 调用隐藏
 			if (ScreenOrantation == 1 || ScreenOrantation == 3)
-			{
 				layControlPanel.setVisibility(View.VISIBLE);
-				skbMusic.setVisibility(View.GONE);
-			}
-
 			skbVolume.setVisibility(View.GONE);
-			anim = new AlphaAnimation(1, 0);
-		}
 
-		anim.setDuration(ANIMATION_TIME);
-		if (sp.getBoolean("chkUseAnimation", true))
-			skbVolume.startAnimation(anim);
+			if (sp.getBoolean("chkUseAnimation", true))
+			{
+				skbVolume.startAnimation(animShow);
+				layControlPanel.startAnimation(animHide);
+			}
+		}
 	}
 
 	/* 列表到歌词切换 */
@@ -1289,95 +1292,6 @@ public class srcMain extends Activity
 
 				layLyricController.startAnimation(animHide);
 				lstMusic.startAnimation(animShow);
-			}
-		}
-	}
-
-	/* 进度条切换控制条 */
-	public void Progress2ControlSwitcher()
-	{
-		if (skbMusic.getVisibility() == View.VISIBLE)
-		{
-			skbMusic.setVisibility(View.GONE);
-			layControlPanel.setVisibility(View.VISIBLE);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-			{
-				// 托盘消失动画
-				Animation animHide = new TranslateAnimation(0, 0, 0, 70);
-				animHide.setDuration(ANIMATION_TIME);
-				animHide.setInterpolator(new DecelerateInterpolator());
-
-				// 托盘显示动画
-				Animation animShow = new AlphaAnimation(0, 1);
-				animShow.setDuration(ANIMATION_TIME);
-				animShow.setInterpolator(new DecelerateInterpolator());
-
-				skbMusic.startAnimation(animHide);
-				layControlPanel.startAnimation(animShow);
-			}
-		}
-	}
-
-	/* 控制条切换进度条 */
-	public void Control2ProgressSwitcher()
-	{
-		if (layControlPanel.getVisibility() == View.VISIBLE)
-		{
-			layControlPanel.setVisibility(View.GONE);
-			skbMusic.setVisibility(View.VISIBLE);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-			{
-				// 托盘消失动画
-				Animation animHide = new TranslateAnimation(0, 0, 0, 70);
-				animHide.setDuration(ANIMATION_TIME);
-				animHide.setInterpolator(new DecelerateInterpolator());
-
-				// 托盘显示动画
-				Animation animShow = new AlphaAnimation(0, 1);
-				animShow.setDuration(ANIMATION_TIME);
-				animShow.setInterpolator(new DecelerateInterpolator());
-
-				layControlPanel.startAnimation(animHide);
-				skbMusic.startAnimation(animShow);
-			}
-		}
-	}
-
-	/* 控制条/进度条切换 */
-	public void ControlProgressSwitcher()
-	{
-		// 托盘消失动画
-		Animation animHide = new TranslateAnimation(0, 0, 0, 70);
-		animHide.setDuration(ANIMATION_TIME);
-		animHide.setInterpolator(new DecelerateInterpolator());
-
-		// 托盘显示动画
-		Animation animShow = new AlphaAnimation(0, 1);
-		animShow.setDuration(ANIMATION_TIME);
-		animShow.setInterpolator(new DecelerateInterpolator());
-
-		if (layControlPanel.getVisibility() == View.VISIBLE)
-		{
-			layControlPanel.setVisibility(View.GONE);
-			skbMusic.setVisibility(View.VISIBLE);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-			{
-				layControlPanel.startAnimation(animHide);
-				skbMusic.startAnimation(animShow);
-			}
-		}
-		else
-		{
-			skbMusic.setVisibility(View.GONE);
-			layControlPanel.setVisibility(View.VISIBLE);
-
-			if (sp.getBoolean("chkUseAnimation", true))
-			{
-				skbMusic.startAnimation(animHide);
-				layControlPanel.startAnimation(animShow);
 			}
 		}
 	}
@@ -1865,12 +1779,9 @@ public class srcMain extends Activity
 						Switch2List = false;
 						IsLRCMoved = false;
 						LRC2ListSwitcher();
-						Progress2ControlSwitcher();
 					}
 					else if (IsLRCMoved) // Move过不执行托盘变化
 						IsLRCMoved = false;
-					else
-						ControlProgressSwitcher();
 
 					for (int i = 0; i < 2; i++)
 					{
@@ -2112,10 +2023,7 @@ public class srcMain extends Activity
 				startActivity(i);
 			}
 			else
-			{
 				LRC2ListSwitcher();
-				Progress2ControlSwitcher();
-			}
 
 			return true;
 		}
@@ -2127,9 +2035,11 @@ public class srcMain extends Activity
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
 		{
-			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() + 1);
 			SetCurrentTitle(ms.getStrShownTitle());
+
+			if (ScreenOrantation != 1 && ScreenOrantation != 3)
+				skbVolume.setVisibility(View.VISIBLE);
 
 			if (toast != null)
 			{
@@ -2145,9 +2055,11 @@ public class srcMain extends Activity
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
 		{
-			skbVolume.setVisibility(View.VISIBLE);
 			skbVolume.setProgress(skbVolume.getProgress() - 1);
 			SetCurrentTitle(ms.getStrShownTitle());
+
+			if (ScreenOrantation != 1 && ScreenOrantation != 3)
+				skbVolume.setVisibility(View.VISIBLE);
 
 			if (toast != null)
 			{
@@ -2306,16 +2218,6 @@ public class srcMain extends Activity
 	public void setTxtTitle(TextView txtTitle)
 	{
 		this.txtTitle = txtTitle;
-	}
-
-	public TextView getTxtTime()
-	{
-		return txtTime;
-	}
-
-	public void setTxtTime(TextView txtTime)
-	{
-		this.txtTime = txtTime;
 	}
 
 	public TextView getTxtLRC()
@@ -2756,5 +2658,35 @@ public class srcMain extends Activity
 	public void setTxtCurrentPath(TextView txtCurrentPath)
 	{
 		this.txtCurrentPath = txtCurrentPath;
+	}
+
+	public boolean isIsPlayingExternal()
+	{
+		return IsPlayingExternal;
+	}
+
+	public void setIsPlayingExternal(boolean isPlayingExternal)
+	{
+		IsPlayingExternal = isPlayingExternal;
+	}
+
+	public TextView getTxtTimeCurrent()
+	{
+		return txtTimeCurrent;
+	}
+
+	public void setTxtTimeCurrent(TextView txtTimeCurrent)
+	{
+		this.txtTimeCurrent = txtTimeCurrent;
+	}
+
+	public TextView getTxtTimeTotal()
+	{
+		return txtTimeTotal;
+	}
+
+	public void setTxtTimeTotal(TextView txtTimeTotal)
+	{
+		this.txtTimeTotal = txtTimeTotal;
 	}
 }
