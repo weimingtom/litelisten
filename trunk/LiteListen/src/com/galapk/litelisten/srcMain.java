@@ -845,6 +845,10 @@ public class srcMain extends Activity
 	/* 设置专辑图标 */
 	public void SetAlbumIcon()
 	{
+		// 防止初始化或列表为空时出错
+		if (adapter == null || ms == null && ms.getCurrIndex() >= adapter.getCount())
+			return;
+
 		adapter.getView(ms.getCurrIndex(), null, lstMusic);
 		adapter.notifyDataSetChanged();
 
@@ -1420,7 +1424,6 @@ public class srcMain extends Activity
 			public void onClick(View v)
 			{
 				List2LRCSwitcher();
-				ls.RefreshLRC();
 			}
 		});
 

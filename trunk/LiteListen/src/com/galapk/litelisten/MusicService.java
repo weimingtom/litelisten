@@ -293,6 +293,10 @@ public class MusicService
 	/* 停止 */
 	public void Stop()
 	{
+		// 只有播放/暂停状态下才能暂停，防止启动出错
+		if (PlayerStatus == STATUS_STOP)
+			return;
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map = main.getLstSong().get(CurrIndex);
 
