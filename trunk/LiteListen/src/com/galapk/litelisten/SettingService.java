@@ -47,7 +47,6 @@ public class SettingService extends PreferenceActivity
 {
 	private ColorDialog dlgColor = null;
 	private TextDialog dlgText = null;
-	private MessageDialog dlgAlert = null;
 	private SharedPreferences sp = null;
 	private int ScreenOrientation = 0;
 	private int IMAGE_SELECTED_PORT = 0; //  ˙∆¡’’∆¨—°‘Ò±Í÷æ
@@ -89,7 +88,6 @@ public class SettingService extends PreferenceActivity
 		addPreferencesFromResource(R.xml.preference);
 		dlgColor = new ColorDialog(this);
 		dlgText = new TextDialog(this);
-		dlgAlert = new MessageDialog(this);
 		sp = getPreferences(Context.MODE_PRIVATE); // ∂¡»°≈‰÷√Œƒº˛
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
@@ -171,7 +169,6 @@ public class SettingService extends PreferenceActivity
 		super.onConfigurationChanged(newConfig);
 
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
-		dlgAlert.ChangeLayout();
 		dlgColor.ChangeLayout();
 		dlgText.ChangeLayout();
 	}
@@ -281,22 +278,25 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				dlgAlert.ShowDialog(getString(R.string.global_request), getString(R.string.pfrscat_help_visit_official_site_message), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						Intent i = new Intent(Intent.ACTION_VIEW);
-						i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
-						startActivity(i);
-						dlgAlert.CloseDialog();
-					}
-				}, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						dlgAlert.CloseDialog();
-					}
-				});
+				// MessageDialog.ShowMessage(SettingService.this,
+				// SettingService., getString(R.string.global_request),
+				// getString(R.string.pfrscat_help_visit_official_site_message),
+				// new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// Intent i = new Intent(Intent.ACTION_VIEW);
+				// i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
+				// startActivity(i);
+				// MessageDialog.CloseDialog();
+				// }
+				// }, new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// MessageDialog.CloseDialog();
+				// }
+				// });
 
 				return false;
 			}
@@ -306,13 +306,15 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				dlgAlert.ShowDialog(getString(R.string.global_app_name_no_version), getString(R.string.pfrscat_help_about_message), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						dlgAlert.CloseDialog();
-					}
-				}, null);
+				// MessageDialog.ShowMessage(SettingService.this,ddd,(getString(R.string.global_app_name_no_version),
+				// getString(R.string.pfrscat_help_about_message), new
+				// OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// MessageDialog.CloseDialog();
+				// }
+				// }, null);
 
 				return false;
 			}
@@ -362,20 +364,22 @@ public class SettingService extends PreferenceActivity
 			{
 				lstLanguage.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Value)]);
 
-				dlgAlert.ShowDialog(getString(R.string.pfrscat_general_language_title), getString(R.string.pfrscat_general_language_message), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						System.exit(0);
-						dlgAlert.CloseDialog();
-					}
-				}, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						dlgAlert.CloseDialog();
-					}
-				});
+				// MessageDialog.ShowMessage(SettingService.this, ddd,
+				// getString(R.string.pfrscat_general_language_title),
+				// getString(R.string.pfrscat_general_language_message), new
+				// OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// System.exit(0);
+				// }
+				// }, new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// MessageDialog.CloseDialog();
+				// }
+				// });
 			}
 
 			//  ˙∆¡±≥æ∞
@@ -471,24 +475,29 @@ public class SettingService extends PreferenceActivity
 					edt.putString("txtRestore", "");
 					edt.commit();
 
-					dlgAlert.ShowDialog(getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_ok), new OnClickListener()
-					{
-						public void onClick(View v)
-						{
-							System.exit(0);
-							dlgAlert.CloseDialog();
-						}
-					}, null);
+					// MessageDialog.ShowMessage(SettingService.this, ddd,
+					// getString(R.string.pfrscat_others_restore),
+					// getString(R.string.pfrscat_others_restore_message_ok),
+					// new OnClickListener()
+					// {
+					// public void onClick(View v)
+					// {
+					// System.exit(0);
+					// }
+					// }, null);
 				}
 				else
 				{
-					dlgAlert.ShowDialog(getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_wrong), new OnClickListener()
-					{
-						public void onClick(View v)
-						{
-							dlgAlert.CloseDialog();
-						}
-					}, null);
+					// MessageDialog.ShowMessage(SettingService.this, ddd,
+					// getString(R.string.pfrscat_others_restore),
+					// getString(R.string.pfrscat_others_restore_message_wrong),
+					// new OnClickListener()
+					// {
+					// public void onClick(View v)
+					// {
+					// MessageDialog.CloseDialog();
+					// }
+					// }, null);
 				}
 			}
 
@@ -610,16 +619,6 @@ public class SettingService extends PreferenceActivity
 	public void setDlgText(TextDialog dlgText)
 	{
 		this.dlgText = dlgText;
-	}
-
-	public MessageDialog getDlgAlert()
-	{
-		return dlgAlert;
-	}
-
-	public void setDlgAlert(MessageDialog dlgAlert)
-	{
-		this.dlgAlert = dlgAlert;
 	}
 
 	public SharedPreferences getSp()

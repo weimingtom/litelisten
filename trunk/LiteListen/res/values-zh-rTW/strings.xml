@@ -10,7 +10,7 @@
 	<string name="global_request">請求許可</string>
 
 	<string name="lrcservice_loading_lrc">正在載入歌詞，請稍候……</string>
-	<string name="lrcservice_no_lyric_found">沒有找到相應歌詞</string>
+	<string name="lrcservice_no_lyric_found">沒有找到歌詞\n長按這裡選擇歌詞</string>
 
 	<string name="srcmain_extend_menu_settings">設置</string>
 	<string name="srcmain_extend_menu_desk_lrc_show">打開浮動</string>
@@ -113,8 +113,8 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n0.5.17 build
-		0517.0013\n\n更新內容：\n【新增】介面微調，進度條直接顯示在介面中\n【修復】初始化過程中播放音樂導致系統崩潰的問題\n【修復】橫屏模式下歌詞關聯報錯的問題（顯示問題）\n【優化】啟動畫面貫穿整個初始化過程\n\n官方網站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.19 build
+		0517.1127\n\n更新內容：\n【修復】標題列偏移的問題\n【優化】增加無歌詞時手動關聯的提示\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

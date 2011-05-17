@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.17 build 0517.0013</string>
+	<string name="global_app_version">0.5.19 build 0517.1127</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -59,7 +59,8 @@
 	<string name="global_request">Access Request</string>
 
 	<string name="lrcservice_loading_lrc">Loading lyric, please wait...</string>
-	<string name="lrcservice_no_lyric_found">No lyric found.</string>
+	<string name="lrcservice_no_lyric_found">No lyric found.\nMake a long-click here to select a
+		lyric.</string>
 
 	<string name="srcmain_extend_menu_settings">Settings</string>
 	<string name="srcmain_extend_menu_desk_lrc_show">Float On</string>
@@ -173,11 +174,9 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.17 build 0517.0013\n\nUpdate
-		Contents: \n[New] Music seekbar displayed in the UI\n[Fixed] A crash
-		problem that play music while app is starting up\n[Fixed] A crash
-		problem that select a lyric in landscape mode\n[Optimized] Splash will
-		throughout the initialization\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.19 build 0517.1127\n\nUpdate
+		Contents: \n[Fixed] A UI problem that title position is incorrect
+		sometime\n[Optimize] Set a notice when lyric is not found.\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

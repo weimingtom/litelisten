@@ -145,7 +145,7 @@ public class srcMain extends Activity
 	private LRCService ls;
 	private MusicService ms;
 	private MP3Tags mt;
-	private MessageDialog dlg;
+	// private MessageDialog dlg;
 	private DBProvider db;
 	private PYProvider py;
 	private HandlerService hs;
@@ -223,11 +223,11 @@ public class srcMain extends Activity
 
 		// 如果超长则播放动画滚动
 		float CurrWidth = Common.GetTextWidth(title, txtTitle.getTextSize());
+		AbsoluteLayout.LayoutParams layTitle = (AbsoluteLayout.LayoutParams) txtTitle.getLayoutParams();
+
 		if (CurrWidth > dm.widthPixels - 165)
 		{
-			AbsoluteLayout.LayoutParams layTitle = (AbsoluteLayout.LayoutParams) txtTitle.getLayoutParams();
 			layTitle.width = (int) CurrWidth;
-			txtTitle.setLayoutParams(layTitle);
 
 			Animation anim = new TranslateAnimation(0, -(CurrWidth - dm.widthPixels + 165), 0, 0);
 			anim.setDuration(2500);
@@ -237,7 +237,12 @@ public class srcMain extends Activity
 			txtTitle.startAnimation(anim);
 		}
 		else
+		{
+			layTitle.width = LayoutParams.FILL_PARENT;
 			txtTitle.clearAnimation();
+		}
+
+		txtTitle.setLayoutParams(layTitle);
 	}
 
 	/* 屏幕方向切换 */
@@ -250,11 +255,8 @@ public class srcMain extends Activity
 
 		if (IsStartup)
 		{
-			// ShowSplash();
-
 			ls = new LRCService(this);
 			ms = new MusicService(this);
-			dlg = new MessageDialog(this);
 			db = new DBProvider(this);
 			hs = new HandlerService(this);
 			mt = new MP3Tags(this);
@@ -1875,15 +1877,14 @@ public class srcMain extends Activity
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				Map<String, Object> mapItem = lstSong.get(arg2); // 获取当前项的全部Map内容
-
 				String strMessage = "标题：" + mapItem.get("Title") + "\n" + "艺术家：" + mapItem.get("Artist") + "\n" + "专辑：" + mapItem.get("Album") + "\n" + "年份：" + mapItem.get("Year") + "\n" + "流派："
 						+ mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
 
-				dlg.ShowDialog((String) mapItem.get("Title"), strMessage, new View.OnClickListener()
+				MessageDialog.ShowMessage(srcMain.this, layActivity, (String) mapItem.get("Title"), strMessage, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						dlg.CloseDialog();
+						MessageDialog.CloseDialog();
 					}
 				}, null);
 
@@ -1980,10 +1981,10 @@ public class srcMain extends Activity
 			// 如果当前显示的是列表，那么最小化
 			if (CurrentShown == 0)
 			{
-				Intent i = new Intent(Intent.ACTION_MAIN);
-				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				i.addCategory(Intent.CATEGORY_HOME);
-				startActivity(i);
+				// Intent i = new Intent(Intent.ACTION_MAIN);
+				// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// i.addCategory(Intent.CATEGORY_HOME);
+				// startActivity(i);
 			}
 			else
 				LRC2ListSwitcher();
@@ -2271,16 +2272,6 @@ public class srcMain extends Activity
 	public void setMt(MP3Tags mt)
 	{
 		this.mt = mt;
-	}
-
-	public MessageDialog getDlg()
-	{
-		return dlg;
-	}
-
-	public void setDlg(MessageDialog dlg)
-	{
-		this.dlg = dlg;
 	}
 
 	public DBProvider getDb()
