@@ -17,8 +17,8 @@
 
 package com.galapk.litelisten;
 
+import android.app.Activity;
 import android.content.Context;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +33,17 @@ public class MessageDialog
 {
 	private static PopupWindow pw;
 
-	public static void ShowMessage(Context context, View WindowParent, String Title, String Message, OnClickListener onOK, OnClickListener onCancel)
+	public static void ShowMessage(Activity act, View WindowParent, String Title, String Message, OnClickListener onOK, OnClickListener onCancel)
 	{
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+
+		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_message_dialog, null, false);
-		pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		if (ScreenOrientation == 1 || ScreenOrientation == 3)
+			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
+		else
+			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -50,7 +56,6 @@ public class MessageDialog
 		// 设置提示信息
 		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 		txtMessage.setText(Message);
-		txtMessage.setMovementMethod(ScrollingMovementMethod.getInstance());
 
 		// 设置确定按钮
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);

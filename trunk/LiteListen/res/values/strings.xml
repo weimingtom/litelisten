@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.19 build 0517.1127</string>
+	<string name="global_app_version">0.5.20 build 0518.0021</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -174,9 +174,13 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.19 build 0517.1127\n\nUpdate
-		Contents: \n[Fixed] A UI problem that title position is incorrect
-		sometime\n[Optimize] Set a notice when lyric is not found.\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.20 build 0518.0021\n\nUpdate
+		Contents: \n[Fix] A display problem that control buttons will be hide
+		once when volume button was clicked\n[Fix] A bug that lyric file
+		browser will appear on lyric show in landscape\n[Fix] A display
+		problem that the position of title bar\n[Optimize] A hint of lyric
+		selector while there is no lyric found\n[Optimize] Change dialog to
+		fit MIUI\'s ROMs (Main UI only)\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

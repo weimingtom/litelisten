@@ -113,8 +113,8 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n0.5.19 build
-		0517.1127\n\n更新內容：\n【修復】標題列偏移的問題\n【優化】增加無歌詞時手動關聯的提示\n\n官方網站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.20 build
+		0518.0021\n\n更新內容：\n【修復】音量按鈕按一下會隱藏一次託盤的顯示問題\n【修復】橫屏模式下歌詞顯示時出現歌詞檔流覽器\n【修復】標題列（歌名）偏移的問題\n【優化】無歌詞時手動關聯的提示\n【優化】更改對話方塊顯示方式以適應MIUI的ROM（目前僅主介面支援）\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

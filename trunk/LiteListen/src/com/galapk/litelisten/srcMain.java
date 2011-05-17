@@ -136,6 +136,7 @@ public class srcMain extends Activity
 	private RelativeLayout layMain;
 	private LinearLayout laySplash;
 	private RelativeLayout layBody;
+	private RelativeLayout layFileSelector;
 	private ListView lstMusic;
 	private ListView lstFile;
 	private GridView grdMenu;
@@ -145,7 +146,6 @@ public class srcMain extends Activity
 	private LRCService ls;
 	private MusicService ms;
 	private MP3Tags mt;
-	// private MessageDialog dlg;
 	private DBProvider db;
 	private PYProvider py;
 	private HandlerService hs;
@@ -927,6 +927,7 @@ public class srcMain extends Activity
 		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
+		layFileSelector = (RelativeLayout) findViewById(R.id.layFileSelector);
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
 		skbVolume = (SeekBar) findViewById(R.id.skbVolume);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
@@ -1036,6 +1037,9 @@ public class srcMain extends Activity
 		if (item.getTitle().equals(getString(R.string.srcmain_context_menu_lrc_links)))
 		{
 			txtLRC.setVisibility(View.GONE);
+			layLyricController.setVisibility(View.VISIBLE);
+			lstMusic.setVisibility(View.GONE);
+			layFileSelector.setVisibility(View.VISIBLE);
 			SetFileList("/sdcard");
 		}
 
@@ -1197,7 +1201,8 @@ public class srcMain extends Activity
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
 				skbVolume.startAnimation(animShow);
-				layControlPanel.startAnimation(animHide);
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+					layControlPanel.startAnimation(animHide);
 			}
 		}
 		else
@@ -1209,7 +1214,8 @@ public class srcMain extends Activity
 			if (sp.getBoolean("chkUseAnimation", true))
 			{
 				skbVolume.startAnimation(animHide);
-				layControlPanel.startAnimation(animShow);
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+					layControlPanel.startAnimation(animShow);
 			}
 		}
 	}
@@ -1219,7 +1225,11 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 0)
 		{
+			txtLRC.setVisibility(View.VISIBLE);
+			layLyricController.setVisibility(View.VISIBLE);
 			lstMusic.setVisibility(View.GONE);
+			layFileSelector.setVisibility(View.GONE);
+
 			CurrentShown = 1;
 
 			if (sp.getBoolean("chkUseAnimation", true))
@@ -1243,7 +1253,11 @@ public class srcMain extends Activity
 	{
 		if (CurrentShown == 1)
 		{
+			txtLRC.setVisibility(View.GONE);
+			layLyricController.setVisibility(View.GONE);
 			lstMusic.setVisibility(View.VISIBLE);
+			layFileSelector.setVisibility(View.GONE);
+
 			CurrentShown = 0;
 
 			if (sp.getBoolean("chkUseAnimation", true))
