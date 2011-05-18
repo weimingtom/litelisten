@@ -1455,14 +1455,27 @@ public class srcMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				Editor edt = sp.edit();
-				edt.putString("LastKeyword", txtKeyword.getText().toString());
-				edt.commit();
+				if (IsRefreshing)
+				{
+					MessageDialog.ShowMessage(srcMain.this, layActivity, getString(R.string.global_wait), getString(R.string.srcmain_indexing), 20, new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							MessageDialog.CloseDialog();
+						}
+					}, null);
+				}
+				else
+				{
+					Editor edt = sp.edit();
+					edt.putString("LastKeyword", txtKeyword.getText().toString());
+					edt.commit();
 
-				SetMusicListByDB();
-				txtKeyword.setText("");
-				SearchBoxSwitcher();
-				txtKeyword.clearFocus();
+					SetMusicListByDB();
+					txtKeyword.setText("");
+					SearchBoxSwitcher();
+					txtKeyword.clearFocus();
+				}
 			}
 		});
 

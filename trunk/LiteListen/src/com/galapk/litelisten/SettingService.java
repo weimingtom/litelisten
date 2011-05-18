@@ -20,13 +20,17 @@ package com.galapk.litelisten;
 import java.io.File;
 import java.util.Locale;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -276,25 +280,16 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				// MessageDialog.ShowMessage(SettingService.this,
-				// SettingService., getString(R.string.global_request),
-				// getString(R.string.pfrscat_help_visit_official_site_message),
-				// new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// Intent i = new Intent(Intent.ACTION_VIEW);
-				// i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
-				// startActivity(i);
-				// MessageDialog.CloseDialog();
-				// }
-				// }, new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// MessageDialog.CloseDialog();
-				// }
-				// });
+				new AlertDialog.Builder(SettingService.this).setTitle(getString(R.string.global_request)).setMessage(getString(R.string.pfrscat_help_visit_official_site_message)).setIcon(
+						R.drawable.icon).setPositiveButton(R.string.global_ok, new OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
+						startActivity(i);
+					}
+				}).setNegativeButton(R.string.global_cancel, null).show();
 
 				return false;
 			}
@@ -304,15 +299,8 @@ public class SettingService extends PreferenceActivity
 		{
 			public boolean onPreferenceClick(Preference preference)
 			{
-				// MessageDialog.ShowMessage(SettingService.this,ddd,(getString(R.string.global_app_name_no_version),
-				// getString(R.string.pfrscat_help_about_message), new
-				// OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// MessageDialog.CloseDialog();
-				// }
-				// }, null);
+				new AlertDialog.Builder(SettingService.this).setTitle(getString(R.string.global_app_name_no_version)).setMessage(getString(R.string.pfrscat_help_about_message)).setIcon(
+						R.drawable.icon).setPositiveButton(R.string.global_ok, null).show();
 
 				return false;
 			}
@@ -362,22 +350,14 @@ public class SettingService extends PreferenceActivity
 			{
 				lstLanguage.setSummary(getBaseContext().getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Value)]);
 
-				// MessageDialog.ShowMessage(SettingService.this, ddd,
-				// getString(R.string.pfrscat_general_language_title),
-				// getString(R.string.pfrscat_general_language_message), new
-				// OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// System.exit(0);
-				// }
-				// }, new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// MessageDialog.CloseDialog();
-				// }
-				// });
+				new AlertDialog.Builder(SettingService.this).setTitle(getString(R.string.pfrscat_general_language_title)).setMessage(getString(R.string.pfrscat_general_language_message)).setIcon(
+						R.drawable.icon).setPositiveButton(R.string.global_ok, new OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						System.exit(0);
+					}
+				}).setNegativeButton(R.string.global_cancel, null).show();
 			}
 
 			// ÊúÆÁ±³¾°
@@ -473,29 +453,25 @@ public class SettingService extends PreferenceActivity
 					edt.putString("txtRestore", "");
 					edt.commit();
 
-					// MessageDialog.ShowMessage(SettingService.this, ddd,
-					// getString(R.string.pfrscat_others_restore),
-					// getString(R.string.pfrscat_others_restore_message_ok),
-					// new OnClickListener()
-					// {
-					// public void onClick(View v)
-					// {
-					// System.exit(0);
-					// }
-					// }, null);
+					new AlertDialog.Builder(SettingService.this).setTitle(getString(R.string.pfrscat_others_restore)).setMessage(getString(R.string.pfrscat_others_restore_message_ok)).setIcon(
+							R.drawable.icon).setPositiveButton(R.string.global_ok, new OnClickListener()
+					{
+						public void onClick(DialogInterface dialog, int which)
+						{
+							System.exit(0);
+						}
+					}).setNegativeButton(R.string.global_cancel, null).show();
 				}
 				else
 				{
-					// MessageDialog.ShowMessage(SettingService.this, ddd,
-					// getString(R.string.pfrscat_others_restore),
-					// getString(R.string.pfrscat_others_restore_message_wrong),
-					// new OnClickListener()
-					// {
-					// public void onClick(View v)
-					// {
-					// MessageDialog.CloseDialog();
-					// }
-					// }, null);
+					new AlertDialog.Builder(SettingService.this).setTitle(getString(R.string.pfrscat_others_restore)).setMessage(getString(R.string.pfrscat_others_restore_message_wrong)).setIcon(
+							R.drawable.icon).setPositiveButton(R.string.global_ok, new OnClickListener()
+					{
+						public void onClick(DialogInterface dialog, int which)
+						{
+							System.exit(0);
+						}
+					}).setNegativeButton(R.string.global_cancel, null).show();
 				}
 			}
 

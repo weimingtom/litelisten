@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.20 build 0518.0021</string>
+	<string name="global_app_version">0.5.21 build 0518.2252</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -57,6 +57,7 @@
 	<string name="global_yes">Yes</string>
 	<string name="global_no">No</string>
 	<string name="global_request">Access Request</string>
+	<string name="global_wait">Please wait</string>
 
 	<string name="lrcservice_loading_lrc">Loading lyric, please wait...</string>
 	<string name="lrcservice_no_lyric_found">No lyric found.\nMake a long-click here to select a
@@ -83,8 +84,8 @@
 	<string name="srcmain_play_mode_shuffle">Shuffle</string>
 	<string name="srcmain_no_track_number">No Track No. Found</string>
 	<string name="srcmain_create_play_list_title">Make PlayList</string>
-	<string name="srcmain_indexing">It\'s no need to make again because of the app is
-		creating the music list.</string>
+	<string name="srcmain_indexing">A process is reading music info, please try again
+		later.</string>
 	<string name="srcmain_create_play_list_message">Press [Okay] button to scan the storage card and
 		make music list.</string>
 	<string name="srcmain_keyword_hint">Type initials to search music list</string>
@@ -97,6 +98,7 @@
 	<string name="srcmain_context_menu_lrc">Lyric Options</string>
 	<string name="srcmain_context_menu_lrc_links">Select a lyric from file</string>
 	<string name="srcmain_file_list">[Back]</string>
+	<string name="srcmain_update_log">What\'s new?</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>
@@ -174,15 +176,32 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.20 build 0518.0021\n\nUpdate
-		Contents: \n[Fix] A display problem that control buttons will be hide
-		once when volume button was clicked\n[Fix] A bug that lyric file
-		browser will appear on lyric show in landscape\n[Fix] A display
-		problem that the position of title bar\n[Optimize] A hint of lyric
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.21 build 0518.2252\n\nUpdate
+		Contents: \n[New] Show update logs when a new version first
+		start\n[Fix] A display problem that control buttons will be hide
+		once
+		when volume button was clicked\n[Fix] A bug that lyric file
+		browser
+		will appear on lyric show in landscape\n[Fix] A display
+		problem that
+		the position of title bar\n[Fix] A crash problem that search music
+		while app is in scanning processing\n[Optimize] A hint of lyric
 		selector while there is no lyric found\n[Optimize] Change dialog to
 		fit MIUI\'s ROMs (Main UI only)\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
+	</string>
+	<string name="update_info">[New] Show update logs when a new version first
+		start\n[Fix] A display problem that control buttons will be hide
+		once
+		when volume button was clicked\n[Fix] A bug that lyric file
+		browser
+		will appear on lyric show in landscape\n[Fix] A display
+		problem that
+		the position of title bar\n[Fix] A crash problem that search music
+		while app is in scanning processing\n[Optimize] A hint of lyric
+		selector while there is no lyric found\n[Optimize] Change dialog to
+		fit MIUI\'s ROMs (Main UI only)
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

@@ -8,6 +8,7 @@
 	<string name="global_yes">是</string>
 	<string name="global_no">否</string>
 	<string name="global_request">請求許可</string>
+	<string name="global_wait">請稍候</string>
 
 	<string name="lrcservice_loading_lrc">正在載入歌詞，請稍候……</string>
 	<string name="lrcservice_no_lyric_found">沒有找到歌詞\n長按這裡選擇歌詞</string>
@@ -33,7 +34,7 @@
 	<string name="srcmain_play_mode_shuffle">隨機播放</string>
 	<string name="srcmain_no_track_number">沒有音軌資訊</string>
 	<string name="srcmain_create_play_list_title">建立播放清單</string>
-	<string name="srcmain_indexing">當前正在建立音樂資料，無需重複創建。</string>
+	<string name="srcmain_indexing">正在讀取音樂檔資訊，請稍後搜索。</string>
 	<string name="srcmain_create_play_list_message">按一下【確定】開始掃描存放裝置並建立播放清單。</string>
 	<string name="srcmain_keyword_hint">鍵入拼音首字母搜索</string>
 	<string name="srcmain_show_main">按一下這裡顯示播放機主介面</string>
@@ -45,6 +46,7 @@
 	<string name="srcmain_context_menu_lrc">歌詞選項</string>
 	<string name="srcmain_context_menu_lrc_links">從檔中選擇歌詞</string>
 	<string name="srcmain_file_list">【返回上級目錄】</string>
+	<string name="srcmain_update_log">更新記錄</string>
 
 	<string name="widget_title_small">輕聽音樂 4×2</string>
 	<string name="widget_title_medium">輕聽音樂 4×3</string>
@@ -113,8 +115,10 @@
 	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
 	<string name="pfrscat_help_about_summary">按一下查看版本及更新資訊</string>
 	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n0.5.20 build
-		0518.0021\n\n更新內容：\n【修復】音量按鈕按一下會隱藏一次託盤的顯示問題\n【修復】橫屏模式下歌詞顯示時出現歌詞檔流覽器\n【修復】標題列（歌名）偏移的問題\n【優化】無歌詞時手動關聯的提示\n【優化】更改對話方塊顯示方式以適應MIUI的ROM（目前僅主介面支援）\n\n官方網站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.21 build
+		0518.2252\n\n更新內容：\n【新增】新版本初次啟動時顯示更新日誌\n【修復】音量按鈕按一下會隱藏一次託盤的顯示問題\n【修復】橫屏模式下歌詞顯示時出現歌詞檔流覽器\n【修復】標題列（歌名）偏移的問題\n【修復】歌曲掃描過程中搜索歌曲導致系統崩潰的錯誤\n【優化】無歌詞時手動關聯的提示\n【優化】更改對話方塊顯示方式以適應MIUI的ROM（目前僅主介面支援）\n\n官方網站：\nhttp://litelisten.littledai.com/
+	</string>
+	<string name="update_info">【新增】新版本初次啟動時顯示更新日誌\n【修復】音量按鈕按一下會隱藏一次託盤的顯示問題\n【修復】橫屏模式下歌詞顯示時出現歌詞檔流覽器\n【修復】標題列（歌名）偏移的問題\n【修復】歌曲掃描過程中搜索歌曲導致系統崩潰的錯誤\n【優化】無歌詞時手動關聯的提示\n【優化】更改對話方塊顯示方式以適應MIUI的ROM（目前僅主介面支援）
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
