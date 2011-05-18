@@ -18,12 +18,14 @@
 package com.galapk.litelisten;
 
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
@@ -54,6 +56,30 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			main.getLaySplash().setVisibility(View.GONE);
+		}
+	};
+
+	/* 显示更新日志的Handler */
+	private Handler hdlShowUpdateLog = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			if (main.getSp().getBoolean("IsFirstStart18", true))
+			{
+				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.srcmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						Editor edt = main.getSp().edit();
+						edt.putBoolean("IsFirstStart18", false); // 设置当前版本
+						edt.remove("IsFirstStart17"); // 删除上个版本的标记
+						edt.commit();
+
+						MessageDialog.CloseDialog();
+					}
+				}, null);
+			}
 		}
 	};
 
@@ -386,5 +412,15 @@ public class HandlerService
 	public void setHdlSetFloatLRC(Handler hdlSetFloatLRC)
 	{
 		this.hdlSetFloatLRC = hdlSetFloatLRC;
+	}
+
+	public Handler getHdlShowUpdateLog()
+	{
+		return hdlShowUpdateLog;
+	}
+
+	public void setHdlShowUpdateLog(Handler hdlShowUpdateLog)
+	{
+		this.hdlShowUpdateLog = hdlShowUpdateLog;
 	}
 }

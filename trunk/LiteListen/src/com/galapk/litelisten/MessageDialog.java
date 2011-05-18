@@ -33,7 +33,7 @@ public class MessageDialog
 {
 	private static PopupWindow pw;
 
-	public static void ShowMessage(Activity act, View WindowParent, String Title, String Message, OnClickListener onOK, OnClickListener onCancel)
+	public static void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -56,6 +56,7 @@ public class MessageDialog
 		// 设置提示信息
 		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 		txtMessage.setText(Message);
+		txtMessage.setTextSize(MessageSize);
 
 		// 设置确定按钮
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);

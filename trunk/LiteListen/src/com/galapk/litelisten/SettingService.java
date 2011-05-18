@@ -83,6 +83,7 @@ public class SettingService extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preference);
+
 		dlgColor = new ColorDialog(this);
 		dlgText = new TextDialog(this);
 		sp = getPreferences(Context.MODE_PRIVATE); // ∂¡»°≈‰÷√Œƒº˛

@@ -48,6 +48,7 @@
 	<string name="srcmain_context_menu_lrc">Lyric Options</string>
 	<string name="srcmain_context_menu_lrc_links">Select a lyric from file</string>
 	<string name="srcmain_file_list">[Back]</string>
+	<string name="srcmain_update_log">What\'s new?</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>
@@ -134,6 +135,15 @@
 		fit MIUI\'s ROMs (Main UI only)\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
+	</string>
+	<string name="update_info">[Fix] A display problem that control buttons will
+		be hide
+		once when volume button was clicked\n[Fix] A bug that lyric
+		file
+		browser will appear on lyric show in landscape\n[Fix] A display
+		problem that the position of title bar\n[Optimize] A hint of lyric
+		selector while there is no lyric found\n[Optimize] Change dialog to
+		fit MIUI\'s ROMs (Main UI only)
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content" android:background="@drawable/dialog_bg" android:layout_width="300dip" android:id="@+id/layPopupMessage" android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:background="@drawable/dialog_bg"
+	android:layout_width="300dip" android:id="@+id/layPopupMessage"
+	android:orientation="vertical">
 	<LinearLayout android:id="@+id/layTitle" android:gravity="center_vertical"
 		android:layout_width="fill_parent" android:layout_marginLeft="6.5dip"
 		android:layout_marginRight="6.5dip" android:layout_height="wrap_content">
@@ -14,7 +17,12 @@
 			android:singleLine="true" android:marqueeRepeatLimit="marquee_forever"
 			android:ellipsize="marquee" android:layout_marginRight="5dip"></TextView>
 	</LinearLayout>
-	<TextView android:shadowRadius="0.5" android:layout_height="wrap_content" android:textColor="#FFFFFF" android:textSize="20dip" android:maxLines="10" android:id="@+id/txtMessage" android:shadowColor="#0099FF" android:shadowDx="0.5" android:shadowDy="0.5" android:layout_width="fill_parent" android:layout_marginLeft="16.5dip" android:layout_marginRight="16.5dip" android:layout_marginBottom="10dip" android:layout_marginTop="10dip"></TextView>
+	<TextView android:shadowRadius="0.5" android:layout_height="wrap_content"
+		android:textColor="#FFFFFF" android:textSize="20dip" android:maxLines="10"
+		android:id="@+id/txtMessage" android:shadowColor="#0099FF"
+		android:shadowDx="0.5" android:shadowDy="0.5" android:layout_width="fill_parent"
+		android:layout_marginLeft="16.5dip" android:layout_marginRight="16.5dip"
+		android:layout_marginBottom="10dip" android:layout_marginTop="10dip"></TextView>
 	<LinearLayout android:id="@+id/layButton"
 		android:gravity="center_vertical|center_horizontal|center"
 		android:layout_marginLeft="6.5dip" android:layout_height="wrap_content"

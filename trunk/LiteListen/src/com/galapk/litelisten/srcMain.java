@@ -163,7 +163,7 @@ public class srcMain extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
-		/* 设置窗口样式，必须按照顺序 */
+		// 设置窗口样式，必须按照顺序
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题栏
 		setContentView(R.layout.scr_main);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
@@ -637,6 +637,7 @@ public class srcMain extends Activity
 
 				IsStartedUp = true;
 				hs.getHdlShowMain().sendEmptyMessage(0);
+				hs.getHdlShowUpdateLog().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -1894,7 +1895,7 @@ public class srcMain extends Activity
 				String strMessage = "标题：" + mapItem.get("Title") + "\n" + "艺术家：" + mapItem.get("Artist") + "\n" + "专辑：" + mapItem.get("Album") + "\n" + "年份：" + mapItem.get("Year") + "\n" + "流派："
 						+ mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
 
-				MessageDialog.ShowMessage(srcMain.this, layActivity, (String) mapItem.get("Title"), strMessage, new OnClickListener()
+				MessageDialog.ShowMessage(srcMain.this, layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -1995,10 +1996,10 @@ public class srcMain extends Activity
 			// 如果当前显示的是列表，那么最小化
 			if (CurrentShown == 0)
 			{
-				// Intent i = new Intent(Intent.ACTION_MAIN);
-				// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				// i.addCategory(Intent.CATEGORY_HOME);
-				// startActivity(i);
+				Intent i = new Intent(Intent.ACTION_MAIN);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				i.addCategory(Intent.CATEGORY_HOME);
+				startActivity(i);
 			}
 			else
 				LRC2ListSwitcher();

@@ -45,6 +45,7 @@
 	<string name="srcmain_context_menu_lrc">歌词选项</string>
 	<string name="srcmain_context_menu_lrc_links">从文件中选择歌词</string>
 	<string name="srcmain_file_list">【返回上级目录】</string>
+	<string name="srcmain_update_log">更新记录</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -115,6 +116,8 @@
 	<string name="pfrscat_help_about_message">轻听音乐播放器
 		2011\n0.5.20 build
 		0518.0021\n\n更新内容：\n【修复】音量按钮单击会隐藏一次托盘的显示问题\n【修复】横屏模式下歌词显示时出现歌词文件浏览器\n【修复】标题栏（歌名）偏移的问题\n【优化】无歌词时手动关联的提示\n【优化】更改对话框显示方式以适应MIUI的ROM（目前仅主界面支持）\n\n官方网站：\nhttp://litelisten.littledai.com/
+	</string>
+	<string name="update_info">【修复】音量按钮单击会隐藏一次托盘的显示问题\n【修复】横屏模式下歌词显示时出现歌词文件浏览器\n【修复】标题栏（歌名）偏移的问题\n【优化】无歌词时手动关联的提示\n【优化】更改对话框显示方式以适应MIUI的ROM（目前仅主界面支持）
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
