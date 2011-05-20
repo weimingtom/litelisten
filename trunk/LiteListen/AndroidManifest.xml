@@ -4,7 +4,7 @@
 
 	<application android:icon="@drawable/icon"
 		android:label="@string/global_app_name_no_version">
-		<activity android:name=".srcMain"
+		<activity android:name=".scrMain"
 			android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name_no_version"
 			android:configChanges="orientation|keyboardHidden"
 			android:launchMode="singleInstance">
@@ -29,6 +29,13 @@
 
 		<activity android:label="@string/pfrsmain_title"
 			android:name=".SettingService" android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:label="@string/pfrsmain_title"
+			android:name=".scrSettings" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>

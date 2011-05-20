@@ -27,9 +27,9 @@ import android.util.Log;
 
 public class MP3Tags
 {
-	private srcMain main = null;
+	private scrMain main = null;
 
-	public MP3Tags(srcMain main)
+	public MP3Tags(scrMain main)
 	{
 		this.main = main;
 	}
@@ -210,12 +210,12 @@ public class MP3Tags
 		return null;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

@@ -25,10 +25,10 @@ import android.view.KeyEvent;
 
 public class ActionReceiver extends BroadcastReceiver
 {
-	private srcMain main = null;
+	private scrMain main = null;
 	private boolean IsFirstActionHeadsetPlug = true; // 是否第一次收到ACTION_HEADSET_PLUG消息
 
-	public ActionReceiver(srcMain main)
+	public ActionReceiver(scrMain main)
 	{
 		this.main = main;
 	}
@@ -40,7 +40,7 @@ public class ActionReceiver extends BroadcastReceiver
 
 		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
 		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
-			if (!IsFirstActionHeadsetPlug)
+			if (!IsFirstActionHeadsetPlug && main.getSp().getBoolean("chkAutoPause", true))
 				main.getMs().Pause();
 			else
 				IsFirstActionHeadsetPlug = false;
@@ -67,12 +67,12 @@ public class ActionReceiver extends BroadcastReceiver
 		}
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

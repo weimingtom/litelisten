@@ -56,6 +56,7 @@
 			android:title="@string/pfrscat_general_play_mode"></ListPreference>
 		<ListPreference android:key="lstNotifyNext" android:title="@string/pfrscat_general_notify_next" android:entries="@array/item_name_pfrscat_general_notify_next" android:entryValues="@array/item_value_pfrscat_general_notify_next" android:defaultValue="0"></ListPreference>
 		<EditTextPreference android:key="txtFavouriteMax" android:defaultValue="30" android:title="@string/pfrscat_general_favourite_max"></EditTextPreference>
+		<CheckBoxPreference android:key="chkAutoPause" android:title="@string/pfrscat_general_autopause" android:defaultValue="true"></CheckBoxPreference>
 
 
 

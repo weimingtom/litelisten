@@ -43,7 +43,7 @@ public class FloatLRC extends LinearLayout
 
 	private WindowManager wm;
 	private WindowManager.LayoutParams layWM;
-	private srcMain main;
+	private scrMain main;
 	private DisplayMetrics dm;
 
 	// ¸è´ÊÐã¿Ø¼þ
@@ -52,7 +52,7 @@ public class FloatLRC extends LinearLayout
 	TextView txtLRC1;
 	TextView txtLRC2;
 
-	public FloatLRC(srcMain main)
+	public FloatLRC(scrMain main)
 	{
 		super(main);
 		wm = (WindowManager) main.getApplicationContext().getSystemService("window");
@@ -268,12 +268,12 @@ public class FloatLRC extends LinearLayout
 		this.layWM = layWM;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

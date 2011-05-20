@@ -36,10 +36,10 @@ import android.widget.TextView;
 
 public class MusicAdapter extends BaseAdapter
 {
-	private srcMain main;
+	private scrMain main;
 	private List<Map<String, Object>> lstSong; // ап╠М
 
-	public MusicAdapter(srcMain main, List<Map<String, Object>> lstSong)
+	public MusicAdapter(scrMain main, List<Map<String, Object>> lstSong)
 	{
 		this.main = main;
 		this.lstSong = lstSong;
@@ -147,12 +147,12 @@ public class MusicAdapter extends BaseAdapter
 		return convertView;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

@@ -26,9 +26,9 @@ public class DBProvider extends SQLiteOpenHelper
 	private static String DBName = "db_main"; // 数据库名
 	private static int DBVersion = 2; // 数据库版本
 
-	private srcMain main = null;
+	private scrMain main = null;
 
-	public DBProvider(srcMain main)
+	public DBProvider(scrMain main)
 	{
 		super(main.getBaseContext(), DBName, null, DBVersion);
 		this.main = main;
@@ -212,12 +212,12 @@ public class DBProvider extends SQLiteOpenHelper
 		}
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

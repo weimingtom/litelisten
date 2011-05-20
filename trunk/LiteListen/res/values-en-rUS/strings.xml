@@ -90,6 +90,8 @@
 	<string name="pfrscat_general_play_mode">Play Mode</string>
 	<string name="pfrscat_general_notify_next">Notification Action</string>
 	<string name="pfrscat_general_favourite_max">Show Count Of Favourite Music</string>
+	<string name="pfrscat_general_autopause">Pause When (Dis)Connected From External Audio
+		Device</string>
 	<string name="pfrscat_display_title">Visual Preference</string>
 	<string name="pfrscat_display_lrc_scroll_style">LRC Scroll Style</string>
 	<string name="pfrscat_display_background">Background Image</string>
@@ -127,32 +129,14 @@
 	<string name="pfrscat_help_about">About LiteListen</string>
 	<string name="pfrscat_help_about_summary">Press to view infomations of version and what\'s
 		has updated</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.21 build 0518.2252\n\nUpdate
-		Contents: \n[New] Show update logs when a new version first
-		start\n[Fix] A display problem that control buttons will be hide
-		once
-		when volume button was clicked\n[Fix] A bug that lyric file
-		browser
-		will appear on lyric show in landscape\n[Fix] A display
-		problem that
-		the position of title bar\n[Fix] A crash problem that search music
-		while app is in scanning processing\n[Optimize] A hint of lyric
-		selector while there is no lyric found\n[Optimize] Change dialog to
-		fit MIUI\'s ROMs (Main UI only)\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.23 build 0520.1009\n\nUpdate
+		Contents: \n[New] A option of auto pause while external audio device
+		is (dis)connected\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">[New] Show update logs when a new version first
-		start\n[Fix] A display problem that control buttons will be hide
-		once
-		when volume button was clicked\n[Fix] A bug that lyric file
-		browser
-		will appear on lyric show in landscape\n[Fix] A display
-		problem that
-		the position of title bar\n[Fix] A crash problem that search music
-		while app is in scanning processing\n[Optimize] A hint of lyric
-		selector while there is no lyric found\n[Optimize] Change dialog to
-		fit MIUI\'s ROMs (Main UI only)
+	<string name="update_info">[New] A option of auto pause while external audio
+		device is (dis)connected
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

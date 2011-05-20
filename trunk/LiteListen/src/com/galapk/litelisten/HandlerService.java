@@ -32,9 +32,9 @@ import android.widget.LinearLayout;
 
 public class HandlerService
 {
-	private srcMain main = null;
+	private scrMain main = null;
 
-	public HandlerService(srcMain main)
+	public HandlerService(scrMain main)
 	{
 		this.main = main;
 	}
@@ -65,15 +65,15 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getSp().getBoolean("IsFirstStart18", true))
+			if (main.getSp().getBoolean("IsFirstStart19", true))
 			{
 				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.srcmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart18", false); // 设置当前版本
-						edt.remove("IsFirstStart17"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart19", false); // 设置当前版本
+						edt.remove("IsFirstStart18"); // 删除上个版本的标记
 						edt.commit();
 
 						MessageDialog.CloseDialog();
@@ -314,12 +314,12 @@ public class HandlerService
 		this.hdlPlayNext = hdlPlayNext;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

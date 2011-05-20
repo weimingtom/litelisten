@@ -31,10 +31,10 @@ import android.widget.TextView;
 
 public class FileAdapter extends BaseAdapter
 {
-	private srcMain main;
+	private scrMain main;
 	private List<Map<String, String>> lstFile; // 文件列表
 
-	public FileAdapter(srcMain main, List<Map<String, String>> lstFile)
+	public FileAdapter(scrMain main, List<Map<String, String>> lstFile)
 	{
 		this.main = main;
 		this.lstFile = lstFile;
@@ -90,12 +90,12 @@ public class FileAdapter extends BaseAdapter
 		return convertView;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

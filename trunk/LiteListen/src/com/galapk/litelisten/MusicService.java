@@ -35,7 +35,7 @@ public class MusicService
 	private int PlayerStatus = STATUS_STOP;
 	private MediaPlayer mp = new MediaPlayer();
 	private int CurrIndex = 0; // 当前播放的音乐序号
-	private srcMain main = null;
+	private scrMain main = null;
 	private String strShownTitle = ""; // 歌曲标题
 	private String strArtist = ""; // 艺术家，在Widget中显示
 	private String strLRCPath = ""; // 歌词路径
@@ -46,7 +46,7 @@ public class MusicService
 	private int PlayedList[] = new int[1000]; // 存放历史播放记录的临时播放列表
 
 	/* 构造函数，新建时获取路径及列表 */
-	public MusicService(srcMain main)
+	public MusicService(scrMain main)
 	{
 		this.main = main;
 
@@ -397,12 +397,12 @@ public class MusicService
 		CurrIndex = currIndex;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

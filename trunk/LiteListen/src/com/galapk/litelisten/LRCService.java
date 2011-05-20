@@ -47,7 +47,7 @@ public class LRCService
 	private boolean IsLyricExist = false; // 指示歌词是否存在
 	private Map<Long, String> map = new HashMap<Long, String>();
 	private List<Long> lstTimeStamp = new ArrayList<Long>();
-	private srcMain main = null;
+	private scrMain main = null;
 	private int LastIndex = 0; // 上一次歌词的index
 	private boolean CanRefreshLRC = true; // 判断能否更新歌词
 	private boolean CanRefreshFloatRC = false; // 决定是否要更新浮动歌词
@@ -64,7 +64,7 @@ public class LRCService
 	private String strLRCToFloat1 = "";
 	private String strLRCToFloat2 = "";
 
-	public LRCService(srcMain main)
+	public LRCService(scrMain main)
 	{
 		setMain(main);
 	}
@@ -559,12 +559,12 @@ public class LRCService
 		this.lstTimeStamp = lstTimeStamp;
 	}
 
-	public srcMain getMain()
+	public scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(srcMain main)
+	public void setMain(scrMain main)
 	{
 		this.main = main;
 	}

@@ -84,6 +84,7 @@
 	<string name="pfrscat_general_play_mode">播放模式</string>
 	<string name="pfrscat_general_notify_next">通知栏消息点击动作</string>
 	<string name="pfrscat_general_favourite_max">最爱歌曲列表的大数量</string>
+	<string name="pfrscat_general_autopause">连接/断开外部音频设备时暂停播放</string>
 	<string name="pfrscat_display_title">视觉效果</string>
 	<string name="pfrscat_display_lrc_scroll_style">歌词滚动样式</string>
 	<string name="pfrscat_display_background_port">竖屏背景图</string>
@@ -115,10 +116,10 @@
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.21 build
-		0518.2252\n\n更新内容：\n【新增】新版本初次启动时显示更新日志\n【修复】音量按钮单击会隐藏一次托盘的显示问题\n【修复】横屏模式下歌词显示时出现歌词文件浏览器\n【修复】标题栏（歌名）偏移的问题\n【修复】歌曲扫描过程中搜索歌曲导致系统崩溃的错误\n【优化】无歌词时手动关联的提示\n【优化】更改对话框显示方式以适应MIUI的ROM（目前仅主界面支持）\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.23 build
+		0520.1009\n\n更新内容：\n【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】新版本初次启动时显示更新日志\n【修复】音量按钮单击会隐藏一次托盘的显示问题\n【修复】横屏模式下歌词显示时出现歌词文件浏览器\n【修复】标题栏（歌名）偏移的问题\n【修复】歌曲扫描过程中搜索歌曲导致系统崩溃的错误\n【优化】无歌词时手动关联的提示\n【优化】更改对话框显示方式以适应MIUI的ROM（目前仅主界面支持）
+	<string name="update_info">【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

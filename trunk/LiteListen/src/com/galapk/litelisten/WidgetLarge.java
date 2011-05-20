@@ -46,7 +46,7 @@ public class WidgetLarge extends AppWidgetProvider
 			RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_large);
 
 			// 单击歌词显示主界面
-			Intent intent = new Intent(context, srcMain.class);
+			Intent intent = new Intent(context, scrMain.class);
 			PendingIntent pdItent = PendingIntent.getActivity(context, 0, intent, 0);
 			rv.setOnClickPendingIntent(R.id.txtWidgetLRC, pdItent);
 
@@ -93,7 +93,7 @@ public class WidgetLarge extends AppWidgetProvider
 		edt.commit();
 
 		// 单击歌词显示主界面
-		Intent itt = new Intent(context, srcMain.class);
+		Intent itt = new Intent(context, scrMain.class);
 		PendingIntent pdItent = PendingIntent.getActivity(context, 0, itt, 0);
 		rv.setOnClickPendingIntent(R.id.txtWidgetLRC, pdItent);
 
