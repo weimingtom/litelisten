@@ -47,7 +47,6 @@ import android.view.WindowManager;
 public class SettingService extends PreferenceActivity
 {
 	private ColorDialog dlgColor = null;
-	private TextDialog dlgText = null;
 	private SharedPreferences sp = null;
 	private int ScreenOrientation = 0;
 	private int IMAGE_SELECTED_PORT = 0; // 竖屏照片选择标志
@@ -89,7 +88,6 @@ public class SettingService extends PreferenceActivity
 		addPreferencesFromResource(R.xml.preference);
 
 		dlgColor = new ColorDialog(this);
-		dlgText = new TextDialog(this);
 		sp = getPreferences(Context.MODE_PRIVATE); // 读取配置文件
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
@@ -172,7 +170,6 @@ public class SettingService extends PreferenceActivity
 
 		ScreenOrientation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 		dlgColor.ChangeLayout();
-		dlgText.ChangeLayout();
 	}
 
 	/* 绑定控件实体 */
@@ -583,16 +580,6 @@ public class SettingService extends PreferenceActivity
 	public void setDlgColor(ColorDialog dlgColor)
 	{
 		this.dlgColor = dlgColor;
-	}
-
-	public TextDialog getDlgText()
-	{
-		return dlgText;
-	}
-
-	public void setDlgText(TextDialog dlgText)
-	{
-		this.dlgText = dlgText;
 	}
 
 	public SharedPreferences getSp()

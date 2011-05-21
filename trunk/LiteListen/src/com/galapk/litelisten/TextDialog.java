@@ -17,147 +17,94 @@
 
 package com.galapk.litelisten;
 
-import android.app.AlertDialog;
-import android.content.SharedPreferences.Editor;
+import android.app.Activity;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class TextDialog
 {
-	private SettingService ss = null;
-	private AlertDialog dlg = null;
-	private EditText txtPath = null;
-	private String strPreference = "";
+	private static PopupWindow pw;
+	private static String ret;
+	private static EditText txtMessage;
 
-	public TextDialog(SettingService ss)
+	public static void ShowMessage(Activity act, View WindowParent, String Title, String DefaultText, float MessageSize, OnClickListener onOK)
 	{
-		this.ss = ss;
-	}
+		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
-	public void ShowDialog(String Preference)
-	{
-		strPreference = Preference;
-		dlg = new AlertDialog.Builder(ss).show();
-		dlg.getWindow().setContentView(R.layout.textalertdialog);
-		txtPath = (EditText) dlg.findViewById(R.id.txtPath);
-		txtPath.setText(ss.findPreference(Preference).getSummary().toString());
+		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.popup_text_dialog, null, false);
+
+		if (ScreenOrientation == 1 || ScreenOrientation == 3)
+			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
+		else
+			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
 
 		// 设置图标
-		ImageView imgIcon = (ImageView) dlg.getWindow().findViewById(R.id.imgTextIcon);
+		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
 		imgIcon.setBackgroundResource(R.drawable.album_normal);
 
 		// 设置对话框标题
-		TextView txtTitle = (TextView) dlg.getWindow().findViewById(R.id.txtTextTitle);
-		txtTitle.setText(ss.findPreference(Preference).getTitle().toString());
+		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+		txtTitle.setText(Title);
+
+		// 设置提示信息
+		txtMessage = (EditText) view.findViewById(R.id.txtMessage);
+		txtMessage.setText(DefaultText);
+		txtMessage.setTextSize(MessageSize);
 
 		// 设置确定按钮
-		Button btnOK = (Button) dlg.getWindow().findViewById(R.id.btnTextOK);
-		btnOK.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				Editor e = ss.getSp().edit(); // 编辑配置文件
-				e.putString("btnMusicPath", txtPath.getText().toString()); // 设置颜色
-				e.commit(); // 确定更改
-				ss.findPreference(strPreference).setSummary(txtPath.getText().toString());
-				dlg.cancel();
-			}
-		});
+		Button btnOK = (Button) view.findViewById(R.id.btnOK);
+		btnOK.setOnClickListener(onOK);
 
 		// 设置取消按钮
-		Button btnCancel = (Button) dlg.getWindow().findViewById(R.id.btnTextCancel);
+		Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
 		btnCancel.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				dlg.cancel();
+				pw.dismiss();
 			}
 		});
+
+		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 
-	public void ChangeLayout()
+	public static PopupWindow getPw()
 	{
-		if (dlg != null && dlg.isShowing())
-		{
-			dlg.getWindow().setContentView(R.layout.alertdialog);
-			txtPath = (EditText) dlg.findViewById(R.id.txtPath);
-			txtPath.setText(ss.findPreference(strPreference).getSummary().toString());
-
-			// 设置图标
-			ImageView imgIcon = (ImageView) dlg.getWindow().findViewById(R.id.imgTextIcon);
-			imgIcon.setBackgroundResource(R.drawable.album_normal);
-
-			// 设置对话框标题
-			TextView txtTitle = (TextView) dlg.getWindow().findViewById(R.id.txtTextTitle);
-			txtTitle.setText(ss.findPreference(strPreference).getTitle().toString());
-
-			// 设置确定按钮
-			Button btnOK = (Button) dlg.getWindow().findViewById(R.id.btnTextOK);
-			btnOK.setOnClickListener(new OnClickListener()
-			{
-				public void onClick(View v)
-				{
-					Editor e = ss.getSp().edit(); // 编辑配置文件
-					e.putString("btnMusicPath", txtPath.getText().toString()); // 设置颜色
-					e.commit(); // 确定更改
-					ss.findPreference(strPreference).setSummary(txtPath.getText().toString());
-					dlg.cancel();
-				}
-			});
-
-			// 设置取消按钮
-			Button btnCancel = (Button) dlg.getWindow().findViewById(R.id.btnTextCancel);
-			btnCancel.setOnClickListener(new OnClickListener()
-			{
-				public void onClick(View v)
-				{
-					dlg.cancel();
-				}
-			});
-		}
+		return pw;
 	}
 
-	public AlertDialog getDlg()
+	public static void setPw(PopupWindow pw)
 	{
-		return dlg;
+		TextDialog.pw = pw;
 	}
 
-	public void setDlg(AlertDialog dlg)
+	public static String getRet()
 	{
-		this.dlg = dlg;
+		return ret;
 	}
 
-	public EditText getTxtPath()
+	public static void setRet(String ret)
 	{
-		return txtPath;
+		TextDialog.ret = ret;
 	}
 
-	public void setTxtPath(EditText txtPath)
+	public static EditText getTxtMessage()
 	{
-		this.txtPath = txtPath;
+		return txtMessage;
 	}
 
-	public SettingService getSs()
+	public static void setTxtMessage(EditText txtMessage)
 	{
-		return ss;
-	}
-
-	public void setSs(SettingService ss)
-	{
-		this.ss = ss;
-	}
-
-	public String getStrPreference()
-	{
-		return strPreference;
-	}
-
-	public void setStrPreference(String strPreference)
-	{
-		this.strPreference = strPreference;
+		TextDialog.txtMessage = txtMessage;
 	}
 }
