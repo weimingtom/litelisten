@@ -18,6 +18,9 @@
 package com.galapk.litelisten;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -316,6 +319,36 @@ public class scrSettings extends Activity
 			}
 		});
 
+		btnListFontColor.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnListFontColor.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						ColorDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnListFontShadowColor.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_shadow_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnListFontShadowColor.setText(getString(R.string.pfrscat_display_list_font_shadow_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						ColorDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
 		btnLRCFontSize.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
@@ -326,6 +359,51 @@ public class scrSettings extends Activity
 					{
 						btnLRCFontSize.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + TextDialog.getEdtMessage().getText().toString());
 						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnLRCFontColorNormal.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_normal_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnLRCFontColorNormal.setText(getString(R.string.pfrscat_display_lrc_normal_font_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						ColorDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnLRCFontColorHighlight.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_highlight_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnLRCFontColorHighlight.setText(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						ColorDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnLRCFontShadowColor.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_font_shadow_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnLRCFontShadowColor.setText(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						ColorDialog.getPw().dismiss();
 					}
 				});
 			}
@@ -354,9 +432,18 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
+								Intent i = new Intent(Intent.ACTION_VIEW);
+								i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
+								startActivity(i);
 								MessageDialog.CloseDialog();
 							}
-						}, null);
+						}, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								MessageDialog.CloseDialog();
+							}
+						});
 			}
 		});
 

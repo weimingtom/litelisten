@@ -27,8 +27,10 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class ColorPickerView extends View
+public class ColorPicker extends View
 {
 	private static final float PI = 3.1415926f; // Ô²ÖÜÂÊ
 
@@ -58,14 +60,14 @@ public class ColorPickerView extends View
 	private int CenterY = 100;
 	private int CenterRadius = 30;
 
-	private ColorDialog1 dlg = null;
 	private String strColor = "";
+	private TextView MessageView = null;
 
-	public ColorPickerView(Context context, int color, double Zoom, ColorDialog1 dlg)
+	public ColorPicker(Context context, int color, double Zoom, EditText MessageView)
 	{
 		super(context);
 
-		this.dlg = dlg;
+		this.MessageView = MessageView;
 		this.Zoom = Zoom;
 
 		CenterX = (int) (100 * Zoom);
@@ -116,7 +118,7 @@ public class ColorPickerView extends View
 		canvas.translate(CenterX, CenterY);
 		float r = CenterX - paintCircle.getStrokeWidth() * 0.5f; // °ë¾¶
 		int color = paintCenter.getColor();
-		dlg.getTxtColor().setText("#" + Integer.toHexString(color).substring(2).toUpperCase());
+		MessageView.setText("#" + Integer.toHexString(color).substring(2).toUpperCase());
 		strColor = "#" + Integer.toHexString(color).substring(2).toUpperCase();
 
 		if (mRedrawHSV)
@@ -374,14 +376,69 @@ public class ColorPickerView extends View
 		return arrColorCircle;
 	}
 
-	public ColorDialog1 getDlg()
+	public Paint getPaintLightShadow()
 	{
-		return dlg;
+		return paintLightShadow;
 	}
 
-	public void setDlg(ColorDialog1 dlg)
+	public void setPaintLightShadow(Paint paintLightShadow)
 	{
-		this.dlg = dlg;
+		this.paintLightShadow = paintLightShadow;
+	}
+
+	public Paint getPaintLight()
+	{
+		return paintLight;
+	}
+
+	public void setPaintLight(Paint paintLight)
+	{
+		this.paintLight = paintLight;
+	}
+
+	public int getCenterX()
+	{
+		return CenterX;
+	}
+
+	public void setCenterX(int centerX)
+	{
+		CenterX = centerX;
+	}
+
+	public int getCenterY()
+	{
+		return CenterY;
+	}
+
+	public void setCenterY(int centerY)
+	{
+		CenterY = centerY;
+	}
+
+	public int getCenterRadius()
+	{
+		return CenterRadius;
+	}
+
+	public void setCenterRadius(int centerRadius)
+	{
+		CenterRadius = centerRadius;
+	}
+
+	public TextView getMessageView()
+	{
+		return MessageView;
+	}
+
+	public void setMessageView(TextView messageView)
+	{
+		MessageView = messageView;
+	}
+
+	public static float getPi()
+	{
+		return PI;
 	}
 
 	public String getStrColor()

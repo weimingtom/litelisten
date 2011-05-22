@@ -335,6 +335,12 @@ public class MusicService
 			PlayerStatus = MusicService.STATUS_PAUSE;
 			main.SetAlbumIcon();
 
+			// ·ÀÖ¹Îª¿Õ
+			if (strShownTitle == null)
+				strShownTitle = "";
+			if (strArtist == null)
+				strArtist = "";
+
 			if (!strShownTitle.equals("") && !strArtist.equals(""))
 				main.CallMusicNotify(strShownTitle + " - " + strArtist, R.drawable.album_paused);
 			else
