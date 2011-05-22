@@ -25,22 +25,26 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
-public class TextDialog
+public class ListDialog
 {
 	private static PopupWindow pw;
-	private static EditText edtMessage;
+	private static int[] CheckedID;
+	private static String[] RadioText;
+	private static String ret = "";
 
-	public static void ShowMessage(Activity act, View WindowParent, String Title, String MessageText, float MessageFontSize, String EditorText, float EditorFontSize, OnClickListener onOK)
+	public static void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.popup_text_dialog, null, false);
+		View view = inflater.inflate(R.layout.popup_list_dialog, null, false);
 
 		if (ScreenOrientation == 1 || ScreenOrientation == 3)
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
@@ -56,14 +60,39 @@ public class TextDialog
 		txtTitle.setText(Title);
 
 		// 设置提示信息
-		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-		txtMessage.setText(MessageText);
-		txtMessage.setTextSize(MessageFontSize);
+		RadioGroup grpOption = (RadioGroup) view.findViewById(R.id.grpOption);
+		CheckedID = new int[Content.length];
+		RadioText = new String[Content.length];
+		for (int i = 0; i < Content.length; i++)
+		{
+			RadioButton radOption = new RadioButton(act);
+			radOption.setText(Content[i]);
+			radOption.setTextSize(ListFontSize);
+			radOption.setButtonDrawable(R.layout.option_radiobutton);
+			grpOption.addView(radOption);
 
-		// 设置文本框内容
-		edtMessage = (EditText) view.findViewById(R.id.edtMessage);
-		edtMessage.setText(EditorText);
-		edtMessage.setTextSize(EditorFontSize);
+			android.view.ViewGroup.LayoutParams layOption = radOption.getLayoutParams();
+			layOption.width = android.view.ViewGroup.LayoutParams.FILL_PARENT;
+			layOption.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+			radOption.setLayoutParams(layOption);
+
+			CheckedID[i] = radOption.getId();
+			RadioText[i] = Content[i];
+		}
+		grpOption.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(RadioGroup group, int checkedId)
+			{
+				for (int i = 0; i < CheckedID.length; i++)
+				{
+					if (CheckedID[i] == checkedId)
+					{
+						ret = RadioText[i];
+						break;
+					}
+				}
+			}
+		});
 
 		// 设置确定按钮
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);
@@ -89,16 +118,36 @@ public class TextDialog
 
 	public static void setPw(PopupWindow pw)
 	{
-		TextDialog.pw = pw;
+		ListDialog.pw = pw;
 	}
 
-	public static EditText getEdtMessage()
+	public static int[] getCheckedID()
 	{
-		return edtMessage;
+		return CheckedID;
 	}
 
-	public static void setEdtMessage(EditText edtMessage)
+	public static void setCheckedID(int[] checkedID)
 	{
-		TextDialog.edtMessage = edtMessage;
+		CheckedID = checkedID;
+	}
+
+	public static String[] getRadioText()
+	{
+		return RadioText;
+	}
+
+	public static void setRadioText(String[] radioText)
+	{
+		RadioText = radioText;
+	}
+
+	public static String getRet()
+	{
+		return ret;
+	}
+
+	public static void setRet(String ret)
+	{
+		ListDialog.ret = ret;
 	}
 }

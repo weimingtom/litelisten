@@ -144,18 +144,233 @@ public class scrSettings extends Activity
 	/* 绑定按钮事件 */
 	public void ListernerBinding()
 	{
+		btnLanguage.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language_title), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnLanguage.setText(getString(R.string.pfrscat_general_language_title) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
 		btnMusicPath.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, "3333333", "ddddddd", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), "", 18, "", 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnMusicPath.setText(getString(R.string.pfrscat_general_music_path) + "\n" + TextDialog.getTxtMessage().getText().toString());
+						btnMusicPath.setText(getString(R.string.pfrscat_general_music_path) + "\n" + TextDialog.getEdtMessage().getText().toString());
 						TextDialog.getPw().dismiss();
 					}
 				});
+			}
+		});
+
+		btnListSortOrder.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_list_order), getResources().getStringArray(R.array.item_name_pfrscat_general_list_order), 18,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnListSortOrder.setText(getString(R.string.pfrscat_general_list_order) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
+		btnPlayMode.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_play_mode), getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode), 18,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnPlayMode.setText(getString(R.string.pfrscat_general_play_mode) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
+		btnNotifyAction.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_notify_next), getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next), 18,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnNotifyAction.setText(getString(R.string.pfrscat_general_notify_next) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
+		btnFavoriteMax.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_favourite_max), "", 18, "", 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnFavoriteMax.setText(getString(R.string.pfrscat_general_favourite_max) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnScrollMode.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_scroll_style), getResources().getStringArray(
+						R.array.item_name_pfrscat_display_lrc_scroll_style), 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnScrollMode.setText(getString(R.string.pfrscat_display_lrc_scroll_style) + "\n" + ListDialog.getRet());
+						ListDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnBackgroundPort.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_port), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
+						18, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnBackgroundPort.setText(getString(R.string.pfrscat_display_background_port) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
+		btnBackgroundLand.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_land), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
+						18, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								btnBackgroundLand.setText(getString(R.string.pfrscat_display_background_land) + "\n" + ListDialog.getRet());
+								ListDialog.getPw().dismiss();
+							}
+						});
+			}
+		});
+
+		btnBackgroundBrightness.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_brightness), "", 18, "", 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnBackgroundBrightness.setText(getString(R.string.pfrscat_display_background_brightness) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnListFontSize.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, "", 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnListFontSize.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnLRCFontSize.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, "", 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						btnLRCFontSize.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnRestore.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_title), 18, "", 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						TextDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnGoHome.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_help_visit_official_site), getString(R.string.pfrscat_help_visit_official_site_message), 18,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								MessageDialog.CloseDialog();
+							}
+						}, null);
+			}
+		});
+
+		btnAbout.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_help_about), getString(R.string.pfrscat_help_about_message), 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						MessageDialog.CloseDialog();
+					}
+				}, null);
 			}
 		});
 	}

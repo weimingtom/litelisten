@@ -65,13 +65,13 @@
 					android:id="@+id/chkAutoStart" android:background="@drawable/bg_setting_normal_middle"
 					android:paddingLeft="20dip" android:paddingRight="20dip"
 					android:textColor="#FFFFFF" android:textSize="20dip"
-					android:button="@layout/option_checkbox"></CheckBox>
+					android:button="@layout/option_checkbox" android:visibility="gone"></CheckBox>
 				<CheckBox android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_remember_last_played"
 					android:id="@+id/chkRememberLast" android:background="@drawable/bg_setting_normal_middle"
 					android:paddingLeft="20dip" android:paddingRight="20dip"
 					android:textColor="#FFFFFF" android:textSize="20dip"
-					android:button="@layout/option_checkbox"></CheckBox>
+					android:button="@layout/option_checkbox" android:visibility="gone"></CheckBox>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_convert_chinese_lrc"
 					android:id="@+id/btnChineseConvert" android:textSize="20dip"
@@ -79,7 +79,7 @@
 					android:gravity="left|center_vertical" android:paddingRight="20dip"
 					android:shadowColor="#00000000" android:shadowDx="1"
 					android:shadowDy="1" android:shadowRadius="1"
-					android:background="@layout/option_bg_middle"></Button>
+					android:background="@layout/option_bg_middle" android:visibility="gone"></Button>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent"
 					android:text="@string/pfrscat_general_fit_screen_orientation"
@@ -88,7 +88,7 @@
 					android:gravity="left|center_vertical" android:paddingRight="20dip"
 					android:shadowColor="#00000000" android:shadowDx="1"
 					android:shadowDy="1" android:shadowRadius="1"
-					android:background="@layout/option_bg_middle"></Button>
+					android:background="@layout/option_bg_middle" android:visibility="gone"></Button>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_list_order"
 					android:id="@+id/btnListSortOrder" android:textSize="20dip"
@@ -111,7 +111,7 @@
 					android:gravity="left|center_vertical" android:paddingRight="20dip"
 					android:shadowColor="#00000000" android:shadowDx="1"
 					android:shadowDy="1" android:shadowRadius="1"
-					android:background="@layout/option_bg_middle"></Button>
+					android:background="@layout/option_bg_middle" android:visibility="gone"></Button>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_play_mode"
 					android:id="@+id/btnPlayMode" android:textSize="20dip"
