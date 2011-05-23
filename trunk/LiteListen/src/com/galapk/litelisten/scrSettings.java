@@ -18,10 +18,13 @@
 package com.galapk.litelisten;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -87,6 +90,80 @@ public class scrSettings extends Activity
 	private Button btnOK;
 	private Button btnCancel;
 
+	private SharedPreferences sp;
+
+	private String Language;
+	private String MusicPath;
+	private Boolean IncludeSubDirectories;
+	private Boolean IgnoreDirectory;
+	private String ListSortOrder;
+	private Boolean AutoSwitchToLRC;
+	private String PlayMode;
+	private String NotifyAction;
+	private String FavoriteMax;
+	private String ScrollMode;
+	private String BackgroundPort;
+	private String BackgroundLand;
+	private String BackgroundBrightness;
+	private Boolean BackgroundBlur;
+	private Boolean UseAnimation;
+	private String ListFontSize;
+	private String ListFontColor;
+	private Boolean ListFontShadow;
+	private String ListFontShadowColor;
+	private String LRCFontSize;
+	private String LRCFontColorNormal;
+	private String LRCFontColorHighlight;
+	private Boolean LRCFontShadow;
+	private String LRCFontShadowColor;
+	private String Restore;
+
+	/* 获取选项值 */
+	private void GetPreferences()
+	{
+		sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
+
+		Language = sp.getString("lstLanguage", "2");
+
+		MusicPath = sp.getString("txtMusicPath", "/sdcard");
+		IncludeSubDirectories = sp.getBoolean("chkIncludeSubDirectories", true);
+		IgnoreDirectory = sp.getBoolean("chkIgnoreDirectory", true);
+
+		ListSortOrder = sp.getString("lstListSortOrder", "1");
+		AutoSwitchToLRC = sp.getBoolean("chkAutoSwitchToLRC", true);
+		PlayMode = sp.getString("lstPlayMode", "1");
+		NotifyAction = sp.getString("lstNotifyAction", "0");
+		FavoriteMax = sp.getString("txtFavoriteMax", "30");
+
+		ScrollMode = sp.getString("lstScrollMode", "0");
+		BackgroundPort = sp.getString("lstBackgroundPort", "0");
+		BackgroundLand = sp.getString("lstBackgroundLand", "0");
+		BackgroundBrightness = sp.getString("txtBackgroundBrightness", "75");
+		BackgroundBlur = sp.getBoolean("chkBackgroundBlur", true);
+
+		UseAnimation = sp.getBoolean("chkUseAnimation", true);
+
+		ListFontSize = sp.getString("txtListFontSize", "18");
+		ListFontColor = sp.getString("btnListFontColor", "#FFFFFF");
+		ListFontShadow = sp.getBoolean("chkListFontShadow", true);
+		ListFontShadowColor = sp.getString("btnListFontShadowColor", "#0099FF");
+
+		LRCFontSize = sp.getString("txtLRCFontSize", "18");
+		LRCFontColorNormal = sp.getString("btnLRCFontColorNormal", "#FFFFFF");
+		LRCFontColorHighlight = sp.getString("btnLRCFontColorHighlight", "#FFFF00");
+		LRCFontShadow = sp.getBoolean("chkLRCFontShadow", true);
+		LRCFontShadowColor = sp.getString("btnLRCFontShadowColor", "#0099FF");
+
+		Restore = sp.getString("txtRestore", "");
+
+		/*
+		 * sp.getString("lstFitScreenOrientation", "2");
+		 * sp.getString("lstPropertyReadPriority", "0");
+		 * sp.getString("lstConvertChineseLRC", "2");
+		 * sp.getBoolean("chkRemeberLastPlayed", true);
+		 */
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -98,6 +175,10 @@ public class scrSettings extends Activity
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
 		FindViews();
 		ListernerBinding();
+		GetPreferences();
+		ButtonInitialization();
+
+		btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_highlight);
 
 		btnGeneral.setOnClickListener(new OnClickListener()
 		{
@@ -107,6 +188,10 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.GONE);
+				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_highlight);
+				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
 			}
 		});
 
@@ -118,6 +203,10 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.VISIBLE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.GONE);
+				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_highlight);
+				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
 			}
 		});
 
@@ -129,6 +218,10 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.VISIBLE);
 				scrHelp.setVisibility(View.GONE);
+				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_highlight);
+				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
 			}
 		});
 
@@ -140,8 +233,41 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.VISIBLE);
+				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
+				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_highlight);
 			}
 		});
+	}
+
+	/* 设置各选项按钮初值 */
+	private void ButtonInitialization()
+	{
+		btnLanguage.setText(Html.fromHtml(getString(R.string.pfrscat_general_language) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Language)] + "</font>"));
+		btnMusicPath.setText(Html.fromHtml(getString(R.string.pfrscat_general_music_path) + "<br /><font color='#FFFF00'>" + MusicPath + "</font>"));
+		btnListSortOrder.setText(Html.fromHtml(getString(R.string.pfrscat_general_list_order) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_general_list_order)[Integer.parseInt((String) ListSortOrder)] + "</font>"));
+		btnPlayMode.setText(Html.fromHtml(getString(R.string.pfrscat_general_play_mode) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode)[Integer.parseInt((String) PlayMode)] + "</font>"));
+		btnNotifyAction.setText(Html.fromHtml(getString(R.string.pfrscat_general_notify_next) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next)[Integer.parseInt((String) NotifyAction)] + "</font>"));
+		btnFavoriteMax.setText(Html.fromHtml(getString(R.string.pfrscat_general_favourite_max) + "<br /><font color='#FFFF00'>" + FavoriteMax + "</font>"));
+		btnScrollMode.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_scroll_style) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_display_lrc_scroll_style)[Integer.parseInt((String) ScrollMode)] + "</font>"));
+		btnBackgroundPort.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_port) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_display_background)[Integer.parseInt(BackgroundPort)] + "</font>"));
+		btnBackgroundLand.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_land) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_display_background)[Integer.parseInt(BackgroundLand)] + "</font>"));
+		btnBackgroundBrightness.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_brightness) + "<br /><font color='#FFFF00'>" + BackgroundBrightness + "</font>"));
+		btnListFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontSize + "</font>"));
+		btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontColor + "</font>"));
+		btnListFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_shadow_color) + "<br /><font color='#FFFF00'>" + ListFontShadowColor + "</font>"));
+		btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + LRCFontSize + "</font>"));
+		btnLRCFontColorNormal.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_normal_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorNormal + "</font>"));
+		btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorHighlight + "</font>"));
+		btnLRCFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "<br /><font color='#FFFF00'>" + LRCFontShadowColor + "</font>"));
 	}
 
 	/* 绑定按钮事件 */
@@ -156,7 +282,8 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnLanguage.setText(getString(R.string.pfrscat_general_language_title) + "\n" + ListDialog.getRet());
+
+								btnLanguage.setText(Html.fromHtml(getString(R.string.pfrscat_general_language) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -171,7 +298,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnMusicPath.setText(getString(R.string.pfrscat_general_music_path) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						btnMusicPath.setText(Html.fromHtml(getString(R.string.pfrscat_general_music_path) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
+								+ "</font>"));
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -187,7 +315,7 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnListSortOrder.setText(getString(R.string.pfrscat_general_list_order) + "\n" + ListDialog.getRet());
+								btnListSortOrder.setText(Html.fromHtml(getString(R.string.pfrscat_general_list_order) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -203,7 +331,7 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnPlayMode.setText(getString(R.string.pfrscat_general_play_mode) + "\n" + ListDialog.getRet());
+								btnPlayMode.setText(Html.fromHtml(getString(R.string.pfrscat_general_play_mode) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -219,7 +347,7 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnNotifyAction.setText(getString(R.string.pfrscat_general_notify_next) + "\n" + ListDialog.getRet());
+								btnNotifyAction.setText(Html.fromHtml(getString(R.string.pfrscat_general_notify_next) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -234,7 +362,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnFavoriteMax.setText(getString(R.string.pfrscat_general_favourite_max) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						btnFavoriteMax.setText(Html.fromHtml(getString(R.string.pfrscat_general_favourite_max) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
+								+ "</font>"));
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -250,7 +379,7 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnScrollMode.setText(getString(R.string.pfrscat_display_lrc_scroll_style) + "\n" + ListDialog.getRet());
+						btnScrollMode.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_scroll_style) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 						ListDialog.getPw().dismiss();
 					}
 				});
@@ -266,7 +395,7 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnBackgroundPort.setText(getString(R.string.pfrscat_display_background_port) + "\n" + ListDialog.getRet());
+								btnBackgroundPort.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_port) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -282,7 +411,7 @@ public class scrSettings extends Activity
 						{
 							public void onClick(View v)
 							{
-								btnBackgroundLand.setText(getString(R.string.pfrscat_display_background_land) + "\n" + ListDialog.getRet());
+								btnBackgroundLand.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_land) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -297,7 +426,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnBackgroundBrightness.setText(getString(R.string.pfrscat_display_background_brightness) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						btnBackgroundBrightness.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_brightness) + "<br /><font color='#FFFF00'>"
+								+ TextDialog.getEdtMessage().getText().toString() + "</font>"));
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -312,7 +442,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnListFontSize.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						btnListFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
+								+ "</font>"));
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -327,7 +458,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnListFontColor.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ColorDialog.getEdtMessage().getText().toString()
+								+ "</font>"));
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -342,7 +474,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnListFontShadowColor.setText(getString(R.string.pfrscat_display_list_font_shadow_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						btnListFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_shadow_color) + "<br /><font color='#FFFF00'>"
+								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -357,7 +490,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontSize.setText(getString(R.string.pfrscat_display_list_font_size) + "\n" + TextDialog.getEdtMessage().getText().toString());
+						btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
+								+ "</font>"));
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -372,7 +506,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontColorNormal.setText(getString(R.string.pfrscat_display_lrc_normal_font_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						btnLRCFontColorNormal.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_normal_font_color) + "<br /><font color='#FFFF00'>"
+								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -387,7 +522,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontColorHighlight.setText(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>"
+								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -402,7 +538,8 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontShadowColor.setText(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "\n" + ColorDialog.getEdtMessage().getText().toString());
+						btnLRCFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "<br /><font color='#FFFF00'>"
+								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -1026,5 +1163,265 @@ public class scrSettings extends Activity
 	public void setBtnCancel(Button btnCancel)
 	{
 		this.btnCancel = btnCancel;
+	}
+
+	public SharedPreferences getSp()
+	{
+		return sp;
+	}
+
+	public void setSp(SharedPreferences sp)
+	{
+		this.sp = sp;
+	}
+
+	public String getLanguage()
+	{
+		return Language;
+	}
+
+	public void setLanguage(String language)
+	{
+		Language = language;
+	}
+
+	public String getMusicPath()
+	{
+		return MusicPath;
+	}
+
+	public void setMusicPath(String musicPath)
+	{
+		MusicPath = musicPath;
+	}
+
+	public Boolean getIncludeSubDirectories()
+	{
+		return IncludeSubDirectories;
+	}
+
+	public void setIncludeSubDirectories(Boolean includeSubDirectories)
+	{
+		IncludeSubDirectories = includeSubDirectories;
+	}
+
+	public Boolean getIgnoreDirectory()
+	{
+		return IgnoreDirectory;
+	}
+
+	public void setIgnoreDirectory(Boolean ignoreDirectory)
+	{
+		IgnoreDirectory = ignoreDirectory;
+	}
+
+	public String getListSortOrder()
+	{
+		return ListSortOrder;
+	}
+
+	public void setListSortOrder(String listSortOrder)
+	{
+		ListSortOrder = listSortOrder;
+	}
+
+	public Boolean getAutoSwitchToLRC()
+	{
+		return AutoSwitchToLRC;
+	}
+
+	public void setAutoSwitchToLRC(Boolean autoSwitchToLRC)
+	{
+		AutoSwitchToLRC = autoSwitchToLRC;
+	}
+
+	public String getPlayMode()
+	{
+		return PlayMode;
+	}
+
+	public void setPlayMode(String playMode)
+	{
+		PlayMode = playMode;
+	}
+
+	public String getNotifyAction()
+	{
+		return NotifyAction;
+	}
+
+	public void setNotifyAction(String notifyAction)
+	{
+		NotifyAction = notifyAction;
+	}
+
+	public String getFavoriteMax()
+	{
+		return FavoriteMax;
+	}
+
+	public void setFavoriteMax(String favoriteMax)
+	{
+		FavoriteMax = favoriteMax;
+	}
+
+	public String getScrollMode()
+	{
+		return ScrollMode;
+	}
+
+	public void setScrollMode(String scrollMode)
+	{
+		ScrollMode = scrollMode;
+	}
+
+	public String getBackgroundPort()
+	{
+		return BackgroundPort;
+	}
+
+	public void setBackgroundPort(String backgroundPort)
+	{
+		BackgroundPort = backgroundPort;
+	}
+
+	public String getBackgroundLand()
+	{
+		return BackgroundLand;
+	}
+
+	public void setBackgroundLand(String backgroundLand)
+	{
+		BackgroundLand = backgroundLand;
+	}
+
+	public String getBackgroundBrightness()
+	{
+		return BackgroundBrightness;
+	}
+
+	public void setBackgroundBrightness(String backgroundBrightness)
+	{
+		BackgroundBrightness = backgroundBrightness;
+	}
+
+	public Boolean getBackgroundBlur()
+	{
+		return BackgroundBlur;
+	}
+
+	public void setBackgroundBlur(Boolean backgroundBlur)
+	{
+		BackgroundBlur = backgroundBlur;
+	}
+
+	public Boolean getUseAnimation()
+	{
+		return UseAnimation;
+	}
+
+	public void setUseAnimation(Boolean useAnimation)
+	{
+		UseAnimation = useAnimation;
+	}
+
+	public String getListFontSize()
+	{
+		return ListFontSize;
+	}
+
+	public void setListFontSize(String listFontSize)
+	{
+		ListFontSize = listFontSize;
+	}
+
+	public String getListFontColor()
+	{
+		return ListFontColor;
+	}
+
+	public void setListFontColor(String listFontColor)
+	{
+		ListFontColor = listFontColor;
+	}
+
+	public Boolean getListFontShadow()
+	{
+		return ListFontShadow;
+	}
+
+	public void setListFontShadow(Boolean listFontShadow)
+	{
+		ListFontShadow = listFontShadow;
+	}
+
+	public String getListFontShadowColor()
+	{
+		return ListFontShadowColor;
+	}
+
+	public void setListFontShadowColor(String listFontShadowColor)
+	{
+		ListFontShadowColor = listFontShadowColor;
+	}
+
+	public String getLRCFontSize()
+	{
+		return LRCFontSize;
+	}
+
+	public void setLRCFontSize(String lRCFontSize)
+	{
+		LRCFontSize = lRCFontSize;
+	}
+
+	public String getLRCFontColorNormal()
+	{
+		return LRCFontColorNormal;
+	}
+
+	public void setLRCFontColorNormal(String lRCFontColorNormal)
+	{
+		LRCFontColorNormal = lRCFontColorNormal;
+	}
+
+	public String getLRCFontColorHighlight()
+	{
+		return LRCFontColorHighlight;
+	}
+
+	public void setLRCFontColorHighlight(String lRCFontColorHighlight)
+	{
+		LRCFontColorHighlight = lRCFontColorHighlight;
+	}
+
+	public Boolean getLRCFontShadow()
+	{
+		return LRCFontShadow;
+	}
+
+	public void setLRCFontShadow(Boolean lRCFontShadow)
+	{
+		LRCFontShadow = lRCFontShadow;
+	}
+
+	public String getLRCFontShadowColor()
+	{
+		return LRCFontShadowColor;
+	}
+
+	public void setLRCFontShadowColor(String lRCFontShadowColor)
+	{
+		LRCFontShadowColor = lRCFontShadowColor;
+	}
+
+	public String getRestore()
+	{
+		return Restore;
+	}
+
+	public void setRestore(String restore)
+	{
+		Restore = restore;
 	}
 }

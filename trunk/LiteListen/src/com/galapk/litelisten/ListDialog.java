@@ -69,7 +69,7 @@ public class ListDialog
 			radOption.setText(Content[i]);
 			radOption.setTextSize(ListFontSize);
 			radOption.setButtonDrawable(R.layout.option_radiobutton);
-			radOption.setBackgroundResource(R.layout.option_bg_middle);
+			radOption.setBackgroundResource(R.layout.option_bg_list);
 			grpOption.addView(radOption);
 
 			android.view.ViewGroup.LayoutParams layOption = radOption.getLayoutParams();
