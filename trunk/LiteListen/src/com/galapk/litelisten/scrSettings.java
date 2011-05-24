@@ -17,24 +17,33 @@
 
 package com.galapk.litelisten;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class scrSettings extends Activity
 {
@@ -52,13 +61,9 @@ public class scrSettings extends Activity
 	private Button btnMusicPath;
 	private CheckBox chkIncludeSubDirectory;
 	private CheckBox chkIgnoreDirectory;
-	private CheckBox chkAutoStart;
-	private CheckBox chkRememberLast;
-	private Button btnChineseConvert;
-	private Button btnScreenOrientation;
+	private CheckBox chkAutoPause;
 	private Button btnListSortOrder;
 	private CheckBox chkAutoSwitchToLRC;
-	private Button btnReadingPriority;
 	private Button btnPlayMode;
 	private Button btnNotifyAction;
 	private Button btnFavoriteMax;
@@ -87,15 +92,18 @@ public class scrSettings extends Activity
 	private Button btnGoHome;
 	private Button btnAbout;
 	private LinearLayout layOkCancel;
-	private Button btnOK;
-	private Button btnCancel;
+	private Button btnReturn;
 
 	private SharedPreferences sp;
+	private int IMAGE_SELECTED_PORT = 0; // 竖屏照片选择标志
+	private int IMAGE_SELECTED_LAND = 1; // 横屏照片选择标志
+	private int ScreenOrantation = 0;
 
 	private String Language;
 	private String MusicPath;
-	private Boolean IncludeSubDirectories;
+	private Boolean IncludeSubDirectory;
 	private Boolean IgnoreDirectory;
+	private Boolean AutoPause;
 	private String ListSortOrder;
 	private Boolean AutoSwitchToLRC;
 	private String PlayMode;
@@ -118,50 +126,132 @@ public class scrSettings extends Activity
 	private String LRCFontShadowColor;
 	private String Restore;
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (resultCode == RESULT_OK)
+		{
+			if (requestCode == IMAGE_SELECTED_PORT)
+			{
+				Bundle extras = data.getExtras();
+				if (extras != null)
+				{
+					try
+					{// 创建 .nomedia 文件
+						File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/.nomeida");
+						if (f.exists())
+							f.delete();
+						f.createNewFile();
+					}
+					catch (Exception e)
+					{
+						if (e.getMessage() != null)
+							Log.w(Common.LOGCAT_TAG, e.getMessage());
+						else
+							e.printStackTrace();
+					}
+
+					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_port.png", "png", 100, true);
+					MakeBackgroundImage();
+				}
+			}
+			else if (requestCode == IMAGE_SELECTED_LAND)
+			{
+				Bundle extras = data.getExtras();
+				if (extras != null)
+				{
+					try
+					{// 创建 .nomedia 文件
+						File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/.nomeida");
+						if (f.exists())
+							f.delete();
+						f.createNewFile();
+					}
+					catch (Exception e)
+					{
+						if (e.getMessage() != null)
+							Log.w(Common.LOGCAT_TAG, e.getMessage());
+						else
+							e.printStackTrace();
+					}
+
+					ImageEffect.SaveBitmap((Bitmap) extras.get("data"), Environment.getExternalStorageDirectory() + "/LiteListen", "background_source_land.png", "png", 100, true);
+					MakeBackgroundImage();
+				}
+			}
+		}
+	}
+
+	public void MakeBackgroundImage()
+	{
+		Bitmap bmpBackground = null;
+
+		// 横屏背景
+		File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_land.png");
+		if (f.isFile() && f.exists())
+		{
+			bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_land.png");
+
+			if (sp.getBoolean("chkBackgroundBlur", true))
+				bmpBackground = ImageEffect.ImageCut(ImageEffect.SetAlpha(ImageEffect.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75"))), 10, 10, 10, 10);
+			else
+				bmpBackground = ImageEffect.ImageCut(ImageEffect.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75"))), 10, 10, 10, 10);
+
+			ImageEffect.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_land.png", "png", 100, true);
+		}
+
+		// 竖屏背景
+		f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_port.png");
+		if (f.isFile() && f.exists())
+		{
+			bmpBackground = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_source_port.png");
+
+			if (sp.getBoolean("chkBackgroundBlur", true))
+				bmpBackground = ImageEffect.SetAlpha(ImageEffect.SetBlur(bmpBackground, 8), Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+			else
+				bmpBackground = ImageEffect.SetAlpha(bmpBackground, Integer.parseInt(sp.getString("txtBackgroundBrightness", "75")));
+			ImageEffect.SaveBitmap(bmpBackground, Environment.getExternalStorageDirectory() + "/LiteListen", "background_port.png", "png", 100, true);
+		}
+	}
+
 	/* 获取选项值 */
-	private void GetPreferences()
+	public void GetPreferences()
 	{
 		sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
 
-		Language = sp.getString("lstLanguage", "2");
+		Language = sp.getString("Language", "3");
 
-		MusicPath = sp.getString("txtMusicPath", "/sdcard");
-		IncludeSubDirectories = sp.getBoolean("chkIncludeSubDirectories", true);
-		IgnoreDirectory = sp.getBoolean("chkIgnoreDirectory", true);
+		MusicPath = sp.getString("MusicPath", "/sdcard");
+		IncludeSubDirectory = sp.getBoolean("IncludeSubDirectory", true);
+		IgnoreDirectory = sp.getBoolean("IgnoreDirectory", true);
+		AutoPause = sp.getBoolean("AutoPause", true);
 
-		ListSortOrder = sp.getString("lstListSortOrder", "1");
-		AutoSwitchToLRC = sp.getBoolean("chkAutoSwitchToLRC", true);
-		PlayMode = sp.getString("lstPlayMode", "1");
-		NotifyAction = sp.getString("lstNotifyAction", "0");
-		FavoriteMax = sp.getString("txtFavoriteMax", "30");
+		ListSortOrder = sp.getString("ListSortOrder", "1");
+		AutoSwitchToLRC = sp.getBoolean("AutoSwitchToLRC", true);
+		PlayMode = sp.getString("PlayMode", "1");
+		NotifyAction = sp.getString("NotifyAction", "0");
+		FavoriteMax = sp.getString("FavoriteMax", "30");
 
-		ScrollMode = sp.getString("lstScrollMode", "0");
-		BackgroundPort = sp.getString("lstBackgroundPort", "0");
-		BackgroundLand = sp.getString("lstBackgroundLand", "0");
-		BackgroundBrightness = sp.getString("txtBackgroundBrightness", "75");
-		BackgroundBlur = sp.getBoolean("chkBackgroundBlur", true);
+		ScrollMode = sp.getString("ScrollMode", "0");
+		BackgroundPort = sp.getString("BackgroundPort", "0");
+		BackgroundLand = sp.getString("BackgroundLand", "0");
+		BackgroundBrightness = sp.getString("BackgroundBrightness", "75");
+		BackgroundBlur = sp.getBoolean("BackgroundBlur", true);
 
-		UseAnimation = sp.getBoolean("chkUseAnimation", true);
+		UseAnimation = sp.getBoolean("UseAnimation", true);
 
-		ListFontSize = sp.getString("txtListFontSize", "18");
-		ListFontColor = sp.getString("btnListFontColor", "#FFFFFF");
-		ListFontShadow = sp.getBoolean("chkListFontShadow", true);
-		ListFontShadowColor = sp.getString("btnListFontShadowColor", "#0099FF");
+		ListFontSize = sp.getString("ListFontSize", "18");
+		ListFontColor = sp.getString("ListFontColor", "#FFFFFF");
+		ListFontShadow = sp.getBoolean("ListFontShadow", true);
+		ListFontShadowColor = sp.getString("ListFontShadowColor", "#0099FF");
 
-		LRCFontSize = sp.getString("txtLRCFontSize", "18");
-		LRCFontColorNormal = sp.getString("btnLRCFontColorNormal", "#FFFFFF");
-		LRCFontColorHighlight = sp.getString("btnLRCFontColorHighlight", "#FFFF00");
-		LRCFontShadow = sp.getBoolean("chkLRCFontShadow", true);
-		LRCFontShadowColor = sp.getString("btnLRCFontShadowColor", "#0099FF");
+		LRCFontSize = sp.getString("LRCFontSize", "18");
+		LRCFontColorNormal = sp.getString("LRCFontColorNormal", "#FFFFFF");
+		LRCFontColorHighlight = sp.getString("LRCFontColorHighlight", "#FFFF00");
+		LRCFontShadow = sp.getBoolean("LRCFontShadow", true);
+		LRCFontShadowColor = sp.getString("LRCFontShadowColor", "#0099FF");
 
-		Restore = sp.getString("txtRestore", "");
-
-		/*
-		 * sp.getString("lstFitScreenOrientation", "2");
-		 * sp.getString("lstPropertyReadPriority", "0");
-		 * sp.getString("lstConvertChineseLRC", "2");
-		 * sp.getBoolean("chkRemeberLastPlayed", true);
-		 */
+		Restore = sp.getString("Restore", "");
 	}
 
 	@Override
@@ -174,11 +264,15 @@ public class scrSettings extends Activity
 		setContentView(R.layout.scr_settings);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
 		FindViews();
-		ListernerBinding();
 		GetPreferences();
-		ButtonInitialization();
+		ListernerBinding();
+		GetButtonDisplay();
+		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
 
-		btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_highlight);
+		if (ScreenOrantation == 1 || ScreenOrantation == 3)
+			btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
+		else
+			btnGeneral.setBackgroundResource(R.drawable.bg_setting_port_category_highlight);
 
 		btnGeneral.setOnClickListener(new OnClickListener()
 		{
@@ -188,10 +282,21 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.GONE);
-				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_highlight);
-				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+				}
+				else
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_port_category_highlight);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+				}
 			}
 		});
 
@@ -203,10 +308,21 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.VISIBLE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.GONE);
-				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_highlight);
-				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+				}
+				else
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_port_category_highlight);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+				}
 			}
 		});
 
@@ -218,10 +334,21 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.VISIBLE);
 				scrHelp.setVisibility(View.GONE);
-				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_highlight);
-				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_normal);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+				}
+				else
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_port_category_highlight);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+				}
 			}
 		});
 
@@ -233,22 +360,45 @@ public class scrSettings extends Activity
 				scrDisplay.setVisibility(View.GONE);
 				scrOthers.setVisibility(View.GONE);
 				scrHelp.setVisibility(View.VISIBLE);
-				btnGeneral.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnDisplay.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnOthers.setBackgroundResource(R.drawable.bg_setting_category_normal);
-				btnHelp.setBackgroundResource(R.drawable.bg_setting_category_highlight);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_land_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
+				}
+				else
+				{
+					btnGeneral.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnDisplay.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnOthers.setBackgroundResource(R.drawable.bg_setting_port_category_normal);
+					btnHelp.setBackgroundResource(R.drawable.bg_setting_port_category_highlight);
+				}
+			}
+		});
+
+		btnReturn.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				finish();
 			}
 		});
 	}
 
-	/* 设置各选项按钮初值 */
-	private void ButtonInitialization()
+	/* 设置各选项按钮显示文字 */
+	public void GetButtonDisplay()
 	{
 		btnLanguage.setText(Html.fromHtml(getString(R.string.pfrscat_general_language) + "<br /><font color='#FFFF00'>"
 				+ getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Language)] + "</font>"));
 		btnMusicPath.setText(Html.fromHtml(getString(R.string.pfrscat_general_music_path) + "<br /><font color='#FFFF00'>" + MusicPath + "</font>"));
+		chkIncludeSubDirectory.setChecked(IncludeSubDirectory);
+		chkIgnoreDirectory.setChecked(IgnoreDirectory);
+		chkAutoPause.setChecked(AutoPause);
 		btnListSortOrder.setText(Html.fromHtml(getString(R.string.pfrscat_general_list_order) + "<br /><font color='#FFFF00'>"
 				+ getResources().getStringArray(R.array.item_name_pfrscat_general_list_order)[Integer.parseInt((String) ListSortOrder)] + "</font>"));
+		chkAutoSwitchToLRC.setChecked(AutoSwitchToLRC);
 		btnPlayMode.setText(Html.fromHtml(getString(R.string.pfrscat_general_play_mode) + "<br /><font color='#FFFF00'>"
 				+ getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode)[Integer.parseInt((String) PlayMode)] + "</font>"));
 		btnNotifyAction.setText(Html.fromHtml(getString(R.string.pfrscat_general_notify_next) + "<br /><font color='#FFFF00'>"
@@ -261,13 +411,60 @@ public class scrSettings extends Activity
 		btnBackgroundLand.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_land) + "<br /><font color='#FFFF00'>"
 				+ getResources().getStringArray(R.array.item_name_pfrscat_display_background)[Integer.parseInt(BackgroundLand)] + "</font>"));
 		btnBackgroundBrightness.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_brightness) + "<br /><font color='#FFFF00'>" + BackgroundBrightness + "</font>"));
+		chkBackgroundBlur.setChecked(BackgroundBlur);
+		chkUseAnimation.setChecked(UseAnimation);
 		btnListFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontSize + "</font>"));
 		btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontColor + "</font>"));
+		chkListFontShadow.setChecked(ListFontShadow);
 		btnListFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_shadow_color) + "<br /><font color='#FFFF00'>" + ListFontShadowColor + "</font>"));
 		btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + LRCFontSize + "</font>"));
 		btnLRCFontColorNormal.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_normal_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorNormal + "</font>"));
 		btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorHighlight + "</font>"));
+		chkLRCFontShadow.setChecked(LRCFontShadow);
 		btnLRCFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "<br /><font color='#FFFF00'>" + LRCFontShadowColor + "</font>"));
+	}
+
+	/* 更新选项 */
+	public void UpdatePreference()
+	{
+		Editor edt = sp.edit();
+
+		edt.putString("Language", Language);
+
+		edt.putString("MusicPath", MusicPath);
+		edt.putBoolean("IncludeSubDirectory", IncludeSubDirectory);
+		edt.putBoolean("IgnoreDirectory", IgnoreDirectory);
+
+		edt.putBoolean("AutoPause", AutoPause);
+
+		edt.putString("ListSortOrder", ListSortOrder);
+		edt.putBoolean("AutoSwitchToLRC", AutoSwitchToLRC);
+		edt.putString("PlayMode", PlayMode);
+		edt.putString("NotifyAction", NotifyAction);
+		edt.putString("FavoriteMax", FavoriteMax);
+
+		edt.putString("ScrollMode", ScrollMode);
+		edt.putString("BackgroundPort", BackgroundPort);
+		edt.putString("BackgroundLand", BackgroundLand);
+		edt.putString("BackgroundBrightness", BackgroundBrightness);
+		edt.putBoolean("BackgroundBlur", BackgroundBlur);
+
+		edt.putBoolean("UseAnimation", UseAnimation);
+
+		edt.putString("ListFontSize", ListFontSize);
+		edt.putString("ListFontColor", ListFontColor);
+		edt.putBoolean("ListFontShadow", ListFontShadow);
+		edt.putString("ListFontShadowColor", ListFontShadowColor);
+
+		edt.putString("LRCFontSize", LRCFontSize);
+		edt.putString("LRCFontColorNormal", LRCFontColorNormal);
+		edt.putString("LRCFontColorHighlight", LRCFontColorHighlight);
+		edt.putBoolean("LRCFontShadow", LRCFontShadow);
+		edt.putString("LRCFontShadowColor", LRCFontShadowColor);
+
+		edt.putString("Restore", Restore);
+
+		edt.commit();
 	}
 
 	/* 绑定按钮事件 */
@@ -278,12 +475,14 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language_title), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
-						new OnClickListener()
+						Integer.parseInt(Language), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
 
-								btnLanguage.setText(Html.fromHtml(getString(R.string.pfrscat_general_language) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								Language = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -294,15 +493,43 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), "", 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), "", 18, MusicPath, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnMusicPath.setText(Html.fromHtml(getString(R.string.pfrscat_general_music_path) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
-								+ "</font>"));
+						MusicPath = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
 					}
 				});
+			}
+		});
+
+		chkIncludeSubDirectory.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				IncludeSubDirectory = isChecked;
+				UpdatePreference();
+			}
+		});
+
+		chkIgnoreDirectory.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				IgnoreDirectory = isChecked;
+				UpdatePreference();
+			}
+		});
+
+		chkAutoPause.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				AutoPause = isChecked;
+				UpdatePreference();
 			}
 		});
 
@@ -311,14 +538,25 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_list_order), getResources().getStringArray(R.array.item_name_pfrscat_general_list_order), 18,
-						new OnClickListener()
+						Integer.parseInt(ListSortOrder), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								btnListSortOrder.setText(Html.fromHtml(getString(R.string.pfrscat_general_list_order) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								ListSortOrder = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
 							}
 						});
+			}
+		});
+
+		chkAutoSwitchToLRC.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				AutoSwitchToLRC = isChecked;
+				UpdatePreference();
 			}
 		});
 
@@ -327,11 +565,13 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_play_mode), getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode), 18,
-						new OnClickListener()
+						Integer.parseInt(PlayMode), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								btnPlayMode.setText(Html.fromHtml(getString(R.string.pfrscat_general_play_mode) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								PlayMode = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -343,11 +583,13 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_notify_next), getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next), 18,
-						new OnClickListener()
+						Integer.parseInt(NotifyAction), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								btnNotifyAction.setText(Html.fromHtml(getString(R.string.pfrscat_general_notify_next) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								NotifyAction = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
 							}
 						});
@@ -358,12 +600,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_favourite_max), "", 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_favourite_max), "", 18, FavoriteMax, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnFavoriteMax.setText(Html.fromHtml(getString(R.string.pfrscat_general_favourite_max) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
-								+ "</font>"));
+						FavoriteMax = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -375,11 +618,13 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_scroll_style), getResources().getStringArray(
-						R.array.item_name_pfrscat_display_lrc_scroll_style), 18, new OnClickListener()
+						R.array.item_name_pfrscat_display_lrc_scroll_style), 18, Integer.parseInt(ScrollMode), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnScrollMode.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_scroll_style) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+						ScrollMode = ListDialog.getRet();
+						GetButtonDisplay();
+						UpdatePreference();
 						ListDialog.getPw().dismiss();
 					}
 				});
@@ -391,12 +636,30 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_port), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
-						18, new OnClickListener()
+						18, Integer.parseInt(BackgroundPort), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								btnBackgroundPort.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_port) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								BackgroundPort = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
+
+								// 显示图像选择界面
+								if (BackgroundPort.equals("1"))
+								{
+									Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+									intent.setType("image/*");
+									intent.putExtra("crop", "true"); // 出现裁剪画面
+									intent.putExtra("return-data", true); // 请求返回数据
+									intent.putExtra("noFaceDetection", true); // 关闭人脸识别
+
+									// 设置裁剪比例
+									intent.putExtra("aspectX", 3);
+									intent.putExtra("aspectY", 5);
+
+									startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_PORT);
+								}
 							}
 						});
 			}
@@ -407,12 +670,30 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_land), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
-						18, new OnClickListener()
+						18, Integer.parseInt(BackgroundLand), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								btnBackgroundLand.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_land) + "<br /><font color='#FFFF00'>" + ListDialog.getRet() + "</font>"));
+								BackgroundLand = ListDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
 								ListDialog.getPw().dismiss();
+
+								// 显示图像选择界面
+								if (BackgroundLand.equals("1"))
+								{
+									Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+									intent.setType("image/*");
+									intent.putExtra("crop", "true"); // 出现裁剪画面
+									intent.putExtra("return-data", true); // 请求返回数据
+									intent.putExtra("noFaceDetection", true); // 关闭人脸识别
+
+									// 设置裁剪比例
+									intent.putExtra("aspectX", 5);
+									intent.putExtra("aspectY", 3);
+
+									startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_LAND);
+								}
 							}
 						});
 			}
@@ -422,15 +703,33 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_brightness), "", 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_brightness), "", 18, BackgroundBrightness, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnBackgroundBrightness.setText(Html.fromHtml(getString(R.string.pfrscat_display_background_brightness) + "<br /><font color='#FFFF00'>"
-								+ TextDialog.getEdtMessage().getText().toString() + "</font>"));
+						BackgroundBrightness = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
 					}
 				});
+			}
+		});
+
+		chkBackgroundBlur.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				BackgroundBlur = isChecked;
+				UpdatePreference();
+			}
+		});
+
+		chkUseAnimation.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				UseAnimation = isChecked;
 			}
 		});
 
@@ -438,12 +737,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, ListFontSize, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnListFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
-								+ "</font>"));
+						ListFontSize = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -454,15 +754,25 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_color), 18, Color.parseColor(ListFontColor), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ColorDialog.getEdtMessage().getText().toString()
-								+ "</font>"));
+						ListFontColor = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						ColorDialog.getPw().dismiss();
 					}
 				});
+			}
+		});
+
+		chkListFontShadow.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				ListFontShadow = isChecked;
+				UpdatePreference();
 			}
 		});
 
@@ -470,12 +780,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_shadow_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_shadow_color), 18, Color.parseColor(ListFontShadowColor), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnListFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_shadow_color) + "<br /><font color='#FFFF00'>"
-								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
+						ListFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -486,12 +797,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_size), "", 18, LRCFontSize, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + TextDialog.getEdtMessage().getText().toString()
-								+ "</font>"));
+						LRCFontSize = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
 					}
 				});
@@ -502,12 +814,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_normal_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_normal_font_color), 18, Color.parseColor(LRCFontColorNormal), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontColorNormal.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_normal_font_color) + "<br /><font color='#FFFF00'>"
-								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
+						LRCFontColorNormal = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -518,15 +831,25 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_highlight_font_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_highlight_font_color), 18, Color.parseColor(LRCFontColorHighlight), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>"
-								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
+						LRCFontColorHighlight = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						ColorDialog.getPw().dismiss();
 					}
 				});
+			}
+		});
+
+		chkLRCFontShadow.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				LRCFontShadow = isChecked;
+				UpdatePreference();
 			}
 		});
 
@@ -534,12 +857,13 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_font_shadow_color), 18, Color.parseColor("#FF6600"), new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_font_shadow_color), 18, Color.parseColor(LRCFontShadowColor), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						btnLRCFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "<br /><font color='#FFFF00'>"
-								+ ColorDialog.getEdtMessage().getText().toString() + "</font>"));
+						LRCFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
 						ColorDialog.getPw().dismiss();
 					}
 				});
@@ -554,7 +878,82 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
+						// 设置所有选项变量为默认值
+						Restore = TextDialog.getEdtMessage().getText().toString();
+						if (Restore.equals("是") || Restore.toLowerCase().equals("yes"))
+						{
+							Language = "3";
+
+							MusicPath = "/sdcard";
+							IncludeSubDirectory = true;
+							IgnoreDirectory = true;
+							AutoPause = true;
+
+							ListSortOrder = "1";
+							AutoSwitchToLRC = true;
+							PlayMode = "1";
+							NotifyAction = "0";
+							FavoriteMax = "30";
+
+							ScrollMode = "0";
+							BackgroundPort = "0";
+							BackgroundLand = "0";
+							BackgroundBrightness = "75";
+							BackgroundBlur = true;
+
+							UseAnimation = true;
+
+							ListFontSize = "18";
+							ListFontColor = "#FFFFFF";
+							ListFontShadow = true;
+							ListFontShadowColor = "#0099FF";
+
+							LRCFontSize = "18";
+							LRCFontColorNormal = "#FFFFFF";
+							LRCFontColorHighlight = "#FFFF00";
+							LRCFontShadow = true;
+							LRCFontShadowColor = "#0099FF";
+
+							Restore = "";
+
+							// 非选项菜单中的选项
+							Editor edt = sp.edit();
+							edt.putString(" MusicControl", "3");
+							edt.putBoolean(" FloatLRCLocked	", false);
+							edt.putBoolean(" DeskLRCStatus		", true);
+							edt.putString(" LastKeyword	", "");
+							edt.putString(" OrderBy	", "asc");
+							edt.putBoolean(" KeepScreenOn		", false);
+							edt.putInt(" FloatLRCPos	", 0);
+							edt.putBoolean(" Started	", true);
+							edt.putBoolean(" IsRunBackground", false);
+							edt.putInt(" ScreenOrantation	", 0);
+						}
+						else
+						{
+							MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_wrong), 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											MessageDialog.CloseDialog();
+										}
+									}, null);
+							Restore = "";
+						}
+
+						GetButtonDisplay();
+						UpdatePreference();
 						TextDialog.getPw().dismiss();
+
+						MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_ok), 18,
+								new OnClickListener()
+								{
+									public void onClick(View v)
+									{
+										MessageDialog.CloseDialog();
+									}
+								}, null);
 					}
 				});
 			}
@@ -564,23 +963,22 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_help_visit_official_site), getString(R.string.pfrscat_help_visit_official_site_message), 18,
-						new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								Intent i = new Intent(Intent.ACTION_VIEW);
-								i.setData(Uri.parse(getString(R.string.pfrscat_help_visit_official_site_summary)));
-								startActivity(i);
-								MessageDialog.CloseDialog();
-							}
-						}, new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								MessageDialog.CloseDialog();
-							}
-						});
+				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.global_request), getString(R.string.pfrscat_help_visit_official_site_message), 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse("http://www.littledai.com/category/litelisten"));
+						startActivity(i);
+						MessageDialog.CloseDialog();
+					}
+				}, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						MessageDialog.CloseDialog();
+					}
+				});
 			}
 		});
 
@@ -616,13 +1014,9 @@ public class scrSettings extends Activity
 		btnMusicPath = (Button) findViewById(R.id.btnMusicPath);
 		chkIncludeSubDirectory = (CheckBox) findViewById(R.id.chkIncludeSubDirectory);
 		chkIgnoreDirectory = (CheckBox) findViewById(R.id.chkIgnoreDirectory);
-		chkAutoStart = (CheckBox) findViewById(R.id.chkAutoStart);
-		chkRememberLast = (CheckBox) findViewById(R.id.chkRememberLast);
-		btnChineseConvert = (Button) findViewById(R.id.btnChineseConvert);
-		btnScreenOrientation = (Button) findViewById(R.id.btnScreenOrientation);
+		chkAutoPause = (CheckBox) findViewById(R.id.chkAutoPause);
 		btnListSortOrder = (Button) findViewById(R.id.btnListSortOrder);
 		chkAutoSwitchToLRC = (CheckBox) findViewById(R.id.chkAutoSwitchToLRC);
-		btnReadingPriority = (Button) findViewById(R.id.btnReadingPriority);
 		btnPlayMode = (Button) findViewById(R.id.btnPlayMode);
 		btnNotifyAction = (Button) findViewById(R.id.btnNotifyAction);
 		btnFavoriteMax = (Button) findViewById(R.id.btnFavoriteMax);
@@ -651,8 +1045,7 @@ public class scrSettings extends Activity
 		btnGoHome = (Button) findViewById(R.id.btnGoHome);
 		btnAbout = (Button) findViewById(R.id.btnAbout);
 		layOkCancel = (LinearLayout) findViewById(R.id.layOkCancel);
-		btnOK = (Button) findViewById(R.id.btnOK);
-		btnCancel = (Button) findViewById(R.id.btnCancel);
+		btnReturn = (Button) findViewById(R.id.btnReturn);
 	}
 
 	public RelativeLayout getLayActivity()
@@ -795,46 +1188,6 @@ public class scrSettings extends Activity
 		this.chkIgnoreDirectory = chkIgnoreDirectory;
 	}
 
-	public CheckBox getChkAutoStart()
-	{
-		return chkAutoStart;
-	}
-
-	public void setChkAutoStart(CheckBox chkAutoStart)
-	{
-		this.chkAutoStart = chkAutoStart;
-	}
-
-	public CheckBox getChkRememberLast()
-	{
-		return chkRememberLast;
-	}
-
-	public void setChkRememberLast(CheckBox chkRememberLast)
-	{
-		this.chkRememberLast = chkRememberLast;
-	}
-
-	public Button getBtnChineseConvert()
-	{
-		return btnChineseConvert;
-	}
-
-	public void setBtnChineseConvert(Button btnChineseConvert)
-	{
-		this.btnChineseConvert = btnChineseConvert;
-	}
-
-	public Button getBtnScreenOrientation()
-	{
-		return btnScreenOrientation;
-	}
-
-	public void setBtnScreenOrientation(Button btnScreenOrientation)
-	{
-		this.btnScreenOrientation = btnScreenOrientation;
-	}
-
 	public Button getBtnListSortOrder()
 	{
 		return btnListSortOrder;
@@ -853,16 +1206,6 @@ public class scrSettings extends Activity
 	public void setChkAutoSwitchToLRC(CheckBox chkAutoSwitchToLRC)
 	{
 		this.chkAutoSwitchToLRC = chkAutoSwitchToLRC;
-	}
-
-	public Button getBtnReadingPriority()
-	{
-		return btnReadingPriority;
-	}
-
-	public void setBtnReadingPriority(Button btnReadingPriority)
-	{
-		this.btnReadingPriority = btnReadingPriority;
 	}
 
 	public Button getBtnPlayMode()
@@ -1145,26 +1488,6 @@ public class scrSettings extends Activity
 		this.layOkCancel = layOkCancel;
 	}
 
-	public Button getBtnOK()
-	{
-		return btnOK;
-	}
-
-	public void setBtnOK(Button btnOK)
-	{
-		this.btnOK = btnOK;
-	}
-
-	public Button getBtnCancel()
-	{
-		return btnCancel;
-	}
-
-	public void setBtnCancel(Button btnCancel)
-	{
-		this.btnCancel = btnCancel;
-	}
-
 	public SharedPreferences getSp()
 	{
 		return sp;
@@ -1195,14 +1518,14 @@ public class scrSettings extends Activity
 		MusicPath = musicPath;
 	}
 
-	public Boolean getIncludeSubDirectories()
+	public Boolean getIncludeSubDirectory()
 	{
-		return IncludeSubDirectories;
+		return IncludeSubDirectory;
 	}
 
-	public void setIncludeSubDirectories(Boolean includeSubDirectories)
+	public void setIncludeSubDirectories(Boolean includeSubDirectory)
 	{
-		IncludeSubDirectories = includeSubDirectories;
+		IncludeSubDirectory = includeSubDirectory;
 	}
 
 	public Boolean getIgnoreDirectory()
@@ -1423,5 +1746,60 @@ public class scrSettings extends Activity
 	public void setRestore(String restore)
 	{
 		Restore = restore;
+	}
+
+	public CheckBox getChkAutoPause()
+	{
+		return chkAutoPause;
+	}
+
+	public void setChkAutoPause(CheckBox chkAutoPause)
+	{
+		this.chkAutoPause = chkAutoPause;
+	}
+
+	public Boolean getAutoPause()
+	{
+		return AutoPause;
+	}
+
+	public void setAutoPause(Boolean autoPause)
+	{
+		AutoPause = autoPause;
+	}
+
+	public void setIncludeSubDirectory(Boolean includeSubDirectory)
+	{
+		IncludeSubDirectory = includeSubDirectory;
+	}
+
+	public Button getBtnReturn()
+	{
+		return btnReturn;
+	}
+
+	public void setBtnReturn(Button btnReturn)
+	{
+		this.btnReturn = btnReturn;
+	}
+
+	public int getIMAGE_SELECTED_PORT()
+	{
+		return IMAGE_SELECTED_PORT;
+	}
+
+	public void setIMAGE_SELECTED_PORT(int iMAGESELECTEDPORT)
+	{
+		IMAGE_SELECTED_PORT = iMAGESELECTEDPORT;
+	}
+
+	public int getIMAGE_SELECTED_LAND()
+	{
+		return IMAGE_SELECTED_LAND;
+	}
+
+	public void setIMAGE_SELECTED_LAND(int iMAGESELECTEDLAND)
+	{
+		IMAGE_SELECTED_LAND = iMAGESELECTEDLAND;
 	}
 }

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout android:layout_width="fill_parent"
+	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/layActivity" android:background="@drawable/bg_setting_land">
+	<TextView android:layout_height="wrap_content" android:id="@+id/txtTitle"
+		android:layout_width="fill_parent" android:textColor="#9BD7FF"
+		android:textSize="25dip" android:gravity="center_vertical|center_horizontal|center"
+		android:text="@string/pfrsmain_title" android:shadowDx="1"
+		android:shadowDy="1" android:shadowRadius="1" android:shadowColor="#000000"></TextView>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_below="@+id/txtTitle" android:id="@+id/layCategory"
+		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_marginTop="7dip">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnGeneral"
+			android:text="@string/pfrscat_general_title" android:textSize="18dip"
+			android:textColor="#FFFFFF" android:shadowColor="#00000000"
+			android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+			android:background="@layout/btn_setting_category"></Button>
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnDisplay"
+			android:text="@string/pfrscat_display_title" android:textSize="18dip"
+			android:textColor="#FFFFFF" android:shadowColor="#00000000"
+			android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+			android:background="@layout/btn_setting_category"></Button>
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnOthers"
+			android:text="@string/pfrscat_others_title" android:textSize="18dip"
+			android:textColor="#FFFFFF" android:shadowColor="#00000000"
+			android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+			android:background="@layout/btn_setting_category"></Button>
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/btnHelp"
+			android:text="@string/pfrscat_help_title" android:textSize="18dip"
+			android:textColor="#FFFFFF" android:shadowColor="#00000000"
+			android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+			android:background="@layout/btn_setting_category"></Button>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/layCore"
+		android:layout_below="@+id/layCategory" android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:layout_above="@+id/btnReturn">
+		<ScrollView android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:id="@+id/scrGeneral"
+			android:scrollbarThumbVertical="@drawable/scroll_track">
+			<LinearLayout android:layout_width="fill_parent"
+				android:orientation="vertical" android:layout_height="fill_parent"
+				android:id="@+id/layGeneral">
+				<Button android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:text="@string/pfrscat_general_language"
+					android:id="@+id/btnLanguage" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:paddingLeft="20dip"
+					android:gravity="left|center_vertical" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_single"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_music_path"
+					android:id="@+id/btnMusicPath" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingLeft="20dip"
+					android:gravity="left|center_vertical" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:background="@layout/option_bg_top"
+					android:paddingTop="10dip"></Button>
+				<CheckBox android:background="@drawable/bg_setting_land_normal_middle"
+					android:id="@+id/chkIncludeSubDirectory" android:paddingLeft="20dip"
+					android:button="@layout/option_checkbox_middle"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:text="@string/pfrscat_general_include_sub_directories"
+					android:layout_height="wrap_content" android:layout_width="fill_parent"
+					android:textSize="20dip"></CheckBox>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_ignore_directory"
+					android:id="@+id/chkIgnoreDirectory" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:background="@drawable/bg_setting_land_normal_bottom"
+					android:paddingBottom="10dip" android:button="@layout/option_checkbox_bottom"></CheckBox>
+				<CheckBox android:layout_height="wrap_content"
+					android:background="@drawable/bg_setting_land_normal_single"
+					android:button="@layout/option_checkbox_single" android:id="@+id/chkAutoPause"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:textColor="#FFFFFF" android:textSize="20dip"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_autopause"></CheckBox>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_list_order"
+					android:id="@+id/btnListSortOrder" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingLeft="20dip"
+					android:gravity="left|center_vertical" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:background="@layout/option_bg_top"
+					android:paddingTop="10dip"></Button>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_auto_switch_to_lrc"
+					android:id="@+id/chkAutoSwitchToLRC" android:background="@drawable/bg_setting_land_normal_middle"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:textColor="#FFFFFF" android:textSize="20dip"
+					android:button="@layout/option_checkbox_middle"></CheckBox>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_play_mode"
+					android:id="@+id/btnPlayMode" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingLeft="20dip"
+					android:gravity="left|center_vertical" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_general_notify_next"
+					android:id="@+id/btnNotifyAction" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingLeft="20dip"
+					android:gravity="left|center_vertical" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<Button android:layout_height="wrap_content"
+					android:text="@string/pfrscat_general_favourite_max" android:id="@+id/btnFavoriteMax"
+					android:layout_width="fill_parent" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingBottom="10dip"
+					android:paddingLeft="20dip" android:gravity="left|center_vertical"
+					android:paddingRight="20dip" android:shadowColor="#00000000"
+					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_bottom"></Button>
+			</LinearLayout>
+		</ScrollView>
+		<ScrollView android:layout_height="fill_parent"
+			android:layout_width="fill_parent" android:id="@+id/scrDisplay"
+			android:visibility="gone" android:scrollbarThumbVertical="@drawable/scroll_track">
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:id="@+id/layDisplay"
+				android:orientation="vertical">
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_lrc_scroll_style"
+					android:id="@+id/btnScrollMode" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_single"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_background_port"
+					android:id="@+id/btnBackgroundPort" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:paddingTop="10dip"
+					android:background="@layout/option_bg_top"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_background_land"
+					android:id="@+id/btnBackgroundLand" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:text="@string/pfrscat_display_background_brightness"
+					android:id="@+id/btnBackgroundBrightness" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_background_blur"
+					android:id="@+id/chkBackgroundBlur" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:background="@layout/option_bg_bottom"
+					android:paddingBottom="10dip" android:button="@layout/option_checkbox_bottom"></CheckBox>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_use_animation"
+					android:id="@+id/chkUseAnimation" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:background="@layout/option_bg_single"
+					android:button="@layout/option_checkbox_single"></CheckBox>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_list_font_size"
+					android:id="@+id/btnListFontSize" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:background="@layout/option_bg_top"
+					android:paddingTop="10dip"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_list_font_color"
+					android:id="@+id/btnListFontColor" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_list_font_shadow"
+					android:id="@+id/chkListFontShadow" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:background="@layout/option_bg_middle"
+					android:button="@layout/option_checkbox_middle"></CheckBox>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:text="@string/pfrscat_display_list_font_shadow_color"
+					android:id="@+id/btnListFontShadowColor" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:paddingBottom="10dip" android:background="@layout/option_bg_bottom"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_lrc_font_size"
+					android:id="@+id/btnLRCFontSize" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:background="@layout/option_bg_top"
+					android:paddingTop="10dip"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:text="@string/pfrscat_display_lrc_normal_font_color"
+					android:id="@+id/btnLRCFontColorNormal" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:text="@string/pfrscat_display_lrc_highlight_font_color"
+					android:id="@+id/btnLRCFontColorHighlight" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_middle"></Button>
+				<CheckBox android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_display_lrc_font_shadow"
+					android:id="@+id/chkLRCFontShadow" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:background="@layout/option_bg_middle"
+					android:button="@layout/option_checkbox_middle"></CheckBox>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:text="@string/pfrscat_display_lrc_font_shadow_color"
+					android:id="@+id/btnLRCFontShadowColor" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingBottom="10dip"
+					android:gravity="left|center_vertical" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:shadowColor="#00000000"
+					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_bottom"></Button>
+			</LinearLayout>
+		</ScrollView>
+		<ScrollView android:layout_height="fill_parent" android:id="@+id/scrOthers"
+			android:layout_width="fill_parent" android:visibility="gone"
+			android:scrollbarThumbVertical="@drawable/scroll_track">
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:id="@+id/layOthers">
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_others_restore"
+					android:id="@+id/btnRestore" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:gravity="left|center_vertical"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_single"></Button>
+			</LinearLayout>
+		</ScrollView>
+		<ScrollView android:layout_height="fill_parent"
+			android:layout_width="fill_parent" android:id="@+id/scrHelp"
+			android:visibility="gone" android:scrollbarThumbVertical="@drawable/scroll_track">
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:id="@+id/layHelp"
+				android:orientation="vertical">
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_help_visit_official_site"
+					android:id="@+id/btnGoHome" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingTop="10dip"
+					android:gravity="left|center_vertical" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:shadowColor="#00000000"
+					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_top"></Button>
+				<Button android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:text="@string/pfrscat_help_about"
+					android:id="@+id/btnAbout" android:textSize="20dip"
+					android:textColor="#FFFFFF" android:paddingBottom="10dip"
+					android:gravity="left|center_vertical" android:paddingLeft="20dip"
+					android:paddingRight="20dip" android:shadowColor="#00000000"
+					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+					android:background="@layout/option_bg_bottom"></Button>
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
+	<Button android:shadowColor="#0099FF" android:shadowDx="0" android:background="@layout/alertdialog_button" android:textColor="#FFFFFF"
+		android:shadowDy="0" android:shadowRadius="3"
+		android:layout_alignParentBottom="true" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/btnReturn" android:text="@string/global_return"></Button>
+</RelativeLayout>

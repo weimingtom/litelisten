@@ -40,7 +40,7 @@ public class ActionReceiver extends BroadcastReceiver
 
 		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
 		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
-			if (!IsFirstActionHeadsetPlug && main.getSp().getBoolean("chkAutoPause", true))
+			if (!IsFirstActionHeadsetPlug && main.getSp().getBoolean("AutoPause", true))
 				main.getMs().Pause();
 			else
 				IsFirstActionHeadsetPlug = false;

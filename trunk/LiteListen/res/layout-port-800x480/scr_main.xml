@@ -53,7 +53,7 @@
 				android:layout_below="@+id/skbVolume" android:visibility="gone">
 				<EditText android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:paddingRight="42dip"
-					android:hint="@string/srcmain_keyword_hint" android:shadowDy="0"
+					android:hint="@string/scrmain_keyword_hint" android:shadowDy="0"
 					android:shadowDx="0" android:background="@drawable/txt_keyword"
 					android:singleLine="true" android:lines="1" android:id="@+id/txtKeyword"
 					android:shadowRadius="1" android:layout_marginTop="5dip"

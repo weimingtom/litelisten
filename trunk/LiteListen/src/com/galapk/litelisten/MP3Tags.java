@@ -42,87 +42,23 @@ public class MP3Tags
 			MediaFile mf = new MP3File(f);
 			ID3Tag[] ID3 = mf.getTags();
 
-			String index = main.getSp().getString("lstPropertyReadPriority", "0");
-			if (index.equals("0"))
-			{
-				// 优先检测ID3v2
-				if (ID3.length == 1 && ID3[0] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[1]);
+			// 优先检测ID3v2
+			if (ID3.length == 1 && ID3[0] instanceof ID3V2_3_0Tag)
+				return (ID3V2Tag) ReCodecTag(ID3[0]);
+			else if (ID3.length == 2 && ID3[1] instanceof ID3V2_3_0Tag)
+				return (ID3V2Tag) ReCodecTag(ID3[1]);
 
-				// 然后是ID3v1.1
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[1]);
+			// 然后是ID3v1.1
+			if (ID3.length == 1 && ID3[0] instanceof ID3V1_1Tag)
+				return (ID3V1_1Tag) ReCodecTag(ID3[0]);
+			else if (ID3.length == 2 && ID3[1] instanceof ID3V1_1Tag)
+				return (ID3V1_1Tag) ReCodecTag(ID3[1]);
 
-				// 最后检测ID3v1.0
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[1]);
-			}
-			else if (index.equals("1"))
-			{
-				// 优先检测ID3v1.1
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[1]);
-
-				// 然后是ID3v1.0
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[1]);
-
-				// 最后检测ID3v2
-				if (ID3.length == 1 && ID3[0] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[1]);
-			}
-			else if (index.equals("0"))
-			{
-				// 优先检测ID3v2
-				if (ID3.length == 1 && ID3[0] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[1]);
-
-				// 然后是ID3v1.1
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[1]);
-
-				// 最后检测ID3v1.0
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[1]);
-			}
-			else if (index.equals("0"))
-			{
-				// 优先检测ID3v1.1
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_1Tag)
-					return (ID3V1_1Tag) ReCodecTag(ID3[1]);
-
-				// 然后是ID3v1.0
-				if (ID3.length == 1 && ID3[0] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V1_0Tag)
-					return (ID3V1_0Tag) ReCodecTag(ID3[1]);
-
-				// 最后检测ID3v2
-				if (ID3.length == 1 && ID3[0] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[0]);
-				else if (ID3.length == 2 && ID3[1] instanceof ID3V2_3_0Tag)
-					return (ID3V2Tag) ReCodecTag(ID3[1]);
-			}
+			// 最后检测ID3v1.0
+			if (ID3.length == 1 && ID3[0] instanceof ID3V1_0Tag)
+				return (ID3V1_0Tag) ReCodecTag(ID3[0]);
+			else if (ID3.length == 2 && ID3[1] instanceof ID3V1_0Tag)
+				return (ID3V1_0Tag) ReCodecTag(ID3[1]);
 
 			return null;
 		}

@@ -179,7 +179,7 @@ public class MusicService
 				}.start();
 			}
 
-			if (main.getSp().getBoolean("chkAutoSwitchToLRC", false))
+			if (main.getSp().getBoolean("AutoSwitchToLRC", false))
 				main.List2LRCSwitcher();
 
 			// 发送正在播放广播给Widget
@@ -209,7 +209,7 @@ public class MusicService
 	{
 		int index = -1;
 
-		String ModeIndex = main.getSp().getString("lstPlayMode", "1");
+		String ModeIndex = main.getSp().getString("PlayMode", "1");
 		if (ModeIndex.equals("0"))
 		{
 			if (CurrIndex < main.getLstSong().size() - 1)

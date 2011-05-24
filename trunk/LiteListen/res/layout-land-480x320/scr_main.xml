@@ -31,7 +31,7 @@
 					android:visibility="gone">
 					<EditText android:layout_height="wrap_content"
 						android:layout_width="wrap_content" android:paddingRight="42dip"
-						android:hint="@string/srcmain_keyword_hint" android:shadowDy="0"
+						android:hint="@string/scrmain_keyword_hint" android:shadowDy="0"
 						android:shadowDx="0" android:background="@drawable/txt_keyword"
 						android:singleLine="true" android:lines="1"
 						android:layout_alignParentLeft="true" android:id="@+id/txtKeyword"

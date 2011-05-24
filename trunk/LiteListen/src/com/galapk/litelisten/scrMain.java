@@ -468,7 +468,7 @@ public class scrMain extends Activity
 		PendingIntent pdItent = null;
 		Notification notification = null;
 
-		if (sp.getString("lstNotifyNext", "0").equals("0"))
+		if (sp.getString("NotifyAction", "0").equals("0"))
 		{// 显示主界面
 			intent = new Intent(this, scrMain.class);
 			pdItent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -554,7 +554,7 @@ public class scrMain extends Activity
 		if (!path.equals("/sdcard"))
 		{
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("ShowPath", getString(R.string.srcmain_file_list));
+			map.put("ShowPath", getString(R.string.scrmain_file_list));
 			map.put("AbsolutePath", path.substring(0, path.lastIndexOf("/")));
 			lstFileTemp.add(map);
 		}
@@ -589,7 +589,7 @@ public class scrMain extends Activity
 			{
 				IsRefreshing = true;
 				MusicFile mf = new MusicFile();
-				mf.GetFiles(sp.getString("txtMusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
+				mf.GetFiles(sp.getString("MusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
 						"chkIngnoreDirectory", true));
 				List<String> lstFile = mf.getLstFile();
 				lstSong = new ArrayList<Map<String, Object>>();
@@ -743,7 +743,7 @@ public class scrMain extends Activity
 				Cursor cur = null;
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
 				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
-				String index = sp.getString("lstListOrder", "1");
+				String index = sp.getString("ListSortOrder", "1");
 				String strOrderBy = sp.getString("OrderBy", "asc"); // 决定排序方式
 
 				String strParOrderBy = "";
@@ -770,7 +770,7 @@ public class scrMain extends Activity
 				{
 					if (IsShowingFavourite)
 					{// 最爱歌曲
-						if (i > Integer.parseInt(sp.getString("txtFavouriteMax", "30")))
+						if (i > Integer.parseInt(sp.getString("FavoriteMax", "30")))
 							break;
 						else
 							i++;
@@ -826,7 +826,7 @@ public class scrMain extends Activity
 	/* 设置播放模式 */
 	public void SetPlayMode()
 	{
-		String index = sp.getString("lstPlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
+		String index = sp.getString("PlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
 
 		if (index.equals("0"))
 			btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
@@ -843,7 +843,7 @@ public class scrMain extends Activity
 	/* 设置程序语言 */
 	public void SetLanguage()
 	{
-		String index = sp.getString("lstLanguage", "3");
+		String index = sp.getString("Language", "3");
 		if (!index.equals("3"))
 		{
 			Configuration config = getResources().getConfiguration(); // 获得设置对象
@@ -866,7 +866,7 @@ public class scrMain extends Activity
 
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
 		{
-			String index = sp.getString("lstBackgroundLand", "0");
+			String index = sp.getString("BackgroundLand", "0");
 			File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_land.png");
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
@@ -879,7 +879,7 @@ public class scrMain extends Activity
 		}
 		else
 		{
-			String index = sp.getString("lstBackgroundPort", "0");
+			String index = sp.getString("BackgroundPort", "0");
 			File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_port.png");
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
@@ -895,10 +895,10 @@ public class scrMain extends Activity
 	/* 设置字体 */
 	public void SetFonts()
 	{
-		txtLRC.setTextSize(Float.parseFloat(sp.getString("txtLRCFontSize", "18")));
-		txtLRC.setTextColor(Color.parseColor(sp.getString("btnLRCNormalFontColor", "#FFFFFF")));
-		if (sp.getBoolean("chkLRCFontShadow", true))
-			txtLRC.setShadowLayer(1, 1, 1, Color.parseColor(sp.getString("btnLRCFontShadowColor", "#0099FF")));
+		txtLRC.setTextSize(Float.parseFloat(sp.getString("LRCFontSize", "18")));
+		txtLRC.setTextColor(Color.parseColor(sp.getString("LRCFontColorNormal", "#FFFFFF")));
+		if (sp.getBoolean("LRCFontShadow", true))
+			txtLRC.setShadowLayer(1, 1, 1, Color.parseColor(sp.getString("LRCFontShadowColor", "#0099FF")));
 		else
 			txtLRC.setShadowLayer(1, 1, 1, Color.TRANSPARENT);
 	}
@@ -943,19 +943,19 @@ public class scrMain extends Activity
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_settings);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_settings));
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_settings));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_desk_lrc);
 		if (sp.getBoolean("DeskLRCStatus", true))
 		{
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_desk_lrc_hide));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_desk_lrc_hide));
 			fl.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_desk_lrc_show));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_desk_lrc_show));
 			fl.setVisibility(View.INVISIBLE);
 			nm.cancel(LRC_NOTIFY_ID);
 		}
@@ -965,13 +965,13 @@ public class scrMain extends Activity
 		map.put("ItemIcon", R.drawable.menu_keep_screen_on);
 		if (sp.getBoolean("KeepScreenOn", false))
 		{
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_false));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_keep_screen_on_false));
 			layActivity.setKeepScreenOn(true);
 			fl.setKeepScreenOn(true);
 		}
 		else
 		{
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_keep_screen_on_true));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_keep_screen_on_true));
 			layActivity.setKeepScreenOn(false);
 			fl.setKeepScreenOn(false);
 		}
@@ -979,37 +979,37 @@ public class scrMain extends Activity
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_search);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_search));
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_search));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		if (sp.getString("OrderBy", "asc").equals("asc"))
 		{
 			map.put("ItemIcon", R.drawable.menu_order_desc);
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_order_desc));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_order_desc));
 		}
 		else
 		{
 			map.put("ItemIcon", R.drawable.menu_order_asc);
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_order_asc));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_order_asc));
 		}
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_ringtong);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_ringtong));
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_ringtong));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
 		if (IsShowingFavourite)
 		{// 最爱
 			map.put("ItemIcon", R.drawable.menu_list);
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_list));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_list));
 		}
 		else
 		{// 列表
 			map.put("ItemIcon", R.drawable.menu_favourite);
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_favourite));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_favourite));
 		}
 		lstMenuItem.add(map);
 
@@ -1018,13 +1018,13 @@ public class scrMain extends Activity
 		{
 			map = new HashMap<String, Object>();
 			map.put("ItemIcon", R.drawable.menu_wait);
-			map.put("ItemText", getString(R.string.srcmain_extend_menu_wait));
+			map.put("ItemText", getString(R.string.scrmain_extend_menu_wait));
 			lstMenuItem.add(map);
 		}
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_exit);
-		map.put("ItemText", getString(R.string.srcmain_extend_menu_exit));
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_exit));
 		lstMenuItem.add(map);
 
 		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
@@ -1035,7 +1035,7 @@ public class scrMain extends Activity
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
-		if (item.getTitle().equals(getString(R.string.srcmain_context_menu_lrc_links)))
+		if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_links)))
 		{
 			txtLRC.setVisibility(View.GONE);
 			layLyricController.setVisibility(View.VISIBLE);
@@ -1135,7 +1135,7 @@ public class scrMain extends Activity
 				map.put("Album", ID3v1_0.getAlbum());
 				map.put("Comment", ID3v1_0.getComment());
 				map.put("Year", ID3v1_0.getYear());
-				map.put("Track", getString(R.string.srcmain_no_track_number));
+				map.put("Track", "");
 				map.put("Genre", String.valueOf(ID3v1_0.getGenre()));
 
 				if (!ID3v1_0.getTitle().equals(""))
@@ -1152,7 +1152,7 @@ public class scrMain extends Activity
 		else
 		{
 			map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
-			map.put("SongInfo", getString(R.string.srcmain_no_id3_tag_found));
+			map.put("SongInfo", "");
 			map.put("Artist", "");
 			map.put("Album", "");
 			map.put("Comment", "");
@@ -1181,7 +1181,7 @@ public class scrMain extends Activity
 		}
 
 		anim.setDuration(ANIMATION_TIME);
-		if (sp.getBoolean("chkUseAnimation", true))
+		if (sp.getBoolean("UseAnimation", true))
 			laySearch.startAnimation(anim);
 	}
 
@@ -1199,7 +1199,7 @@ public class scrMain extends Activity
 				layControlPanel.setVisibility(View.GONE);
 			skbVolume.setVisibility(View.VISIBLE);
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				skbVolume.startAnimation(animShow);
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
@@ -1212,7 +1212,7 @@ public class scrMain extends Activity
 				layControlPanel.setVisibility(View.VISIBLE);
 			skbVolume.setVisibility(View.GONE);
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				skbVolume.startAnimation(animHide);
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
@@ -1233,7 +1233,7 @@ public class scrMain extends Activity
 
 			CurrentShown = 1;
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				Animation animShow = new TranslateAnimation(dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
@@ -1261,7 +1261,7 @@ public class scrMain extends Activity
 
 			CurrentShown = 0;
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				Animation animShow = new TranslateAnimation(-dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
@@ -1321,73 +1321,73 @@ public class scrMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				String index = sp.getString("lstPlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
+				String index = sp.getString("PlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
 				Editor edt = sp.edit();
 
 				if (index.equals("0"))
 				{
-					edt.putString("lstPlayMode", "1");
+					edt.putString("PlayMode", "1");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_all);
 
 					if (toast != null)
 					{
-						toast.setText(R.string.srcmain_play_mode_repeat_all);
+						toast.setText(R.string.scrmain_play_mode_repeat_all);
 						toast.setDuration(Toast.LENGTH_SHORT);
 					}
 					else
-						toast = Toast.makeText(scrMain.this, R.string.srcmain_play_mode_repeat_all, Toast.LENGTH_SHORT);
+						toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_repeat_all, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("1"))
 				{
-					edt.putString("lstPlayMode", "2");
+					edt.putString("PlayMode", "2");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_pause_current);
 
 					if (toast != null)
 					{
-						toast.setText(R.string.srcmain_play_mode_pause_current);
+						toast.setText(R.string.scrmain_play_mode_pause_current);
 						toast.setDuration(Toast.LENGTH_SHORT);
 					}
 					else
-						toast = Toast.makeText(scrMain.this, R.string.srcmain_play_mode_pause_current, Toast.LENGTH_SHORT);
+						toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_pause_current, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("2"))
 				{
-					edt.putString("lstPlayMode", "3");
+					edt.putString("PlayMode", "3");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_current);
 
 					if (toast != null)
 					{
-						toast.setText(R.string.srcmain_play_mode_repeat_current);
+						toast.setText(R.string.scrmain_play_mode_repeat_current);
 						toast.setDuration(Toast.LENGTH_SHORT);
 					}
 					else
-						toast = Toast.makeText(scrMain.this, R.string.srcmain_play_mode_repeat_current, Toast.LENGTH_SHORT);
+						toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_repeat_current, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("3"))
 				{
-					edt.putString("lstPlayMode", "4");
+					edt.putString("PlayMode", "4");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_shuffle);
 
 					if (toast != null)
 					{
-						toast.setText(R.string.srcmain_play_mode_shuffle);
+						toast.setText(R.string.scrmain_play_mode_shuffle);
 						toast.setDuration(Toast.LENGTH_SHORT);
 					}
 					else
-						toast = Toast.makeText(scrMain.this, R.string.srcmain_play_mode_shuffle, Toast.LENGTH_SHORT);
+						toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_shuffle, Toast.LENGTH_SHORT);
 				}
 				else if (index.equals("4"))
 				{
-					edt.putString("lstPlayMode", "0");
+					edt.putString("PlayMode", "0");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
 
 					if (toast != null)
 					{
-						toast.setText(R.string.srcmain_play_mode_close);
+						toast.setText(R.string.scrmain_play_mode_close);
 						toast.setDuration(Toast.LENGTH_SHORT);
 					}
 					else
-						toast = Toast.makeText(scrMain.this, R.string.srcmain_play_mode_close, Toast.LENGTH_SHORT);
+						toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_close, Toast.LENGTH_SHORT);
 				}
 
 				edt.commit();
@@ -1455,14 +1455,27 @@ public class scrMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				Editor edt = sp.edit();
-				edt.putString("LastKeyword", txtKeyword.getText().toString());
-				edt.commit();
+				if (IsRefreshing)
+				{
+					MessageDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.global_wait), getString(R.string.scrmain_scanning), 18, new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							MessageDialog.CloseDialog();
+						}
+					}, null);
+				}
+				else
+				{
+					Editor edt = sp.edit();
+					edt.putString("LastKeyword", txtKeyword.getText().toString());
+					edt.commit();
 
-				SetMusicListByDB();
-				txtKeyword.setText("");
-				SearchBoxSwitcher();
-				txtKeyword.clearFocus();
+					SetMusicListByDB();
+					txtKeyword.setText("");
+					SearchBoxSwitcher();
+					txtKeyword.clearFocus();
+				}
 			}
 		});
 
@@ -1486,9 +1499,9 @@ public class scrMain extends Activity
 				if (!IsStartup)
 				{
 					if (progress == 0)
-						SetCurrentTitle(getString(R.string.srcmain_volume_mute)); // 显示静音
+						SetCurrentTitle(getString(R.string.scrmain_volume_mute)); // 显示静音
 					else
-						SetCurrentTitle(getString(R.string.srcmain_volume) + progress); // 暂时显示音量
+						SetCurrentTitle(getString(R.string.scrmain_volume) + progress); // 暂时显示音量
 				}
 			}
 		});
@@ -1501,8 +1514,8 @@ public class scrMain extends Activity
 				if (MovedDistance < (float) 10)
 				{// 小于10像素则认为需要弹出菜单
 					menu.setHeaderIcon(R.drawable.icon);
-					menu.setHeaderTitle(R.string.srcmain_context_menu_lrc);
-					menu.add(R.string.srcmain_context_menu_lrc_links);
+					menu.setHeaderTitle(R.string.scrmain_context_menu_lrc);
+					menu.add(R.string.scrmain_context_menu_lrc_links);
 				}
 			}
 		});
@@ -1527,13 +1540,16 @@ public class scrMain extends Activity
 				switch (arg2)
 				{
 					case 0:
-						startActivity(new Intent(scrMain.this, SettingService.class));
+						// startActivity(new Intent(scrMain.this,
+						// SettingService.class)); // 老版设置界面
+						startActivity(new Intent(scrMain.this, scrSettings.class));
+
 						break;
 					case 1:
 						TextView txtDeskLyric = (TextView) arg1.findViewById(R.id.txtMenu);
 						if (sp.getBoolean("DeskLRCStatus", true))
 						{
-							txtDeskLyric.setText(R.string.srcmain_extend_menu_desk_lrc_show);
+							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_show);
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", false);
 							edt.commit();
@@ -1549,7 +1565,7 @@ public class scrMain extends Activity
 						}
 						else
 						{
-							txtDeskLyric.setText(R.string.srcmain_extend_menu_desk_lrc_hide);
+							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_hide);
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", true);
 							edt.commit();
@@ -1572,34 +1588,34 @@ public class scrMain extends Activity
 						if (!sp.getBoolean("KeepScreenOn", false))
 						{
 							layActivity.setKeepScreenOn(true);
-							txtScrOn.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
+							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_false);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", true);
 							edt.commit();
 
 							if (toast != null)
 							{
-								toast.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
+								toast.setText(R.string.scrmain_extend_menu_keep_screen_on_true);
 								toast.setDuration(Toast.LENGTH_SHORT);
 							}
 							else
-								toast = Toast.makeText(scrMain.this, R.string.srcmain_extend_menu_keep_screen_on_true, Toast.LENGTH_SHORT);
+								toast = Toast.makeText(scrMain.this, R.string.scrmain_extend_menu_keep_screen_on_true, Toast.LENGTH_SHORT);
 						}
 						else
 						{
 							layActivity.setKeepScreenOn(false);
-							txtScrOn.setText(R.string.srcmain_extend_menu_keep_screen_on_true);
+							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_true);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", false);
 							edt.commit();
 
 							if (toast != null)
 							{
-								toast.setText(R.string.srcmain_extend_menu_keep_screen_on_false);
+								toast.setText(R.string.scrmain_extend_menu_keep_screen_on_false);
 								toast.setDuration(Toast.LENGTH_SHORT);
 							}
 							else
-								toast = Toast.makeText(scrMain.this, R.string.srcmain_extend_menu_keep_screen_on_false, Toast.LENGTH_SHORT);
+								toast = Toast.makeText(scrMain.this, R.string.scrmain_extend_menu_keep_screen_on_false, Toast.LENGTH_SHORT);
 						}
 						toast.show();
 
@@ -1612,7 +1628,7 @@ public class scrMain extends Activity
 						ImageView imgMenu = (ImageView) arg1.findViewById(R.id.imgMenu);
 						if (sp.getString("OrderBy", "asc").equals("asc"))
 						{
-							txtOrder.setText(R.string.srcmain_extend_menu_order_asc);
+							txtOrder.setText(R.string.scrmain_extend_menu_order_asc);
 							imgMenu.setImageResource(R.drawable.menu_order_asc);
 							Editor edt = sp.edit();
 							edt.putString("OrderBy", "desc");
@@ -1620,7 +1636,7 @@ public class scrMain extends Activity
 						}
 						else
 						{
-							txtOrder.setText(R.string.srcmain_extend_menu_order_desc);
+							txtOrder.setText(R.string.scrmain_extend_menu_order_desc);
 							imgMenu.setImageResource(R.drawable.menu_order_desc);
 							Editor edt = sp.edit();
 							edt.putString("OrderBy", "asc");
@@ -1642,24 +1658,24 @@ public class scrMain extends Activity
 					//
 					// if (toast != null)
 					// {
-					// toast.setText(R.string.srcmain_ringtong_successful);
+					// toast.setText(R.string.scrmain_ringtong_successful);
 					// toast.setDuration(Toast.LENGTH_SHORT);
 					// }
 					// else
 					// toast = Toast.makeText(srcMain.this,
-					// R.string.srcmain_ringtong_successful,
+					// R.string.scrmain_ringtong_successful,
 					// Toast.LENGTH_SHORT);
 					// }
 					// else
 					// {
 					// if (toast != null)
 					// {
-					// toast.setText(R.string.srcmain_play_first);
+					// toast.setText(R.string.scrmain_play_first);
 					// toast.setDuration(Toast.LENGTH_SHORT);
 					// }
 					// else
 					// toast = Toast.makeText(srcMain.this,
-					// R.string.srcmain_play_first, Toast.LENGTH_SHORT);
+					// R.string.scrmain_play_first, Toast.LENGTH_SHORT);
 					// }
 					// toast.show();
 					//
@@ -1670,14 +1686,14 @@ public class scrMain extends Activity
 
 						if (IsShowingFavourite)
 						{// 最爱-->列表
-							txtFavourite.setText(R.string.srcmain_extend_menu_favourite);
+							txtFavourite.setText(R.string.scrmain_extend_menu_favourite);
 							imgFavourite.setImageResource(R.drawable.menu_favourite);
 
 							IsShowingFavourite = false;
 						}
 						else
 						{// 列表-->最爱
-							txtFavourite.setText(R.string.srcmain_extend_menu_list);
+							txtFavourite.setText(R.string.scrmain_extend_menu_list);
 							imgFavourite.setImageResource(R.drawable.menu_list);
 
 							IsShowingFavourite = true;
@@ -1776,7 +1792,7 @@ public class scrMain extends Activity
 
 					// 设置字体大小
 					Editor edt = sp.edit();
-					edt.putString("txtLRCFontSize", String.valueOf(txtLRC.getTextSize() / 1.5));
+					edt.putString("LRCFontSize", String.valueOf(txtLRC.getTextSize() / 1.5));
 					edt.commit();
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
@@ -1940,7 +1956,7 @@ public class scrMain extends Activity
 			grdMenu.setVisibility(View.VISIBLE);
 			Animation anim = new AlphaAnimation(0, 1);
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				anim.setDuration(ANIMATION_TIME);
 				grdMenu.startAnimation(anim);
@@ -1956,7 +1972,7 @@ public class scrMain extends Activity
 			grdMenu.setVisibility(View.GONE);
 			Animation anim = new AlphaAnimation(1, 0);
 
-			if (sp.getBoolean("chkUseAnimation", true))
+			if (sp.getBoolean("UseAnimation", true))
 			{
 				anim.setDuration(ANIMATION_TIME);
 				grdMenu.startAnimation(anim);
@@ -1980,7 +1996,7 @@ public class scrMain extends Activity
 			anim = new AlphaAnimation(0, 1);
 		}
 
-		if (sp.getBoolean("chkUseAnimation", true))
+		if (sp.getBoolean("UseAnimation", true))
 		{
 			anim.setDuration(ANIMATION_TIME);
 			grdMenu.startAnimation(anim);
@@ -2022,11 +2038,11 @@ public class scrMain extends Activity
 
 			if (toast != null)
 			{
-				toast.setText(getString(R.string.srcmain_volume) + skbVolume.getProgress());
+				toast.setText(getString(R.string.scrmain_volume) + skbVolume.getProgress());
 				toast.setDuration(Toast.LENGTH_SHORT);
 			}
 			else
-				toast = Toast.makeText(scrMain.this, getString(R.string.srcmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
+				toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
 
 			toast.show();
 
@@ -2043,13 +2059,13 @@ public class scrMain extends Activity
 			if (toast != null)
 			{
 				if (skbVolume.getProgress() == 0)
-					toast.setText(R.string.srcmain_volume_mute);
+					toast.setText(R.string.scrmain_volume_mute);
 				else
-					toast.setText(getString(R.string.srcmain_volume) + skbVolume.getProgress());
+					toast.setText(getString(R.string.scrmain_volume) + skbVolume.getProgress());
 				toast.setDuration(Toast.LENGTH_SHORT);
 			}
 			else
-				toast = Toast.makeText(scrMain.this, getString(R.string.srcmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
+				toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_volume) + skbVolume.getProgress(), Toast.LENGTH_SHORT);
 
 			toast.show();
 

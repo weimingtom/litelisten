@@ -116,8 +116,8 @@ public class LRCService
 
 				SpannableStringBuilder ssb = new SpannableStringBuilder(strLRC);
 				if (strLRC.length() > strLRCTemp.length() - 1)
-					ssb.setSpan(new ForegroundColorSpan(Color.parseColor(main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00"))), strLRCTemp.length() - map.get(CurrTime).length() - 1,
-							strLRCTemp.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // 前语句高亮
+					ssb.setSpan(new ForegroundColorSpan(Color.parseColor(main.getSp().getString("LRCFontColorHighlight", "#FFFF00"))), strLRCTemp.length() - map.get(CurrTime).length() - 1, strLRCTemp
+							.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // 前语句高亮
 
 				// 发送消息更新界面
 				Message msg = new Message();
@@ -198,7 +198,7 @@ public class LRCService
 		for (int i = -WidgetLineCount / 2; i <= WidgetLineCount / 2; i++)
 		{
 			if (i == 0) // 最中间的一句需要高亮
-				strLRCSentence += "<font color='" + main.getSp().getString("btnLRCHighlightlFontColor", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
+				strLRCSentence += "<font color='" + main.getSp().getString("LRCFontColorHighlight", "#FFFF00") + "'>" + map.get(lstTimeStamp.get(CurrIndex + i)) + "</font><br />";
 			else
 			{
 				if (CurrIndex + i >= 0 && CurrIndex + i < map.size())

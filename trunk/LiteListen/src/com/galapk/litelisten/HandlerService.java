@@ -67,7 +67,7 @@ public class HandlerService
 		{
 			if (main.getSp().getBoolean("IsFirstStart19", true))
 			{
-				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.srcmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
+				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -185,11 +185,11 @@ public class HandlerService
 
 					if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
 					{
-						if (main.getSp().getBoolean("chkUseAnimation", true))
+						if (main.getSp().getBoolean("UseAnimation", true))
 						{
 							Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
 							Bundle b = msg.getData();
-							if (main.getSp().getString("lstLRCScrollStyle", "0").equals("1"))
+							if (main.getSp().getString("ScrollMode", "0").equals("1"))
 								anim.setDuration(b.getLong("TimeGap")); // 平滑滚动
 							else
 								anim.setDuration(200); // 逐行滚动

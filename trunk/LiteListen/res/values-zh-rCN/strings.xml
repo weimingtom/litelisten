@@ -5,48 +5,43 @@
 	<string name="global_app_version_desk_lrc_show">桌面歌词秀</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
-	<string name="global_yes">是</string>
-	<string name="global_no">否</string>
+	<string name="global_return">返回</string>
 	<string name="global_request">请求许可</string>
 	<string name="global_wait">请稍候</string>
 
 	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
 	<string name="lrcservice_no_lyric_found">没有找到歌词\n长按这里选择歌词</string>
 
-	<string name="srcmain_extend_menu_settings">设置</string>
-	<string name="srcmain_extend_menu_desk_lrc_show">打开浮动</string>
-	<string name="srcmain_extend_menu_desk_lrc_hide">关闭浮动</string>
-	<string name="srcmain_extend_menu_exit">退出</string>
-	<string name="srcmain_extend_menu_keep_screen_on_true">屏幕长亮</string>
-	<string name="srcmain_extend_menu_keep_screen_on_false">取消长亮</string>
-	<string name="srcmain_extend_menu_search">快速搜索</string>
-	<string name="srcmain_extend_menu_order_asc">升序排列</string>
-	<string name="srcmain_extend_menu_order_desc">降序排列</string>
-	<string name="srcmain_extend_menu_ringtong">设为铃声</string>
-	<string name="srcmain_extend_menu_favourite">最爱歌曲</string>
-	<string name="srcmain_extend_menu_list">返回列表</string>
-	<string name="srcmain_extend_menu_wait">敬请期待</string>
-	<string name="srcmain_no_id3_tag_found">没有 ID3 标签信息</string>
-	<string name="srcmain_play_mode_close">顺序播放</string>
-	<string name="srcmain_play_mode_repeat_all">全部循环</string>
-	<string name="srcmain_play_mode_pause_current">单曲暂停</string>
-	<string name="srcmain_play_mode_repeat_current">单曲重复</string>
-	<string name="srcmain_play_mode_shuffle">随机播放</string>
-	<string name="srcmain_no_track_number">没有音轨信息</string>
-	<string name="srcmain_create_play_list_title">建立播放列表</string>
-	<string name="srcmain_indexing">正在读取音乐文件信息，请稍后搜索。</string>
-	<string name="srcmain_create_play_list_message">单击【确定】开始扫描存储设备并建立播放列表。</string>
-	<string name="srcmain_keyword_hint">键入拼音首字母搜索</string>
-	<string name="srcmain_show_main">单击这里显示播放器主界面</string>
-	<string name="srcmain_volume">音量：</string>
-	<string name="srcmain_volume_mute">静音</string>
-	<string name="srcmain_ringtong_successful">已设为来电铃声</string>
-	<string name="srcmain_alarm_successful">已设为闹钟铃声</string>
-	<string name="srcmain_play_first">请先播放音乐</string>
-	<string name="srcmain_context_menu_lrc">歌词选项</string>
-	<string name="srcmain_context_menu_lrc_links">从文件中选择歌词</string>
-	<string name="srcmain_file_list">【返回上级目录】</string>
-	<string name="srcmain_update_log">更新记录</string>
+	<string name="scrmain_extend_menu_settings">设置</string>
+	<string name="scrmain_extend_menu_desk_lrc_show">打开浮动</string>
+	<string name="scrmain_extend_menu_desk_lrc_hide">关闭浮动</string>
+	<string name="scrmain_extend_menu_exit">退出</string>
+	<string name="scrmain_extend_menu_keep_screen_on_true">屏幕长亮</string>
+	<string name="scrmain_extend_menu_keep_screen_on_false">取消长亮</string>
+	<string name="scrmain_extend_menu_search">快速搜索</string>
+	<string name="scrmain_extend_menu_order_asc">升序排列</string>
+	<string name="scrmain_extend_menu_order_desc">降序排列</string>
+	<string name="scrmain_extend_menu_ringtong">设为铃声</string>
+	<string name="scrmain_extend_menu_favourite">最爱歌曲</string>
+	<string name="scrmain_extend_menu_list">返回列表</string>
+	<string name="scrmain_extend_menu_wait">敬请期待</string>
+	<string name="scrmain_play_mode_close">顺序播放</string>
+	<string name="scrmain_play_mode_repeat_all">全部循环</string>
+	<string name="scrmain_play_mode_pause_current">单曲暂停</string>
+	<string name="scrmain_play_mode_repeat_current">单曲重复</string>
+	<string name="scrmain_play_mode_shuffle">随机播放</string>
+	<string name="scrmain_keyword_hint">键入拼音首字母搜索</string>
+	<string name="scrmain_show_main">单击这里显示播放器主界面</string>
+	<string name="scrmain_volume">音量：</string>
+	<string name="scrmain_volume_mute">静音</string>
+	<string name="scrmain_ringtong_successful">已设为来电铃声</string>
+	<string name="scrmain_alarm_successful">已设为闹钟铃声</string>
+	<string name="scrmain_play_first">请先播放音乐</string>
+	<string name="scrmain_context_menu_lrc">歌词选项</string>
+	<string name="scrmain_context_menu_lrc_links">选择歌词文件</string>
+	<string name="scrmain_file_list">【返回上级目录】</string>
+	<string name="scrmain_update_log">我更新了啥？</string>
+	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -63,24 +58,16 @@
 	<string name="notification_show">单击这里返回播放器</string>
 	<string name="notification_play">单击这里播放下一首</string>
 
-	<string name="pfrsmain_title">设置轻听音乐播放器</string>
+	<string name="pfrsmain_title">播放器设置</string>
 	<string name="pfrsmain_image">选择一种看图程序</string>
 	<string name="pfrscat_general_title">常规选项</string>
 	<string name="pfrscat_general_language">语言</string>
 	<string name="pfrscat_general_language_title">语言设置</string>
-	<string name="pfrscat_general_language_message">您修改了程序语言，建议您立即重新启动程序。\n\n是否立即重新启动？</string>
 	<string name="pfrscat_general_music_path">音乐目录</string>
 	<string name="pfrscat_general_include_sub_directories">扫描子文件夹</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定文件夹</string>
-	<string name="pfrscat_general_ignore_directory_summary">扫描时将跳过包含 .nomedia 文件的文件夹</string>
-	<string name="pfrscat_general_auto_play">启动时自动播放</string>
-	<string name="pfrscat_general_remember_last_played">记住最后播放的歌曲</string>
-	<string name="pfrscat_general_convert_chinese_lrc">中文歌词简繁转换</string>
-	<string name="pfrscat_general_fit_screen_orientation">屏幕旋转</string>
 	<string name="pfrscat_general_list_order">播放列表排序</string>
 	<string name="pfrscat_general_auto_switch_to_lrc">自动跳转到歌词</string>
-	<string name="pfrscat_general_auto_switch_to_lrc_summary">歌曲开始播放后立即显示歌词</string>
-	<string name="pfrscat_general_property_read_priority">属性扫描优先级</string>
 	<string name="pfrscat_general_play_mode">播放模式</string>
 	<string name="pfrscat_general_notify_next">通知栏消息点击动作</string>
 	<string name="pfrscat_general_favourite_max">最爱歌曲列表的大数量</string>
@@ -92,7 +79,6 @@
 	<string name="pfrscat_display_background_brightness">背景图亮度</string>
 	<string name="pfrscat_display_background_blur">背景图模糊效果</string>
 	<string name="pfrscat_display_use_animation">使用动画效果</string>
-	<string name="pfrscat_display_use_animation_summary">关闭动画可提升性能，但会减弱体验</string>
 	<string name="pfrscat_display_list_font_size">列表字体大小</string>
 	<string name="pfrscat_display_list_font_color">列表字体颜色</string>
 	<string name="pfrscat_display_list_font_shadow">播放列表阴影</string>
@@ -104,22 +90,18 @@
 	<string name="pfrscat_display_lrc_font_shadow_color">歌词阴影颜色</string>
 	<string name="pfrscat_others_title">其它设置</string>
 	<string name="pfrscat_others_restore">还原默认设置</string>
-	<string name="pfrscat_others_restore_summary">所有设置将被还原</string>
 	<string name="pfrscat_others_restore_title">请在下面的文本框中输入“是”，然后按确定以还原设置。</string>
-	<string name="pfrscat_others_restore_message_ok">设置还原成功，您必须立即重新启动程序。</string>
-	<string name="pfrscat_others_restore_message_wrong">您输入的内容不正确，设置还原失败。</string>
+	<string name="pfrscat_others_restore_message_ok">设置还原成功！</string>
+	<string name="pfrscat_others_restore_message_wrong">您输入的内容不正确，设置没有被改变。</string>
 	<string name="pfrscat_help_title">帮助信息</string>
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐播放器 官方页面</string>
-	<string name="pfrscat_help_visit_official_site_summary">http://www.littledai.com/category/litelisten
-	</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
-	<string name="pfrscat_help_about_summary">单击查看版本及更新信息</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.23 build
-		0520.1009\n\n更新内容：\n【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.24 build
+		0524.1539\n\n更新内容：\n【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n【修复】标题和艺术家为空时引起程序崩溃的问题\n【优化】所有界面完美支持第三方深度美化的ROM\n【优化】全新的设置界面\n【优化】删除了不必要的资源\n【优化】调整了几处不恰当的表达\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开
+	<string name="update_info">【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n【修复】标题和艺术家为空时引起程序崩溃的问题\n【优化】所有界面完美支持第三方深度美化的ROM\n【优化】全新的设置界面\n【优化】删除了不必要的资源\n【优化】调整了几处不恰当的表达
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

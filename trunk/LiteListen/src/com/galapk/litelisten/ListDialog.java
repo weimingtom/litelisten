@@ -36,12 +36,12 @@ public class ListDialog
 {
 	private static PopupWindow pw;
 	private static int[] CheckedID;
-	private static String[] RadioText;
 	private static String ret = "";
 
-	public static void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK)
+	public static void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, int CheckedIndex, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+		ret = String.valueOf(CheckedIndex);
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_list_dialog, null, false);
@@ -62,7 +62,6 @@ public class ListDialog
 		// 设置提示信息
 		RadioGroup grpOption = (RadioGroup) view.findViewById(R.id.grpOption);
 		CheckedID = new int[Content.length];
-		RadioText = new String[Content.length];
 		for (int i = 0; i < Content.length; i++)
 		{
 			RadioButton radOption = new RadioButton(act);
@@ -72,14 +71,17 @@ public class ListDialog
 			radOption.setBackgroundResource(R.layout.option_bg_list);
 			grpOption.addView(radOption);
 
+			if (i == CheckedIndex)
+				radOption.setChecked(true);
+
 			android.view.ViewGroup.LayoutParams layOption = radOption.getLayoutParams();
 			layOption.width = android.view.ViewGroup.LayoutParams.FILL_PARENT;
 			layOption.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 			radOption.setLayoutParams(layOption);
 
 			CheckedID[i] = radOption.getId();
-			RadioText[i] = Content[i];
 		}
+
 		grpOption.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
 			public void onCheckedChanged(RadioGroup group, int checkedId)
@@ -88,7 +90,7 @@ public class ListDialog
 				{
 					if (CheckedID[i] == checkedId)
 					{
-						ret = RadioText[i];
+						ret = String.valueOf(i);
 						break;
 					}
 				}
@@ -130,16 +132,6 @@ public class ListDialog
 	public static void setCheckedID(int[] checkedID)
 	{
 		CheckedID = checkedID;
-	}
-
-	public static String[] getRadioText()
-	{
-		return RadioText;
-	}
-
-	public static void setRadioText(String[] radioText)
-	{
-		RadioText = radioText;
 	}
 
 	public static String getRet()

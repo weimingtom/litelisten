@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="19">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten"
+	android:versionCode="20">
 
 	<application android:icon="@drawable/icon"
 		android:label="@string/global_app_name_no_version">
@@ -20,20 +21,12 @@
 				<data android:mimeType="audio/x-mpeg" />
 			</intent-filter>
 
-
 			<intent-filter>
 				<action android:name="com.littledai.intent.action.float.lrc.lock" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 
-		<activity android:label="@string/pfrsmain_title"
-			android:name=".SettingService" android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-			</intent-filter>
-		</activity>
-		
 		<activity android:label="@string/pfrsmain_title"
 			android:name=".scrSettings" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
