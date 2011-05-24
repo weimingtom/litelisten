@@ -754,16 +754,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_color), 18, Color.parseColor(ListFontColor), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						ListFontColor = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_color), 18, Color.parseColor(ListFontColor), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								ListFontColor = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -780,16 +781,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_shadow_color), 18, Color.parseColor(ListFontShadowColor), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						ListFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_list_font_shadow_color), 18, Color.parseColor(ListFontShadowColor), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								ListFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -814,16 +816,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_normal_font_color), 18, Color.parseColor(LRCFontColorNormal), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						LRCFontColorNormal = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_normal_font_color), 18, Color.parseColor(LRCFontColorNormal), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								LRCFontColorNormal = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -831,16 +834,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_highlight_font_color), 18, Color.parseColor(LRCFontColorHighlight), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						LRCFontColorHighlight = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_highlight_font_color), 18, Color.parseColor(LRCFontColorHighlight), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								LRCFontColorHighlight = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -857,16 +861,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_font_shadow_color), 18, Color.parseColor(LRCFontShadowColor), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						LRCFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_font_shadow_color), 18, Color.parseColor(LRCFontShadowColor), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								LRCFontShadowColor = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -1801,5 +1806,15 @@ public class scrSettings extends Activity
 	public void setIMAGE_SELECTED_LAND(int iMAGESELECTEDLAND)
 	{
 		IMAGE_SELECTED_LAND = iMAGESELECTEDLAND;
+	}
+
+	public int getScreenOrantation()
+	{
+		return ScreenOrantation;
+	}
+
+	public void setScreenOrantation(int screenOrantation)
+	{
+		ScreenOrantation = screenOrantation;
 	}
 }

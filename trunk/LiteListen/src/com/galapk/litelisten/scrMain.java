@@ -516,6 +516,7 @@ public class scrMain extends Activity
 	}
 
 	/* ∫· ˙∆¡«–ªª≤ª÷¥––onCreate() */
+	@Override
 	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);

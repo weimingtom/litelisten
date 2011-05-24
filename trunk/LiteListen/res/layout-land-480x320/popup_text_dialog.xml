@@ -29,12 +29,12 @@
 			android:textColor="#FFFFFF" android:shadowDx="0" android:shadowDy="0"
 			android:shadowColor="#0099FF" android:layout_width="135dip"
 			android:layout_height="45dip" android:text="@string/global_ok"
-			android:background="@layout/alertdialog_button" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></Button>
+			android:background="@layout/alertdialog_button" android:layout_marginBottom="10dip" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></Button>
 		<Button android:id="@+id/btnCancel" android:shadowDx="0"
 			android:shadowDy="0" android:textColor="#FFFFFF"
 			android:shadowRadius="3" android:shadowColor="#0099FF"
 			android:layout_width="135dip" android:layout_height="45dip"
-			android:text="@string/global_cancel" android:background="@layout/alertdialog_button" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></Button>
+			android:text="@string/global_cancel" android:background="@layout/alertdialog_button" android:layout_marginBottom="10dip" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></Button>
 
 	</LinearLayout>
 </LinearLayout>
