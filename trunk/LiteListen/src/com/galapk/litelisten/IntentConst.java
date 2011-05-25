@@ -26,6 +26,8 @@ public class IntentConst
 	public static String INTENT_ACTION_FLOAT_LRC_UNLOCK = "com.littledai.intent.action.float.lrc.unlock"; // 解锁桌面歌词
 	public static String INTENT_ACTION_FLOAT_LRC_LOCK = "com.littledai.intent.action.float.lrc.lock"; // 锁定桌面歌词
 	public static String INTENT_ACTION_NOTIFICATION_NEXT = "com.littledai.intent.action.notification.next"; // 单击通知栏播放下一首
+	public static String INTENT_ACTION_FLOAT_LRC_SHOW = "com.littledai.intent.action.float.lrc.show"; // 显示浮动歌词
+	public static String INTENT_ACTION_FLOAT_LRC_HIDE = "com.littledai.intent.action.float.lrc.hide"; // 关闭浮动歌词
 
 	public static String getINTENT_ACTION_REFRESH_LRC()
 	{
@@ -95,5 +97,25 @@ public class IntentConst
 	public static void setINTENT_ACTION_NOTIFICATION_NEXT(String iNTENTACTIONNOTIFICATIONNEXT)
 	{
 		INTENT_ACTION_NOTIFICATION_NEXT = iNTENTACTIONNOTIFICATIONNEXT;
+	}
+
+	public static String getINTENT_ACTION_FLOAT_LRC_SHOW()
+	{
+		return INTENT_ACTION_FLOAT_LRC_SHOW;
+	}
+
+	public static void setINTENT_ACTION_FLOAT_LRC_SHOW(String iNTENTACTIONFLOATLRCSHOW)
+	{
+		INTENT_ACTION_FLOAT_LRC_SHOW = iNTENTACTIONFLOATLRCSHOW;
+	}
+
+	public static String getINTENT_ACTION_FLOAT_LRC_HIDE()
+	{
+		return INTENT_ACTION_FLOAT_LRC_HIDE;
+	}
+
+	public static void setINTENT_ACTION_FLOAT_LRC_HIDE(String iNTENTACTIONFLOATLRCHIDE)
+	{
+		INTENT_ACTION_FLOAT_LRC_HIDE = iNTENTACTIONFLOATLRCHIDE;
 	}
 }

@@ -19,7 +19,6 @@ package com.galapk.litelisten;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,26 +32,18 @@ import android.widget.TextView;
 public class MessageDialog
 {
 	private static PopupWindow pw;
-	private static DisplayMetrics dm;
 
 	public static void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
-		dm = new DisplayMetrics();
-		act.getWindowManager().getDefaultDisplay().getMetrics(dm);
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_message_dialog, null, false);
 
 		if (ScreenOrientation == 1 || ScreenOrientation == 3)
-		{
-			if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH)
-				pw = new PopupWindow(view, dm.widthPixels - 200, LayoutParams.WRAP_CONTENT, true);
-			else
-				pw = new PopupWindow(view, dm.widthPixels - 100, LayoutParams.WRAP_CONTENT, true);
-		}
+			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
 		else
-			pw = new PopupWindow(view, dm.widthPixels - 40, LayoutParams.WRAP_CONTENT, true);
+			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
 
 		// …Ë÷√Õº±Í
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -94,15 +85,5 @@ public class MessageDialog
 	public static void setPw(PopupWindow pw)
 	{
 		MessageDialog.pw = pw;
-	}
-
-	public static DisplayMetrics getDm()
-	{
-		return dm;
-	}
-
-	public static void setDm(DisplayMetrics dm)
-	{
-		MessageDialog.dm = dm;
 	}
 }

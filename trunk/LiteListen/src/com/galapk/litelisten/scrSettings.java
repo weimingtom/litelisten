@@ -127,6 +127,15 @@ public class scrSettings extends Activity
 	private String Restore;
 
 	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW);
+		sendBroadcast(intent);
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		if (resultCode == RESULT_OK)
@@ -243,7 +252,7 @@ public class scrSettings extends Activity
 		ListFontSize = sp.getString("ListFontSize", "18");
 		ListFontColor = sp.getString("ListFontColor", "#FFFFFF");
 		ListFontShadow = sp.getBoolean("ListFontShadow", true);
-		ListFontShadowColor = sp.getString("ListFontShadowColor", "#0099FF");
+		ListFontShadowColor = sp.getString("ListFontShadowColor", "#000000");
 
 		LRCFontSize = sp.getString("LRCFontSize", "18");
 		LRCFontColorNormal = sp.getString("LRCFontColorNormal", "#FFFFFF");
@@ -263,6 +272,11 @@ public class scrSettings extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题栏
 		setContentView(R.layout.scr_settings);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 全屏
+
+		// 关闭浮动歌词
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE);
+		sendBroadcast(intent);
+
 		FindViews();
 		GetPreferences();
 		ListernerBinding();
@@ -387,6 +401,15 @@ public class scrSettings extends Activity
 		});
 	}
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE);
+		sendBroadcast(intent);
+	}
+
 	/* 设置各选项按钮显示文字 */
 	public void GetButtonDisplay()
 	{
@@ -414,10 +437,10 @@ public class scrSettings extends Activity
 		chkBackgroundBlur.setChecked(BackgroundBlur);
 		chkUseAnimation.setChecked(UseAnimation);
 		btnListFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontSize + "</font>"));
-		btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + ListFontColor + "</font>"));
+		btnListFontColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_color) + "<br /><font color='#FFFF00'>" + ListFontColor + "</font>"));
 		chkListFontShadow.setChecked(ListFontShadow);
 		btnListFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_shadow_color) + "<br /><font color='#FFFF00'>" + ListFontShadowColor + "</font>"));
-		btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_list_font_size) + "<br /><font color='#FFFF00'>" + LRCFontSize + "</font>"));
+		btnLRCFontSize.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_size) + "<br /><font color='#FFFF00'>" + LRCFontSize + "</font>"));
 		btnLRCFontColorNormal.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_normal_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorNormal + "</font>"));
 		btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorHighlight + "</font>"));
 		chkLRCFontShadow.setChecked(LRCFontShadow);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.5.24 build 0524.1539</string>
+	<string name="global_app_version">0.5.24 build 0525.1623</string>
 
 	<string-array name="item_value_pfrscat_general_language">
 		<item>0</item>
@@ -43,6 +43,7 @@
 	<string name="global_app_version_desk_lrc_show">Desk Lyric Show</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
+	<string name="global_return">Back</string>
 	<string name="global_request">Access Request</string>
 	<string name="global_wait">Please wait</string>
 
@@ -96,63 +97,71 @@
 	<string name="notification_show">Click here to back to player</string>
 	<string name="notification_play">Click here to play next</string>
 
-	<string name="pfrsmain_title">Settings of LiteListen</string>
-	<string name="pfrsmain_image">Choose An Image-Viewer</string>
+	<string name="pfrsmain_title">Setting to LiteListen</string>
+	<string name="pfrsmain_image">Choose an image-viewer</string>
 	<string name="pfrscat_general_title">General</string>
 	<string name="pfrscat_general_language">Language</string>
-	<string name="pfrscat_general_language_title">Language Settings</string>
-	<string name="pfrscat_general_music_path">Music Path</string>
-	<string name="pfrscat_general_include_sub_directories">Scan Sub-Directoires</string>
-	<string name="pfrscat_general_ignore_directory">Ignore Directories</string>
-	<string name="pfrscat_general_list_order">Playlist Order</string>
-	<string name="pfrscat_general_auto_switch_to_lrc">Auto Lyric Show</string>
-	<string name="pfrscat_general_play_mode">Play Mode</string>
-	<string name="pfrscat_general_notify_next">Notification Action</string>
-	<string name="pfrscat_general_favourite_max">Show Count Of Favourite Music</string>
-	<string name="pfrscat_general_autopause">Pause When (Dis)Connected From External Audio
-		Device</string>
-	<string name="pfrscat_display_title">Visual Preference</string>
-	<string name="pfrscat_display_lrc_scroll_style">LRC Scroll Style</string>
-	<string name="pfrscat_display_background_port">Background Image Of Portrait</string>
-	<string name="pfrscat_display_background_land">Background Image Of Landscape</string>
-	<string name="pfrscat_display_background_brightness">Brightness Of Background Image</string>
-	<string name="pfrscat_display_background_blur">Set Blur To Background Image</string>
-	<string name="pfrscat_display_use_animation">Use Animation</string>
-	<string name="pfrscat_display_list_font_size">Font Size Of PlayList</string>
-	<string name="pfrscat_display_list_font_color">Font Color Of PlayList</string>
-	<string name="pfrscat_display_list_font_shadow">Open Shadow Of PlayList</string>
-	<string name="pfrscat_display_list_font_shadow_color">Shadow Color Of PlayList</string>
-	<string name="pfrscat_display_lrc_font_size">Font Size Of Lyric</string>
-	<string name="pfrscat_display_lrc_normal_font_color">Normal Font Color Of Lyric</string>
-	<string name="pfrscat_display_lrc_highlight_font_color">HighLight Font Color Of Lyric</string>
-	<string name="pfrscat_display_lrc_font_shadow">Open Shadow Of Lyric</string>
-	<string name="pfrscat_display_lrc_font_shadow_color">Shadow Color Of Lyric</string>
+	<string name="pfrscat_general_music_path">Music path</string>
+	<string name="pfrscat_general_include_sub_directories">Scan with sub-directoires</string>
+	<string name="pfrscat_general_ignore_directory">Do not scan .nomedia directoires</string>
+	<string name="pfrscat_general_list_order">List sort order</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">Auto switch lyric show</string>
+	<string name="pfrscat_general_play_mode">Play mode</string>
+	<string name="pfrscat_general_notify_next">Notify icon action</string>
+	<string name="pfrscat_general_favourite_max">Show count of favourite music</string>
+	<string name="pfrscat_general_autopause">Pause when (dis)connected from external audio
+		device</string>
+	<string name="pfrscat_display_title">Display</string>
+	<string name="pfrscat_display_lrc_scroll_style">Lyric scroll style</string>
+	<string name="pfrscat_display_background_port">Portrait background image</string>
+	<string name="pfrscat_display_background_land">Landscape background image</string>
+	<string name="pfrscat_display_background_brightness">Background image brightness</string>
+	<string name="pfrscat_display_background_blur">Make blur to background image</string>
+	<string name="pfrscat_display_use_animation">Use animations</string>
+	<string name="pfrscat_display_list_font_size">List font size</string>
+	<string name="pfrscat_display_list_font_color">List font color</string>
+	<string name="pfrscat_display_list_font_shadow">List font shadow</string>
+	<string name="pfrscat_display_list_font_shadow_color">List font shadow color</string>
+	<string name="pfrscat_display_lrc_font_size">Lyric font shadow</string>
+	<string name="pfrscat_display_lrc_normal_font_color">Normal lyric font color</string>
+	<string name="pfrscat_display_lrc_highlight_font_color">HighLight lyric font color</string>
+	<string name="pfrscat_display_lrc_font_shadow">Lyric font shadow</string>
+	<string name="pfrscat_display_lrc_font_shadow_color">Lyric font shadow color</string>
 	<string name="pfrscat_others_title">Others</string>
-	<string name="pfrscat_others_restore">Restore To Default</string>
+	<string name="pfrscat_others_restore">Restore to default</string>
 	<string name="pfrscat_others_restore_title">Please type \"yes\" in the textbox below and press
 		[Yes] to restore.</string>
-	<string name="pfrscat_others_restore_message_ok">Restore Successfully. App Must Be Restarted Now!
-	</string>
-	<string name="pfrscat_others_restore_message_wrong">The Word You Type Is Incorrect. Restore Failed.
+	<string name="pfrscat_others_restore_message_ok">Restore successfully!</string>
+	<string name="pfrscat_others_restore_message_wrong">The word(s) you type is incorrect. Restoration
+		failed.
 	</string>
 	<string name="pfrscat_help_title">Help</string>
-	<string name="pfrscat_help_visit_official_site">Visit The Official Website Of LiteListen</string>
+	<string name="pfrscat_help_visit_official_site">Visit the official website of LiteListen</string>
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.24 build 0524.1539\n\nUpdate
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.24 build 0525.1623\n\nUpdate
 		Contents: \n[New] A option of auto pause while external audio device
-		is (dis)connected\n[Optimize] Beautiful preference UI\n[Optimize]
-		Release unused resources\n[Optimize] Adjust some bad
-		expressions\n\nOfficial
+		is (dis)connected\n[Fix] A crash problem when artist or title is
+		null\n[Optimize] Beautiful preference UI\n[Optimize]
+		Release unused
+		resources\n[Optimize] Adjust some bad
+		expressions\n[Optimize] Cancel to
+		support low or middle screens for improve feelings\n[Optimize] Desk
+		lyric show will be hide when setting-interface loaded\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
 	<string name="update_info">[New] A option of auto pause while external audio
-		device is (dis)connected\n[Optimize] All of UIs Supported
-		third-party\'s ROM face\n[Optimize] Beautiful preference
-		UI\n[Optimize] Release unused resources\n[Optimize] Adjust some bad
-		expressions
+		device is (dis)connected\n[Fix] A crash problem when artist or title
+		is null\n[Optimize] All of UIs Supported
+		third-party\'s ROM
+		face\n[Optimize] Beautiful preference
+		UI\n[Optimize] Release unused
+		resources\n[Optimize] Adjust some bad
+		expressions\n[Optimize] Cancel to
+		support low or middle screens for improve feelings\n[Optimize] Desk
+		lyric show will be hide when setting-interface loaded
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -195,7 +204,7 @@
 	</string-array>
 	<string-array name="item_name_pfrscat_display_background">
 		<item>Default</item>
-		<item>Choose An Image...</item>
+		<item>Personality</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
 		<item>Progressive</item>

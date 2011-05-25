@@ -65,15 +65,15 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getSp().getBoolean("IsFirstStart19", true))
+			if (main.getSp().getBoolean("IsFirstStart20", true))
 			{
 				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart19", false); // 设置当前版本
-						edt.remove("IsFirstStart18"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart20", false); // 设置当前版本
+						edt.remove("IsFirstStart19"); // 删除上个版本的标记
 						edt.commit();
 
 						MessageDialog.CloseDialog();

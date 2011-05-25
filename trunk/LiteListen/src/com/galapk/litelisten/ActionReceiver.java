@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
+import android.view.View;
 
 public class ActionReceiver extends BroadcastReceiver
 {
@@ -49,6 +50,13 @@ public class ActionReceiver extends BroadcastReceiver
 			main.LockFloatLRC(true);
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK))
 			main.LockFloatLRC(false);
+		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW))
+		{
+			if (main.getSp().getBoolean("DeskLRCStatus", true))
+				main.getFl().setVisibility(View.VISIBLE);
+		}
+		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE))
+			main.getFl().setVisibility(View.INVISIBLE);
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT))
 			main.getMs().Next(false);
 		else

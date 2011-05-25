@@ -291,6 +291,10 @@ public class scrMain extends Activity
 			registerReceiver(actReceiver, ittFilterLRCUnlock);
 			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
 			registerReceiver(actReceiver, ittFilterNotifyNext);
+			IntentFilter ittFilterLRCShow = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW); // 显示浮动歌词
+			registerReceiver(actReceiver, ittFilterLRCShow);
+			IntentFilter ittFilterLRCHide = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE); // 关闭浮动歌词
+			registerReceiver(actReceiver, ittFilterLRCHide);
 
 			if (IsStartup && !IsRefreshing && !(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))) // 如果外部调用则不刷新列表
 				SetMusicToList();
