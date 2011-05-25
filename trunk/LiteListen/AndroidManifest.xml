@@ -81,6 +81,6 @@
 		android:maxSdkVersion="10" />
 
 	<supports-screens android:smallScreens="false"
-		android:normalScreens="true" android:largeScreens="true"
+		android:normalScreens="false" android:largeScreens="true"
 		android:anyDensity="true" />
 </manifest> 
