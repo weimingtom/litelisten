@@ -98,10 +98,10 @@
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.24 build
-		0525.1623\n\n更新内容：\n【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n【修复】标题和艺术家为空时引起程序崩溃的问题\n【优化】所有界面完美支持第三方深度美化的ROM\n【优化】全新的设置界面\n【优化】删除了不必要的资源\n【优化】调整了几处不恰当的表达\n【优化】为了增强体验，取消对低分辨率机型的支持\n【优化】设置界面不显示桌面歌词\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.25 build
+		0526.1405\n\n更新内容：\n【修复】暂停歌曲导致系统崩溃的问题\n【修复】升级到0.5.24版本后某些设置丢失的问题\n【修复】默认音乐列表颜色不正确的问题\n【优化】大幅减少了对闪存的读写，提升运行效率\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】连接/断开音频设备时是否暂停播放音乐选项，默认为开\n【修复】标题和艺术家为空时引起程序崩溃的问题\n【优化】所有界面完美支持第三方深度美化的ROM\n【优化】全新的设置界面\n【优化】删除了不必要的资源\n【优化】调整了几处不恰当的表达\n【优化】为了增强体验，取消对低分辨率机型的支持\n【优化】设置界面不显示桌面歌词
+	<string name="update_info">【修复】暂停歌曲导致系统崩溃的问题\n【修复】升级到0.5.24版本后某些设置丢失的问题\n【修复】默认音乐列表颜色不正确的问题\n【优化】大幅减少了对闪存的读写，提升运行效率
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

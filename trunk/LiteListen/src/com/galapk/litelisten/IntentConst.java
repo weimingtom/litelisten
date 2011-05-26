@@ -28,6 +28,7 @@ public class IntentConst
 	public static String INTENT_ACTION_NOTIFICATION_NEXT = "com.littledai.intent.action.notification.next"; // 单击通知栏播放下一首
 	public static String INTENT_ACTION_FLOAT_LRC_SHOW = "com.littledai.intent.action.float.lrc.show"; // 显示浮动歌词
 	public static String INTENT_ACTION_FLOAT_LRC_HIDE = "com.littledai.intent.action.float.lrc.hide"; // 关闭浮动歌词
+	public static String INTENT_ACTION_PREFERENCE_REFRESH = "com.littledai.intent.action.preference.refresh"; // 刷新设置参数
 
 	public static String getINTENT_ACTION_REFRESH_LRC()
 	{
@@ -117,5 +118,15 @@ public class IntentConst
 	public static void setINTENT_ACTION_FLOAT_LRC_HIDE(String iNTENTACTIONFLOATLRCHIDE)
 	{
 		INTENT_ACTION_FLOAT_LRC_HIDE = iNTENTACTIONFLOATLRCHIDE;
+	}
+
+	public static String getINTENT_ACTION_PREFERENCE_REFRESH()
+	{
+		return INTENT_ACTION_PREFERENCE_REFRESH;
+	}
+
+	public static void setINTENT_ACTION_PREFERENCE_REFRESH(String iNTENTACTIONPREFERENCEREFRESH)
+	{
+		INTENT_ACTION_PREFERENCE_REFRESH = iNTENTACTIONPREFERENCEREFRESH;
 	}
 }

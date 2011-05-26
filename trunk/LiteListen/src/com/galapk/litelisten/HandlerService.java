@@ -65,15 +65,15 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getSp().getBoolean("IsFirstStart20", true))
+			if (main.getSp().getBoolean("IsFirstStart21", true))
 			{
 				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart20", false); // 设置当前版本
-						edt.remove("IsFirstStart19"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart21", false); // 设置当前版本
+						edt.remove("IsFirstStart20"); // 删除上个版本的标记
 						edt.commit();
 
 						MessageDialog.CloseDialog();
@@ -185,11 +185,11 @@ public class HandlerService
 
 					if (LastPos != layLRC.topMargin && layLRC.topMargin != OffsetY)
 					{
-						if (main.getSp().getBoolean("UseAnimation", true))
+						if (main.getSt().getUseAnimation())
 						{
 							Animation anim = new TranslateAnimation(0, 0, OldY - msg.what, 0); // 从当前位置到目标位置动画
 							Bundle b = msg.getData();
-							if (main.getSp().getString("ScrollMode", "0").equals("1"))
+							if (main.getSt().getScrollMode().equals("1"))
 								anim.setDuration(b.getLong("TimeGap")); // 平滑滚动
 							else
 								anim.setDuration(200); // 逐行滚动
@@ -207,7 +207,7 @@ public class HandlerService
 			}
 
 			// 如果当前在后台运行则更新桌面小部件
-			if (main.getSp().getBoolean("IsRunBackground", false))
+			if (main.getSt().getIsRunBackground())
 			{
 				Intent intent = new Intent(IntentConst.INTENT_ACTION_REFRESH_LRC);
 				intent.putExtra("LRCSmall", main.getLs().getStrCurrLRCSentenceSmall());

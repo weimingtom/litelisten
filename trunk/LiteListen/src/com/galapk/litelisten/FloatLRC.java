@@ -193,6 +193,7 @@ public class FloatLRC extends LinearLayout
 				// 记录当前浮动歌词的位置
 				Editor edt = main.getSp().edit();
 				edt.putInt("FloatLRCPos", layWM.y);
+				main.getSt().setFloatLRCPos(layWM.y);
 				edt.commit();
 
 				break;

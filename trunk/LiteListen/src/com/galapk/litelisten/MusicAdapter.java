@@ -81,25 +81,25 @@ public class MusicAdapter extends BaseAdapter
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_playing);
 			txtSongTitle.setTextColor(Color.parseColor("#FF9900"));
-			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("ListFontSize", "18")));
-			if (main.getSp().getBoolean("ListFontShadow", true))
+			txtSongTitle.setTextSize(Float.parseFloat(main.getSt().getListFontSize()));
+			if (main.getSt().getListFontShadow())
 				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor("#000000"));
 		}
 		else if (main.getMs().getPlayerStatus() == MusicService.STATUS_PAUSE && main.getMs().getCurrIndex() == position)
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_paused);
 			txtSongTitle.setTextColor(Color.parseColor("#FF9900"));
-			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("ListFontColor", "18")));
-			if (main.getSp().getBoolean("ListFontShadow", true))
+			txtSongTitle.setTextSize(Float.parseFloat(main.getSt().getListFontSize()));
+			if (main.getSt().getListFontShadow())
 				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor("#000000"));
 		}
 		else
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_normal);
-			txtSongTitle.setTextColor(Color.parseColor(main.getSp().getString("ListFontColor", "#FFFFFF")));
-			txtSongTitle.setTextSize(Float.parseFloat(main.getSp().getString("ListFontSize", "18")));
-			if (main.getSp().getBoolean("ListFontShadow", true))
-				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor(main.getSp().getString("ListFontShadowColor", "#000000")));
+			txtSongTitle.setTextColor(Color.parseColor(main.getSt().getListFontColor()));
+			txtSongTitle.setTextSize(Float.parseFloat(main.getSt().getListFontSize()));
+			if (main.getSt().getListFontShadow())
+				txtSongTitle.setShadowLayer(0.5f, 0.5f, 1, Color.parseColor(main.getSt().getListFontShadowColor()));
 		}
 
 		if (main.getSelectedItemIndex() != position)

@@ -157,6 +157,7 @@ public class scrMain extends Activity
 	private WindowManager.LayoutParams layWM;
 	private AudioManager am;
 	private DisplayMetrics dm;
+	private SettingProvider st;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -181,26 +182,15 @@ public class scrMain extends Activity
 					try
 					{
 						if (sp.getInt("MusicControl", 3) == 0)
-						{
 							hs.getHdlPlayLast().sendEmptyMessage(0);
-							Editor edt = sp.edit();
-							edt.putInt("MusicControl", 3);
-							edt.commit();
-						}
-						else if (sp.getInt("MusicControl", 3) == 1)
-						{
+						else if (sp.getInt("MusicControl", 3) == 0)
 							hs.getHdlPlayPause().sendEmptyMessage(0);
-							Editor edt = sp.edit();
-							edt.putInt("MusicControl", 3);
-							edt.commit();
-						}
-						else if (sp.getInt("MusicControl", 3) == 2)
-						{
+						else if (sp.getInt("MusicControl", 3) == 0)
 							hs.getHdlPlayNext().sendEmptyMessage(0);
-							Editor edt = sp.edit();
-							edt.putInt("MusicControl", 3);
-							edt.commit();
-						}
+
+						Editor edt = sp.edit();
+						edt.putInt("MusicControl", 3);
+						edt.commit();
 
 						sleep(1000);
 					}
@@ -255,6 +245,8 @@ public class scrMain extends Activity
 
 		if (IsStartup)
 		{
+			sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
+			st = new SettingProvider(this);
 			ls = new LRCService(this);
 			ms = new MusicService(this);
 			db = new DBProvider(this);
@@ -262,7 +254,6 @@ public class scrMain extends Activity
 			mt = new MP3Tags(this);
 			py = new PYProvider();
 			hs = new HandlerService(this);
-			sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
 			nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
 			layWM = new WindowManager.LayoutParams();
@@ -275,6 +266,8 @@ public class scrMain extends Activity
 			Editor edt = sp.edit();
 			edt.putString("LastKeyword", "");
 			edt.putBoolean("Started", true); // 是否启动标志，给Widget判断
+			st.setLastKeyword("");
+			st.setStarted(true);
 			edt.commit();
 
 			// 消息监听器
@@ -301,7 +294,7 @@ public class scrMain extends Activity
 			WidgetsListener();
 			CreateFloatLRC();
 			CallMusicNotify(getString(R.string.global_app_name_no_version), R.drawable.icon);
-			CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
+			CallFloatLRCNotify(st.getFloatLRCLocked());
 			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			IsStartup = false;
 		}
@@ -348,6 +341,7 @@ public class scrMain extends Activity
 
 		Editor edt = sp.edit();
 		edt.putBoolean("IsRunBackground", false);
+		st.setIsRunBackground(false);
 		edt.commit();
 
 		// 设置外部调用
@@ -405,6 +399,8 @@ public class scrMain extends Activity
 
 			ms.Play(0);
 		}
+		else if (intent.getAction() != null && intent.getAction().equals(IntentConst.INTENT_ACTION_PREFERENCE_REFRESH))
+			st.RefreshSettings(intent); // 刷新设置参数
 	}
 
 	/* 刷新语言线程 */
@@ -435,13 +431,13 @@ public class scrMain extends Activity
 	{
 		layWM.type = 2003; // 置于最顶层，一般为2002
 		layWM.format = 1; // 透明背景
-		if (sp.getBoolean("FloatLRCLocked", false))
+		if (st.getFloatLRCLocked())
 			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_NOT_TOUCHABLE;
 		else
 			layWM.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 		layWM.gravity = Gravity.LEFT | Gravity.TOP;
 		layWM.x = 0;
-		layWM.y = sp.getInt("FloatLRCPos", 0);
+		layWM.y = st.getFloatLRCPos();
 		layWM.width = dm.widthPixels;
 		layWM.height = 80;
 
@@ -462,6 +458,7 @@ public class scrMain extends Activity
 
 		Editor edt = sp.edit();
 		edt.putBoolean("FloatLRCLocked", NeedLocked);
+		st.setFloatLRCLocked(NeedLocked);
 		edt.commit();
 	}
 
@@ -472,7 +469,7 @@ public class scrMain extends Activity
 		PendingIntent pdItent = null;
 		Notification notification = null;
 
-		if (sp.getString("NotifyAction", "0").equals("0"))
+		if (st.getNotifyAction().equals("0"))
 		{// 显示主界面
 			intent = new Intent(this, scrMain.class);
 			pdItent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -535,9 +532,10 @@ public class scrMain extends Activity
 
 		Editor edt = sp.edit();
 		edt.putBoolean("IsRunBackground", true);
+		st.setIsRunBackground(true);
 		edt.commit();
 
-		if (sp.getBoolean("DeskLRCStatus", true))
+		if (st.getDeskLRCStatus())
 			fl.setVisibility(View.VISIBLE);
 	}
 
@@ -594,8 +592,7 @@ public class scrMain extends Activity
 			{
 				IsRefreshing = true;
 				MusicFile mf = new MusicFile();
-				mf.GetFiles(sp.getString("MusicPath", Environment.getExternalStorageDirectory().toString()), ".mp3", sp.getBoolean("chkIncludeSubDirectories", true), sp.getBoolean(
-						"chkIngnoreDirectory", true));
+				mf.GetFiles(st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
 				List<String> lstFile = mf.getLstFile();
 				lstSong = new ArrayList<Map<String, Object>>();
 
@@ -747,9 +744,9 @@ public class scrMain extends Activity
 
 				Cursor cur = null;
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
-				String Keyword = sp.getString("LastKeyword", ""); // 上次搜索的关键词
-				String index = sp.getString("ListSortOrder", "1");
-				String strOrderBy = sp.getString("OrderBy", "asc"); // 决定排序方式
+				String Keyword = st.getLastKeyword(); // 上次搜索的关键词
+				String index = st.getListSortOrder();
+				String strOrderBy = st.getOrderBy(); // 决定排序方式
 
 				String strParOrderBy = "";
 
@@ -775,7 +772,7 @@ public class scrMain extends Activity
 				{
 					if (IsShowingFavourite)
 					{// 最爱歌曲
-						if (i > Integer.parseInt(sp.getString("FavoriteMax", "30")))
+						if (i > Integer.parseInt(st.getFavoriteMax()))
 							break;
 						else
 							i++;
@@ -831,7 +828,7 @@ public class scrMain extends Activity
 	/* 设置播放模式 */
 	public void SetPlayMode()
 	{
-		String index = sp.getString("PlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
+		String index = st.getPlayMode(); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
 
 		if (index.equals("0"))
 			btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
@@ -848,7 +845,8 @@ public class scrMain extends Activity
 	/* 设置程序语言 */
 	public void SetLanguage()
 	{
-		String index = sp.getString("Language", "3");
+		String index = st.getLanguage();
+		;
 		if (!index.equals("3"))
 		{
 			Configuration config = getResources().getConfiguration(); // 获得设置对象
@@ -871,7 +869,7 @@ public class scrMain extends Activity
 
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
 		{
-			String index = sp.getString("BackgroundLand", "0");
+			String index = st.getBackgroundLand();
 			File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_land.png");
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
@@ -884,7 +882,7 @@ public class scrMain extends Activity
 		}
 		else
 		{
-			String index = sp.getString("BackgroundPort", "0");
+			String index = st.getBackgroundPort();
 			File f = new File(Environment.getExternalStorageDirectory() + "/LiteListen/" + "background_port.png");
 			if (index.equals("1") && f.isFile() && f.exists())
 			{
@@ -900,10 +898,10 @@ public class scrMain extends Activity
 	/* 设置字体 */
 	public void SetFonts()
 	{
-		txtLRC.setTextSize(Float.parseFloat(sp.getString("LRCFontSize", "18")));
-		txtLRC.setTextColor(Color.parseColor(sp.getString("LRCFontColorNormal", "#FFFFFF")));
-		if (sp.getBoolean("LRCFontShadow", true))
-			txtLRC.setShadowLayer(1, 1, 1, Color.parseColor(sp.getString("LRCFontShadowColor", "#0099FF")));
+		txtLRC.setTextSize(Float.parseFloat(st.getLRCFontSize()));
+		txtLRC.setTextColor(Color.parseColor(st.getLRCFontColorNormal()));
+		if (st.getLRCFontShadow())
+			txtLRC.setShadowLayer(1, 1, 1, Color.parseColor(st.getLRCFontShadowColor()));
 		else
 			txtLRC.setShadowLayer(1, 1, 1, Color.TRANSPARENT);
 	}
@@ -953,7 +951,7 @@ public class scrMain extends Activity
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_desk_lrc);
-		if (sp.getBoolean("DeskLRCStatus", true))
+		if (st.getDeskLRCStatus())
 		{
 			map.put("ItemText", getString(R.string.scrmain_extend_menu_desk_lrc_hide));
 			fl.setVisibility(View.VISIBLE);
@@ -968,7 +966,7 @@ public class scrMain extends Activity
 
 		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_keep_screen_on);
-		if (sp.getBoolean("KeepScreenOn", false))
+		if (st.getKeepScreenOn())
 		{
 			map.put("ItemText", getString(R.string.scrmain_extend_menu_keep_screen_on_false));
 			layActivity.setKeepScreenOn(true);
@@ -988,7 +986,7 @@ public class scrMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		if (sp.getString("OrderBy", "asc").equals("asc"))
+		if (st.getOrderBy().equals("asc"))
 		{
 			map.put("ItemIcon", R.drawable.menu_order_desc);
 			map.put("ItemText", getString(R.string.scrmain_extend_menu_order_desc));
@@ -1186,7 +1184,7 @@ public class scrMain extends Activity
 		}
 
 		anim.setDuration(ANIMATION_TIME);
-		if (sp.getBoolean("UseAnimation", true))
+		if (st.getUseAnimation())
 			laySearch.startAnimation(anim);
 	}
 
@@ -1204,7 +1202,7 @@ public class scrMain extends Activity
 				layControlPanel.setVisibility(View.GONE);
 			skbVolume.setVisibility(View.VISIBLE);
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				skbVolume.startAnimation(animShow);
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
@@ -1217,7 +1215,7 @@ public class scrMain extends Activity
 				layControlPanel.setVisibility(View.VISIBLE);
 			skbVolume.setVisibility(View.GONE);
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				skbVolume.startAnimation(animHide);
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
@@ -1238,7 +1236,7 @@ public class scrMain extends Activity
 
 			CurrentShown = 1;
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				Animation animShow = new TranslateAnimation(dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
@@ -1266,7 +1264,7 @@ public class scrMain extends Activity
 
 			CurrentShown = 0;
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				Animation animShow = new TranslateAnimation(-dm.widthPixels, 0, 0, 0);
 				animShow.setDuration(ANIMATION_TIME);
@@ -1326,12 +1324,13 @@ public class scrMain extends Activity
 		{
 			public void onClick(View v)
 			{
-				String index = sp.getString("PlayMode", "1"); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
+				String index = st.getPlayMode(); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
 				Editor edt = sp.edit();
 
 				if (index.equals("0"))
 				{
 					edt.putString("PlayMode", "1");
+					st.setPlayMode("1");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_all);
 
 					if (toast != null)
@@ -1345,6 +1344,7 @@ public class scrMain extends Activity
 				else if (index.equals("1"))
 				{
 					edt.putString("PlayMode", "2");
+					st.setPlayMode("2");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_pause_current);
 
 					if (toast != null)
@@ -1358,6 +1358,7 @@ public class scrMain extends Activity
 				else if (index.equals("2"))
 				{
 					edt.putString("PlayMode", "3");
+					st.setPlayMode("3");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_repeat_current);
 
 					if (toast != null)
@@ -1371,6 +1372,7 @@ public class scrMain extends Activity
 				else if (index.equals("3"))
 				{
 					edt.putString("PlayMode", "4");
+					st.setPlayMode("4");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_shuffle);
 
 					if (toast != null)
@@ -1384,6 +1386,7 @@ public class scrMain extends Activity
 				else if (index.equals("4"))
 				{
 					edt.putString("PlayMode", "0");
+					st.setPlayMode("0");
 					btnPlayMode.setBackgroundResource(R.drawable.btn_play_mode_close);
 
 					if (toast != null)
@@ -1474,6 +1477,7 @@ public class scrMain extends Activity
 				{
 					Editor edt = sp.edit();
 					edt.putString("LastKeyword", txtKeyword.getText().toString());
+					st.setLastKeyword(txtKeyword.getText().toString());
 					edt.commit();
 
 					SetMusicListByDB();
@@ -1545,18 +1549,16 @@ public class scrMain extends Activity
 				switch (arg2)
 				{
 					case 0:
-						// startActivity(new Intent(scrMain.this,
-						// SettingService.class)); // 老版设置界面
 						startActivity(new Intent(scrMain.this, scrSettings.class));
-
 						break;
 					case 1:
 						TextView txtDeskLyric = (TextView) arg1.findViewById(R.id.txtMenu);
-						if (sp.getBoolean("DeskLRCStatus", true))
+						if (st.getDeskLRCStatus())
 						{
 							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_show);
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", false);
+							st.setDeskLRCStatus(false);
 							edt.commit();
 							nm.cancel(LRC_NOTIFY_ID);
 
@@ -1573,8 +1575,9 @@ public class scrMain extends Activity
 							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_hide);
 							Editor edt = sp.edit();
 							edt.putBoolean("DeskLRCStatus", true);
+							st.setDeskLRCStatus(true);
 							edt.commit();
-							CallFloatLRCNotify(sp.getBoolean("FloatLRCLocked", false));
+							CallFloatLRCNotify(st.getFloatLRCLocked());
 
 							if (toast != null)
 							{
@@ -1590,12 +1593,13 @@ public class scrMain extends Activity
 					case 2:
 						TextView txtScrOn = (TextView) arg1.findViewById(R.id.txtMenu);
 
-						if (!sp.getBoolean("KeepScreenOn", false))
+						if (!st.getKeepScreenOn())
 						{
 							layActivity.setKeepScreenOn(true);
 							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_false);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", true);
+							st.setKeepScreenOn(true);
 							edt.commit();
 
 							if (toast != null)
@@ -1612,6 +1616,7 @@ public class scrMain extends Activity
 							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_true);
 							Editor edt = sp.edit();
 							edt.putBoolean("KeepScreenOn", false);
+							st.setKeepScreenOn(false);
 							edt.commit();
 
 							if (toast != null)
@@ -1631,12 +1636,13 @@ public class scrMain extends Activity
 					case 4:
 						TextView txtOrder = (TextView) arg1.findViewById(R.id.txtMenu);
 						ImageView imgMenu = (ImageView) arg1.findViewById(R.id.imgMenu);
-						if (sp.getString("OrderBy", "asc").equals("asc"))
+						if (st.getOrderBy().equals("asc"))
 						{
 							txtOrder.setText(R.string.scrmain_extend_menu_order_asc);
 							imgMenu.setImageResource(R.drawable.menu_order_asc);
 							Editor edt = sp.edit();
 							edt.putString("OrderBy", "desc");
+							st.setOrderBy("desc");
 							edt.commit();
 						}
 						else
@@ -1645,6 +1651,7 @@ public class scrMain extends Activity
 							imgMenu.setImageResource(R.drawable.menu_order_desc);
 							Editor edt = sp.edit();
 							edt.putString("OrderBy", "asc");
+							st.setOrderBy("asc");
 							edt.commit();
 						}
 
@@ -1715,6 +1722,8 @@ public class scrMain extends Activity
 							Editor edt = sp.edit();
 							edt.putString("LastKeyword", "");
 							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
+							st.setLastKeyword("");
+							st.setStarted(false);
 							edt.commit();
 							nm.cancelAll();
 							System.exit(0);
@@ -1727,6 +1736,8 @@ public class scrMain extends Activity
 							Editor edt = sp.edit();
 							edt.putString("LastKeyword", "");
 							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
+							st.setLastKeyword("");
+							st.setStarted(false);
 							edt.commit();
 							nm.cancelAll();
 							System.exit(0);
@@ -1798,6 +1809,7 @@ public class scrMain extends Activity
 					// 设置字体大小
 					Editor edt = sp.edit();
 					edt.putString("LRCFontSize", String.valueOf(txtLRC.getTextSize() / 1.5));
+					st.setLRCFontSize(String.valueOf(txtLRC.getTextSize() / 1.5));
 					edt.commit();
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
@@ -1939,6 +1951,7 @@ public class scrMain extends Activity
 					{
 						Editor edt = sp.edit();
 						edt.putString("LastKeyword", txtKeyword.getText().toString());
+						st.setLastKeyword(txtKeyword.getText().toString());
 						edt.commit();
 
 						SetMusicListByDB();
@@ -1961,7 +1974,7 @@ public class scrMain extends Activity
 			grdMenu.setVisibility(View.VISIBLE);
 			Animation anim = new AlphaAnimation(0, 1);
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				anim.setDuration(ANIMATION_TIME);
 				grdMenu.startAnimation(anim);
@@ -1977,7 +1990,7 @@ public class scrMain extends Activity
 			grdMenu.setVisibility(View.GONE);
 			Animation anim = new AlphaAnimation(1, 0);
 
-			if (sp.getBoolean("UseAnimation", true))
+			if (st.getUseAnimation())
 			{
 				anim.setDuration(ANIMATION_TIME);
 				grdMenu.startAnimation(anim);
@@ -2001,7 +2014,7 @@ public class scrMain extends Activity
 			anim = new AlphaAnimation(0, 1);
 		}
 
-		if (sp.getBoolean("UseAnimation", true))
+		if (st.getUseAnimation())
 		{
 			anim.setDuration(ANIMATION_TIME);
 			grdMenu.startAnimation(anim);
@@ -2678,5 +2691,35 @@ public class scrMain extends Activity
 	public void setTxtTimeTotal(TextView txtTimeTotal)
 	{
 		this.txtTimeTotal = txtTimeTotal;
+	}
+
+	public boolean isIsStartedUp()
+	{
+		return IsStartedUp;
+	}
+
+	public void setIsStartedUp(boolean isStartedUp)
+	{
+		IsStartedUp = isStartedUp;
+	}
+
+	public RelativeLayout getLayFileSelector()
+	{
+		return layFileSelector;
+	}
+
+	public void setLayFileSelector(RelativeLayout layFileSelector)
+	{
+		this.layFileSelector = layFileSelector;
+	}
+
+	public SettingProvider getSt()
+	{
+		return st;
+	}
+
+	public void setSt(SettingProvider st)
+	{
+		this.st = st;
 	}
 }

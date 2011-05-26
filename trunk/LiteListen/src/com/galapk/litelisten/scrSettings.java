@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -133,6 +134,40 @@ public class scrSettings extends Activity
 
 		Intent intent = new Intent(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW);
 		sendBroadcast(intent);
+	}
+
+	// 关闭设置界面
+	public void ClosePreference()
+	{
+		Intent intent = new Intent(IntentConst.INTENT_ACTION_PREFERENCE_REFRESH);
+		intent.setClass(scrSettings.this, scrMain.class);
+		intent.putExtra("Language", Language);
+		intent.putExtra("MusicPath", MusicPath);
+		intent.putExtra("IncludeSubDirectory", IncludeSubDirectory);
+		intent.putExtra("IgnoreDirectory", IgnoreDirectory);
+		intent.putExtra("AutoPause", AutoPause);
+		intent.putExtra("ListSortOrder", ListSortOrder);
+		intent.putExtra("AutoSwitchToLRC", AutoSwitchToLRC);
+		intent.putExtra("PlayMode", PlayMode);
+		intent.putExtra("NotifyAction", NotifyAction);
+		intent.putExtra("FavoriteMax", FavoriteMax);
+		intent.putExtra("ScrollMode", ScrollMode);
+		intent.putExtra("BackgroundPort", BackgroundPort);
+		intent.putExtra("BackgroundLand", BackgroundLand);
+		intent.putExtra("BackgroundBrightness", BackgroundBrightness);
+		intent.putExtra("BackgroundBlur", BackgroundBlur);
+		intent.putExtra("UseAnimation", UseAnimation);
+		intent.putExtra("ListFontSize", ListFontSize);
+		intent.putExtra("ListFontColor", ListFontColor);
+		intent.putExtra("ListFontShadow", ListFontShadow);
+		intent.putExtra("ListFontShadowColor", ListFontShadowColor);
+		intent.putExtra("LRCFontSize", LRCFontSize);
+		intent.putExtra("LRCFontColorNormal", LRCFontColorNormal);
+		intent.putExtra("LRCFontColorHighlight", LRCFontColorHighlight);
+		intent.putExtra("LRCFontShadow", LRCFontShadow);
+		intent.putExtra("LRCFontShadowColor", LRCFontShadowColor);
+		startActivity(intent);
+		finish();
 	}
 
 	@Override
@@ -396,7 +431,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				finish();
+				ClosePreference();
 			}
 		});
 	}
@@ -934,7 +969,7 @@ public class scrSettings extends Activity
 							ListFontSize = "18";
 							ListFontColor = "#FFFFFF";
 							ListFontShadow = true;
-							ListFontShadowColor = "#0099FF";
+							ListFontShadowColor = "#000000";
 
 							LRCFontSize = "18";
 							LRCFontColorNormal = "#FFFFFF";
@@ -946,16 +981,16 @@ public class scrSettings extends Activity
 
 							// 非选项菜单中的选项
 							Editor edt = sp.edit();
-							edt.putString(" MusicControl", "3");
-							edt.putBoolean(" FloatLRCLocked	", false);
-							edt.putBoolean(" DeskLRCStatus		", true);
-							edt.putString(" LastKeyword	", "");
-							edt.putString(" OrderBy	", "asc");
-							edt.putBoolean(" KeepScreenOn		", false);
-							edt.putInt(" FloatLRCPos	", 0);
-							edt.putBoolean(" Started	", true);
-							edt.putBoolean(" IsRunBackground", false);
-							edt.putInt(" ScreenOrantation	", 0);
+							edt.putString("MusicControl", "3");
+							edt.putBoolean("FloatLRCLocked", false);
+							edt.putBoolean("DeskLRCStatus", true);
+							edt.putString("LastKeyword", "");
+							edt.putString("OrderBy", "asc");
+							edt.putBoolean("KeepScreenOn", false);
+							edt.putInt("FloatLRCPos", 0);
+							edt.putBoolean("Started", true);
+							edt.putBoolean("IsRunBackground", false);
+							edt.putInt("ScreenOrantation", 0);
 						}
 						else
 						{
@@ -1074,6 +1109,15 @@ public class scrSettings extends Activity
 		btnAbout = (Button) findViewById(R.id.btnAbout);
 		layOkCancel = (LinearLayout) findViewById(R.id.layOkCancel);
 		btnReturn = (Button) findViewById(R.id.btnReturn);
+	}
+
+	/* 按键动作 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+			ClosePreference();
+		return true;
 	}
 
 	public RelativeLayout getLayActivity()

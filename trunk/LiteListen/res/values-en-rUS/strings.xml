@@ -102,15 +102,12 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.24 build 0525.1623\n\nUpdate
-		Contents: \n[New] A option of auto pause while external audio device
-		is (dis)connected\n[Fix] A crash problem when artist or title is
-		null\n[Optimize] Beautiful preference UI\n[Optimize]
-		Release unused
-		resources\n[Optimize] Adjust some bad
-		expressions\n[Optimize] Cancel to
-		support low or middle screens for improve feelings\n[Optimize] Desk
-		lyric show will be hide when setting-interface loaded\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.25 build 0526.1405\n\nUpdate
+		Contents: \n[Fix] A crash problem when pressed "pause"\n[Fix] A
+		problem that some options data will be lost when update from version
+		0.5.24\n[Fix] A bug that the default color of music list is
+		incorrect\n[Optimize] Greatly decreased I/O to flash rom for improve
+		efficiency\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>

@@ -41,7 +41,7 @@ public class ActionReceiver extends BroadcastReceiver
 
 		if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED) || intent.getAction().equals(Intent.ACTION_HEADSET_PLUG))
 		{// 第一次收到ACTION_HEADSET_PLUG消息时忽略（系统自动发送）
-			if (!IsFirstActionHeadsetPlug && main.getSp().getBoolean("AutoPause", true))
+			if (!IsFirstActionHeadsetPlug && main.getSt().getAutoPause())
 				main.getMs().Pause();
 			else
 				IsFirstActionHeadsetPlug = false;
@@ -52,7 +52,7 @@ public class ActionReceiver extends BroadcastReceiver
 			main.LockFloatLRC(false);
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW))
 		{
-			if (main.getSp().getBoolean("DeskLRCStatus", true))
+			if (main.getSt().getDeskLRCStatus())
 				main.getFl().setVisibility(View.VISIBLE);
 		}
 		else if (intent.getAction().equals(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE))
