@@ -262,6 +262,8 @@ public class scrMain extends Activity
 			dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
 
+			LRCService.query("我以為", "品冠");
+
 			// 清除上次程序运行的历史记录
 			Editor edt = sp.edit();
 			edt.putString("LastKeyword", "");
