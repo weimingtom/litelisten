@@ -18,6 +18,7 @@
 package com.galapk.litelisten;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -261,8 +262,6 @@ public class scrMain extends Activity
 			am = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
 			dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-			LRCService.query("我以為", "品冠");
 
 			// 清除上次程序运行的历史记录
 			Editor edt = sp.edit();
@@ -1048,6 +1047,65 @@ public class scrMain extends Activity
 			layFileSelector.setVisibility(View.VISIBLE);
 			SetFileList("/sdcard");
 		}
+		else if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_search)))
+		{
+			// 获取当前歌曲信息
+			Map<String, Object> map = new HashMap<String, Object>();
+			map = lstSong.get(ms.getCurrIndex());
+
+			// 获取歌词列表
+			List<Map<String, String>> lstLRC = new ArrayList<Map<String, String>>();
+			lstLRC = LRCDownService.SerachLyricFromTT((String) map.get("Artist"), (String) map.get("Title"));
+
+			if (lstLRC.size() == 0)
+			{
+				if (toast != null)
+				{
+					toast.setText(R.string.scrmain_context_menu_lrc_search_not_found);
+					toast.setDuration(Toast.LENGTH_SHORT);
+				}
+				else
+					toast = Toast.makeText(scrMain.this, R.string.scrmain_context_menu_lrc_search_not_found, Toast.LENGTH_SHORT);
+
+				toast.show();
+			}
+			else
+			{
+				Map<String, String> mapLRC = new HashMap<String, String>();
+				String strLRC = LRCDownService.GetLyricFromTT(mapLRC.get("ID"), mapLRC.get("Artist"), mapLRC.get("Title"));
+				String strPath = (String) map.get("LRCPath");
+
+				try
+				{
+					File f = new File(strPath);
+					if (!f.exists())
+						f.createNewFile();
+					else if (true)
+					{
+						f.delete();
+						f.createNewFile();
+					}
+
+					FileWriter fw = new FileWriter(f);
+					fw.write(strLRC);
+					fw.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+
+				// 修改歌词关联
+				Map<String, Object> mapMusic = new HashMap<String, Object>();
+				mapMusic = lstSong.get(ms.getCurrIndex());
+				db.ModifiyData("music_info", "set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
+				ls.setStrLRCPath(strPath); // 设置新的歌词
+
+				// 更新列表中的歌词路径
+				mapMusic.put("LRCPath", strPath);
+				lstSong.set(ms.getCurrIndex(), mapMusic);
+			}
+		}
 
 		return super.onContextItemSelected(item);
 	}
@@ -1527,6 +1585,7 @@ public class scrMain extends Activity
 					menu.setHeaderIcon(R.drawable.icon);
 					menu.setHeaderTitle(R.string.scrmain_context_menu_lrc);
 					menu.add(R.string.scrmain_context_menu_lrc_links);
+					menu.add(R.string.scrmain_context_menu_lrc_search);
 				}
 			}
 		});

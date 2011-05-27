@@ -26,6 +26,7 @@ public class SettingProvider
 	private Boolean IncludeSubDirectory;
 	private Boolean IgnoreDirectory;
 	private Boolean AutoPause;
+	private Boolean LRCAutoDownload;
 	private String ListSortOrder;
 	private Boolean AutoSwitchToLRC;
 	private String PlayMode;
@@ -65,6 +66,7 @@ public class SettingProvider
 		IncludeSubDirectory = main.getSp().getBoolean("IncludeSubDirectory", true);
 		IgnoreDirectory = main.getSp().getBoolean("IgnoreDirectory", true);
 		AutoPause = main.getSp().getBoolean("AutoPause", true);
+		LRCAutoDownload = main.getSp().getBoolean("LRCAutoDownload", false);
 
 		ListSortOrder = main.getSp().getString("ListSortOrder", "1");
 		AutoSwitchToLRC = main.getSp().getBoolean("AutoSwitchToLRC", true);
@@ -109,6 +111,7 @@ public class SettingProvider
 		IncludeSubDirectory = intent.getBooleanExtra("IncludeSubDirectory", true);
 		IgnoreDirectory = intent.getBooleanExtra("IgnoreDirectory", true);
 		AutoPause = intent.getBooleanExtra("AutoPause", true);
+		LRCAutoDownload = intent.getBooleanExtra("LRCAutoDownload", true);
 		ListSortOrder = intent.getStringExtra("ListSortOrder");
 		AutoSwitchToLRC = intent.getBooleanExtra("AutoSwitchToLRC", true);
 		PlayMode = intent.getStringExtra("PlayMode");
@@ -459,5 +462,15 @@ public class SettingProvider
 	public void setIsRunBackground(Boolean isRunBackground)
 	{
 		IsRunBackground = isRunBackground;
+	}
+
+	public Boolean getLRCAutoDownload()
+	{
+		return LRCAutoDownload;
+	}
+
+	public void setLRCAutoDownload(Boolean lRCAutoDownload)
+	{
+		LRCAutoDownload = lRCAutoDownload;
 	}
 }

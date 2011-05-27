@@ -63,6 +63,7 @@ public class scrSettings extends Activity
 	private CheckBox chkIncludeSubDirectory;
 	private CheckBox chkIgnoreDirectory;
 	private CheckBox chkAutoPause;
+	private CheckBox chkLRCAutoDownload;
 	private Button btnListSortOrder;
 	private CheckBox chkAutoSwitchToLRC;
 	private Button btnPlayMode;
@@ -105,6 +106,7 @@ public class scrSettings extends Activity
 	private Boolean IncludeSubDirectory;
 	private Boolean IgnoreDirectory;
 	private Boolean AutoPause;
+	private Boolean LRCAutoDownload;
 	private String ListSortOrder;
 	private Boolean AutoSwitchToLRC;
 	private String PlayMode;
@@ -269,6 +271,7 @@ public class scrSettings extends Activity
 		IncludeSubDirectory = sp.getBoolean("IncludeSubDirectory", true);
 		IgnoreDirectory = sp.getBoolean("IgnoreDirectory", true);
 		AutoPause = sp.getBoolean("AutoPause", true);
+		LRCAutoDownload = sp.getBoolean("LRCAutoDownload", false);
 
 		ListSortOrder = sp.getString("ListSortOrder", "1");
 		AutoSwitchToLRC = sp.getBoolean("AutoSwitchToLRC", true);
@@ -454,6 +457,7 @@ public class scrSettings extends Activity
 		chkIncludeSubDirectory.setChecked(IncludeSubDirectory);
 		chkIgnoreDirectory.setChecked(IgnoreDirectory);
 		chkAutoPause.setChecked(AutoPause);
+		chkLRCAutoDownload.setChecked(LRCAutoDownload);
 		btnListSortOrder.setText(Html.fromHtml(getString(R.string.pfrscat_general_list_order) + "<br /><font color='#FFFF00'>"
 				+ getResources().getStringArray(R.array.item_name_pfrscat_general_list_order)[Integer.parseInt((String) ListSortOrder)] + "</font>"));
 		chkAutoSwitchToLRC.setChecked(AutoSwitchToLRC);
@@ -494,6 +498,8 @@ public class scrSettings extends Activity
 		edt.putBoolean("IgnoreDirectory", IgnoreDirectory);
 
 		edt.putBoolean("AutoPause", AutoPause);
+
+		edt.putBoolean("LRCAutoDownload", LRCAutoDownload);
 
 		edt.putString("ListSortOrder", ListSortOrder);
 		edt.putBoolean("AutoSwitchToLRC", AutoSwitchToLRC);
@@ -587,6 +593,15 @@ public class scrSettings extends Activity
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				AutoPause = isChecked;
+				UpdatePreference();
+			}
+		});
+
+		chkLRCAutoDownload.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				LRCAutoDownload = isChecked;
 				UpdatePreference();
 			}
 		});
@@ -951,6 +966,7 @@ public class scrSettings extends Activity
 							IncludeSubDirectory = true;
 							IgnoreDirectory = true;
 							AutoPause = true;
+							LRCAutoDownload = false;
 
 							ListSortOrder = "1";
 							AutoSwitchToLRC = true;
@@ -1078,6 +1094,7 @@ public class scrSettings extends Activity
 		chkIncludeSubDirectory = (CheckBox) findViewById(R.id.chkIncludeSubDirectory);
 		chkIgnoreDirectory = (CheckBox) findViewById(R.id.chkIgnoreDirectory);
 		chkAutoPause = (CheckBox) findViewById(R.id.chkAutoPause);
+		chkLRCAutoDownload = (CheckBox) findViewById(R.id.chkLRCAutoDownload);
 		btnListSortOrder = (Button) findViewById(R.id.btnListSortOrder);
 		chkAutoSwitchToLRC = (CheckBox) findViewById(R.id.chkAutoSwitchToLRC);
 		btnPlayMode = (Button) findViewById(R.id.btnPlayMode);
@@ -1883,5 +1900,25 @@ public class scrSettings extends Activity
 	public void setScreenOrantation(int screenOrantation)
 	{
 		ScreenOrantation = screenOrantation;
+	}
+
+	public CheckBox getChkLRCAutoDownload()
+	{
+		return chkLRCAutoDownload;
+	}
+
+	public void setChkLRCAutoDownload(CheckBox chkLRCAutoDownload)
+	{
+		this.chkLRCAutoDownload = chkLRCAutoDownload;
+	}
+
+	public Boolean getLRCAutoDownload()
+	{
+		return LRCAutoDownload;
+	}
+
+	public void setLRCAutoDownload(Boolean lRCAutoDownload)
+	{
+		LRCAutoDownload = lRCAutoDownload;
 	}
 }

@@ -39,6 +39,8 @@
 	<string name="scrmain_play_first">请先播放音乐</string>
 	<string name="scrmain_context_menu_lrc">歌词选项</string>
 	<string name="scrmain_context_menu_lrc_links">选择歌词文件</string>
+	<string name="scrmain_context_menu_lrc_search">从网络中搜索歌词</string>
+	<string name="scrmain_context_menu_lrc_search_not_found">没有找到相应歌词</string>
 	<string name="scrmain_file_list">【返回上级目录】</string>
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
@@ -72,6 +74,7 @@
 	<string name="pfrscat_general_notify_next">通知栏消息点击动作</string>
 	<string name="pfrscat_general_favourite_max">最爱歌曲列表的大数量</string>
 	<string name="pfrscat_general_autopause">连接/断开外部音频设备时暂停播放</string>
+	<string name="pfrscat_general_lrc_auto_download">自动下载歌词</string>
 	<string name="pfrscat_display_title">视觉效果</string>
 	<string name="pfrscat_display_lrc_scroll_style">歌词滚动样式</string>
 	<string name="pfrscat_display_background_port">竖屏背景图</string>

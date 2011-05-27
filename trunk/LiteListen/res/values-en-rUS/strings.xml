@@ -40,6 +40,8 @@
 	<string name="scrmain_play_first">Please play a music first</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
 	<string name="scrmain_context_menu_lrc_links">Select a lyric from file</string>
+	<string name="scrmain_context_menu_lrc_search">Search lyric from Internet</string>
+	<string name="scrmain_context_menu_lrc_search_not_found">There is no such lyric on Internet</string>
 	<string name="scrmain_file_list">[Back]</string>
 	<string name="scrmain_update_log">What\'s new?</string>
 	<string name="scrmain_scanning">I\'m scanning musics, please search later.</string>
@@ -73,6 +75,7 @@
 	<string name="pfrscat_general_favourite_max">Show count of favourite music</string>
 	<string name="pfrscat_general_autopause">Pause when (dis)connected from external audio
 		device</string>
+	<string name="pfrscat_general_lrc_auto_download">Download LRC Automatically</string>
 	<string name="pfrscat_display_title">Display</string>
 	<string name="pfrscat_display_lrc_scroll_style">Lyric scroll style</string>
 	<string name="pfrscat_display_background_port">Portrait background image</string>

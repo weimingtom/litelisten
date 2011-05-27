@@ -80,6 +80,11 @@
 					android:paddingLeft="20dip" android:paddingRight="20dip"
 					android:textColor="#FFFFFF" android:textSize="20dip"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_autopause"></CheckBox>
+					<CheckBox android:layout_height="wrap_content"
+					android:background="@drawable/bg_setting_land_normal_single"
+					android:button="@layout/option_checkbox_single" android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:textColor="#FFFFFF" android:textSize="20dip"
+					android:layout_width="fill_parent" android:id="@+id/chkLRCAutoDownload" android:text="@string/pfrscat_general_lrc_auto_download"></CheckBox>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_list_order"
 					android:id="@+id/btnListSortOrder" android:textSize="20dip"
