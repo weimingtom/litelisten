@@ -19,19 +19,15 @@ package com.galapk.litelisten;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DBProvider extends SQLiteOpenHelper
 {
 	private static String DBName = "db_main"; // 数据库名
 	private static int DBVersion = 2; // 数据库版本
 
-	private scrMain main = null;
-
 	public DBProvider(scrMain main)
 	{
 		super(main.getBaseContext(), DBName, null, DBVersion);
-		this.main = main;
 	}
 
 	@Override
@@ -49,176 +45,5 @@ public class DBProvider extends SQLiteOpenHelper
 			String strModifyMusicInfo = "alter table music_info add verify_code text; alter table music_info add primary key (music_path);";
 			db.execSQL(strModifyMusicInfo);
 		}
-	}
-
-	/* 获取当前程序的数据库实例 */
-	public SQLiteDatabase GetInstance(boolean IsReadOnly)
-	{
-		SQLiteDatabase db; // 数据库
-
-		if (IsReadOnly) // 只读
-			db = getReadableDatabase();
-		else
-			db = getWritableDatabase();
-
-		return db;
-	}
-
-	/* 清空数据表 */
-	public boolean DBClear(String strTable)
-	{
-		String strCreateMusicInfo = "create table music_info(title text, artist text, album text, year text, genre text, track text, comment text, title_py text, title_simple_py text, artist_py, artist_simple_py, music_path text, lrc_path text, song_info text, play_times number, is_last_played number, id3_checked text);";
-
-		if (!DropTable(strTable))
-		{// 如果删除表失败
-			if (CreateTable(strCreateMusicInfo))
-				return true; // 创建成功
-			else
-				return false; // 创建失败
-		}
-		else
-		{// 删除表成功
-			if (CreateTable(strCreateMusicInfo)) // 创建新表
-				return true;
-			else
-				return false;
-		}
-	}
-
-	/* 创建数据表 */
-	public boolean CreateTable(String strSQLTable)
-	{
-		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
-		try
-		{
-			dbContact.execSQL(strSQLTable);
-			dbContact.close();
-
-			return true;
-		}
-		catch (Exception e)
-		{// 可能是数据表不存在
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-			dbContact.close();
-
-			return false;
-		}
-	}
-
-	/* 删除数据表 */
-	public boolean DropTable(String strTable)
-	{
-		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
-		try
-		{
-			String strSQLDrop = "drop table " + strTable + ";";
-			dbContact.execSQL(strSQLDrop);
-			dbContact.close();
-
-			return true;
-		}
-		catch (Exception e)
-		{// 可能是数据表不存在
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-			dbContact.close();
-
-			return false;
-		}
-	}
-
-	/* 插入数据 */
-	public boolean InsertData(String strTable, String strData)
-	{
-		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
-		try
-		{
-			if (strData.equals("") || strData.equals(null))
-				return false;
-
-			String strSQLInsert = "insert into " + strTable + " values(" + strData + ");";
-			dbContact.execSQL(strSQLInsert);
-			dbContact.close();
-
-			return true;
-		}
-		catch (Exception e)
-		{
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-			dbContact.close();
-
-			return false;
-		}
-	}
-
-	/* 修改数据 */
-	public boolean ModifiyData(String strTable, String strSubStringOfSet)
-	{
-		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
-		try
-		{
-			if (strSubStringOfSet.equals("") || strSubStringOfSet.equals(null))
-				return false;
-
-			String strSQLDelete = "update " + strTable + " " + strSubStringOfSet + ";";
-			dbContact.execSQL(strSQLDelete);
-			dbContact.close();
-
-			return true;
-		}
-		catch (Exception e)
-		{
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-			dbContact.close();
-
-			return false;
-		}
-	}
-
-	/* 删除数据 */
-	public boolean DeleteData(String strTable, String strCondition)
-	{
-		SQLiteDatabase dbContact = GetInstance(false); // 数据库实例
-		try
-		{
-			String strSQLDelete = "delete from " + strTable;
-			if (!strCondition.equals("") && !strCondition.equals(null)) // 如果有条件则拼接
-				strSQLDelete += " where " + strCondition + ";";
-			dbContact.execSQL(strSQLDelete);
-			dbContact.close();
-
-			return true;
-		}
-		catch (Exception e)
-		{
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-			dbContact.close();
-
-			return false;
-		}
-	}
-
-	public scrMain getMain()
-	{
-		return main;
-	}
-
-	public void setMain(scrMain main)
-	{
-		this.main = main;
 	}
 }

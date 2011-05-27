@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.util.Log;
+
 public class LRCDownService
 {
 	final private static char[] digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -58,7 +60,11 @@ public class LRCDownService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return "";
 		}
 	}
@@ -69,6 +75,8 @@ public class LRCDownService
 		String strURL = "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?dl?Id={id}&Code={code}";
 		if (ID != null && !ID.equals(""))
 			strURL = strURL.replace("{id}", ID).replace("{code}", GetVerifyCode(Artist, Title, Integer.parseInt(ID, 10)));
+		else
+			return "";
 
 		return GetHTTPContent(strURL);
 	}
@@ -114,7 +122,7 @@ public class LRCDownService
 	}
 
 	/* ËÑË÷Ç§Ç§¾²Ìý¸è´Ê·þÎñÆ÷ */
-	public static List<Map<String, String>> SerachLyricFromTT(String Artist, String Title)
+	public static List<Map<String, String>> SearchLyricFromTT(String Artist, String Title)
 	{
 		try
 		{
@@ -125,7 +133,11 @@ public class LRCDownService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return null;
 		}
 	}
@@ -145,7 +157,11 @@ public class LRCDownService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			bytes = Source.getBytes();
 		}
 
@@ -222,7 +238,11 @@ public class LRCDownService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return "";
 		}
 	}

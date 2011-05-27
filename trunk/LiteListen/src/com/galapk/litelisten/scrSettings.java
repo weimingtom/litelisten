@@ -148,6 +148,7 @@ public class scrSettings extends Activity
 		intent.putExtra("IncludeSubDirectory", IncludeSubDirectory);
 		intent.putExtra("IgnoreDirectory", IgnoreDirectory);
 		intent.putExtra("AutoPause", AutoPause);
+		intent.putExtra("LRCAutoDownload", LRCAutoDownload);
 		intent.putExtra("ListSortOrder", ListSortOrder);
 		intent.putExtra("AutoSwitchToLRC", AutoSwitchToLRC);
 		intent.putExtra("PlayMode", PlayMode);
@@ -1010,12 +1011,13 @@ public class scrSettings extends Activity
 						}
 						else
 						{
-							MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_wrong), 18,
+							final MessageDialog md = new MessageDialog();
+							md.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_wrong), 18,
 									new OnClickListener()
 									{
 										public void onClick(View v)
 										{
-											MessageDialog.CloseDialog();
+											md.CloseDialog();
 										}
 									}, null);
 							Restore = "";
@@ -1025,14 +1027,14 @@ public class scrSettings extends Activity
 						UpdatePreference();
 						TextDialog.getPw().dismiss();
 
-						MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_ok), 18,
-								new OnClickListener()
-								{
-									public void onClick(View v)
-									{
-										MessageDialog.CloseDialog();
-									}
-								}, null);
+						final MessageDialog md = new MessageDialog();
+						md.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_restore), getString(R.string.pfrscat_others_restore_message_ok), 18, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								md.CloseDialog();
+							}
+						}, null);
 					}
 				});
 			}
@@ -1042,20 +1044,21 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.global_request), getString(R.string.pfrscat_help_visit_official_site_message), 18, new OnClickListener()
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(scrSettings.this, layActivity, getString(R.string.global_request), getString(R.string.pfrscat_help_visit_official_site_message), 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Intent i = new Intent(Intent.ACTION_VIEW);
 						i.setData(Uri.parse("http://www.littledai.com/category/litelisten"));
 						startActivity(i);
-						MessageDialog.CloseDialog();
+						md.CloseDialog();
 					}
 				}, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						MessageDialog.CloseDialog();
+						md.CloseDialog();
 					}
 				});
 			}
@@ -1065,11 +1068,12 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				MessageDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_help_about), getString(R.string.pfrscat_help_about_message), 18, new OnClickListener()
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_help_about), getString(R.string.pfrscat_help_about_message), 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						MessageDialog.CloseDialog();
+						md.CloseDialog();
 					}
 				}, null);
 			}

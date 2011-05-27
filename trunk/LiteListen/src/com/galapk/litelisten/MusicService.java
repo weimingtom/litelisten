@@ -306,9 +306,9 @@ public class MusicService
 			strMusicPath = strMusicPath.replace("'", "''");
 
 		if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
-			main.getDb().ModifiyData("music_info", "set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+			main.getSd().execSQL("update music_info set play_times=play_times+1 where music_path='" + strMusicPath + "';");
 		else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
-			main.getDb().ModifiyData("music_info", "set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+			main.getSd().execSQL("update music_info set play_times=play_times+0.5 where music_path='" + strMusicPath + "';");
 
 		mp.reset();
 		CanRefreshTime = false;

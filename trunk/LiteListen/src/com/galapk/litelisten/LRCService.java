@@ -21,6 +21,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -238,6 +239,9 @@ public class LRCService
 			{
 				IsLyricExist = false;
 				strLRC = main.getString(R.string.lrcservice_no_lyric_found);
+
+				if (main.getSt().getLRCAutoDownload())
+					GetCurrLyric(); // 尝试获取歌词
 			}
 			else
 			{
@@ -262,6 +266,70 @@ public class LRCService
 				Log.w(Common.LOGCAT_TAG, e.getMessage());
 			else
 				e.printStackTrace();
+		}
+	}
+
+	/* 获取当前音乐的歌词 */
+	public void GetCurrLyric()
+	{
+		// 获取当前歌曲信息
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = main.getLstSong().get(main.getMs().getCurrIndex());
+
+		// 获取歌词列表
+		List<Map<String, String>> lstLRC = new ArrayList<Map<String, String>>();
+		lstLRC = LRCDownService.SearchLyricFromTT((String) map.get("Artist"), (String) map.get("Title"));
+
+		if (lstLRC.size() == 0)
+		{// 提示没有找到歌词
+			Message msg = new Message();
+			msg.obj = main.getString(R.string.scrmain_context_menu_lrc_search_not_found);
+			main.getHs().getHdlShowToast().sendMessage(msg);
+		}
+		else
+		{
+			Map<String, String> mapLRC = new HashMap<String, String>();
+			mapLRC = lstLRC.get(0);
+			String strLRC = LRCDownService.GetLyricFromTT(mapLRC.get("ID"), mapLRC.get("Artist"), mapLRC.get("Title"));
+
+			// 通过音乐文件名称获取对应的LRC文件名
+			String strPath = (String) map.get("MusicPath");
+			strPath = strPath.substring(0, strPath.lastIndexOf(".mp3")) + ".lrc";
+
+			try
+			{
+				File f = new File(strPath);
+				if (!f.exists())
+					f.createNewFile();
+				else
+				{
+					f.delete();
+					f.createNewFile();
+				}
+
+				FileWriter fw = new FileWriter(f);
+				fw.write(strLRC);
+				fw.flush();
+				fw.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			// 修改歌词关联
+			Map<String, Object> mapMusic = new HashMap<String, Object>();
+			mapMusic = main.getLstSong().get(main.getMs().getCurrIndex());
+			main.getSd().execSQL("update music_info set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
+
+			// 设置新的歌词
+			Message msg = new Message();
+			msg.obj = strPath;
+			main.getHs().getHdlSetStrLRCPath().sendMessage(msg);
+
+			// 更新列表中的歌词路径
+			mapMusic.put("LRCPath", strPath);
+			main.getLstSong().set(main.getMs().getCurrIndex(), mapMusic);
 		}
 	}
 
@@ -487,8 +555,6 @@ public class LRCService
 				Log.w(Common.LOGCAT_TAG, e.getMessage());
 			else
 				e.printStackTrace();
-
-			e.printStackTrace();
 		}
 
 		return charset;

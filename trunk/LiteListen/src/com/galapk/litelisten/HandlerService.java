@@ -17,18 +17,26 @@
 
 package com.galapk.litelisten;
 
+import java.net.URL;
+import java.net.URLConnection;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class HandlerService
 {
@@ -49,6 +57,26 @@ public class HandlerService
 		}
 	};
 
+	/* 重新载入歌词的Handler */
+	private Handler hdlSetStrLRCPath = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			main.getLs().setStrLRCPath((String) msg.obj);
+		}
+	};
+
+	/* 显示浮动提示的Handler */
+	private Handler hdlShowToast = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			Toast.makeText(main, (String) msg.obj, Toast.LENGTH_SHORT).show();
+		}
+	};
+
 	/* 关闭欢迎画面的Handler */
 	private Handler hdlShowMain = new Handler()
 	{
@@ -65,20 +93,79 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			if (main.getSp().getBoolean("IsFirstStart21", true))
+			// 是否已经显示了更新日志
+			if (main.getSp().getBoolean("IsFirstStart22", true))
 			{
-				MessageDialog.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart21", false); // 设置当前版本
-						edt.remove("IsFirstStart20"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart22", false); // 设置当前版本
+						edt.remove("IsFirstStart21"); // 删除上个版本的标记
 						edt.commit();
 
-						MessageDialog.CloseDialog();
+						md.CloseDialog();
 					}
 				}, null);
+			}
+		}
+	};
+
+	/* 请求设备信息的Handler */
+	private Handler hdlRequestDevInfo = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			// 是否已经发送了设备序号
+			if (!main.getSp().getBoolean("SentInfo", false))
+			{
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.global_request), main.getString(R.string.scrmain_request_info), 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						Editor edt = main.getSp().edit();
+						edt.putBoolean("SentInfo", true);
+						edt.commit();
+
+						// 获取手机串号等信息并发送
+						TelephonyManager tm = (TelephonyManager) main.getSystemService(Context.TELEPHONY_SERVICE);
+
+						// 生成链接
+						String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+						strURL = strURL.replace("{imei}", tm.getDeviceId()).replace("{locale}", main.getResources().getConfiguration().locale.toString()).replace("{sdk}", Build.VERSION.SDK).replace(
+								"{release}", Build.VERSION.RELEASE).replace("{model}", Build.MODEL);
+
+						try
+						{
+							URLConnection conn = new URL(strURL).openConnection();
+							conn.connect();
+							conn.getContentType(); // 执行到这里才算真正调到了
+						}
+						catch (Exception e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
+
+						md.CloseDialog();
+					}
+				}, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						Editor edt = main.getSp().edit();
+						edt.putBoolean("SentInfo", true);
+						edt.commit();
+
+						md.CloseDialog();
+					}
+				});
 			}
 		}
 	};
@@ -422,5 +509,35 @@ public class HandlerService
 	public void setHdlShowUpdateLog(Handler hdlShowUpdateLog)
 	{
 		this.hdlShowUpdateLog = hdlShowUpdateLog;
+	}
+
+	public Handler getHdlSetStrLRCPath()
+	{
+		return hdlSetStrLRCPath;
+	}
+
+	public void setHdlSetStrLRCPath(Handler hdlSetStrLRCPath)
+	{
+		this.hdlSetStrLRCPath = hdlSetStrLRCPath;
+	}
+
+	public Handler getHdlShowToast()
+	{
+		return hdlShowToast;
+	}
+
+	public void setHdlShowToast(Handler hdlShowToast)
+	{
+		this.hdlShowToast = hdlShowToast;
+	}
+
+	public Handler getHdlRequestDevInfo()
+	{
+		return hdlRequestDevInfo;
+	}
+
+	public void setHdlRequestDevInfo(Handler hdlRequestDevInfo)
+	{
+		this.hdlRequestDevInfo = hdlRequestDevInfo;
 	}
 }

@@ -8,9 +8,11 @@
 	<string name="global_return">返回</string>
 	<string name="global_request">请求许可</string>
 	<string name="global_wait">请稍候</string>
+	<string name="global_agree">我愿意</string>
+	<string name="global_refuse">我拒绝</string>
 
 	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
-	<string name="lrcservice_no_lyric_found">没有找到歌词\n长按这里选择歌词</string>
+	<string name="lrcservice_no_lyric_found">没有找到歌词\n长按这里选择或搜索歌词</string>
 
 	<string name="scrmain_extend_menu_settings">设置</string>
 	<string name="scrmain_extend_menu_desk_lrc_show">打开浮动</string>
@@ -44,6 +46,9 @@
 	<string name="scrmain_file_list">【返回上级目录】</string>
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
+	<string name="scrmain_request_info">轻听音乐播放器希望统计安装用户数量以便更好地为用户进行改良。单击【我愿意】将设备信息发送给开发人员，这些信息仅需要消耗最多
+		1 KB 的流量，而且仅会显示一次。您也可以选择拒绝，它将永不再显示（除非您重新安装）。拒绝发送设备信息不会影响到任何使用，请放心。
+	</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -101,10 +106,10 @@
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.25 build
-		0526.1405\n\n更新内容：\n【修复】暂停歌曲导致系统崩溃的问题\n【修复】升级到0.5.24版本后某些设置丢失的问题\n【修复】默认音乐列表颜色不正确的问题\n【优化】大幅减少了对闪存的读写，提升运行效率\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.26 build
+		0528.0201\n\n更新内容：\n【新增】歌词下载，可选择自动或手动\n【修复】最爱歌曲算法中的一个小问题\n【修复】电子市场无法搜索到的问题\n【优化】大幅缩短启动画面的等待时间\n【优化】大幅减少数据库读写以提升效率\n【优化】缩短了扫描过程中读取音乐文件的间隔时间\n【其他】向用户请求一次性获取设备信息\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【修复】暂停歌曲导致系统崩溃的问题\n【修复】升级到0.5.24版本后某些设置丢失的问题\n【修复】默认音乐列表颜色不正确的问题\n【优化】大幅减少了对闪存的读写，提升运行效率
+	<string name="update_info">【新增】歌词下载，可选择自动或手动\n【修复】最爱歌曲算法中的一个小问题\n【修复】电子市场无法搜索到的问题\n【优化】大幅缩短启动画面的等待时间\n【优化】大幅减少数据库读写以提升效率\n【优化】缩短了扫描过程中读取音乐文件的间隔时间\n【其他】向用户请求一次性获取设备信息
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -127,12 +132,6 @@
 		<item>标题 + 艺术家</item>
 		<item>艺术家 + 标题</item>
 		<item>文件修改时间</item>
-	</string-array>
-	<string-array name="item_name_pfrscat_general_property_read_priority">
-		<item>ID3v2 - ID3v1 - APE</item>
-		<item>ID3v1 - ID3v2 - APE</item>
-		<item>APE - ID3v2 - ID3v1</item>
-		<item>APE - ID3v1 - ID3v2</item>
 	</string-array>
 	<string-array name="item_name_pfrscat_general_play_mode">
 		<item>顺序播放</item>

@@ -111,7 +111,7 @@ public class SettingProvider
 		IncludeSubDirectory = intent.getBooleanExtra("IncludeSubDirectory", true);
 		IgnoreDirectory = intent.getBooleanExtra("IgnoreDirectory", true);
 		AutoPause = intent.getBooleanExtra("AutoPause", true);
-		LRCAutoDownload = intent.getBooleanExtra("LRCAutoDownload", true);
+		LRCAutoDownload = intent.getBooleanExtra("LRCAutoDownload", false);
 		ListSortOrder = intent.getStringExtra("ListSortOrder");
 		AutoSwitchToLRC = intent.getBooleanExtra("AutoSwitchToLRC", true);
 		PlayMode = intent.getStringExtra("PlayMode");

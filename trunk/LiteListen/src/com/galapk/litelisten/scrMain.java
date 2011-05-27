@@ -18,7 +18,6 @@
 package com.galapk.litelisten;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +42,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -159,6 +159,7 @@ public class scrMain extends Activity
 	private AudioManager am;
 	private DisplayMetrics dm;
 	private SettingProvider st;
+	private SQLiteDatabase sd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -251,6 +252,7 @@ public class scrMain extends Activity
 			ls = new LRCService(this);
 			ms = new MusicService(this);
 			db = new DBProvider(this);
+			sd = db.getWritableDatabase();
 			hs = new HandlerService(this);
 			mt = new MP3Tags(this);
 			py = new PYProvider();
@@ -601,6 +603,8 @@ public class scrMain extends Activity
 				{
 					VerifyCode = Common.GetRandomIndex(111111, 999999); // 获取本次列表刷新时的校验码
 
+					// 将整个数据库操作当作一个事物
+					sd.beginTransaction();
 					for (int i = 0; i < lstFile.size(); i++)
 					{
 						String strFileName = (String) lstFile.get(i).substring(0, lstFile.get(i).lastIndexOf(".mp3"));
@@ -615,7 +619,7 @@ public class scrMain extends Activity
 						if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
 							strMusicPath = strMusicPath.replace("'", "''");
 
-						Cursor cur = db.GetInstance(true).query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
+						Cursor cur = sd.query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
 						if (cur.moveToFirst())
 						{
 							mapInfo.put("Title", cur.getString(0));
@@ -629,11 +633,13 @@ public class scrMain extends Activity
 							mapInfo.put("Track", cur.getString(5));
 							mapInfo.put("ID3Checked", cur.getString(16));
 
-							db.ModifiyData("music_info", "set verify_code='" + VerifyCode + "' where music_path='" + strMusicPath + "'");
+							sd.execSQL("update music_info set verify_code='" + VerifyCode + "' where music_path='" + strMusicPath + "';");
 						}
 						cur.close();
 						lstSong.add(mapInfo);
 					}
+					sd.setTransactionSuccessful(); // 设置事物处理成功标志，否则会回滚
+					sd.endTransaction(); // 处理完成
 
 					hs.getHdlAdapterBinding().sendEmptyMessage(0);
 				}
@@ -641,6 +647,7 @@ public class scrMain extends Activity
 				IsStartedUp = true;
 				hs.getHdlShowMain().sendEmptyMessage(0);
 				hs.getHdlShowUpdateLog().sendEmptyMessage(0);
+				hs.getHdlRequestDevInfo().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -652,6 +659,7 @@ public class scrMain extends Activity
 		{
 			public void run()
 			{
+				sd.beginTransaction();
 				for (int i = 0; i < lstSong.size(); i++)
 				{
 					Map<String, Object> mapInfo = new HashMap<String, Object>();
@@ -705,16 +713,26 @@ public class scrMain extends Activity
 						if (strSongInfo != null && strSongInfo.indexOf("'") != -1)
 							strSongInfo = strSongInfo.replace("'", "''");
 
-						db.DeleteData("music_info", "music_path='" + strMusicPath + "'");
-						db.InsertData("music_info", "'" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment + "','"
-								+ py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','" + py.GetPYSimple(py.GetPYFull(strArtist)) + "','"
-								+ strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1','" + VerifyCode + "'");
+						try
+						{// 插标的时候可能会出现字段中的非法字符
+							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
+							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
+									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
+									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1','" + VerifyCode + "');");
+						}
+						catch (Exception e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
 
 						lstSong.set(i, mapInfo);
 
 						try
 						{
-							sleep(250);
+							sleep(50);
 						}
 						catch (Exception e)
 						{
@@ -727,6 +745,8 @@ public class scrMain extends Activity
 
 					hs.getHdlRefreshAdapter().sendEmptyMessage(0);
 				}
+				sd.setTransactionSuccessful(); // 设置事物处理成功标志，否则会回滚
+				sd.endTransaction(); // 处理完成
 
 				SetMusicListByDB();
 				IsRefreshing = false;
@@ -741,7 +761,7 @@ public class scrMain extends Activity
 		{
 			public void run()
 			{
-				db.DeleteData("music_info", "verify_code<>'" + VerifyCode + "';"); // 清理数据库中无法和文件关联的记录
+				sd.execSQL("delete from music_info where verify_code<>'" + VerifyCode + "';");
 
 				Cursor cur = null;
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
@@ -761,12 +781,9 @@ public class scrMain extends Activity
 				if (IsShowingFavourite)
 					strParOrderBy = "play_times desc, " + strParOrderBy;
 
-				cur = db.GetInstance(true).query(
-						"music_info",
-						null,
-						"title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword + "%' or genre like '%" + Keyword
-								+ "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword + "%' or artist_py like '%" + Keyword
-								+ "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, strParOrderBy);
+				cur = sd.query("music_info", null, "title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword
+						+ "%' or genre like '%" + Keyword + "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword
+						+ "%' or artist_py like '%" + Keyword + "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, strParOrderBy);
 
 				int i = 0; // 游标计数器
 				while (cur.moveToNext())
@@ -847,7 +864,7 @@ public class scrMain extends Activity
 	public void SetLanguage()
 	{
 		String index = st.getLanguage();
-		;
+
 		if (!index.equals("3"))
 		{
 			Configuration config = getResources().getConfiguration(); // 获得设置对象
@@ -1048,63 +1065,14 @@ public class scrMain extends Activity
 			SetFileList("/sdcard");
 		}
 		else if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_search)))
-		{
-			// 获取当前歌曲信息
-			Map<String, Object> map = new HashMap<String, Object>();
-			map = lstSong.get(ms.getCurrIndex());
-
-			// 获取歌词列表
-			List<Map<String, String>> lstLRC = new ArrayList<Map<String, String>>();
-			lstLRC = LRCDownService.SerachLyricFromTT((String) map.get("Artist"), (String) map.get("Title"));
-
-			if (lstLRC.size() == 0)
+		{// 用线程下载歌词
+			new Thread()
 			{
-				if (toast != null)
+				public void run()
 				{
-					toast.setText(R.string.scrmain_context_menu_lrc_search_not_found);
-					toast.setDuration(Toast.LENGTH_SHORT);
+					ls.GetCurrLyric();
 				}
-				else
-					toast = Toast.makeText(scrMain.this, R.string.scrmain_context_menu_lrc_search_not_found, Toast.LENGTH_SHORT);
-
-				toast.show();
-			}
-			else
-			{
-				Map<String, String> mapLRC = new HashMap<String, String>();
-				String strLRC = LRCDownService.GetLyricFromTT(mapLRC.get("ID"), mapLRC.get("Artist"), mapLRC.get("Title"));
-				String strPath = (String) map.get("LRCPath");
-
-				try
-				{
-					File f = new File(strPath);
-					if (!f.exists())
-						f.createNewFile();
-					else if (true)
-					{
-						f.delete();
-						f.createNewFile();
-					}
-
-					FileWriter fw = new FileWriter(f);
-					fw.write(strLRC);
-					fw.close();
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-
-				// 修改歌词关联
-				Map<String, Object> mapMusic = new HashMap<String, Object>();
-				mapMusic = lstSong.get(ms.getCurrIndex());
-				db.ModifiyData("music_info", "set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
-				ls.setStrLRCPath(strPath); // 设置新的歌词
-
-				// 更新列表中的歌词路径
-				mapMusic.put("LRCPath", strPath);
-				lstSong.set(ms.getCurrIndex(), mapMusic);
-			}
+			}.start();
 		}
 
 		return super.onContextItemSelected(item);
@@ -1497,7 +1465,7 @@ public class scrMain extends Activity
 					// 修改歌词关联
 					Map<String, Object> mapMusic = new HashMap<String, Object>();
 					mapMusic = lstSong.get(ms.getCurrIndex());
-					db.ModifiyData("music_info", "set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
+					sd.execSQL("update music_info set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
 					ls.setStrLRCPath(strPath); // 设置新的歌词
 
 					// 更新列表中的歌词路径
@@ -1525,11 +1493,12 @@ public class scrMain extends Activity
 			{
 				if (IsRefreshing)
 				{
-					MessageDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.global_wait), getString(R.string.scrmain_scanning), 18, new OnClickListener()
+					final MessageDialog md = new MessageDialog();
+					md.ShowMessage(scrMain.this, layActivity, getString(R.string.global_wait), getString(R.string.scrmain_scanning), 18, new OnClickListener()
 					{
 						public void onClick(View v)
 						{
-							MessageDialog.CloseDialog();
+							md.CloseDialog();
 						}
 					}, null);
 				}
@@ -1989,11 +1958,12 @@ public class scrMain extends Activity
 				String strMessage = "标题：" + mapItem.get("Title") + "\n" + "艺术家：" + mapItem.get("Artist") + "\n" + "专辑：" + mapItem.get("Album") + "\n" + "年份：" + mapItem.get("Year") + "\n" + "流派："
 						+ mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
 
-				MessageDialog.ShowMessage(scrMain.this, layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(scrMain.this, layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						MessageDialog.CloseDialog();
+						md.CloseDialog();
 					}
 				}, null);
 
@@ -2782,5 +2752,15 @@ public class scrMain extends Activity
 	public void setSt(SettingProvider st)
 	{
 		this.st = st;
+	}
+
+	public SQLiteDatabase getSd()
+	{
+		return sd;
+	}
+
+	public void setSd(SQLiteDatabase sd)
+	{
+		this.sd = sd;
 	}
 }

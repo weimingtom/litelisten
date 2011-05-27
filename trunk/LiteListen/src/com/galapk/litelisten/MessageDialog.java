@@ -31,9 +31,9 @@ import android.widget.TextView;
 
 public class MessageDialog
 {
-	private static PopupWindow pw;
+	private PopupWindow pw;
 
-	public static void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	public void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -72,18 +72,18 @@ public class MessageDialog
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // œ‘ æPopupWindow
 	}
 
-	public static void CloseDialog()
+	public void CloseDialog()
 	{
 		pw.dismiss();
 	}
 
-	public static PopupWindow getPw()
+	public PopupWindow getPw()
 	{
 		return pw;
 	}
 
-	public static void setPw(PopupWindow pw)
+	public void setPw(PopupWindow pw)
 	{
-		MessageDialog.pw = pw;
+		this.pw = pw;
 	}
 }
