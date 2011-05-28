@@ -106,10 +106,10 @@
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.26 build
-		0528.0201\n\n更新内容：\n【新增】歌词下载，可选择自动或手动\n【修复】最爱歌曲算法中的一个小问题\n【修复】电子市场无法搜索到的问题\n【优化】大幅缩短启动画面的等待时间\n【优化】大幅减少数据库读写以提升效率\n【优化】缩短了扫描过程中读取音乐文件的间隔时间\n【其他】向用户请求一次性获取设备信息\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.27 build
+		0528.1258\n\n更新内容：\n【修复】非标准分辨率（480×800）机型启动设置时崩溃的问题\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】歌词下载，可选择自动或手动\n【修复】最爱歌曲算法中的一个小问题\n【修复】电子市场无法搜索到的问题\n【优化】大幅缩短启动画面的等待时间\n【优化】大幅减少数据库读写以提升效率\n【优化】缩短了扫描过程中读取音乐文件的间隔时间\n【其他】向用户请求一次性获取设备信息
+	<string name="update_info">【修复】非标准分辨率（480×800）机型启动设置时崩溃的问题
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

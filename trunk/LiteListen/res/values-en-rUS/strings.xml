@@ -115,26 +115,14 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.26 build 0528.0201\n\nUpdate
-		Contents: \n[New] Lyric download\n[Fix] A algorithm problem of
-		favorite songs\n[Fix] A problem that it\'s not searchable in Android
-		Market\n[Optimize] Reduce splash time during
-		startup\n[Optimize] Reduce
-		I/O times of databse\n[Optimize] Interval
-		between two songs of scanning
-		was shortened\n[Other] Request to get
-		device infomation\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.27 build 0528.1258\n\nUpdate
+		Contents: \n[Fix] A crash problem in non-standard screen (480x800)
+		during settings is launching\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">[New] Lyric download\n[Fix] A algorithm problem of
-		favorite songs\n[Fix] A problem that it\'s not searchable in Android
-		Market\n[Optimize] Reduce splash time during
-		startup\n[Optimize] Reduce
-		I/O times of databse\n[Optimize] Interval
-		between two songs of scanning
-		was shortened\n[Other] Request to get
-		device infomation
+	<string name="update_info">[Fix] A crash problem in non-standard screen
+		(480x800) during settings is launching
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
