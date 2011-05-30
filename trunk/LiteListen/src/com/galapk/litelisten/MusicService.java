@@ -297,24 +297,28 @@ public class MusicService
 		if (PlayerStatus == STATUS_STOP)
 			return;
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map = main.getLstSong().get(CurrIndex);
+		if (CurrIndex <= main.getLstSong().size() && main.getLstSong().size() > 0)
+		{
+			Map<String, Object> map = new HashMap<String, Object>();
+			map = main.getLstSong().get(CurrIndex);
 
-		// 计算最爱歌曲
-		String strMusicPath = (String) map.get("MusicPath");
-		if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
-			strMusicPath = strMusicPath.replace("'", "''");
+			// 计算最爱歌曲
+			String strMusicPath = (String) map.get("MusicPath");
+			if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
+				strMusicPath = strMusicPath.replace("'", "''");
 
-		if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
-			main.getSd().execSQL("update music_info set play_times=play_times+1 where music_path='" + strMusicPath + "';");
-		else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
-			main.getSd().execSQL("update music_info set play_times=play_times+0.5 where music_path='" + strMusicPath + "';");
+			if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
+				main.getSd().execSQL("update music_info set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+			else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
+				main.getSd().execSQL("update music_info set play_times=play_times+0.5 where music_path='" + strMusicPath + "';");
+		}
 
 		mp.reset();
 		CanRefreshTime = false;
 		main.getHs().getHdlRefreshTime().sendEmptyMessage(0);
-		getMain().getBtnPlay().setVisibility(View.VISIBLE);
-		getMain().getBtnPause().setVisibility(View.GONE);
+		main.getBtnPlay().setVisibility(View.VISIBLE);
+		main.getBtnPause().setVisibility(View.GONE);
+		main.getTxtTitle().setText("");
 		PlayerStatus = MusicService.STATUS_STOP;
 		main.SetAlbumIcon();
 

@@ -25,6 +25,7 @@
 	<string name="scrmain_extend_menu_order_asc">ASC</string>
 	<string name="scrmain_extend_menu_order_desc">DESC</string>
 	<string name="scrmain_extend_menu_ringtong">Set Ring</string>
+	<string name="scrmain_extend_menu_feedback">Feedback</string>
 	<string name="scrmain_extend_menu_favourite">Favourite</string>
 	<string name="scrmain_extend_menu_list">List</string>
 	<string name="scrmain_extend_menu_wait">Soon</string>
@@ -47,6 +48,8 @@
 	<string name="scrmain_file_list">[Back]</string>
 	<string name="scrmain_update_log">What\'s new?</string>
 	<string name="scrmain_scanning">I\'m scanning musics, please search later.</string>
+	<string name="scrmain_lyric_could_not_relate">You cannot binding a lyric to the playing music
+		because of the music list is not adapt to the music</string>
 	<string name="scrmain_request_info">LiteListen hopes to get your device infomation to
 		improve our software. Press [I agree] to send a infomation which less
 		then 1
@@ -55,6 +58,14 @@
 		once. Refuse it will never affact any functions of
 		LiteListen.
 	</string>
+	<string name="scrmain_feedback_hint">LiteListen will collect some infomation about
+		device ID, locale, model and other informations of your devices, but
+		it will not send your private infomation such as sms, address books
+		and program data and so on.
+	</string>
+	<string name="scrmain_feedback_successful">Thank you for feed problem back!</string>
+	<string name="scrmain_feedback_failure">Submit failed, please check your network and try
+		again.</string>
 
 	<string name="widget_title_small">LiteListen 4×2</string>
 	<string name="widget_title_medium">LiteListen 4×3</string>

@@ -62,7 +62,7 @@ public class MusicAdapter extends BaseAdapter
 
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		if ((position < 0 || lstSong.size() <= 0) && position >= lstSong.size())
+		if (position < 0 || lstSong.size() <= 0 || position >= lstSong.size())
 			return null;
 
 		if (convertView == null)

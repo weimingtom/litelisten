@@ -69,7 +69,6 @@
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
 	<string name="pfrscat_general_title">常規選項</string>
 	<string name="pfrscat_general_language">語言</string>
-	<string name="pfrscat_general_language_title">語言設置</string>
 	<string name="pfrscat_general_music_path">音樂目錄</string>
 	<string name="pfrscat_general_include_sub_directories">掃描子資料夾</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定資料夾</string>

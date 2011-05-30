@@ -18,6 +18,9 @@
 package com.galapk.litelisten;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,9 +51,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -829,7 +834,7 @@ public class scrMain extends Activity
 	public void SetAlbumIcon()
 	{
 		// 防止初始化或列表为空时出错
-		if (adapter == null || ms == null && ms.getCurrIndex() >= adapter.getCount())
+		if (adapter == null || ms == null || ms.getCurrIndex() >= adapter.getCount())
 			return;
 
 		adapter.getView(ms.getCurrIndex(), null, lstMusic);
@@ -1017,8 +1022,8 @@ public class scrMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_ringtong);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_ringtong));
+		map.put("ItemIcon", R.drawable.menu_feedback);
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_feedback));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1058,21 +1063,50 @@ public class scrMain extends Activity
 	{
 		if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_links)))
 		{
-			txtLRC.setVisibility(View.GONE);
-			layLyricController.setVisibility(View.VISIBLE);
-			lstMusic.setVisibility(View.GONE);
-			layFileSelector.setVisibility(View.VISIBLE);
-			SetFileList("/sdcard");
+			// 修改歌词关联
+			if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+			{
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc_links), getString(R.string.scrmain_lyric_could_not_relate), 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						md.CloseDialog();
+					}
+				}, null);
+			}
+			else
+			{
+				txtLRC.setVisibility(View.GONE);
+				layLyricController.setVisibility(View.VISIBLE);
+				lstMusic.setVisibility(View.GONE);
+				layFileSelector.setVisibility(View.VISIBLE);
+				SetFileList("/sdcard");
+			}
 		}
 		else if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_search)))
 		{// 用线程下载歌词
-			new Thread()
+			if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
 			{
-				public void run()
+				final MessageDialog md = new MessageDialog();
+				md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc_links), getString(R.string.scrmain_lyric_could_not_relate), 18, new OnClickListener()
 				{
-					ls.GetCurrLyric();
-				}
-			}.start();
+					public void onClick(View v)
+					{
+						md.CloseDialog();
+					}
+				}, null);
+			}
+			else
+			{
+				new Thread()
+				{
+					public void run()
+					{
+						ls.GetCurrLyric();
+					}
+				}.start();
+			}
 		}
 
 		return super.onContextItemSelected(item);
@@ -1462,7 +1496,6 @@ public class scrMain extends Activity
 					SetFileList(strPath);
 				else
 				{
-					// 修改歌词关联
 					Map<String, Object> mapMusic = new HashMap<String, Object>();
 					mapMusic = lstSong.get(ms.getCurrIndex());
 					sd.execSQL("update music_info set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
@@ -1688,40 +1721,69 @@ public class scrMain extends Activity
 						SetMusicListByDB();
 
 						break;
-					// case 5:
-					// if (ms.getPlayerStatus() == MusicService.STATUS_PLAY)
-					// {
-					// // 获取正在播放的音乐文件路径
-					// Map<String, Object> mapInfo = new HashMap<String,
-					// Object>();
-					// mapInfo = lstSong.get(ms.getCurrIndex());
-					// Common.SetToRingtongs(srcMain.this, (String)
-					// mapInfo.get("MusicPath"), RingType.RINGTONE);
-					//
-					// if (toast != null)
-					// {
-					// toast.setText(R.string.scrmain_ringtong_successful);
-					// toast.setDuration(Toast.LENGTH_SHORT);
-					// }
-					// else
-					// toast = Toast.makeText(srcMain.this,
-					// R.string.scrmain_ringtong_successful,
-					// Toast.LENGTH_SHORT);
-					// }
-					// else
-					// {
-					// if (toast != null)
-					// {
-					// toast.setText(R.string.scrmain_play_first);
-					// toast.setDuration(Toast.LENGTH_SHORT);
-					// }
-					// else
-					// toast = Toast.makeText(srcMain.this,
-					// R.string.scrmain_play_first, Toast.LENGTH_SHORT);
-					// }
-					// toast.show();
-					//
-					// break;
+					case 5:
+						TextDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_extend_menu_feedback), getString(R.string.scrmain_feedback_hint), 15, "", 18,
+								new OnClickListener()
+								{
+									public void onClick(View v)
+									{
+										// 获取手机串号等信息并发送
+										TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+										// 获取当前时间
+										java.util.Date date = new java.util.Date();
+										SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+										String strDateTime = sdf.format(date);
+
+										// 生成链接
+										String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
+										strURL = strURL.replace("{imei}", tm.getDeviceId()).replace("{locale}", getResources().getConfiguration().locale.toString())
+												.replace("{sdk}", Build.VERSION.SDK).replace("{release}", Build.VERSION.RELEASE).replace("{model}", Build.MODEL).replace("{message}",
+														TextDialog.getEdtMessage().getText().toString()).replace("{submit_time}", strDateTime);
+										strURL = strURL.replace(" ", "%20"); // 将空格转义
+
+										// 处理特殊符号
+										if (strURL != null && strURL.indexOf("'") != -1)
+											strURL = strURL.replace("'", "''");
+
+										try
+										{
+											URLConnection conn = new URL(strURL).openConnection();
+											conn.connect();
+											conn.getContentType(); // 执行到这里才算真正调到了
+
+											TextDialog.getPw().dismiss(); // 成功后关闭对话框
+
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_successful));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
+										}
+										catch (Exception e)
+										{
+											if (e.getMessage() != null)
+												Log.w(Common.LOGCAT_TAG, e.getMessage());
+											else
+												e.printStackTrace();
+
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_failure));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_failure), Toast.LENGTH_SHORT);
+
+										}
+
+										toast.show();
+									}
+								});
+
+						break;
 					case 6:
 						TextView txtFavourite = (TextView) arg1.findViewById(R.id.txtMenu);
 						ImageView imgFavourite = (ImageView) arg1.findViewById(R.id.imgMenu);

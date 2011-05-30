@@ -539,7 +539,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language_title), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
 						Integer.parseInt(Language), new OnClickListener()
 						{
 							public void onClick(View v)

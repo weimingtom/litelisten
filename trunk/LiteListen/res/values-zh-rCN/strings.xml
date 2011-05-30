@@ -24,6 +24,7 @@
 	<string name="scrmain_extend_menu_order_asc">升序排列</string>
 	<string name="scrmain_extend_menu_order_desc">降序排列</string>
 	<string name="scrmain_extend_menu_ringtong">设为铃声</string>
+	<string name="scrmain_extend_menu_feedback">问题反馈</string>
 	<string name="scrmain_extend_menu_favourite">最爱歌曲</string>
 	<string name="scrmain_extend_menu_list">返回列表</string>
 	<string name="scrmain_extend_menu_wait">敬请期待</string>
@@ -46,9 +47,14 @@
 	<string name="scrmain_file_list">【返回上级目录】</string>
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
+	<string name="scrmain_lyric_could_not_relate">当前播放列表与正在播放的音乐不匹配，无法关联歌词。</string>
 	<string name="scrmain_request_info">轻听音乐播放器希望统计安装用户数量以便更好地为用户进行改良。单击【我愿意】将设备信息发送给开发人员，这些信息仅需要消耗最多
 		1 KB 的流量，而且仅会显示一次。您也可以选择拒绝，它将永不再显示（除非您重新安装）。拒绝发送设备信息不会影响到任何使用，请放心。
 	</string>
+	<string name="scrmain_feedback_hint">提交问题的同时，轻听将收集一些您的设备信息，包括设备序列号、系统版本以及设备时间、语言和型号等信息，但绝不会获取您的通信录、短信和程序等个人信息。\n您的反馈是轻听进步重要的里程碑！
+	</string>
+	<string name="scrmain_feedback_successful">问题提交成功，非常感谢！</string>
+	<string name="scrmain_feedback_failure">问题提交失败，请检查网络连接。</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
 	<string name="widget_title_medium">轻听音乐 4×3</string>
@@ -69,7 +75,6 @@
 	<string name="pfrsmain_image">选择一种看图程序</string>
 	<string name="pfrscat_general_title">常规选项</string>
 	<string name="pfrscat_general_language">语言</string>
-	<string name="pfrscat_general_language_title">语言设置</string>
 	<string name="pfrscat_general_music_path">音乐目录</string>
 	<string name="pfrscat_general_include_sub_directories">扫描子文件夹</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定文件夹</string>

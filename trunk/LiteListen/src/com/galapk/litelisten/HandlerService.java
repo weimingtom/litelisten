@@ -138,6 +138,7 @@ public class HandlerService
 						String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
 						strURL = strURL.replace("{imei}", tm.getDeviceId()).replace("{locale}", main.getResources().getConfiguration().locale.toString()).replace("{sdk}", Build.VERSION.SDK).replace(
 								"{release}", Build.VERSION.RELEASE).replace("{model}", Build.MODEL);
+						strURL = strURL.replace(" ", "%20"); // 将空格转义
 
 						try
 						{
