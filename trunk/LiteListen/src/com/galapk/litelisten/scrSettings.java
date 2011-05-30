@@ -24,12 +24,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -88,6 +92,8 @@ public class scrSettings extends Activity
 	private Button btnLRCFontShadowColor;
 	private ScrollView scrOthers;
 	private LinearLayout layOthers;
+	private Button btnHowToCheckForUpdate;
+	private Button btnCheckForUpdate;
 	private Button btnRestore;
 	private ScrollView scrHelp;
 	private LinearLayout layHelp;
@@ -100,6 +106,7 @@ public class scrSettings extends Activity
 	private int IMAGE_SELECTED_PORT = 0; // 竖屏照片选择标志
 	private int IMAGE_SELECTED_LAND = 1; // 横屏照片选择标志
 	private int ScreenOrantation = 0;
+	private HandlerService hs;
 
 	private String Language;
 	private String MusicPath;
@@ -127,6 +134,7 @@ public class scrSettings extends Activity
 	private String LRCFontColorHighlight;
 	private Boolean LRCFontShadow;
 	private String LRCFontShadowColor;
+	private String HowToCheckForUpdate;
 	private String Restore;
 
 	@Override
@@ -169,6 +177,7 @@ public class scrSettings extends Activity
 		intent.putExtra("LRCFontColorHighlight", LRCFontColorHighlight);
 		intent.putExtra("LRCFontShadow", LRCFontShadow);
 		intent.putExtra("LRCFontShadowColor", LRCFontShadowColor);
+		intent.putExtra("HowToCheckForUpdate", HowToCheckForUpdate);
 		startActivity(intent);
 		finish();
 	}
@@ -299,6 +308,7 @@ public class scrSettings extends Activity
 		LRCFontShadow = sp.getBoolean("LRCFontShadow", true);
 		LRCFontShadowColor = sp.getString("LRCFontShadowColor", "#0099FF");
 
+		HowToCheckForUpdate = sp.getString("HowToCheckForUpdate", "1");
 		Restore = sp.getString("Restore", "");
 	}
 
@@ -321,6 +331,7 @@ public class scrSettings extends Activity
 		ListernerBinding();
 		GetButtonDisplay();
 		ScreenOrantation = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+		hs = new HandlerService(this);
 
 		if (ScreenOrantation == 1 || ScreenOrantation == 3)
 			btnGeneral.setBackgroundResource(R.drawable.bg_setting_land_category_highlight);
@@ -485,6 +496,8 @@ public class scrSettings extends Activity
 		btnLRCFontColorHighlight.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_highlight_font_color) + "<br /><font color='#FFFF00'>" + LRCFontColorHighlight + "</font>"));
 		chkLRCFontShadow.setChecked(LRCFontShadow);
 		btnLRCFontShadowColor.setText(Html.fromHtml(getString(R.string.pfrscat_display_lrc_font_shadow_color) + "<br /><font color='#FFFF00'>" + LRCFontShadowColor + "</font>"));
+		btnHowToCheckForUpdate.setText(Html.fromHtml(getString(R.string.pfrscat_others_how_to_check_for_update) + "<br /><font color='#FFFF00'>"
+				+ getResources().getStringArray(R.array.item_name_pfrscat_others_check_for_update)[Integer.parseInt((String) HowToCheckForUpdate)] + "</font>"));
 	}
 
 	/* 更新选项 */
@@ -527,6 +540,7 @@ public class scrSettings extends Activity
 		edt.putBoolean("LRCFontShadow", LRCFontShadow);
 		edt.putString("LRCFontShadowColor", LRCFontShadowColor);
 
+		edt.putString("HowToCheckForUpdate", HowToCheckForUpdate);
 		edt.putString("Restore", Restore);
 
 		edt.commit();
@@ -949,6 +963,150 @@ public class scrSettings extends Activity
 			}
 		});
 
+		btnHowToCheckForUpdate.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_others_how_to_check_for_update), getResources().getStringArray(
+						R.array.item_name_pfrscat_others_check_for_update), 18, Integer.parseInt(HowToCheckForUpdate), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						HowToCheckForUpdate = ListDialog.getRet();
+						GetButtonDisplay();
+						UpdatePreference();
+						ListDialog.getPw().dismiss();
+					}
+				});
+			}
+		});
+
+		btnCheckForUpdate.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				new Thread()
+				{
+					public void run()
+					{
+						// 显示浮动提示
+						Message msgCheck = new Message();
+						msgCheck.obj = getString(R.string.pfrscat_others_check_for_update_checking);
+						hs.getHdlShowToastSettings().sendMessage(msgCheck);
+
+						// 获取版本号（VersionCode）
+						int CurrentVersion = 0; // 版本号
+						try
+						{
+							CurrentVersion = getPackageManager().getPackageInfo("com.galapk.litelisten", 0).versionCode;
+						}
+						catch (NameNotFoundException e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
+
+						// 检查更新
+						String RemoteVersion = Common.CheckForUpdate(CurrentVersion);
+						if (RemoteVersion != null && !RemoteVersion.equals(""))
+						{
+							final MessageDialog md = new MessageDialog();
+							md.SetMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
+									getString(R.string.pfrscat_others_check_for_update_got_message1) + RemoteVersion + getString(R.string.pfrscat_others_check_for_update_got_message2), 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											new Thread()
+											{
+												public void run()
+												{
+													// 写入统计日志
+													TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE); // 获取手机串号等信息并发送
+
+													// 生成链接
+													String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+													strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+															java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}",
+															java.net.URLEncoder.encode(Build.VERSION.SDK)).replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}",
+															java.net.URLEncoder.encode(Build.MODEL).replace("{action}", java.net.URLEncoder.encode("update")));
+
+													Common.CallURLPost(strURL, 10000);
+
+													// 开始下载更新文件
+													File TempFile = Common.GetUpdate();
+													if (TempFile != null)
+													{// 文件下载完成
+														Intent intent = new Intent();
+														intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+														intent.setAction(android.content.Intent.ACTION_VIEW);
+														intent.setDataAndType(Uri.fromFile(TempFile), Common.GetMIMEType(TempFile));
+														startActivity(intent);
+													}
+													else
+													{// 未完成，给出提示
+														final MessageDialog md = new MessageDialog();
+														md.SetMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
+																getString(R.string.pfrscat_others_check_for_update_got_failed), 18, new OnClickListener()
+																{
+																	public void onClick(View v)
+																	{
+																		md.CloseDialog();
+																	}
+																}, null);
+
+														// 显示对话框
+														Message msg = new Message();
+														msg.obj = md;
+														hs.getHdlShowMessageDialog().sendMessage(msg);
+													}
+												}
+											}.start();
+
+											// 显示浮动提示
+											Message msgDown = new Message();
+											msgDown.obj = getString(R.string.pfrscat_others_check_for_update_downloading);
+											hs.getHdlShowToastSettings().sendMessage(msgDown);
+
+											md.CloseDialog();
+										}
+									}, new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									});
+
+							// 显示对话框
+							Message msg = new Message();
+							msg.obj = md;
+							hs.getHdlShowMessageDialog().sendMessage(msg);
+						}
+						else
+						{
+							final MessageDialog md = new MessageDialog();
+							md.SetMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_others_check_for_update_nothing_title),
+									getString(R.string.pfrscat_others_check_for_update_nothing_message), 18, new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
+
+							// 显示对话框
+							Message msg = new Message();
+							msg.obj = md;
+							hs.getHdlShowMessageDialog().sendMessage(msg);
+						}
+					}
+				}.start();
+			}
+		});
+
 		btnRestore.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
@@ -1123,6 +1281,8 @@ public class scrSettings extends Activity
 		btnLRCFontShadowColor = (Button) findViewById(R.id.btnLRCFontShadowColor);
 		scrOthers = (ScrollView) findViewById(R.id.scrOthers);
 		layOthers = (LinearLayout) findViewById(R.id.layOthers);
+		btnHowToCheckForUpdate = (Button) findViewById(R.id.btnHowToCheckForUpdate);
+		btnCheckForUpdate = (Button) findViewById(R.id.btnCheckForUpdate);
 		btnRestore = (Button) findViewById(R.id.btnRestore);
 		scrHelp = (ScrollView) findViewById(R.id.scrHelp);
 		layHelp = (LinearLayout) findViewById(R.id.layHelp);
@@ -1924,5 +2084,35 @@ public class scrSettings extends Activity
 	public void setLRCAutoDownload(Boolean lRCAutoDownload)
 	{
 		LRCAutoDownload = lRCAutoDownload;
+	}
+
+	public Button getBtnHowToCheckForUpdate()
+	{
+		return btnHowToCheckForUpdate;
+	}
+
+	public void setBtnHowToCheckForUpdate(Button btnHowToCheckForUpdate)
+	{
+		this.btnHowToCheckForUpdate = btnHowToCheckForUpdate;
+	}
+
+	public Button getBtnCheckForUpdate()
+	{
+		return btnCheckForUpdate;
+	}
+
+	public void setBtnCheckForUpdate(Button btnCheckForUpdate)
+	{
+		this.btnCheckForUpdate = btnCheckForUpdate;
+	}
+
+	public String getHowToCheckForUpdate()
+	{
+		return HowToCheckForUpdate;
+	}
+
+	public void setHowToCheckForUpdate(String howToCheckForUpdate)
+	{
+		HowToCheckForUpdate = howToCheckForUpdate;
 	}
 }

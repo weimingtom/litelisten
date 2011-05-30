@@ -106,15 +106,25 @@
 	<string name="pfrscat_others_restore_title">请在下面的文本框中输入“是”，然后按确定以还原设置。</string>
 	<string name="pfrscat_others_restore_message_ok">设置还原成功！</string>
 	<string name="pfrscat_others_restore_message_wrong">您输入的内容不正确，设置没有被改变。</string>
+	<string name="pfrscat_others_how_to_check_for_update">启动时自动检查更新选项</string>
+	<string name="pfrscat_others_check_for_update">立即检查更新</string>
+	<string name="pfrscat_others_check_for_update_checking">正在检查更新，请稍候……</string>
+	<string name="pfrscat_others_check_for_update_downloading">正在下载更新，请稍候……</string>
+	<string name="pfrscat_others_check_for_update_nothing_title">非常好！</string>
+	<string name="pfrscat_others_check_for_update_nothing_message">您已安装了最新版本，无需更新。</string>
+	<string name="pfrscat_others_check_for_update_got_title">发现更新！</string>
+	<string name="pfrscat_others_check_for_update_got_message1">找到更新版本，发布序号为：</string>
+	<string name="pfrscat_others_check_for_update_got_message2">。\n\n是否更新？</string>
+	<string name="pfrscat_others_check_for_update_got_failed">下载更新失败。</string>
 	<string name="pfrscat_help_title">帮助信息</string>
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐播放器 官方页面</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
 	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.27 build
-		0528.1258\n\n更新内容：\n【修复】非标准分辨率（480×800）机型启动设置时崩溃的问题\n\n官方网站：\nhttp://litelisten.littledai.com/
+		2011\n0.5.28 build
+		0531.0010\n\n更新内容：\n【新增】问题反馈功能，程序中可以直接提交建议或错误信息\n【新增】在线更新，并提供更新检查设置\n【修复】当前播放歌曲序号大于设置的最爱歌曲数值时切换到最爱歌曲列表时导致系统崩溃的问题\n【修复】当播放列表为空时从通知栏消息进入播放器时引起系统崩溃的问题\n【修复】当播放列表为空时关联歌词引起系统崩溃的问题，现在不允许关联\n【修复】信息收集功能的错误\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【修复】非标准分辨率（480×800）机型启动设置时崩溃的问题
+	<string name="update_info">【新增】问题反馈功能，程序中可以直接提交建议或错误信息\n【新增】在线更新，并提供更新检查设置\n【修复】当前播放歌曲序号大于设置的最爱歌曲数值时切换到最爱歌曲列表时导致系统崩溃的问题\n【修复】当播放列表为空时从通知栏消息进入播放器时引起系统崩溃的问题\n【修复】当播放列表为空时关联歌词引起系统崩溃的问题，现在不允许关联\n【修复】信息收集功能的错误
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -156,5 +166,10 @@
 	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
 		<item>逐行滚动</item>
 		<item>平滑滚动</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_others_check_for_update">
+		<item>从不</item>
+		<item>仅Wi-Fi网络下</item>
+		<item>始终</item>
 	</string-array>
 </resources>

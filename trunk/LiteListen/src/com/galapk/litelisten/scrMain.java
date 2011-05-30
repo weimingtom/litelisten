@@ -18,8 +18,6 @@
 package com.galapk.litelisten;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -653,6 +651,7 @@ public class scrMain extends Activity
 				hs.getHdlShowMain().sendEmptyMessage(0);
 				hs.getHdlShowUpdateLog().sendEmptyMessage(0);
 				hs.getHdlRequestDevInfo().sendEmptyMessage(0);
+				hs.getHdlCheckForUpdate().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -1735,49 +1734,35 @@ public class scrMain extends Activity
 										SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
 										String strDateTime = sdf.format(date);
 
-										// 生成链接
 										String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
-										strURL = strURL.replace("{imei}", tm.getDeviceId()).replace("{locale}", getResources().getConfiguration().locale.toString())
-												.replace("{sdk}", Build.VERSION.SDK).replace("{release}", Build.VERSION.RELEASE).replace("{model}", Build.MODEL).replace("{message}",
-														TextDialog.getEdtMessage().getText().toString()).replace("{submit_time}", strDateTime);
-										strURL = strURL.replace(" ", "%20"); // 将空格转义
+										strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+												java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
+												.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
+														"{message}", java.net.URLEncoder.encode(TextDialog.getEdtMessage().getText().toString())).replace("{submit_time}",
+														java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
 
-										// 处理特殊符号
-										if (strURL != null && strURL.indexOf("'") != -1)
-											strURL = strURL.replace("'", "''");
-
-										try
+										if (toast != null)
 										{
-											URLConnection conn = new URL(strURL).openConnection();
-											conn.connect();
-											conn.getContentType(); // 执行到这里才算真正调到了
+											toast.setText(getString(R.string.scrmain_feedback_successful));
+											toast.setDuration(Toast.LENGTH_SHORT);
+										}
+										else
+											toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
 
+										String strHint = getString(R.string.scrmain_feedback_successful);
+
+										if (Common.CallURLPost(strURL, 10000))
 											TextDialog.getPw().dismiss(); // 成功后关闭对话框
+										else
+											strHint = getString(R.string.scrmain_feedback_failure);
 
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_successful));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
-										}
-										catch (Exception e)
+										if (toast != null)
 										{
-											if (e.getMessage() != null)
-												Log.w(Common.LOGCAT_TAG, e.getMessage());
-											else
-												e.printStackTrace();
-
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_failure));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_failure), Toast.LENGTH_SHORT);
-
+											toast.setText(strHint);
+											toast.setDuration(Toast.LENGTH_SHORT);
 										}
+										else
+											toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
 
 										toast.show();
 									}

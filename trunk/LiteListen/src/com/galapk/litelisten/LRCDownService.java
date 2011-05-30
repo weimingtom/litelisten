@@ -17,57 +17,16 @@
 
 package com.galapk.litelisten;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.util.Log;
 
 public class LRCDownService
 {
 	final private static char[] digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
-	/* 获取指定URL所对应的文本内容 */
-	public static String GetHTTPContent(String strURL)
-	{
-		try
-		{
-			URLConnection conn = new URL(strURL).openConnection();
-			conn.connect();
-			String contentType = conn.getContentType();
-			if (contentType == null)
-				contentType = "utf-8";
-
-			final Pattern ptnCharset = Pattern.compile("(?i)\\bcharset=([^\\s;]+)");
-			Matcher m = ptnCharset.matcher(contentType);
-			String Encoder = "utf-8";
-			if (m.find())
-				Encoder = m.group(1);
-
-			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), Encoder));
-			char[] str = new char[4096];
-			StringBuilder builder = new StringBuilder();
-			for (int len; (len = reader.read(str)) > -1;)
-				builder.append(str, 0, len);
-			return builder.toString();
-		}
-		catch (Exception e)
-		{
-			if (e.getMessage() != null)
-				Log.w(Common.LOGCAT_TAG, e.getMessage());
-			else
-				e.printStackTrace();
-
-			return "";
-		}
-	}
 
 	/* 从千千静听服务器下载歌词 */
 	public static String GetLyricFromTT(String ID, String Artist, String Title)
@@ -78,7 +37,7 @@ public class LRCDownService
 		else
 			return "";
 
-		return GetHTTPContent(strURL);
+		return Common.GetHTTPContent(strURL, "utf-8");
 	}
 
 	/* 解析千千静听LRC列表XML */
@@ -129,7 +88,7 @@ public class LRCDownService
 			String strURL = "http://ttlrcct.qianqian.com/dll/lyricsvr.dll?sh?Artist={ar}&Title={ti}&Flags=0";
 			strURL = strURL.replace("{ar}", EncodingTo16LE(Artist)).replace("{ti}", EncodingTo16LE(Title));
 
-			return AnalyzeXML(GetHTTPContent(strURL));
+			return AnalyzeXML(Common.GetHTTPContent(strURL, "utf-8"));
 		}
 		catch (Exception e)
 		{

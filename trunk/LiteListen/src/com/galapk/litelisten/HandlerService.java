@@ -17,13 +17,14 @@
 
 package com.galapk.litelisten;
 
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -41,10 +43,16 @@ import android.widget.Toast;
 public class HandlerService
 {
 	private scrMain main = null;
+	private scrSettings settings = null;
 
 	public HandlerService(scrMain main)
 	{
 		this.main = main;
+	}
+
+	public HandlerService(scrSettings settings)
+	{
+		this.settings = settings;
 	}
 
 	/* 启动后设置语言的Handler */
@@ -54,6 +62,17 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			main.SetLanguage();
+		}
+	};
+
+	/* 显示传入MessageDialog的Handler */
+	private Handler hdlShowMessageDialog = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			MessageDialog md = (MessageDialog) msg.obj;
+			md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
 		}
 	};
 
@@ -67,13 +86,23 @@ public class HandlerService
 		}
 	};
 
-	/* 显示浮动提示的Handler */
-	private Handler hdlShowToast = new Handler()
+	/* 显示主界面浮动提示的Handler */
+	private Handler hdlShowToastMain = new Handler()
 	{
 		@Override
 		public void handleMessage(Message msg)
 		{
 			Toast.makeText(main, (String) msg.obj, Toast.LENGTH_SHORT).show();
+		}
+	};
+
+	/* 显示设置界面浮动提示的Handler */
+	private Handler hdlShowToastSettings = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			Toast.makeText(settings, (String) msg.obj, Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -102,13 +131,131 @@ public class HandlerService
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart22", false); // 设置当前版本
-						edt.remove("IsFirstStart21"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart24", false); // 设置当前版本
+						edt.remove("IsFirstStart22"); // 删除上个版本的标记
 						edt.commit();
 
 						md.CloseDialog();
 					}
 				}, null);
+			}
+		}
+	};
+
+	/* 检查更新的Handler */
+	private Handler hdlCheckForUpdate = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			// 是否已经显示了更新日志
+			if ((main.getSp().getString("HowToCheckForUpdate", "1").equals("1") && Common.IsWiFiConnected(main)) || main.getSp().getString("HowToCheckForUpdate", "1").equals("2"))
+			{
+				// 获取版本号（VersionCode）
+				Toast.makeText(main, main.getString(R.string.pfrscat_others_check_for_update_checking), Toast.LENGTH_SHORT).show(); // 显示浮动提示
+				int CurrentVersion = 0; // 版本号
+				try
+				{
+					CurrentVersion = main.getPackageManager().getPackageInfo("com.galapk.litelisten", 0).versionCode;
+				}
+				catch (NameNotFoundException e)
+				{
+					if (e.getMessage() != null)
+						Log.w(Common.LOGCAT_TAG, e.getMessage());
+					else
+						e.printStackTrace();
+				}
+
+				// 检查更新
+				String RemoteVersion = Common.CheckForUpdate(CurrentVersion);
+				if (RemoteVersion != null && !RemoteVersion.equals(""))
+				{
+					final MessageDialog md = new MessageDialog();
+					md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
+							.getString(R.string.pfrscat_others_check_for_update_got_message1)
+							+ RemoteVersion + main.getString(R.string.pfrscat_others_check_for_update_got_message2), 18, new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							new Thread()
+							{
+								public void run()
+								{
+									// 写入统计日志
+									TelephonyManager tm = (TelephonyManager) main.getSystemService(Context.TELEPHONY_SERVICE); // 获取手机串号等信息并发送
+
+									// 生成链接
+									String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+									strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+											java.net.URLEncoder.encode(main.getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
+											.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}",
+													java.net.URLEncoder.encode(Build.MODEL).replace("{action}", java.net.URLEncoder.encode("update")));
+
+									Common.CallURLPost(strURL, 10000);
+
+									// 开始下载更新文件
+									File TempFile = Common.GetUpdate();
+									if (TempFile != null)
+									{// 文件下载完成
+										Intent intent = new Intent();
+										intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+										intent.setAction(android.content.Intent.ACTION_VIEW);
+										intent.setDataAndType(Uri.fromFile(TempFile), Common.GetMIMEType(TempFile));
+										main.startActivity(intent);
+									}
+									else
+									{// 未完成，给出提示
+										final MessageDialog md = new MessageDialog();
+										md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
+												.getString(R.string.pfrscat_others_check_for_update_got_failed), 18, new OnClickListener()
+										{
+											public void onClick(View v)
+											{
+												md.CloseDialog();
+											}
+										}, null);
+
+										// 显示对话框
+										Message msg = new Message();
+										msg.obj = md;
+										hdlShowMessageDialog.sendMessage(msg);
+									}
+								}
+							}.start();
+
+							Toast.makeText(main, main.getString(R.string.pfrscat_others_check_for_update_downloading), Toast.LENGTH_SHORT).show(); // 显示浮动提示
+							md.CloseDialog();
+						}
+					}, new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							md.CloseDialog();
+						}
+					});
+
+					// 显示对话框
+					Message msgSuccess = new Message();
+					msgSuccess.obj = md;
+					hdlShowMessageDialog.sendMessage(msgSuccess);
+				}
+				else
+				{
+					final MessageDialog md = new MessageDialog();
+					md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_nothing_title), main
+							.getString(R.string.pfrscat_others_check_for_update_nothing_message), 18, new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							md.CloseDialog();
+						}
+					}, null);
+
+					// 显示对话框
+					Message msgFailed = new Message();
+					msgFailed.obj = md;
+					hdlShowMessageDialog.sendMessage(msgFailed);
+				}
 			}
 		}
 	};
@@ -136,24 +283,11 @@ public class HandlerService
 
 						// 生成链接
 						String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
-						strURL = strURL.replace("{imei}", tm.getDeviceId()).replace("{locale}", main.getResources().getConfiguration().locale.toString()).replace("{sdk}", Build.VERSION.SDK).replace(
-								"{release}", Build.VERSION.RELEASE).replace("{model}", Build.MODEL);
-						strURL = strURL.replace(" ", "%20"); // 将空格转义
+						strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+								java.net.URLEncoder.encode(main.getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK)).replace(
+								"{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL));
 
-						try
-						{
-							URLConnection conn = new URL(strURL).openConnection();
-							conn.connect();
-							conn.getContentType(); // 执行到这里才算真正调到了
-						}
-						catch (Exception e)
-						{
-							if (e.getMessage() != null)
-								Log.w(Common.LOGCAT_TAG, e.getMessage());
-							else
-								e.printStackTrace();
-						}
-
+						Common.CallURLPost(strURL, 10000);
 						md.CloseDialog();
 					}
 				}, new OnClickListener()
@@ -522,16 +656,6 @@ public class HandlerService
 		this.hdlSetStrLRCPath = hdlSetStrLRCPath;
 	}
 
-	public Handler getHdlShowToast()
-	{
-		return hdlShowToast;
-	}
-
-	public void setHdlShowToast(Handler hdlShowToast)
-	{
-		this.hdlShowToast = hdlShowToast;
-	}
-
 	public Handler getHdlRequestDevInfo()
 	{
 		return hdlRequestDevInfo;
@@ -540,5 +664,55 @@ public class HandlerService
 	public void setHdlRequestDevInfo(Handler hdlRequestDevInfo)
 	{
 		this.hdlRequestDevInfo = hdlRequestDevInfo;
+	}
+
+	public Handler getHdlShowMessageDialog()
+	{
+		return hdlShowMessageDialog;
+	}
+
+	public void setHdlShowMessageDialog(Handler hdlShowMessageDialog)
+	{
+		this.hdlShowMessageDialog = hdlShowMessageDialog;
+	}
+
+	public scrSettings getSettings()
+	{
+		return settings;
+	}
+
+	public void setSettings(scrSettings settings)
+	{
+		this.settings = settings;
+	}
+
+	public Handler getHdlShowToastMain()
+	{
+		return hdlShowToastMain;
+	}
+
+	public void setHdlShowToastMain(Handler hdlShowToastMain)
+	{
+		this.hdlShowToastMain = hdlShowToastMain;
+	}
+
+	public Handler getHdlShowToastSettings()
+	{
+		return hdlShowToastSettings;
+	}
+
+	public void setHdlShowToastSettings(Handler hdlShowToastSettings)
+	{
+		this.hdlShowToastSettings = hdlShowToastSettings;
+	}
+
+	public Handler getHdlCheckForUpdate()
+	{
+		return hdlCheckForUpdate;
+	}
+
+	public void setHdlCheckForUpdate(Handler hdlCheckForUpdate)
+	{
+		this.hdlCheckForUpdate = hdlCheckForUpdate;
 	}
 }

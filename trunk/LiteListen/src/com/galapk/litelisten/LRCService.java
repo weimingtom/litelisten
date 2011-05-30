@@ -284,7 +284,7 @@ public class LRCService
 		{// 提示没有找到歌词
 			Message msg = new Message();
 			msg.obj = main.getString(R.string.scrmain_context_menu_lrc_search_not_found);
-			main.getHs().getHdlShowToast().sendMessage(msg);
+			main.getHs().getHdlShowToastMain().sendMessage(msg);
 		}
 		else
 		{

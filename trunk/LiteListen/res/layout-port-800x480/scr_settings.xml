@@ -254,7 +254,9 @@
 			android:layout_width="fill_parent" android:visibility="gone"
 			android:scrollbarThumbVertical="@drawable/scroll_track">
 			<LinearLayout android:layout_width="fill_parent"
-				android:layout_height="fill_parent" android:id="@+id/layOthers">
+				android:layout_height="fill_parent" android:id="@+id/layOthers" android:orientation="vertical">
+				<Button android:layout_height="wrap_content" android:id="@+id/btnHowToCheckForUpdate" android:text="@string/pfrscat_others_how_to_check_for_update" android:gravity="left|center_vertical" android:shadowColor="#00000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:textColor="#FFFFFF" android:textSize="20dip" android:layout_width="fill_parent" android:background="@layout/option_bg_top" android:paddingLeft="20dip" android:paddingRight="20dip" android:paddingTop="10dip"></Button>
+				<Button android:layout_height="wrap_content" android:id="@+id/btnCheckForUpdate" android:text="@string/pfrscat_others_check_for_update" android:shadowColor="#00000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1" android:textColor="#FFFFFF" android:textSize="20dip" android:layout_width="fill_parent" android:gravity="left|center_vertical" android:background="@layout/option_bg_bottom" android:paddingLeft="20dip" android:paddingRight="20dip" android:paddingBottom="10dip"></Button>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_others_restore"
 					android:id="@+id/btnRestore" android:textSize="20dip"

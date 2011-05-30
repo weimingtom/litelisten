@@ -32,6 +32,7 @@ import android.widget.TextView;
 public class MessageDialog
 {
 	private PopupWindow pw;
+	private View WindowParent;
 
 	public void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
@@ -72,6 +73,45 @@ public class MessageDialog
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 
+	/* 和ShowMessage的区别在于这里仅仅设置，但不显示 */
+	public void SetMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	{
+		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+		this.WindowParent = WindowParent;
+
+		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.popup_message_dialog, null, false);
+
+		if (ScreenOrientation == 1 || ScreenOrientation == 3)
+			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
+		else
+			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		// 设置图标
+		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
+		imgIcon.setBackgroundResource(R.drawable.album_normal);
+
+		// 设置对话框标题
+		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+		txtTitle.setText(Title);
+
+		// 设置提示信息
+		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+		txtMessage.setText(Message);
+		txtMessage.setTextSize(MessageSize);
+
+		// 设置确定按钮
+		Button btnOK = (Button) view.findViewById(R.id.btnOK);
+		btnOK.setOnClickListener(onOK);
+
+		// 设置取消按钮
+		Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+		if (onCancel != null)
+			btnCancel.setOnClickListener(onCancel);
+		else
+			btnCancel.setVisibility(View.GONE); // 不可见
+	}
+
 	public void CloseDialog()
 	{
 		pw.dismiss();
@@ -85,5 +125,15 @@ public class MessageDialog
 	public void setPw(PopupWindow pw)
 	{
 		this.pw = pw;
+	}
+
+	public View getWindowParent()
+	{
+		return WindowParent;
+	}
+
+	public void setWindowParent(View windowParent)
+	{
+		WindowParent = windowParent;
 	}
 }

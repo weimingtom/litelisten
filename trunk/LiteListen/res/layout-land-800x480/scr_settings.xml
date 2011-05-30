@@ -80,11 +80,13 @@
 					android:paddingLeft="20dip" android:paddingRight="20dip"
 					android:textColor="#FFFFFF" android:textSize="20dip"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_autopause"></CheckBox>
-					<CheckBox android:layout_height="wrap_content"
+				<CheckBox android:layout_height="wrap_content"
 					android:background="@drawable/bg_setting_land_normal_single"
-					android:button="@layout/option_checkbox_single" android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:button="@layout/option_checkbox_single"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
 					android:textColor="#FFFFFF" android:textSize="20dip"
-					android:layout_width="fill_parent" android:id="@+id/chkLRCAutoDownload" android:text="@string/pfrscat_general_lrc_auto_download"></CheckBox>
+					android:layout_width="fill_parent" android:id="@+id/chkLRCAutoDownload"
+					android:text="@string/pfrscat_general_lrc_auto_download"></CheckBox>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_list_order"
 					android:id="@+id/btnListSortOrder" android:textSize="20dip"
@@ -255,6 +257,22 @@
 			android:scrollbarThumbVertical="@drawable/scroll_track">
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="fill_parent" android:id="@+id/layOthers">
+				<Button android:layout_height="wrap_content" android:id="@+id/btnHowToCheckForUpdate"
+					android:text="@string/pfrscat_others_how_to_check_for_update"
+					android:gravity="left|center_vertical" android:shadowColor="#00000000"
+					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
+					android:textColor="#FFFFFF" android:textSize="20dip"
+					android:layout_width="fill_parent" android:background="@layout/option_bg_top"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:paddingTop="10dip"></Button>
+				<Button android:layout_height="wrap_content" android:id="@+id/btnCheckForUpdate"
+					android:text="@string/pfrscat_others_check_for_update"
+					android:shadowColor="#00000000" android:shadowDx="1"
+					android:shadowDy="1" android:shadowRadius="1" android:textColor="#FFFFFF"
+					android:textSize="20dip" android:layout_width="fill_parent"
+					android:gravity="left|center_vertical" android:background="@layout/option_bg_bottom"
+					android:paddingLeft="20dip" android:paddingRight="20dip"
+					android:paddingBottom="10dip"></Button>
 				<Button android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_others_restore"
 					android:id="@+id/btnRestore" android:textSize="20dip"
@@ -290,8 +308,10 @@
 			</LinearLayout>
 		</ScrollView>
 	</LinearLayout>
-	<Button android:shadowColor="#0099FF" android:shadowDx="0" android:background="@layout/alertdialog_button" android:textColor="#FFFFFF"
+	<Button android:shadowColor="#0099FF" android:shadowDx="0"
+		android:background="@layout/alertdialog_button" android:textColor="#FFFFFF"
 		android:shadowDy="0" android:shadowRadius="3"
 		android:layout_alignParentBottom="true" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:id="@+id/btnReturn" android:text="@string/global_return"></Button>
+		android:layout_height="wrap_content" android:id="@+id/btnReturn"
+		android:text="@string/global_return"></Button>
 </RelativeLayout>

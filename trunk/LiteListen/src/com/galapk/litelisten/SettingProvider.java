@@ -47,6 +47,7 @@ public class SettingProvider
 	private String LRCFontColorHighlight;
 	private Boolean LRCFontShadow;
 	private String LRCFontShadowColor;
+	private String HowToCheckForUpdate;
 
 	// 非选项菜单中的选项
 	private Boolean FloatLRCLocked;
@@ -93,6 +94,8 @@ public class SettingProvider
 		LRCFontShadow = main.getSp().getBoolean("LRCFontShadow", true);
 		LRCFontShadowColor = main.getSp().getString("LRCFontShadowColor", "#0099FF");
 
+		HowToCheckForUpdate = main.getSp().getString("HowToCheckForUpdate", "1");
+
 		FloatLRCLocked = main.getSp().getBoolean("FloatLRCLocked", false);
 		DeskLRCStatus = main.getSp().getBoolean("DeskLRCStatus", true);
 		LastKeyword = main.getSp().getString("LastKeyword", "");
@@ -132,6 +135,7 @@ public class SettingProvider
 		LRCFontColorHighlight = intent.getStringExtra("LRCFontColorHighlight");
 		LRCFontShadow = intent.getBooleanExtra("LRCFontShadow", true);
 		LRCFontShadowColor = intent.getStringExtra("LRCFontShadowColor");
+		HowToCheckForUpdate = intent.getStringExtra("HowToCheckForUpdate");
 	}
 
 	public String getLanguage()
@@ -472,5 +476,15 @@ public class SettingProvider
 	public void setLRCAutoDownload(Boolean lRCAutoDownload)
 	{
 		LRCAutoDownload = lRCAutoDownload;
+	}
+
+	public String getHowToCheckForUpdate()
+	{
+		return HowToCheckForUpdate;
+	}
+
+	public void setHowToCheckForUpdate(String howToCheckForUpdate)
+	{
+		HowToCheckForUpdate = howToCheckForUpdate;
 	}
 }
