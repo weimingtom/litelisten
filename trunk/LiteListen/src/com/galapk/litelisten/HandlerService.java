@@ -72,7 +72,8 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			MessageDialog md = (MessageDialog) msg.obj;
-			md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
+			if (md.getPw() != null)
+				md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
 		}
 	};
 
@@ -356,7 +357,7 @@ public class HandlerService
 		}
 	};
 
-	/* 歌词同步的 Handler */
+	/* 歌词同步的Handler */
 	private Handler hdlLRCSync = new Handler()
 	{
 		int LastPos = -1; // 上一次播放动画的位置

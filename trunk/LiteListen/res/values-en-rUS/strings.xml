@@ -41,8 +41,6 @@
 	<string name="scrmain_alarm_successful">Alarm has been set</string>
 	<string name="scrmain_play_first">Please play a music first</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
-	<string name="scrmain_context_menu_lrc_links">Select a lyric from file</string>
-	<string name="scrmain_context_menu_lrc_search">Search lyric from Internet</string>
 	<string name="scrmain_context_menu_lrc_search_not_found">There is no such lyric on Internet</string>
 	<string name="scrmain_file_list">[Back]</string>
 	<string name="scrmain_update_log">What\'s new?</string>
@@ -198,5 +196,9 @@
 		<item>None</item>
 		<item>Wi-Fi Only</item>
 		<item>Always</item>
+	</string-array>
+	<string-array name="item_name_txtlrc_context_menu">
+		<item>Select a lyric from browser...</item>
+		<item>Search lyric from Internet</item>
 	</string-array>
 </resources>

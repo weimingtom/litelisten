@@ -56,18 +56,16 @@ import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.ContextMenu.ContextMenuInfo;
+
 import android.view.View.OnClickListener;
-import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.AlphaAnimation;
@@ -1056,61 +1054,6 @@ public class scrMain extends Activity
 		grdMenu.setAdapter(adapter);
 	}
 
-	/* 设置ContextMenu事件 */
-	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_links)))
-		{
-			// 修改歌词关联
-			if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-			{
-				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc_links), getString(R.string.scrmain_lyric_could_not_relate), 18, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						md.CloseDialog();
-					}
-				}, null);
-			}
-			else
-			{
-				txtLRC.setVisibility(View.GONE);
-				layLyricController.setVisibility(View.VISIBLE);
-				lstMusic.setVisibility(View.GONE);
-				layFileSelector.setVisibility(View.VISIBLE);
-				SetFileList("/sdcard");
-			}
-		}
-		else if (item.getTitle().equals(getString(R.string.scrmain_context_menu_lrc_search)))
-		{// 用线程下载歌词
-			if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-			{
-				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc_links), getString(R.string.scrmain_lyric_could_not_relate), 18, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						md.CloseDialog();
-					}
-				}, null);
-			}
-			else
-			{
-				new Thread()
-				{
-					public void run()
-					{
-						ls.GetCurrLyric();
-					}
-				}.start();
-			}
-		}
-
-		return super.onContextItemSelected(item);
-	}
-
 	/* 设置播放列表项目内容 */
 	public Map<String, Object> GetMusicID3(String path, String oldname)
 	{
@@ -1576,18 +1519,71 @@ public class scrMain extends Activity
 			}
 		});
 
-		/* 创建歌词ContextMenu */
-		txtLRC.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
+		/* 显示歌词关联菜单 */
+		txtLRC.setOnLongClickListener(new OnLongClickListener()
 		{
-			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+			public boolean onLongClick(View v)
 			{
-				if (MovedDistance < (float) 10)
-				{// 小于10像素则认为需要弹出菜单
-					menu.setHeaderIcon(R.drawable.icon);
-					menu.setHeaderTitle(R.string.scrmain_context_menu_lrc);
-					menu.add(R.string.scrmain_context_menu_lrc_links);
-					menu.add(R.string.scrmain_context_menu_lrc_search);
-				}
+//				ListDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
+//						new OnClickListener()
+//						{
+//							public void onClick(View v)
+//							{
+//								if (ListDialog.getRet().equals("0"))
+//								{
+//									// 修改歌词关联
+//									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+//									{
+//										final MessageDialog md = new MessageDialog();
+//										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
+//												new OnClickListener()
+//												{
+//													public void onClick(View v)
+//													{
+//														md.CloseDialog();
+//													}
+//												}, null);
+//									}
+//									else
+//									{
+//										txtLRC.setVisibility(View.GONE);
+//										layLyricController.setVisibility(View.VISIBLE);
+//										lstMusic.setVisibility(View.GONE);
+//										layFileSelector.setVisibility(View.VISIBLE);
+//										SetFileList("/sdcard");
+//									}
+//								}
+//								else if (ListDialog.getRet().equals("1"))
+//								{// 用线程下载歌词
+//									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+//									{
+//										final MessageDialog md = new MessageDialog();
+//										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
+//												new OnClickListener()
+//												{
+//													public void onClick(View v)
+//													{
+//														md.CloseDialog();
+//													}
+//												}, null);
+//									}
+//									else
+//									{
+//										new Thread()
+//										{
+//											public void run()
+//											{
+//												ls.GetCurrLyric();
+//											}
+//										}.start();
+//									}
+//								}
+//
+//								ListDialog.getPw().dismiss();
+//							}
+//						});
+
+				return false;
 			}
 		});
 

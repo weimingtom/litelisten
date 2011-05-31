@@ -40,8 +40,6 @@
 	<string name="scrmain_alarm_successful">已設為鬧鐘鈴聲</string>
 	<string name="scrmain_play_first">請先播放音樂</string>
 	<string name="scrmain_context_menu_lrc">歌詞選項</string>
-	<string name="scrmain_context_menu_lrc_links">選擇歌詞檔</string>
-	<string name="scrmain_context_menu_lrc_search">從網路中搜索歌詞</string>
 	<string name="scrmain_context_menu_lrc_search_not_found">沒有找到相應歌詞</string>
 	<string name="scrmain_file_list">【返回上級目錄】</string>
 	<string name="scrmain_update_log">我更新了啥？</string>
@@ -169,5 +167,9 @@
 		<item>從不</item>
 		<item>僅Wi-Fi網路下</item>
 		<item>始終</item>
+	</string-array>
+	<string-array name="item_name_txtlrc_context_menu">
+		<item>流覽歌詞檔……</item>
+		<item>從網路中搜索歌詞</item>
 	</string-array>
 </resources>

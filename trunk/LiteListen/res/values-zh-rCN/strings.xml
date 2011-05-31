@@ -40,8 +40,6 @@
 	<string name="scrmain_alarm_successful">已设为闹钟铃声</string>
 	<string name="scrmain_play_first">请先播放音乐</string>
 	<string name="scrmain_context_menu_lrc">歌词选项</string>
-	<string name="scrmain_context_menu_lrc_links">选择歌词文件</string>
-	<string name="scrmain_context_menu_lrc_search">从网络中搜索歌词</string>
 	<string name="scrmain_context_menu_lrc_search_not_found">没有找到相应歌词</string>
 	<string name="scrmain_file_list">【返回上级目录】</string>
 	<string name="scrmain_update_log">我更新了啥？</string>
@@ -169,5 +167,9 @@
 		<item>从不</item>
 		<item>仅Wi-Fi网络下</item>
 		<item>始终</item>
+	</string-array>
+	<string-array name="item_name_txtlrc_context_menu">
+		<item>浏览歌词文件……</item>
+		<item>从网络中搜索歌词</item>
 	</string-array>
 </resources>
