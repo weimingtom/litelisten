@@ -299,9 +299,9 @@ public class scrMain extends Activity
 				SetMusicToList();
 			WidgetsListener();
 			CreateFloatLRC();
-			CallMusicNotify(getString(R.string.global_app_name_no_version), R.drawable.icon);
+			CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
 			CallFloatLRCNotify(st.getFloatLRCLocked());
-			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			IsStartup = false;
 		}
 		else
@@ -329,7 +329,7 @@ public class scrMain extends Activity
 				lstMusic.setVisibility(View.GONE);
 
 			if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
-				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name_no_version), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			fl.setVisibility(View.INVISIBLE);
 			layWM.width = dm.widthPixels;
 		}
@@ -794,7 +794,7 @@ public class scrMain extends Activity
 				{
 					if (IsShowingFavourite)
 					{// ×î°®¸èÇú
-						if (i > Integer.parseInt(st.getFavoriteMax()))
+						if (i >= Integer.parseInt(st.getFavoriteMax()))
 							break;
 						else
 							i++;

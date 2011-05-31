@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_name">轻听音乐播放器 2011</string>
-	<string name="global_app_name_no_version">轻听音乐播放器</string>
+	<string name="global_app_name">轻听音乐</string>
 	<string name="global_app_version_desk_lrc_show">桌面歌词秀</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
@@ -48,7 +47,7 @@
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
 	<string name="scrmain_lyric_could_not_relate">当前播放列表与正在播放的音乐不匹配，无法关联歌词。</string>
-	<string name="scrmain_request_info">轻听音乐播放器希望统计安装用户数量以便更好地为用户进行改良。单击【我愿意】将设备信息发送给开发人员，这些信息仅需要消耗最多
+	<string name="scrmain_request_info">轻听音乐希望统计安装用户数量以便更好地为用户进行改良。单击【我愿意】将设备信息发送给开发人员，这些信息仅需要消耗最多
 		1 KB 的流量，而且仅会显示一次。您也可以选择拒绝，它将永不再显示（除非您重新安装）。拒绝发送设备信息不会影响到任何使用，请放心。
 	</string>
 	<string name="scrmain_feedback_hint">提交问题的同时，轻听将收集一些您的设备信息，包括设备序列号、系统版本以及设备时间、语言和型号等信息，但绝不会获取您的通信录、短信和程序等个人信息。\n您的反馈是轻听进步重要的里程碑！
@@ -71,7 +70,7 @@
 	<string name="notification_show">单击这里返回播放器</string>
 	<string name="notification_play">单击这里播放下一首</string>
 
-	<string name="pfrsmain_title">播放器设置</string>
+	<string name="pfrsmain_title">设置轻听音乐</string>
 	<string name="pfrsmain_image">选择一种看图程序</string>
 	<string name="pfrscat_general_title">常规选项</string>
 	<string name="pfrscat_general_language">语言</string>
@@ -117,14 +116,13 @@
 	<string name="pfrscat_others_check_for_update_got_message2">。\n\n是否更新？</string>
 	<string name="pfrscat_others_check_for_update_got_failed">下载更新失败。</string>
 	<string name="pfrscat_help_title">帮助信息</string>
-	<string name="pfrscat_help_visit_official_site">访问 轻听音乐播放器 官方页面</string>
-	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听乐播放器 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
-	<string name="pfrscat_help_about">关于 轻听音乐播放器</string>
-	<string name="pfrscat_help_about_message">轻听音乐播放器
-		2011\n0.5.28 build
-		0531.0010\n\n更新内容：\n【新增】问题反馈功能，程序中可以直接提交建议或错误信息\n【新增】在线更新，并提供更新检查设置\n【修复】当前播放歌曲序号大于设置的最爱歌曲数值时切换到最爱歌曲列表时导致系统崩溃的问题\n【修复】当播放列表为空时从通知栏消息进入播放器时引起系统崩溃的问题\n【修复】当播放列表为空时关联歌词引起系统崩溃的问题，现在不允许关联\n【修复】信息收集功能的错误\n\n官方网站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_visit_official_site">访问 轻听音乐 官方页面</string>
+	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听音乐 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
+	<string name="pfrscat_help_about">关于 轻听音乐</string>
+	<string name="pfrscat_help_about_message">轻听音乐\n0.5.29 build
+		0531.1040\n\n更新内容：\n【修复】最爱歌曲列表实际显示的项目数比设定值多1\n【修复】由于网络连接问题导致检查更新超时后系统崩溃的问题\n【修复】0.5.28更新后反复显示更新日志的问题\n【其他】“轻听音乐播放器”更改为“轻听音乐”\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】问题反馈功能，程序中可以直接提交建议或错误信息\n【新增】在线更新，并提供更新检查设置\n【修复】当前播放歌曲序号大于设置的最爱歌曲数值时切换到最爱歌曲列表时导致系统崩溃的问题\n【修复】当播放列表为空时从通知栏消息进入播放器时引起系统崩溃的问题\n【修复】当播放列表为空时关联歌词引起系统崩溃的问题，现在不允许关联\n【修复】信息收集功能的错误
+	<string name="update_info">【修复】最爱歌曲列表实际显示的项目数比设定值多1\n【修复】由于网络连接问题导致检查更新超时后系统崩溃的问题\n【修复】0.5.28更新后反复显示更新日志的问题\n【其他】“轻听音乐播放器”更改为“轻听音乐”
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

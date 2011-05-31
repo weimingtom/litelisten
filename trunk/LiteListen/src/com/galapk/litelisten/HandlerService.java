@@ -123,7 +123,7 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			// 是否已经显示了更新日志
-			if (main.getSp().getBoolean("IsFirstStart22", true))
+			if (main.getSp().getBoolean("IsFirstStart25", true))
 			{
 				final MessageDialog md = new MessageDialog();
 				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
@@ -131,8 +131,8 @@ public class HandlerService
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart24", false); // 设置当前版本
-						edt.remove("IsFirstStart22"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart25", false); // 设置当前版本
+						edt.remove("IsFirstStart24"); // 删除上个版本的标记
 						edt.commit();
 
 						md.CloseDialog();
@@ -235,27 +235,12 @@ public class HandlerService
 					});
 
 					// 显示对话框
-					Message msgSuccess = new Message();
-					msgSuccess.obj = md;
-					hdlShowMessageDialog.sendMessage(msgSuccess);
+					Message msgUpdate = new Message();
+					msgUpdate.obj = md;
+					hdlShowMessageDialog.sendMessage(msgUpdate);
 				}
 				else
-				{
-					final MessageDialog md = new MessageDialog();
-					md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_nothing_title), main
-							.getString(R.string.pfrscat_others_check_for_update_nothing_message), 18, new OnClickListener()
-					{
-						public void onClick(View v)
-						{
-							md.CloseDialog();
-						}
-					}, null);
-
-					// 显示对话框
-					Message msgFailed = new Message();
-					msgFailed.obj = md;
-					hdlShowMessageDialog.sendMessage(msgFailed);
-				}
+					Toast.makeText(main, main.getString(R.string.pfrscat_others_check_for_update_nothing_message), Toast.LENGTH_SHORT).show(); // 显示浮动提示
 			}
 		}
 	};

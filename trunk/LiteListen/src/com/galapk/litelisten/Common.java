@@ -145,10 +145,16 @@ public class Common
 	/* ¼ì²é¸üÐÂ */
 	public static String CheckForUpdate(int CurrentVersion)
 	{
-		int RemoteVersion = Integer.parseInt(GetHTTPContent("http://www.littledai.com/LiteListen/GetVersion.php", "utf-8"));
+		String strRemoteVersion = GetHTTPContent("http://www.littledai.com/LiteListen/GetVersion.php", "utf-8");
+		if (strRemoteVersion != null && !strRemoteVersion.equals(""))
+		{
+			int RemoteVersion = Integer.parseInt(strRemoteVersion);
 
-		if (RemoteVersion > CurrentVersion)
-			return String.valueOf(RemoteVersion);
+			if (RemoteVersion > CurrentVersion)
+				return String.valueOf(RemoteVersion);
+			else
+				return "";
+		}
 		else
 			return "";
 	}

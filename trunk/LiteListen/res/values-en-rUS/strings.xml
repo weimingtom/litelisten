@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_name">LiteListen 2011</string>
-	<string name="global_app_name_no_version">LiteListen</string>
+	<string name="global_app_name">LiteListen</string>
 	<string name="global_app_version_desk_lrc_show">Desk Lyric Show</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
@@ -138,33 +137,21 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen 2011\n0.5.28 build 0531.0010\n\nUpdate
-		Contents: \n[New] You can submit advices or bugs in program\n[New]
-		Auto update, and you can set it running in your way\n[Fix] A crash
-		problem what caused by switch list from normal to favorite when
-		current played music index is bigger than the number of max favorite
-		songs\n[Fix] A crash problem of load player from notification when
-		music is empty\n[Fix] A crash problem in select lyrics when music is
-		empty, now the function will be disabled when it was empty\n[Fix] A
-		bug in collecting device infomation\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen\n0.5.29 build 0531.1040\n\nUpdate
+		Contents: \n[Fix] Favorite music list item count is bigger than
+		set
+		value\n[Fix] A crash problem what caused by checking for update
+		when
+		there is no network connected\n[Fix] A display bug that app will
+		show
+		update log when startup everytime in version 0.5.28\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">[New] You can submit advices or bugs in
-		program\n[New]
-		Auto update, and you can set it running in your
-		way\n[Fix] A crash
-		problem what caused by switch list from normal to
-		favorite when
-		current played music index is bigger than the number of
-		max favorite
-		songs\n[Fix] A crash problem of load player from
-		notification when
-		music is empty\n[Fix] A crash problem in select
-		lyrics when music is
-		empty, now the function will be disabled when it
-		was empty\n[Fix] A
-		bug in collecting device infomation
+	<string name="update_info">[Fix] Favorite music list item count is bigger than
+		set value\n[Fix] A crash problem what caused by checking for update
+		when there is no network connected\n[Fix] A display bug that app will
+		show update log when startup everytime in version 0.5.28
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_name">輕聽音樂播放機 2011</string>
-	<string name="global_app_name_no_version">輕聽音樂播放機</string>
+	<string name="global_app_name">輕聽音樂</string>
 	<string name="global_app_version_desk_lrc_show">桌面歌詞秀</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
@@ -48,7 +47,7 @@
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在掃描音樂，請稍候搜索。</string>
 	<string name="scrmain_lyric_could_not_relate">當前播放清單與正在播放的音樂不匹配，無法關聯歌詞。</string>
-	<string name="scrmain_request_info">輕聽音樂播放機希望統計安裝使用者數量以便更好地為用戶進行改良。按一下【我願意】將設備資訊發送給開發人員，這些資訊僅需要消耗最多
+	<string name="scrmain_request_info">輕聽音樂希望統計安裝使用者數量以便更好地為用戶進行改良。按一下【我願意】將設備資訊發送給開發人員，這些資訊僅需要消耗最多
 		1 KB 的流量，而且僅會顯示一次。您也可以選擇拒絕，它將永不再顯示（除非您重新安裝）。拒絕發送設備資訊不會影響到任何使用，請放心。
 	</string>
 	<string name="scrmain_feedback_hint">提交問題的同時，輕聽將收集一些您的設備資訊，包括設備序號、系統版本以及設備時間、語言和型號等資訊，但絕不會獲取您的通信錄、短信和程式等個人資訊。\n您的回饋是輕聽進步重要的里程碑！
@@ -71,7 +70,7 @@
 	<string name="notification_show">按一下這裡返回播放機</string>
 	<string name="notification_play">按一下這裡播放下一首</string>
 
-	<string name="pfrsmain_title">播放機設置</string>
+	<string name="pfrsmain_title">設置輕聽音樂</string>
 	<string name="pfrsmain_image">選擇一種看圖程式</string>
 	<string name="pfrscat_general_title">常規選項</string>
 	<string name="pfrscat_general_language">語言</string>
@@ -117,15 +116,13 @@
 	<string name="pfrscat_others_check_for_update_got_message2">。\n\n是否更新？</string>
 	<string name="pfrscat_others_check_for_update_got_failed">下載更新失敗。</string>
 	<string name="pfrscat_help_title">説明資訊</string>
-	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂播放機 官方頁面</string>
-	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽樂播放機 官方網站。\n\n建議使用 Wi-Fi 網路流覽。
+	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
+	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
+	<string name="pfrscat_help_about">關於 輕聽音樂</string>
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.5.29 build
+		0531.1040\n\n更新內容：\n【修復】最愛歌曲清單實際顯示的專案數比設定值多1\n【修復】由於網路連接問題導致檢查更新超時後系統崩潰的問題\n【修復】0.5.28更新後反復顯示更新日誌的問題\n【其他】“輕聽音樂播放機”更改為“輕聽音樂”\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="pfrscat_help_about">關於 輕聽音樂播放機</string>
-	<string name="pfrscat_help_about_message">輕聽音樂播放機
-		2011\n0.5.28 build
-		0531.0010\n\n更新內容：\n【新增】問題回饋功能，程式中可以直接提交建議或錯誤資訊\n【新增】線上更新，並提供更新檢查設置\n【修復】當前播放歌曲序號大於設置的最愛歌曲數值時切換到最愛歌曲清單時導致系統崩潰的問題\n【修復】當播放清單為空時從通知欄消息進入播放機時引起系統崩潰的問題\n【修復】當播放清單為空時關聯歌詞引起系統崩潰的問題，現在不允許關聯\n【修復】資訊收集功能的錯誤\n\n官方網站：\nhttp://litelisten.littledai.com/
-	</string>
-	<string name="update_info">【新增】問題回饋功能，程式中可以直接提交建議或錯誤資訊\n【新增】線上更新，並提供更新檢查設置\n【修復】當前播放歌曲序號大於設置的最愛歌曲數值時切換到最愛歌曲清單時導致系統崩潰的問題\n【修復】當播放清單為空時從通知欄消息進入播放機時引起系統崩潰的問題\n【修復】當播放清單為空時關聯歌詞引起系統崩潰的問題，現在不允許關聯\n【修復】資訊收集功能的錯誤
+	<string name="update_info">【修復】最愛歌曲清單實際顯示的專案數比設定值多1\n【修復】由於網路連接問題導致檢查更新超時後系統崩潰的問題\n【修復】0.5.28更新後反復顯示更新日誌的問題\n【其他】“輕聽音樂播放機”更改為“輕聽音樂”
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
