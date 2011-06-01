@@ -108,7 +108,7 @@ public class LRCService
 				{
 					if (lstTimeStamp.get(i) <= CurrTime)
 					{
-						LineCount += GetSentenceLines(map.get(lstTimeStamp.get(i)), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10) - 1;
+						LineCount += Common.GetSentenceLines(map.get(lstTimeStamp.get(i)), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10) - 1;
 						strLRCTemp += map.get(lstTimeStamp.get(i)) + "\n";
 					}
 					else
@@ -123,7 +123,7 @@ public class LRCService
 				// 发送消息更新界面
 				Message msg = new Message();
 
-				int ClearlyLineNumber = GetSentenceLines(map.get(CurrTime), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10);
+				int ClearlyLineNumber = Common.GetSentenceLines(map.get(CurrTime), main.getTxtLRC().getTextSize(), main.getTxtLRC().getWidth() - 10);
 				if (main.getScreenOrantation() == 1 || main.getScreenOrantation() == 3)
 					msg.what = -main.getTxtLRC().getLineHeight() * (index + ClearlyLineNumber - 1 + LineCount) + 95 + main.getTxtLRC().getLineHeight() * ClearlyLineNumber / 2; // 横屏偏移120dip
 				else
@@ -166,11 +166,11 @@ public class LRCService
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
 
-				// 计算当前和下一句之间的时差
-				Bundle b = new Bundle();
-				b.putLong("TimeGap", TimeGap);
-				msg.setData(b);
-				main.getHs().getHdlLRCSync().sendMessage(msg);
+				// // 计算当前和下一句之间的时差
+				// Bundle b = new Bundle();
+				// b.putLong("TimeGap", TimeGap);
+				// msg.setData(b);
+				// main.getHs().getHdlLRCSync().sendMessage(msg);
 
 				LastIndex = index; // 记录本句歌词的序号
 			}
@@ -210,23 +210,6 @@ public class LRCService
 		}
 
 		return strLRCSentence.substring(0, strLRCSentence.length() - 6); // 删除最后一个换行符
-	}
-
-	/* 获取一行字符串自动换行后的行数 */
-	public int GetSentenceLines(String Sentence, float TextSize, int ShowingAreaWidth)
-	{
-		// 计算行数
-		float FontWidth = Common.GetTextWidth(Sentence, TextSize); // 获取字符串宽度
-		int ClearlyLineNumber = (int) Math.floor(FontWidth / ShowingAreaWidth);
-		float RemainLine = FontWidth % ShowingAreaWidth;
-
-		if (ClearlyLineNumber == 0 && RemainLine == 0) // 空行也算一行
-			ClearlyLineNumber = 1;
-
-		if (RemainLine != 0) // 有余数则需要额外的一行
-			ClearlyLineNumber += 1;
-
-		return ClearlyLineNumber;
 	}
 
 	/* 读取 LRC 文件 */

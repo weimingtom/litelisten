@@ -92,6 +92,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 @SuppressWarnings("deprecation")
 public class scrMain extends Activity
 {
+	int OldHeight = -1;
 	private static final int ANIMATION_TIME = 500; // 动画时长
 	private static final int SPLASH_TIME = 3000; // 启动画面时长
 	private static final int MUSIC_NOTIFY_ID = 1; // 音乐信息通知序号
@@ -1524,64 +1525,73 @@ public class scrMain extends Activity
 		{
 			public boolean onLongClick(View v)
 			{
-//				ListDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
-//						new OnClickListener()
-//						{
-//							public void onClick(View v)
-//							{
-//								if (ListDialog.getRet().equals("0"))
-//								{
-//									// 修改歌词关联
-//									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-//									{
-//										final MessageDialog md = new MessageDialog();
-//										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
-//												new OnClickListener()
-//												{
-//													public void onClick(View v)
-//													{
-//														md.CloseDialog();
-//													}
-//												}, null);
-//									}
-//									else
-//									{
-//										txtLRC.setVisibility(View.GONE);
-//										layLyricController.setVisibility(View.VISIBLE);
-//										lstMusic.setVisibility(View.GONE);
-//										layFileSelector.setVisibility(View.VISIBLE);
-//										SetFileList("/sdcard");
-//									}
-//								}
-//								else if (ListDialog.getRet().equals("1"))
-//								{// 用线程下载歌词
-//									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-//									{
-//										final MessageDialog md = new MessageDialog();
-//										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
-//												new OnClickListener()
-//												{
-//													public void onClick(View v)
-//													{
-//														md.CloseDialog();
-//													}
-//												}, null);
-//									}
-//									else
-//									{
-//										new Thread()
-//										{
-//											public void run()
-//											{
-//												ls.GetCurrLyric();
-//											}
-//										}.start();
-//									}
-//								}
-//
-//								ListDialog.getPw().dismiss();
-//							}
-//						});
+				// ListDialog.ShowDialog(scrMain.this, layActivity,
+				// getString(R.string.scrmain_context_menu_lrc),
+				// getResources().getStringArray(R.array.item_name_txtlrc_context_menu),
+				// 18, -1,
+				// new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// if (ListDialog.getRet().equals("0"))
+				// {
+				// // 修改歌词关联
+				// if (ms.getCurrIndex() > lstSong.size() || lstSong.size() ==
+				// 0)
+				// {
+				// final MessageDialog md = new MessageDialog();
+				// md.ShowMessage(scrMain.this, layActivity,
+				// getString(R.string.scrmain_context_menu_lrc),
+				// getString(R.string.scrmain_lyric_could_not_relate), 18,
+				// new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// md.CloseDialog();
+				// }
+				// }, null);
+				// }
+				// else
+				// {
+				// txtLRC.setVisibility(View.GONE);
+				// layLyricController.setVisibility(View.VISIBLE);
+				// lstMusic.setVisibility(View.GONE);
+				// layFileSelector.setVisibility(View.VISIBLE);
+				// SetFileList("/sdcard");
+				// }
+				// }
+				// else if (ListDialog.getRet().equals("1"))
+				// {// 用线程下载歌词
+				// if (ms.getCurrIndex() > lstSong.size() || lstSong.size() ==
+				// 0)
+				// {
+				// final MessageDialog md = new MessageDialog();
+				// md.ShowMessage(scrMain.this, layActivity,
+				// getString(R.string.scrmain_context_menu_lrc),
+				// getString(R.string.scrmain_lyric_could_not_relate), 18,
+				// new OnClickListener()
+				// {
+				// public void onClick(View v)
+				// {
+				// md.CloseDialog();
+				// }
+				// }, null);
+				// }
+				// else
+				// {
+				// new Thread()
+				// {
+				// public void run()
+				// {
+				// ls.GetCurrLyric();
+				// }
+				// }.start();
+				// }
+				// }
+				//
+				// ListDialog.getPw().dismiss();
+				// }
+				// });
 
 				return false;
 			}
@@ -1720,45 +1730,60 @@ public class scrMain extends Activity
 						TextDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_extend_menu_feedback), getString(R.string.scrmain_feedback_hint), 15, "", 18,
 								new OnClickListener()
 								{
+									@SuppressWarnings("null")
 									public void onClick(View v)
 									{
-										// 获取手机串号等信息并发送
-										TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+										String strMessage = TextDialog.getEdtMessage().getText().toString();
 
-										// 获取当前时间
-										java.util.Date date = new java.util.Date();
-										SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-										String strDateTime = sdf.format(date);
-
-										String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
-										strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
-												java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
-												.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
-														"{message}", java.net.URLEncoder.encode(TextDialog.getEdtMessage().getText().toString())).replace("{submit_time}",
-														java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
-
-										if (toast != null)
+										if (strMessage != null || !strMessage.equals(""))
 										{
-											toast.setText(getString(R.string.scrmain_feedback_successful));
-											toast.setDuration(Toast.LENGTH_SHORT);
+											// 获取手机串号等信息并发送
+											TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+											// 获取当前时间
+											java.util.Date date = new java.util.Date();
+											SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+											String strDateTime = sdf.format(date);
+
+											String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
+											strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+													java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
+													.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
+															"{message}", java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
+
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_successful));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
+
+											String strHint = getString(R.string.scrmain_feedback_successful);
+
+											if (Common.CallURLPost(strURL, 10000))
+												TextDialog.getPw().dismiss(); // 成功后关闭对话框
+											else
+												strHint = getString(R.string.scrmain_feedback_failure);
+
+											if (toast != null)
+											{
+												toast.setText(strHint);
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
 										}
 										else
-											toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
-
-										String strHint = getString(R.string.scrmain_feedback_successful);
-
-										if (Common.CallURLPost(strURL, 10000))
-											TextDialog.getPw().dismiss(); // 成功后关闭对话框
-										else
-											strHint = getString(R.string.scrmain_feedback_failure);
-
-										if (toast != null)
 										{
-											toast.setText(strHint);
-											toast.setDuration(Toast.LENGTH_SHORT);
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_blank));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
 										}
-										else
-											toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
 
 										toast.show();
 									}
@@ -1837,6 +1862,9 @@ public class scrMain extends Activity
 			int FingerDownPosY = -1; // 手指按下时歌词的Y坐标
 			boolean IsLRCMoved = false; // 歌词是否经过手指移动
 
+			double startDistance;
+			int startHeight;
+
 			private float GetFingerDistance(float PosX1, float PosY1, float PosX2, float PosY2)
 			{
 				return (float) Math.sqrt((PosX1 - PosX2) * (PosX1 - PosX2) + (PosY1 - PosY2) * (PosY1 - PosY2));
@@ -1844,101 +1872,123 @@ public class scrMain extends Activity
 
 			public boolean onTouch(View v, MotionEvent event)
 			{
+				startDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
+
+				String aaa = txtLRC.getText().toString();
+				String ssss[] = aaa.split("\n");
+				int line = ssss.length;
+				for (int i = 0; i < ssss.length; i++)
+					line += Common.GetSentenceLines(ssss[i], txtLRC.getTextSize(), 320);
+				startHeight = txtLRC.getLineHeight() * line;
+
 				if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
-				{// 获取两点的坐标
-					for (int i = 0; i < 2; i++)
-					{
-						DownPosX[i] = event.getX(i);
-						DownPosY[i] = event.getY(i);
-					}
+				{
+					startDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
 
-					LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取txtLRC尺寸参数
-					FingerDownPosY = layLRC.topMargin;
-					LastDistance = GetFingerDistance(DownPosX[0], DownPosY[0], DownPosX[1], DownPosY[1]);
+					String aaaa = txtLRC.getText().toString();
+					String sssss[] = aaaa.split("\n");
+					int linea = sssss.length;
+					for (int i = 0; i < sssss.length; i++)
+						linea += Common.GetSentenceLines(sssss[i], txtLRC.getTextSize(), 320);
+					startHeight = txtLRC.getLineHeight() * linea;
 				}
-				else if (event.getAction() == MotionEvent.ACTION_UP)
-				{// 按下歌词显示/隐藏进度条
-
-					if (Switch2List)
-					{
-						Switch2List = false;
-						IsLRCMoved = false;
-						LRC2ListSwitcher();
-					}
-					else if (IsLRCMoved) // Move过不执行托盘变化
-						IsLRCMoved = false;
-
-					for (int i = 0; i < 2; i++)
-					{
-						DownPosX[i] = -1;
-						DownPosY[i] = -1;
-					}
-
-					LastDistance = -1;
-					FingerDownPosY = -1;
-
-					ls.setCanRefreshLRC(true);
-
-					// 设置字体大小
-					Editor edt = sp.edit();
-					edt.putString("LRCFontSize", String.valueOf(txtLRC.getTextSize() / 1.5));
-					st.setLRCFontSize(String.valueOf(txtLRC.getTextSize() / 1.5));
-					edt.commit();
-				}
+				// else if (event.getAction() == MotionEvent.ACTION_UP)
+				// {// 按下歌词显示/隐藏进度条
+				//
+				// if (Switch2List)
+				// {
+				// Switch2List = false;
+				// IsLRCMoved = false;
+				// LRC2ListSwitcher();
+				// }
+				// else if (IsLRCMoved) // Move过不执行托盘变化
+				// IsLRCMoved = false;
+				//
+				// for (int i = 0; i < 2; i++)
+				// {
+				// DownPosX[i] = -1;
+				// DownPosY[i] = -1;
+				// }
+				//
+				// LastDistance = -1;
+				// FingerDownPosY = -1;
+				//
+				// ls.setCanRefreshLRC(true);
+				//
+				// // 设置字体大小
+				// Editor edt = sp.edit();
+				// edt.putString("LRCFontSize",
+				// String.valueOf(txtLRC.getTextSize() / 1.5));
+				// st.setLRCFontSize(String.valueOf(txtLRC.getTextSize() /
+				// 1.5));
+				// edt.commit();
+				// }
 				else if (event.getAction() == MotionEvent.ACTION_MOVE)
 				{
-					MovedDistance = GetFingerDistance(DownPosX[0], DownPosY[0], event.getX(0), event.getY(0)); // 计算手指划过的距离，给ContextMenu判断
-
-					if (DownPosY[1] == -1 && DownPosX[1] == -1)
+					// MovedDistance = GetFingerDistance(DownPosX[0],
+					// DownPosY[0], event.getX(0), event.getY(0)); //
+					// 计算手指划过的距离，给ContextMenu判断
+					//
+					// if (DownPosY[1] == -1 && DownPosX[1] == -1)
+					// {
+					// // 获取垂直/水平方向手指移动绝对值
+					// float AbsX = Math.abs(event.getX(0) - DownPosX[0]);
+					// float AbsY = Math.abs(event.getY(0) - DownPosY[0]);
+					//
+					// // 通过绝对值大小来判定手势方向
+					// if (AbsX > AbsY)
+					// {// 横向切换页面
+					// if (event.getX(0) - DownPosX[0] > 150)
+					// Switch2List = true;
+					// }
+					// else
+					// {// 纵向（含恰好相等的情况）滚动歌词
+					// LinearLayout.LayoutParams layLRC =
+					// (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); //
+					// 获取scrLRC尺寸参数
+					// layLRC.topMargin += (int) (event.getY(0) - DownPosY[0]);
+					// txtLRC.setLayoutParams(layLRC);
+					// }
+					// }
+					// else
+					if (event.getPointerCount() == 2)
 					{
-						// 获取垂直/水平方向手指移动绝对值
-						float AbsX = Math.abs(event.getX(0) - DownPosX[0]);
-						float AbsY = Math.abs(event.getY(0) - DownPosY[0]);
+						double distance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
+						txtLRC.setTextSize((float) (txtLRC.getTextSize() * distance / startDistance));
+						if (txtLRC.getTextSize() > 100.0f)
+							txtLRC.setTextSize(100.0f);
+						if (txtLRC.getTextSize() < 1.0f)
+							txtLRC.setTextSize(1.0f);
 
-						// 通过绝对值大小来判定手势方向
-						if (AbsX > AbsY)
-						{// 横向切换页面
-							if (event.getX(0) - DownPosX[0] > 150)
-								Switch2List = true;
-						}
+						LinearLayout.LayoutParams lll = (LinearLayout.LayoutParams) txtLRC.getLayoutParams();
+
+						String aaaa = txtLRC.getText().toString();
+						String sssss[] = aaaa.split("\n");
+						int linea = sssss.length;
+						for (int i = 0; i < sssss.length; i++)
+							linea += Common.GetSentenceLines(sssss[i], txtLRC.getTextSize(), 320);
+						if (distance > startDistance)
+							lll.topMargin -= Math.sqrt((startHeight - txtLRC.getLineHeight() * linea) * (startHeight - txtLRC.getLineHeight() * linea)) / 4;
 						else
-						{// 纵向（含恰好相等的情况）滚动歌词
-							LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-							layLRC.topMargin += (int) (event.getY(0) - DownPosY[0]);
-							txtLRC.setLayoutParams(layLRC);
-						}
-					}
-					else if (LastDistance != -1 && FingerDownPosY != -1)
-					{
-						float Distance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1)) - LastDistance;
-						float TextSize = (float) (txtLRC.getTextSize() / 1.5 + Distance * 0.1);
-						LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); // 获取scrLRC尺寸参数
-						if (TextSize >= 18 && TextSize <= 35)
-						{
-							layLRC.topMargin = FingerDownPosY;
-							txtLRC.setLayoutParams(layLRC);
-							txtLRC.setTextSize(TextSize);
-						}
+							lll.topMargin += Math.sqrt((startHeight - txtLRC.getLineHeight() * linea) * (startHeight - txtLRC.getLineHeight() * linea)) / 4;
 
-						for (int i = 0; i < 2; i++)
-						{
-							DownPosX[i] = event.getX(i);
-							DownPosY[i] = event.getY(i);
-						}
+						txtLRC.setLayoutParams(lll);
+						txtLRC.setHeight(txtLRC.getLineHeight() * linea);
 
-						LastDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-						FingerDownPosY = layLRC.topMargin;
+						txtLRC.invalidate();
+						startDistance = distance;
+						startHeight = txtLRC.getLineHeight() * linea;
 					}
 
 					IsLRCMoved = true; // Move过的标记
 				}
-				else if (event.getAction() == MotionEvent.ACTION_DOWN)
-				{
-					ls.setCanRefreshLRC(false);
-
-					DownPosX[0] = event.getX();
-					DownPosY[0] = event.getY();
-				}
+				// else if (event.getAction() == MotionEvent.ACTION_DOWN)
+				// {
+				// ls.setCanRefreshLRC(false);
+				//
+				// DownPosX[0] = event.getX();
+				// DownPosY[0] = event.getY();
+				// }
 
 				return false; // 继续回传，否则ACTION_DOWN后接收不到其它事件
 			}

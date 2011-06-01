@@ -37,6 +37,23 @@ public class Common
 {
 	public static String LOGCAT_TAG = "LiteListenLog"; // Logcat标签
 
+	/* 获取一行字符串自动换行后的行数 */
+	public static int GetSentenceLines(String Sentence, float TextSize, int ShowingAreaWidth)
+	{
+		// 计算行数
+		float FontWidth = Common.GetTextWidth(Sentence, TextSize); // 获取字符串宽度
+		int ClearlyLineNumber = (int) Math.floor(FontWidth / ShowingAreaWidth);
+		float RemainLine = FontWidth % ShowingAreaWidth;
+
+		if (ClearlyLineNumber == 0 && RemainLine == 0) // 空行也算一行
+			ClearlyLineNumber = 1;
+
+		if (RemainLine != 0) // 有余数则需要额外的一行
+			ClearlyLineNumber += 1;
+
+		return ClearlyLineNumber;
+	}
+
 	/* 检测Wi-Fi是否连接 */
 	public static boolean IsWiFiConnected(Context context)
 	{

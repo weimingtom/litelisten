@@ -61,6 +61,7 @@
 		and program data and so on.
 	</string>
 	<string name="scrmain_feedback_successful">Thank you for feed problem back!</string>
+	<string name="scrmain_feedback_blank">You cannot feed a blank problem back.</string>
 	<string name="scrmain_feedback_failure">Submit failed, please check your network and try
 		again.</string>
 

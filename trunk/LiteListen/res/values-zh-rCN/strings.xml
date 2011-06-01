@@ -51,6 +51,7 @@
 	<string name="scrmain_feedback_hint">提交问题的同时，轻听将收集一些您的设备信息，包括设备序列号、系统版本以及设备时间、语言和型号等信息，但绝不会获取您的通信录、短信和程序等个人信息。\n您的反馈是轻听进步重要的里程碑！
 	</string>
 	<string name="scrmain_feedback_successful">问题提交成功，非常感谢！</string>
+	<string name="scrmain_feedback_blank">请输入您的问题，然后再提交。</string>
 	<string name="scrmain_feedback_failure">问题提交失败，请检查网络连接。</string>
 
 	<string name="widget_title_small">轻听音乐 4×2</string>
