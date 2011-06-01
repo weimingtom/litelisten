@@ -54,6 +54,17 @@ public class Common
 		return ClearlyLineNumber;
 	}
 
+	/* 获取多行行字符串自动换行后的行数 */
+	public static int GetStringLines(String SourceString, float TextSize, int ShowingAreaWidth)
+	{
+		String strSource[] = SourceString.split("\n");
+		int LineCount = strSource.length; // 算上行数
+		for (int i = 0; i < strSource.length; i++)
+			LineCount += Common.GetSentenceLines(strSource[i], TextSize, ShowingAreaWidth); // 再判读每行字符串实际占用的行数
+
+		return LineCount;
+	}
+
 	/* 检测Wi-Fi是否连接 */
 	public static boolean IsWiFiConnected(Context context)
 	{

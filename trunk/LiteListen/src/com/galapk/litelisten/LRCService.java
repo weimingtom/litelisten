@@ -166,11 +166,11 @@ public class LRCService
 				msg.obj = ssb;
 				msg.arg2 = main.getMs().getCurrIndex();
 
-				// // 计算当前和下一句之间的时差
-				// Bundle b = new Bundle();
-				// b.putLong("TimeGap", TimeGap);
-				// msg.setData(b);
-				// main.getHs().getHdlLRCSync().sendMessage(msg);
+				// 计算当前和下一句之间的时差
+				Bundle b = new Bundle();
+				b.putLong("TimeGap", TimeGap);
+				msg.setData(b);
+				main.getHs().getHdlLRCSync().sendMessage(msg);
 
 				LastIndex = index; // 记录本句歌词的序号
 			}

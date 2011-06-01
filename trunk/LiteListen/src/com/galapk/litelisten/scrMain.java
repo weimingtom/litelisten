@@ -113,8 +113,8 @@ public class scrMain extends Activity
 	private int VerifyCode = 0; // 歌曲刷新的校验码
 	private boolean IsShowingFavourite = false; // 是否显示最爱歌曲
 	private boolean IsPlayingExternal = false; // 是否播放外部文件
-	private float MovedDistance = 0; // 手指在歌词控件上移动的距离
 	private boolean IsStartedUp = false; // 显示程序是否启动完成
+	private boolean IsLRCMoved = false; // 歌词是否经过手指移动
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -1525,73 +1525,68 @@ public class scrMain extends Activity
 		{
 			public boolean onLongClick(View v)
 			{
-				// ListDialog.ShowDialog(scrMain.this, layActivity,
-				// getString(R.string.scrmain_context_menu_lrc),
-				// getResources().getStringArray(R.array.item_name_txtlrc_context_menu),
-				// 18, -1,
-				// new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// if (ListDialog.getRet().equals("0"))
-				// {
-				// // 修改歌词关联
-				// if (ms.getCurrIndex() > lstSong.size() || lstSong.size() ==
-				// 0)
-				// {
-				// final MessageDialog md = new MessageDialog();
-				// md.ShowMessage(scrMain.this, layActivity,
-				// getString(R.string.scrmain_context_menu_lrc),
-				// getString(R.string.scrmain_lyric_could_not_relate), 18,
-				// new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// md.CloseDialog();
-				// }
-				// }, null);
-				// }
-				// else
-				// {
-				// txtLRC.setVisibility(View.GONE);
-				// layLyricController.setVisibility(View.VISIBLE);
-				// lstMusic.setVisibility(View.GONE);
-				// layFileSelector.setVisibility(View.VISIBLE);
-				// SetFileList("/sdcard");
-				// }
-				// }
-				// else if (ListDialog.getRet().equals("1"))
-				// {// 用线程下载歌词
-				// if (ms.getCurrIndex() > lstSong.size() || lstSong.size() ==
-				// 0)
-				// {
-				// final MessageDialog md = new MessageDialog();
-				// md.ShowMessage(scrMain.this, layActivity,
-				// getString(R.string.scrmain_context_menu_lrc),
-				// getString(R.string.scrmain_lyric_could_not_relate), 18,
-				// new OnClickListener()
-				// {
-				// public void onClick(View v)
-				// {
-				// md.CloseDialog();
-				// }
-				// }, null);
-				// }
-				// else
-				// {
-				// new Thread()
-				// {
-				// public void run()
-				// {
-				// ls.GetCurrLyric();
-				// }
-				// }.start();
-				// }
-				// }
-				//
-				// ListDialog.getPw().dismiss();
-				// }
-				// });
+				// 拖动歌词时不显示菜单
+				if (IsLRCMoved)
+					return false;
+
+				ListDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								if (ListDialog.getRet().equals("0"))
+								{
+									// 修改歌词关联
+									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+									{
+										final MessageDialog md = new MessageDialog();
+										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
+												new OnClickListener()
+												{
+													public void onClick(View v)
+													{
+														md.CloseDialog();
+													}
+												}, null);
+									}
+									else
+									{
+										txtLRC.setVisibility(View.GONE);
+										layLyricController.setVisibility(View.VISIBLE);
+										lstMusic.setVisibility(View.GONE);
+										layFileSelector.setVisibility(View.VISIBLE);
+										SetFileList("/sdcard");
+									}
+								}
+								else if (ListDialog.getRet().equals("1"))
+								{// 用线程下载歌词
+									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+									{
+										final MessageDialog md = new MessageDialog();
+										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
+												new OnClickListener()
+												{
+													public void onClick(View v)
+													{
+														md.CloseDialog();
+													}
+												}, null);
+									}
+									else
+									{
+										new Thread()
+										{
+											public void run()
+											{
+												ls.GetCurrLyric();
+											}
+										}.start();
+									}
+								}
+
+								ListDialog.getPw().dismiss();
+							}
+						});
 
 				return false;
 			}
@@ -1853,18 +1848,17 @@ public class scrMain extends Activity
 		/* 歌词列表触摸 */
 		txtLRC.setOnTouchListener(new OnTouchListener()
 		{
-			// 暂时支持最多两点（文字缩放）
-			float DownPosX[] = { -1, -1 };
-			float DownPosY[] = { -1, -1 };
-
 			boolean Switch2List = false; // 是否需要将歌词切换到播放列表
-			float LastDistance = -1; // 上一次两指间的距离
-			int FingerDownPosY = -1; // 手指按下时歌词的Y坐标
-			boolean IsLRCMoved = false; // 歌词是否经过手指移动
 
-			double startDistance;
-			int startHeight;
+			// 手指按下时的坐标
+			float DownPosX = -1;
+			float DownPosY = -1;
 
+			boolean ReadyToZoom = false; // 是否准备缩放
+			double StartDistance; // 初始指距
+			int StartHeight; // 初始控件高度
+
+			// 获取指距
 			private float GetFingerDistance(float PosX1, float PosY1, float PosX2, float PosY2)
 			{
 				return (float) Math.sqrt((PosX1 - PosX2) * (PosX1 - PosX2) + (PosY1 - PosY2) * (PosY1 - PosY2));
@@ -1872,123 +1866,103 @@ public class scrMain extends Activity
 
 			public boolean onTouch(View v, MotionEvent event)
 			{
-				startDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-
-				String aaa = txtLRC.getText().toString();
-				String ssss[] = aaa.split("\n");
-				int line = ssss.length;
-				for (int i = 0; i < ssss.length; i++)
-					line += Common.GetSentenceLines(ssss[i], txtLRC.getTextSize(), 320);
-				startHeight = txtLRC.getLineHeight() * line;
-
-				if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
+				if (event.getPointerCount() == 2)
 				{
-					startDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-
-					String aaaa = txtLRC.getText().toString();
-					String sssss[] = aaaa.split("\n");
-					int linea = sssss.length;
-					for (int i = 0; i < sssss.length; i++)
-						linea += Common.GetSentenceLines(sssss[i], txtLRC.getTextSize(), 320);
-					startHeight = txtLRC.getLineHeight() * linea;
-				}
-				// else if (event.getAction() == MotionEvent.ACTION_UP)
-				// {// 按下歌词显示/隐藏进度条
-				//
-				// if (Switch2List)
-				// {
-				// Switch2List = false;
-				// IsLRCMoved = false;
-				// LRC2ListSwitcher();
-				// }
-				// else if (IsLRCMoved) // Move过不执行托盘变化
-				// IsLRCMoved = false;
-				//
-				// for (int i = 0; i < 2; i++)
-				// {
-				// DownPosX[i] = -1;
-				// DownPosY[i] = -1;
-				// }
-				//
-				// LastDistance = -1;
-				// FingerDownPosY = -1;
-				//
-				// ls.setCanRefreshLRC(true);
-				//
-				// // 设置字体大小
-				// Editor edt = sp.edit();
-				// edt.putString("LRCFontSize",
-				// String.valueOf(txtLRC.getTextSize() / 1.5));
-				// st.setLRCFontSize(String.valueOf(txtLRC.getTextSize() /
-				// 1.5));
-				// edt.commit();
-				// }
-				else if (event.getAction() == MotionEvent.ACTION_MOVE)
-				{
-					// MovedDistance = GetFingerDistance(DownPosX[0],
-					// DownPosY[0], event.getX(0), event.getY(0)); //
-					// 计算手指划过的距离，给ContextMenu判断
-					//
-					// if (DownPosY[1] == -1 && DownPosX[1] == -1)
-					// {
-					// // 获取垂直/水平方向手指移动绝对值
-					// float AbsX = Math.abs(event.getX(0) - DownPosX[0]);
-					// float AbsY = Math.abs(event.getY(0) - DownPosY[0]);
-					//
-					// // 通过绝对值大小来判定手势方向
-					// if (AbsX > AbsY)
-					// {// 横向切换页面
-					// if (event.getX(0) - DownPosX[0] > 150)
-					// Switch2List = true;
-					// }
-					// else
-					// {// 纵向（含恰好相等的情况）滚动歌词
-					// LinearLayout.LayoutParams layLRC =
-					// (LinearLayout.LayoutParams) txtLRC.getLayoutParams(); //
-					// 获取scrLRC尺寸参数
-					// layLRC.topMargin += (int) (event.getY(0) - DownPosY[0]);
-					// txtLRC.setLayoutParams(layLRC);
-					// }
-					// }
-					// else
-					if (event.getPointerCount() == 2)
+					if (ReadyToZoom == false)
 					{
+						StartDistance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
+						ReadyToZoom = true;
+						StartHeight = txtLRC.getLineHeight() * Common.GetStringLines(txtLRC.getText().toString(), (float) (txtLRC.getTextSize() / 1.5), dm.widthPixels);
+					}
+					else if (event.getAction() == MotionEvent.ACTION_MOVE)
+					{
+						ls.setCanRefreshLRC(false);
+						IsLRCMoved = true; // Move过的标记
+
 						double distance = GetFingerDistance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
-						txtLRC.setTextSize((float) (txtLRC.getTextSize() * distance / startDistance));
-						if (txtLRC.getTextSize() > 100.0f)
-							txtLRC.setTextSize(100.0f);
-						if (txtLRC.getTextSize() < 1.0f)
-							txtLRC.setTextSize(1.0f);
+						txtLRC.setTextSize((float) (txtLRC.getTextSize() / 1.5 * distance / StartDistance)); // 除以1.5的像素密度
+						if (txtLRC.getTextSize() / 1.5 > 35.0f)
+							txtLRC.setTextSize(35);
+						if (txtLRC.getTextSize() / 1.5 < 18.0f)
+							txtLRC.setTextSize(18);
 
-						LinearLayout.LayoutParams lll = (LinearLayout.LayoutParams) txtLRC.getLayoutParams();
+						LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams();
+						int LineCount = Common.GetStringLines(txtLRC.getText().toString(), (float) (txtLRC.getTextSize() / 1.5), dm.widthPixels);
 
-						String aaaa = txtLRC.getText().toString();
-						String sssss[] = aaaa.split("\n");
-						int linea = sssss.length;
-						for (int i = 0; i < sssss.length; i++)
-							linea += Common.GetSentenceLines(sssss[i], txtLRC.getTextSize(), 320);
-						if (distance > startDistance)
-							lll.topMargin -= Math.sqrt((startHeight - txtLRC.getLineHeight() * linea) * (startHeight - txtLRC.getLineHeight() * linea)) / 4;
-						else
-							lll.topMargin += Math.sqrt((startHeight - txtLRC.getLineHeight() * linea) * (startHeight - txtLRC.getLineHeight() * linea)) / 4;
+						if (distance > StartDistance) // 放大
+							layLRC.topMargin -= Math.abs(StartHeight - txtLRC.getLineHeight() * LineCount) * ((event.getY(0) + event.getY(1)) / 2) / (txtLRC.getLineHeight() * LineCount);
+						else if (distance < StartDistance) // 缩小
+							layLRC.topMargin += Math.abs(StartHeight - txtLRC.getLineHeight() * LineCount) * ((event.getY(0) + event.getY(1)) / 2) / (txtLRC.getLineHeight() * LineCount);
 
-						txtLRC.setLayoutParams(lll);
-						txtLRC.setHeight(txtLRC.getLineHeight() * linea);
+						txtLRC.setLayoutParams(layLRC);
+						txtLRC.setHeight(txtLRC.getLineHeight() * LineCount);
 
 						txtLRC.invalidate();
-						startDistance = distance;
-						startHeight = txtLRC.getLineHeight() * linea;
+						StartDistance = distance;
+						StartHeight = txtLRC.getLineHeight() * LineCount;
 					}
-
-					IsLRCMoved = true; // Move过的标记
+					else
+					{
+						ls.setCanRefreshLRC(true);
+						ReadyToZoom = false;
+						IsLRCMoved = false;
+					}
 				}
-				// else if (event.getAction() == MotionEvent.ACTION_DOWN)
-				// {
-				// ls.setCanRefreshLRC(false);
-				//
-				// DownPosX[0] = event.getX();
-				// DownPosY[0] = event.getY();
-				// }
+				else
+				{
+					if (event.getAction() == MotionEvent.ACTION_UP)
+					{// 按下歌词显示/隐藏进度条
+
+						if (Switch2List)
+						{
+							Switch2List = false;
+							IsLRCMoved = false;
+							LRC2ListSwitcher();
+						}
+						else if (IsLRCMoved) // Move过不执行托盘变化
+							IsLRCMoved = false;
+
+						DownPosX = -1;
+						DownPosY = -1;
+
+						ls.setCanRefreshLRC(true);
+
+						// 设置字体大小
+						Editor edt = sp.edit();
+						edt.putString("LRCFontSize", String.valueOf(txtLRC.getTextSize() / 1.5));
+						st.setLRCFontSize(String.valueOf(txtLRC.getTextSize() / 1.5));
+						edt.commit();
+					}
+					if (event.getAction() == MotionEvent.ACTION_MOVE)
+					{
+						// 获取垂直/水平方向手指移动绝对值
+						float AbsX = Math.abs(event.getX(0) - DownPosX);
+						float AbsY = Math.abs(event.getY(0) - DownPosY);
+
+						// 通过绝对值大小来判定手势方向
+						if (AbsX > AbsY)
+						{// 横向切换页面
+							if (event.getX(0) - DownPosX > 150)
+								Switch2List = true;
+						}
+						else
+						{// 纵向（含恰好相等的情况）滚动歌词
+							LinearLayout.LayoutParams layLRC = (LinearLayout.LayoutParams) txtLRC.getLayoutParams();
+							// 获取scrLRC尺寸参数
+							layLRC.topMargin += (int) (event.getY(0) - DownPosY);
+							txtLRC.setLayoutParams(layLRC);
+						}
+
+						IsLRCMoved = true; // Move过的标记
+					}
+					else if (event.getAction() == MotionEvent.ACTION_DOWN)
+					{
+						ls.setCanRefreshLRC(false);
+
+						DownPosX = event.getX();
+						DownPosY = event.getY();
+					}
+				}
 
 				return false; // 继续回传，否则ACTION_DOWN后接收不到其它事件
 			}
@@ -2765,16 +2739,6 @@ public class scrMain extends Activity
 	public void setfAdapter(FileAdapter fAdapter)
 	{
 		this.fAdapter = fAdapter;
-	}
-
-	public float getMovedDistance()
-	{
-		return MovedDistance;
-	}
-
-	public void setMovedDistance(float movedDistance)
-	{
-		MovedDistance = movedDistance;
 	}
 
 	public TextView getTxtCurrentPath()
