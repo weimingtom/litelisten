@@ -31,7 +31,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -351,7 +350,7 @@ public class scrMain extends Activity
 			laySplash.setVisibility(View.GONE); // 不显示启动画面
 			String strMusicFilePath = Uri.parse(intent.getDataString()).getPath(); // 解析地址
 
-			Map<String, Object> mapInfo = MusicTag.GetMP3Info(strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".")));
+			Map<String, Object> mapInfo = MusicTag.GetMusicInfo(main, strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".")));
 
 			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
 			lstSongTemp.add(mapInfo);
@@ -573,8 +572,7 @@ public class scrMain extends Activity
 				MusicFile mf = new MusicFile();
 				List<String> lstFile = new ArrayList<String>();
 				mf.GetFiles(lstFile, st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
-				// mf.GetFiles(lstFile, st.getMusicPath(), ".wma",
-				// st.getIncludeSubDirectory(), st.getIgnoreDirectory());
+				mf.GetFiles(lstFile, st.getMusicPath(), ".wma", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
 				lstSong = new ArrayList<Map<String, Object>>();
 
 				if (lstFile.size() > 0)
@@ -593,7 +591,11 @@ public class scrMain extends Activity
 						mapInfo.put("Title", strFileName.substring(strFileName.lastIndexOf("/") + 1));
 						mapInfo.put("ID3Checked", "0");
 
-						Cursor cur = sd.query("music_info", null, "id3_checked=? and music_path=?", new String[] { "1", lstFile.get(i) }, null, null, null);
+						String strMusicPath = lstFile.get(i);
+						if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
+							strMusicPath = strMusicPath.replace("'", "''");
+
+						Cursor cur = sd.query("music_info", null, "id3_checked='1' and music_path='" + strMusicPath + "'", null, null, null, null);
 						if (cur.moveToFirst())
 						{
 							mapInfo.put("Title", cur.getString(0));
@@ -607,9 +609,7 @@ public class scrMain extends Activity
 							mapInfo.put("Track", cur.getString(5));
 							mapInfo.put("ID3Checked", cur.getString(16));
 
-							ContentValues values = new ContentValues();
-							values.put("music_path", lstFile.get(i));
-							sd.update("music_info", values, "verify_code=?", new String[] { String.valueOf(VerifyCode) });
+							sd.execSQL("update music_info set verify_code='" + VerifyCode + "' where music_path='" + strMusicPath + "';");
 						}
 						cur.close();
 						lstSong.add(mapInfo);
@@ -645,41 +645,103 @@ public class scrMain extends Activity
 					String strID3Check = (String) mapInfo.get("ID3Checked");
 					if (strID3Check != null && strID3Check.equals("0"))
 					{
-						mapInfo = MusicTag.GetMP3Info(strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf("."))); // 获取读到的MP3属性
+						mapInfo = MusicTag.GetMusicInfo(main, strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf("."))); // 获取读到的MP3属性
 
 						// 更新数据库
 						String strTitle = (String) mapInfo.get("Title");
-						String strArtist = (String) mapInfo.get("Artist");
-						String strAlbum = (String) mapInfo.get("Album");
-						String strYear = (String) mapInfo.get("Year");
-						String strGenre = (String) mapInfo.get("Genre");
-						String strTrack = (String) mapInfo.get("Track");
-						String strComment = (String) mapInfo.get("Comment");
-						strMusicPath = (String) mapInfo.get("MusicPath");
-						String strLRCPath = (String) mapInfo.get("LRCPath");
-						String strSongInfo = (String) mapInfo.get("SongInfo");
+						if (strTitle != null)
+						{
+							strTitle = strTitle.trim();
+							if (strTitle.indexOf("'") != -1)
+								strTitle = strTitle.replace("'", "''").trim();
+						}
 
-						sd.delete("music_info", "music_path=?", new String[] { strMusicPath });
-						ContentValues values = new ContentValues();
-						values.put("title", strTitle);
-						values.put("artist", strArtist);
-						values.put("album", strAlbum);
-						values.put("year", strYear);
-						values.put("genre", strGenre);
-						values.put("track", strTrack);
-						values.put("comment", strComment);
-						values.put("title_py", py.GetPYFull(strTitle));
-						values.put("title_simple_py", py.GetPYSimple(py.GetPYFull(strTitle)));
-						values.put("artist_py", py.GetPYFull(strArtist));
-						values.put("artist_simple_py", py.GetPYSimple(py.GetPYFull(strArtist)));
-						values.put("music_path", strMusicPath);
-						values.put("lrc_path", strLRCPath);
-						values.put("song_info", strSongInfo);
-						values.put("play_times", 0);
-						values.put("is_last_played", 0);
-						values.put("id3_checked", 1);
-						values.put("verify_code", "VerifyCode");
-						sd.insert("music_info", null, values);
+						String strArtist = (String) mapInfo.get("Artist");
+						if (strArtist != null)
+						{
+							strArtist = strArtist.trim();
+							if (strArtist.indexOf("'") != -1)
+								strArtist = strArtist.replace("'", "''").trim();
+						}
+
+						String strAlbum = (String) mapInfo.get("Album");
+						if (strAlbum != null)
+						{
+							strAlbum = strAlbum.trim();
+							if (strAlbum.indexOf("'") != -1)
+								strAlbum = strAlbum.replace("'", "''").trim();
+						}
+
+						String strYear = (String) mapInfo.get("Year");
+						if (strYear != null)
+						{
+							strYear = strYear.trim();
+							if (strYear.indexOf("'") != -1)
+								strYear = strYear.replace("'", "''").trim();
+						}
+
+						String strGenre = (String) mapInfo.get("Genre");
+						if (strGenre != null)
+						{
+							strGenre = strGenre.trim();
+							if (strGenre.indexOf("'") != -1)
+								strGenre = strGenre.replace("'", "''").trim();
+						}
+
+						String strTrack = (String) mapInfo.get("Track");
+						if (strTrack != null)
+						{
+							strTrack = strTrack.trim();
+							if (strTrack.indexOf("'") != -1)
+								strTrack = strTrack.replace("'", "''").trim();
+						}
+
+						String strComment = (String) mapInfo.get("Comment");
+						if (strComment != null)
+						{
+							strComment = strComment.trim();
+							if (strComment.indexOf("'") != -1)
+								strComment = strComment.replace("'", "''").trim();
+						}
+
+						strMusicPath = (String) mapInfo.get("MusicPath");
+						if (strMusicPath != null)
+						{
+							strMusicPath = strMusicPath.trim();
+							if (strMusicPath.indexOf("'") != -1)
+								strMusicPath = strMusicPath.replace("'", "''").trim();
+						}
+
+						String strLRCPath = (String) mapInfo.get("LRCPath");
+						if (strLRCPath != null)
+						{
+							strLRCPath = strLRCPath.trim();
+							if (strLRCPath.indexOf("'") != -1)
+								strLRCPath = strLRCPath.replace("'", "''").trim();
+						}
+
+						String strSongInfo = (String) mapInfo.get("SongInfo");
+						if (strSongInfo != null)
+						{
+							strSongInfo = strSongInfo.trim();
+							if (strSongInfo.indexOf("'") != -1)
+								strSongInfo = strSongInfo.replace("'", "''").trim();
+						}
+
+						try
+						{// 插标的时候可能会出现字段中的非法字符
+							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
+							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
+									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
+									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1','" + VerifyCode + "');");
+						}
+						catch (Exception e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
 
 						lstSong.set(i, mapInfo);
 					}
@@ -703,7 +765,7 @@ public class scrMain extends Activity
 		{
 			public void run()
 			{
-				sd.delete("music_info", "verify_code<>?", new String[] { String.valueOf(VerifyCode) });
+				sd.execSQL("delete from music_info where verify_code<>'" + VerifyCode + "';");
 
 				Cursor cur = null;
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
@@ -723,12 +785,9 @@ public class scrMain extends Activity
 				if (IsShowingFavourite)
 					strParOrderBy = "play_times desc, " + strParOrderBy;
 
-				cur = sd
-						.query(
-								"music_info",
-								null,
-								"title like '%?%' or artist like '%?%' or album like '%?%' or year like '%?%' or genre like '%?%' or comment like '%?%' or title_py like '%?%' or title_simple_py like '%?%' or artist_py like '%?%' or artist_simple_py like '%?%' or song_info like '%?%'",
-								new String[] { Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword, Keyword }, null, null, strParOrderBy);
+				cur = sd.query("music_info", null, "title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword
+						+ "%' or genre like '%" + Keyword + "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword
+						+ "%' or artist_py like '%" + Keyword + "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, strParOrderBy);
 
 				int i = 0; // 游标计数器
 				while (cur.moveToNext())
@@ -1266,11 +1325,7 @@ public class scrMain extends Activity
 				{
 					Map<String, Object> mapMusic = new HashMap<String, Object>();
 					mapMusic = lstSong.get(ms.getCurrIndex());
-
-					ContentValues values = new ContentValues();
-					values.put("lrc_path", strPath);
-					sd.update("music_info", values, "music_path=?", new String[] { (String) mapMusic.get("MusicPath") });
-
+					sd.execSQL("update music_info set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
 					ls.setStrLRCPath(strPath); // 设置新的歌词
 
 					// 更新列表中的歌词路径

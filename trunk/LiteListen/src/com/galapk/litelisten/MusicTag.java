@@ -273,7 +273,7 @@ public class MusicTag
 	public static Map<String, Object> GetMusicInfo(Activity act, String path, String oldname)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
-		Cursor cursor = act.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, Media.DATA + "=?", new String[] { path }, Media.DEFAULT_SORT_ORDER);
+		Cursor cursor = act.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, "_data=?", new String[] { path }, Media.DEFAULT_SORT_ORDER);
 		if (cursor != null && cursor.moveToNext())
 		{// 优先读取系统的属性
 			map.put("Title", cursor.getColumnIndexOrThrow(Media.TITLE));

@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.ContentValues;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
@@ -307,11 +306,8 @@ public class LRCService
 			// 修改歌词关联
 			Map<String, Object> mapMusic = new HashMap<String, Object>();
 			mapMusic = main.getLstSong().get(main.getMs().getCurrIndex());
-
-			ContentValues values = new ContentValues();
-			values.put("lrc_path", strPath);
-			main.getSd().update("music_info", values, "music_path=?", new String[] { (String) mapMusic.get("MusicPath") });
-
+main.getSd().execSQL("update music_info set lrc_path='" + strPath + "' where music_path='" + (String) mapMusic.get("MusicPath") + "';");
+			
 			// 设置新的歌词
 			Message msg = new Message();
 			msg.obj = strPath;

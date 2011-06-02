@@ -17,10 +17,11 @@
 
 package com.galapk.litelisten;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -113,7 +114,9 @@ public class MusicService
 				map = main.getLstSong().get(index);
 
 				mp.reset();
-				mp.setDataSource((String) map.get("MusicPath"));
+				File file = new File((String) map.get("MusicPath"));
+				FileInputStream fis = new FileInputStream(file);
+				mp.setDataSource(fis.getFD());
 				mp.prepare();
 				mp.start();
 
@@ -304,22 +307,14 @@ public class MusicService
 			map = main.getLstSong().get(CurrIndex);
 
 			// 计算最爱歌曲
-			String strMusicPath = (String) map.get("MusicPath");
+			String strMusicPath = ((String) map.get("MusicPath")).trim();
 			if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
-				strMusicPath = strMusicPath.replace("'", "''");
+				strMusicPath = strMusicPath.replace("'", "''").trim();
 
 			if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
-			{
-				ContentValues values = new ContentValues();
-				values.put("music_path", strMusicPath);
-				main.getSd().update("music_info", values, "play_times=play_times+1", null);
-			}
+				main.getSd().execSQL("update music_info set play_times=play_times+1 where music_path='" + strMusicPath + "';");
 			else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
-			{
-				ContentValues values = new ContentValues();
-				values.put("music_path", strMusicPath);
-				main.getSd().update("music_info", values, "play_times=play_times+0.5", null);
-			}
+				main.getSd().execSQL("update music_info set play_times=play_times+0.5 where music_path='" + strMusicPath + "';");
 		}
 
 		mp.reset();
