@@ -18,15 +18,12 @@
 package com.galapk.litelisten;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MusicFile
 {
-	private List<String> lstFile = new ArrayList<String>();
-
 	// 搜索一个目录下的所有指定扩展名的文件，可选择是否遍历子文件夹
-	public void GetFiles(String Path, String Extension, boolean IsIterative, boolean SkipNomedia)
+	public void GetFiles(List<String> lstFile, String Path, String Extension, boolean IsIterative, boolean SkipNomedia)
 	{
 		File[] files = new File(Path).listFiles();
 
@@ -46,18 +43,8 @@ public class MusicFile
 						break;
 				}
 				else if (files[i].isDirectory() && files[i].getPath().indexOf("/.") == -1)
-					GetFiles(files[i].getPath(), Extension, IsIterative, SkipNomedia);
+					GetFiles(lstFile, files[i].getPath(), Extension, IsIterative, SkipNomedia);
 			}
 		}
-	}
-
-	public List<String> getLstFile()
-	{
-		return lstFile;
-	}
-
-	public void setLstFile(List<String> lstFile)
-	{
-		this.lstFile = lstFile;
 	}
 }

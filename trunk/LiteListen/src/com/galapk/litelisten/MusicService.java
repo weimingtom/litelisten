@@ -20,6 +20,7 @@ package com.galapk.litelisten;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -308,9 +309,17 @@ public class MusicService
 				strMusicPath = strMusicPath.replace("'", "''");
 
 			if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.9) // 播放90%以上，增加1分
-				main.getSd().execSQL("update music_info set play_times=play_times+1 where music_path='" + strMusicPath + "';");
+			{
+				ContentValues values = new ContentValues();
+				values.put("music_path", strMusicPath);
+				main.getSd().update("music_info", values, "play_times=play_times+1", null);
+			}
 			else if (((float) GetCurrTime()) / ((float) GetTotalTime()) > 0.5) // 播放50%以上，增加0.5分
-				main.getSd().execSQL("update music_info set play_times=play_times+0.5 where music_path='" + strMusicPath + "';");
+			{
+				ContentValues values = new ContentValues();
+				values.put("music_path", strMusicPath);
+				main.getSd().update("music_info", values, "play_times=play_times+0.5", null);
+			}
 		}
 
 		mp.reset();
