@@ -51,6 +51,7 @@
 	<string name="scrmain_feedback_hint">提交問題的同時，輕聽將收集一些您的設備資訊，包括設備序號、系統版本以及設備時間、語言和型號等資訊，但絕不會獲取您的通信錄、短信和程式等個人資訊。\n您的回饋是輕聽進步重要的里程碑！
 	</string>
 	<string name="scrmain_feedback_successful">問題提交成功，非常感謝！</string>
+	<string name="scrmain_feedback_blank">請輸入您的問題，然後再提交。</string>
 	<string name="scrmain_feedback_failure">問題提交失敗，請檢查網路連接。</string>
 
 	<string name="widget_title_small">輕聽音樂 4×2</string>
@@ -117,10 +118,10 @@
 	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
 	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
 	<string name="pfrscat_help_about">關於 輕聽音樂</string>
-	<string name="pfrscat_help_about_message">輕聽音樂\n0.5.29 build
-		0531.1040\n\n更新內容：\n【修復】最愛歌曲清單實際顯示的專案數比設定值多1\n【修復】由於網路連接問題導致檢查更新超時後系統崩潰的問題\n【修復】0.5.28更新後反復顯示更新日誌的問題\n【其他】“輕聽音樂播放機”更改為“輕聽音樂”\n\n官方網站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.1 build
+		0603.1611\n\n更新內容：\n【新增】來電後自動停止播放，掛斷後恢復先前狀態（暫停或播放）\n【修復】在設置介面中檢查更新時返回到主介面後引起的系統崩潰問題\n【修復】很小概率的因歌曲資訊讀出錯誤導致歌曲不顯示的問題\n【優化】禁止提交空白問題\n【優化】歌詞長按功能表樣式更改，徹底廢棄系統自帶介面\n【優化】歌詞雙指縮放更平滑（還不夠）\n【優化】一處影響效率的多餘代碼\n【優化】優先從系統緩存中讀取音樂檔資訊，若沒有則調用輕聽自身讀取功能以再次提升載入速度\n【優化】來電時隱藏桌面歌詞使使用者能夠看清來電資訊\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【修復】最愛歌曲清單實際顯示的專案數比設定值多1\n【修復】由於網路連接問題導致檢查更新超時後系統崩潰的問題\n【修復】0.5.28更新後反復顯示更新日誌的問題\n【其他】“輕聽音樂播放機”更改為“輕聽音樂”
+	<string name="update_info">【新增】來電後自動停止播放，掛斷後恢復先前狀態（暫停或播放）\n【修復】在設置介面中檢查更新時返回到主介面後引起的系統崩潰問題\n【修復】很小概率的因歌曲資訊讀出錯誤導致歌曲不顯示的問題\n【優化】禁止提交空白問題\n【優化】歌詞長按功能表樣式更改，徹底廢棄系統自帶介面\n【優化】歌詞雙指縮放更平滑（還不夠）\n【優化】一處影響效率的多餘代碼\n【優化】優先從系統緩存中讀取音樂檔資訊，若沒有則調用輕聽自身讀取功能以再次提升載入速度\n【優化】來電時隱藏桌面歌詞使使用者能夠看清來電資訊
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

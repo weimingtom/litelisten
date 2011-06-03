@@ -118,10 +118,10 @@
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐 官方页面</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听音乐 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐</string>
-	<string name="pfrscat_help_about_message">轻听音乐\n0.5.29 build
-		0531.1040\n\n更新内容：\n【修复】最爱歌曲列表实际显示的项目数比设定值多1\n【修复】由于网络连接问题导致检查更新超时后系统崩溃的问题\n【修复】0.5.28更新后反复显示更新日志的问题\n【其他】“轻听音乐播放器”更改为“轻听音乐”\n\n官方网站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">轻听音乐\n0.6.1 build
+		0603.1611\n\n更新内容：\n【新增】来电后自动停止播放，挂断后恢复先前状态（暂停或播放）\n【修复】在设置界面中检查更新时返回到主界面后引起的系统崩溃问题\n【修复】很小概率的因歌曲信息读出错误导致歌曲不显示的问题\n【优化】禁止提交空白问题\n【优化】歌词长按菜单样式更改，彻底废弃系统自带界面\n【优化】歌词双指缩放更平滑（还不够）\n【优化】一处影响效率的多余代码\n【优化】优先从系统缓存中读取音乐文件信息，若没有则调用轻听自身读取功能以再次提升载入速度\n【优化】来电时隐藏桌面歌词使用户能够看清来电信息\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【修复】最爱歌曲列表实际显示的项目数比设定值多1\n【修复】由于网络连接问题导致检查更新超时后系统崩溃的问题\n【修复】0.5.28更新后反复显示更新日志的问题\n【其他】“轻听音乐播放器”更改为“轻听音乐”
+	<string name="update_info">【新增】来电后自动停止播放，挂断后恢复先前状态（暂停或播放）\n【修复】在设置界面中检查更新时返回到主界面后引起的系统崩溃问题\n【修复】很小概率的因歌曲信息读出错误导致歌曲不显示的问题\n【优化】禁止提交空白问题\n【优化】歌词长按菜单样式更改，彻底废弃系统自带界面\n【优化】歌词双指缩放更平滑（还不够）\n【优化】一处影响效率的多余代码\n【优化】优先从系统缓存中读取音乐文件信息，若没有则调用轻听自身读取功能以再次提升载入速度\n【优化】来电时隐藏桌面歌词使用户能够看清来电信息
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

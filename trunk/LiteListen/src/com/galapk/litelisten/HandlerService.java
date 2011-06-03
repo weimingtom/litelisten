@@ -124,7 +124,7 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			// 是否已经显示了更新日志
-			if (main.getSp().getBoolean("IsFirstStart25", true))
+			if (main.getSp().getBoolean("IsFirstStart26", true))
 			{
 				final MessageDialog md = new MessageDialog();
 				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
@@ -132,8 +132,8 @@ public class HandlerService
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart25", false); // 设置当前版本
-						edt.remove("IsFirstStart24"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart26", false); // 设置当前版本
+						edt.remove("IsFirstStart25"); // 删除上个版本的标记
 						edt.commit();
 
 						md.CloseDialog();
@@ -149,7 +149,7 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			// 是否已经显示了更新日志
+			// 需要检查更新
 			if ((main.getSp().getString("HowToCheckForUpdate", "1").equals("1") && Common.IsWiFiConnected(main)) || main.getSp().getString("HowToCheckForUpdate", "1").equals("2"))
 			{
 				// 获取版本号（VersionCode）

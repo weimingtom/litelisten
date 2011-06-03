@@ -48,6 +48,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -87,7 +88,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 @SuppressWarnings("deprecation")
 public class scrMain extends Activity
 {
-	int OldHeight = -1;
+	private int OldHeight = -1;
 	private static final int ANIMATION_TIME = 500; // 动画时长
 	private static final int SPLASH_TIME = 3000; // 启动画面时长
 	private static final int MUSIC_NOTIFY_ID = 1; // 音乐信息通知序号
@@ -111,6 +112,7 @@ public class scrMain extends Activity
 	private boolean IsPlayingExternal = false; // 是否播放外部文件
 	private boolean IsStartedUp = false; // 显示程序是否启动完成
 	private boolean IsLRCMoved = false; // 歌词是否经过手指移动
+	private boolean IsForceHideFloatLRC = false; // 是否强制隐藏桌面歌词
 
 	/* 定义控件和自定义类 */
 	private ImageButton btnLast;
@@ -271,23 +273,28 @@ public class scrMain extends Activity
 			edt.commit();
 
 			// 消息监听器
-			ActionReceiver actReceiver = new ActionReceiver(this);
+			ActionReceiver ar = new ActionReceiver(this);
 			IntentFilter ittFilterButton = new IntentFilter(Intent.ACTION_MEDIA_BUTTON); // 控制键
-			registerReceiver(actReceiver, ittFilterButton);
+			registerReceiver(ar, ittFilterButton);
 			IntentFilter ittFilterPlug = new IntentFilter(Intent.ACTION_HEADSET_PLUG); // 耳机插拔
-			registerReceiver(actReceiver, ittFilterPlug);
+			registerReceiver(ar, ittFilterPlug);
 			IntentFilter ittFilterBluetooth = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED); // 蓝牙断开
-			registerReceiver(actReceiver, ittFilterBluetooth);
+			registerReceiver(ar, ittFilterBluetooth);
 			IntentFilter ittFilterLRCLock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_LOCK); // 锁定歌词
-			registerReceiver(actReceiver, ittFilterLRCLock);
+			registerReceiver(ar, ittFilterLRCLock);
 			IntentFilter ittFilterLRCUnlock = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_UNLOCK); // 解锁歌词
-			registerReceiver(actReceiver, ittFilterLRCUnlock);
+			registerReceiver(ar, ittFilterLRCUnlock);
 			IntentFilter ittFilterNotifyNext = new IntentFilter(IntentConst.INTENT_ACTION_NOTIFICATION_NEXT); // 通知播放下一首
-			registerReceiver(actReceiver, ittFilterNotifyNext);
+			registerReceiver(ar, ittFilterNotifyNext);
 			IntentFilter ittFilterLRCShow = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_SHOW); // 显示浮动歌词
-			registerReceiver(actReceiver, ittFilterLRCShow);
+			registerReceiver(ar, ittFilterLRCShow);
 			IntentFilter ittFilterLRCHide = new IntentFilter(IntentConst.INTENT_ACTION_FLOAT_LRC_HIDE); // 关闭浮动歌词
-			registerReceiver(actReceiver, ittFilterLRCHide);
+			registerReceiver(ar, ittFilterLRCHide);
+
+			// 电话状态监听
+			PhoneListener pl = new PhoneListener(this); // 我们派生的类
+			TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+			tm.listen(pl, PhoneStateListener.LISTEN_CALL_STATE);
 
 			if (IsStartup && !IsRefreshing && !(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))) // 如果外部调用则不刷新列表
 				SetMusicToList();
@@ -513,7 +520,12 @@ public class scrMain extends Activity
 		st.setIsRunBackground(true);
 		edt.commit();
 
-		if (st.getDeskLRCStatus())
+		if (IsForceHideFloatLRC) // 强制隐藏
+		{
+			fl.setVisibility(View.INVISIBLE);
+			IsForceHideFloatLRC = false; // 还原，每个操作仅能使用一次
+		}
+		else if (st.getDeskLRCStatus())
 			fl.setVisibility(View.VISIBLE);
 	}
 
@@ -572,7 +584,8 @@ public class scrMain extends Activity
 				MusicFile mf = new MusicFile();
 				List<String> lstFile = new ArrayList<String>();
 				mf.GetFiles(lstFile, st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
-				mf.GetFiles(lstFile, st.getMusicPath(), ".wma", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
+				// mf.GetFiles(lstFile, st.getMusicPath(), ".wma",
+				// st.getIncludeSubDirectory(), st.getIgnoreDirectory());
 				lstSong = new ArrayList<Map<String, Object>>();
 
 				if (lstFile.size() > 0)
@@ -729,7 +742,7 @@ public class scrMain extends Activity
 						}
 
 						try
-						{// 插标的时候可能会出现字段中的非法字符
+						{// 插表的时候可能会出现字段中的非法字符
 							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
 							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
 									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
@@ -2693,5 +2706,45 @@ public class scrMain extends Activity
 	public void setSd(SQLiteDatabase sd)
 	{
 		this.sd = sd;
+	}
+
+	public int getOldHeight()
+	{
+		return OldHeight;
+	}
+
+	public void setOldHeight(int oldHeight)
+	{
+		OldHeight = oldHeight;
+	}
+
+	public scrMain getMain()
+	{
+		return main;
+	}
+
+	public void setMain(scrMain main)
+	{
+		this.main = main;
+	}
+
+	public boolean isIsLRCMoved()
+	{
+		return IsLRCMoved;
+	}
+
+	public void setIsLRCMoved(boolean isLRCMoved)
+	{
+		IsLRCMoved = isLRCMoved;
+	}
+
+	public boolean isIsForceHideFloatLRC()
+	{
+		return IsForceHideFloatLRC;
+	}
+
+	public void setIsForceHideFloatLRC(boolean isForceHideFloatLRC)
+	{
+		IsForceHideFloatLRC = isForceHideFloatLRC;
 	}
 }
