@@ -17,7 +17,13 @@
 
 package com.galapk.litelisten;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +42,157 @@ import android.util.Log;
 
 public class MusicTag
 {
+	/* 读取ASF（WMA、WMV）标签 */
+	public static Map<String, Object> ReadASFTag(String path)
+	{
+		try
+		{
+			char[] WMAHead = { 0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C }; // WMA头部标识
+			char[] StandardHead = { 0x33, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C }; // 标准TAG头部标识
+			char[] ExtendHead = { 0x40, 0xA4, 0xD0, 0xD2, 0x07, 0xE3, 0xD2, 0x11, 0x97, 0xF0, 0x00, 0xA0, 0xC9, 0x5E, 0xA8, 0x50 }; // 扩展TAG头部标识
+			String[] StandardHeadString = { "33", "26", "B2", "75", "8E", "66", "CF", "11", "A6", "D9", "00", "AA", "00", "62", "CE", "6C" }; // 标准TAG头部标识
+
+			File f = new File(path);
+			InputStream is = new BufferedInputStream(new FileInputStream(f));
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, "ISO-8859-1")); // 头部需要用ASCII编码
+
+			// 读取头部判断是否为WMA文件
+			char[] buf = new char[16];
+			br.read(buf);
+
+			if (Arrays.equals(buf, WMAHead))
+			{// 是WMA
+				Map<String, Object> map = new HashMap<String, Object>();
+
+				br.read(buf = new char[14]); // 跳过无用的8+6字节
+				br.read(buf = new char[16]); // 确定标签类型的头
+
+				// 需要判断这里是先扩展再标准还是先标准再扩展
+				if (Arrays.equals(buf, ExtendHead))
+				{// 扩展
+					br.read(buf = new char[8]); // 再次放过8字节（此处无用的8字节标志位）
+					br.read(buf = new char[2]); // 扩展标签的总个数
+					int ExtendCount = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+					for (int i = 0; i < ExtendCount; i++)
+					{
+						br.read(buf = new char[2]); // 扩展名称长度
+						int FiledNameLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+						br.read(buf = new char[FiledNameLength]); // 读取扩展名称
+						String strFieldName = Common.UnicodeCharToString(buf);
+
+						br.read(buf = new char[2]); // Flag，暂时不用
+
+						br.read(buf = new char[2]); // 扩展字段长度
+						int FiledLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+						br.read(buf = new char[FiledLength]); // 读取扩展字段
+
+						if (strFieldName.equals("WM/TrackNumber"))
+							map.put("Track", Common.UnicodeCharToString(buf));
+						if (strFieldName.equals("WM/Track"))
+							map.put("Track", Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/AlbumArtist"))
+							map.put("Artist", Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/AlbumTitle"))
+							map.put("Album", Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/Year"))
+							map.put("Year", Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/Genre"))
+							map.put("Genre", Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/WM/GenreID"))
+							map.put("Genre", Common.UnicodeCharToString(buf));
+					}
+
+					// 开始读取标准头
+					do
+					{// 跳过空白字符
+						br.read(buf = new char[1]);
+					}
+					while ((int) buf[0] == 0);
+
+					boolean IsStandartHeader = true; // 是否包含标准头部信息
+
+					if (Integer.toHexString((int) buf[0]).equals(StandardHeadString[0]))
+					{
+						for (int i = 1; i <= 15; i++)
+						{
+							br.read(buf = new char[1]);
+
+							String strHex = Integer.toHexString((int) buf[0]).toUpperCase();
+							if (strHex.length() == 1)
+								strHex = "0" + strHex;
+
+							if (!strHex.equals(StandardHeadString[i]))
+							{
+								IsStandartHeader = false;
+								break;
+							}
+						}
+					}
+
+					if (IsStandartHeader)
+					{// 找到标准头
+						br.read(buf = new char[8]); // 8字节无效内容
+
+						br.read(buf = new char[2]); // 标题长度
+						int TitleLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+						br.read(buf = new char[2]); // 艺术家长度
+						int ArtistLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+						br.read(buf = new char[2]); // 版权长度，跳过
+
+						br.read(buf = new char[2]); // 备注长度
+						int CommentLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+						br.read(buf = new char[2]); // 2字节无效内容
+
+						// 读取标题
+						br.read(buf = new char[TitleLength]);
+						map.put("Title", Common.UnicodeCharToString(buf));
+
+						// 读取艺术家
+						br.read(buf = new char[ArtistLength]);
+						if (map.get("Artist") == null) // 如果扩展属性中没有此信息，则采用
+							map.put("Title", Common.UnicodeCharToString(buf));
+
+						// 读取备注
+						br.read(buf = new char[CommentLength]);
+						map.put("Comment", Common.UnicodeCharToString(buf));
+					}
+				}
+				else if (Arrays.equals(buf, StandardHead))
+				{// 标准
+
+				}
+
+				if (map.get("Artist") != null && map.get("Album") != null)
+					map.put("SongInfo", map.get("Artist") + " - " + map.get("Album"));
+				else if (map.get("Artist") != null || map.get("Album") != null)
+					map.put("SongInfo", (String) map.get("Artist") + (String) map.get("Album"));
+
+				map.put("Comment", "");
+				map.put("MusicPath", path);
+				map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
+				map.put("ID3Checked", "1");
+
+				br.close();
+				is.close();
+				return map;
+			}
+			else
+			{// 不是ASF格式
+				br.close();
+				is.close();
+				return null;
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	/* 读取ID3标签 */
 	public static ID3Tag ReadID3(String path)
 	{
@@ -185,6 +342,7 @@ public class MusicTag
 				map.put("Artist", ID3v2.getArtist());
 				map.put("Album", ID3v2.getAlbum());
 				map.put("Comment", ID3v2.getComment());
+				map.put("ID3Checked", "1");
 
 				if (!ID3v2.getTitle().equals(""))
 					map.put("Title", ID3v2.getTitle());
@@ -218,6 +376,7 @@ public class MusicTag
 				map.put("Year", ID3v1_1.getYear());
 				map.put("Track", String.valueOf(ID3v1_1.getAlbumTrack()));
 				map.put("Genre", String.valueOf(ID3v1_1.getGenre()));
+				map.put("ID3Checked", "1");
 
 				if (!ID3v1_1.getTitle().equals(""))
 					map.put("Title", ID3v1_1.getTitle());
@@ -238,6 +397,7 @@ public class MusicTag
 				map.put("Year", ID3v1_0.getYear());
 				map.put("Track", "");
 				map.put("Genre", String.valueOf(ID3v1_0.getGenre()));
+				map.put("ID3Checked", "1");
 
 				if (!ID3v1_0.getTitle().equals(""))
 					map.put("Title", ID3v1_0.getTitle());
@@ -260,6 +420,7 @@ public class MusicTag
 			map.put("Year", "");
 			map.put("Track", "");
 			map.put("Genre", "");
+			map.put("ID3Checked", "0");
 		}
 
 		// 设置音乐路径
@@ -274,7 +435,7 @@ public class MusicTag
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		Cursor cursor = act.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, "_data=?", new String[] { path }, Media.DEFAULT_SORT_ORDER);
-		if (cursor != null && cursor.moveToNext())
+		if (cursor != null && cursor.moveToFirst())
 		{// 优先读取系统的属性
 			map.put("Title", cursor.getColumnIndexOrThrow(Media.TITLE));
 			map.put("SongInfo", cursor.getColumnIndexOrThrow(Media.ARTIST) + " - " + cursor.getColumnIndexOrThrow(Media.ALBUM));
@@ -285,7 +446,8 @@ public class MusicTag
 			map.put("Track", cursor.getColumnIndexOrThrow(Media.TRACK));
 			map.put("Genre", "");
 			map.put("MusicPath", path);
-			map.put("LRCPath", path.substring(0, path.lastIndexOf(".wma")) + ".lrc");
+			map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
+			map.put("ID3Checked", "1");
 		}
 		else
 		{// 系统中不存在该音乐
@@ -293,16 +455,24 @@ public class MusicTag
 				map = GetMP3Info(path, oldname); // 如果是MP3则尝试自行读取
 			else
 			{// WMA则置空
-				map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
-				map.put("SongInfo", "");
-				map.put("Artist", "");
-				map.put("Album", "");
-				map.put("Comment", "");
-				map.put("Year", "");
-				map.put("Track", "");
-				map.put("Genre", "");
-				map.put("MusicPath", path);
-				map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
+				map = ReadASFTag(path);
+
+				// 如果没有读到信息
+				if (map == null)
+				{
+					map = new HashMap<String, Object>();
+					map.put("Title", oldname.substring(oldname.lastIndexOf("/") + 1));
+					map.put("SongInfo", "");
+					map.put("Artist", "");
+					map.put("Album", "");
+					map.put("Comment", "");
+					map.put("Year", "");
+					map.put("Track", "");
+					map.put("Genre", "");
+					map.put("MusicPath", path);
+					map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
+					map.put("ID3Checked", "0");
+				}
 			}
 		}
 

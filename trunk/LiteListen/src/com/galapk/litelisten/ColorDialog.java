@@ -50,7 +50,7 @@ public class ColorDialog
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
-		imgIcon.setBackgroundResource(R.drawable.album_normal);
+		imgIcon.setBackgroundResource(R.drawable.icon);
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);

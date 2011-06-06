@@ -67,6 +67,7 @@ import android.view.WindowManager.LayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
@@ -221,9 +222,10 @@ public class scrMain extends Activity
 			layTitle.width = (int) CurrWidth;
 
 			Animation anim = new TranslateAnimation(0, -(CurrWidth - dm.widthPixels + 165), 0, 0);
-			anim.setDuration(2500);
+			anim.setDuration((long) (CurrWidth * 15));
 			anim.setStartOffset(2500);
 			anim.setRepeatCount(100);
+			anim.setInterpolator(new LinearInterpolator());
 			anim.setRepeatMode(Animation.REVERSE);
 			txtTitle.startAnimation(anim);
 		}
@@ -257,7 +259,7 @@ public class scrMain extends Activity
 			py = new PYProvider();
 			hs = new HandlerService(this);
 			nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			wm = (WindowManager) getApplicationContext().getSystemService("window"); // WindowManager
+			wm = (WindowManager) getApplicationContext().getSystemService("window");
 			layWM = new WindowManager.LayoutParams();
 			fl = new FloatLRC(this); // 浮动歌词布局
 			am = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
@@ -302,7 +304,7 @@ public class scrMain extends Activity
 			CreateFloatLRC();
 			CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
 			CallFloatLRCNotify(st.getFloatLRCLocked());
-			fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+			fl.SetLRC(R.drawable.album_normal, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
 			IsStartup = false;
 		}
 		else
@@ -584,8 +586,7 @@ public class scrMain extends Activity
 				MusicFile mf = new MusicFile();
 				List<String> lstFile = new ArrayList<String>();
 				mf.GetFiles(lstFile, st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
-				// mf.GetFiles(lstFile, st.getMusicPath(), ".wma",
-				// st.getIncludeSubDirectory(), st.getIgnoreDirectory());
+				mf.GetFiles(lstFile, st.getMusicPath(), ".wma", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
 				lstSong = new ArrayList<Map<String, Object>>();
 
 				if (lstFile.size() > 0)
@@ -604,7 +605,7 @@ public class scrMain extends Activity
 						mapInfo.put("Title", strFileName.substring(strFileName.lastIndexOf("/") + 1));
 						mapInfo.put("ID3Checked", "0");
 
-						String strMusicPath = lstFile.get(i);
+						String strMusicPath = lstFile.get(i).trim();
 						if (strMusicPath != null && strMusicPath.indexOf("'") != -1)
 							strMusicPath = strMusicPath.replace("'", "''");
 
@@ -613,14 +614,14 @@ public class scrMain extends Activity
 						{
 							mapInfo.put("Title", cur.getString(0));
 							mapInfo.put("SongInfo", cur.getString(13));
-							mapInfo.put("MusicPath", cur.getString(11));
+							mapInfo.put("MusicPath", strMusicPath);
 							mapInfo.put("LRCPath", cur.getString(12));
 							mapInfo.put("Artist", cur.getString(1));
 							mapInfo.put("Album", cur.getString(2));
 							mapInfo.put("Genre", cur.getString(4));
 							mapInfo.put("Year", cur.getString(3));
 							mapInfo.put("Track", cur.getString(5));
-							mapInfo.put("ID3Checked", cur.getString(16));
+							mapInfo.put("ID3Checked", "1");
 
 							sd.execSQL("update music_info set verify_code='" + VerifyCode + "' where music_path='" + strMusicPath + "';");
 						}
@@ -746,7 +747,8 @@ public class scrMain extends Activity
 							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
 							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
 									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
-									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','1','" + VerifyCode + "');");
+									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','" + (String) mapInfo.get("ID3Checked")
+									+ "','" + VerifyCode + "');");
 						}
 						catch (Exception e)
 						{
@@ -1622,12 +1624,11 @@ public class scrMain extends Activity
 						TextDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_extend_menu_feedback), getString(R.string.scrmain_feedback_hint), 15, "", 18,
 								new OnClickListener()
 								{
-									@SuppressWarnings("null")
 									public void onClick(View v)
 									{
-										String strMessage = TextDialog.getEdtMessage().getText().toString();
+										String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
 
-										if (strMessage != null || !strMessage.equals(""))
+										if (strMessage != null && !strMessage.equals(""))
 										{
 											// 获取手机串号等信息并发送
 											TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -1850,7 +1851,8 @@ public class scrMain extends Activity
 							txtLRC.setLayoutParams(layLRC);
 						}
 
-						IsLRCMoved = true; // Move过的标记
+						if (Math.abs(DownPosX - event.getX()) > 10 || Math.abs(DownPosY - event.getY()) > 10)
+							IsLRCMoved = true; // Move过的标记
 					}
 					else if (event.getAction() == MotionEvent.ACTION_DOWN)
 					{

@@ -248,6 +248,84 @@ public class Common
 			return "/*";
 	}
 
+	/* 十六进制UnicodeChar转String */
+	public static String UnicodeCharToString(char[] Char)
+	{
+		String strTemp = "";
+
+		for (int i = 1; i < Char.length; i += 2)
+		{
+			String s1 = Integer.toHexString((int) Char[i]);
+			String s2 = Integer.toHexString((int) Char[i - 1]);
+
+			// 长度不足补全
+			if (s1.length() == 1)
+				s1 = "0" + s1;
+
+			if (s2.length() == 1)
+				s2 = "0" + s2;
+
+			strTemp += s1 + s2;
+		}
+
+		return UnicodeToString(strTemp).trim();
+	}
+
+	/* 将十六进制Unicode字符串转为汉字 */
+	public static String UnicodeToString(String Hex)
+	{
+		String enUnicode = null;
+		String deUnicode = null;
+
+		for (int i = 0; i < Hex.length(); i++)
+		{
+			if (enUnicode == null)
+				enUnicode = String.valueOf(Hex.charAt(i));
+			else
+				enUnicode = enUnicode + Hex.charAt(i);
+
+			if (i % 4 == 3)
+			{
+				if (enUnicode != null)
+				{
+					if (deUnicode == null)
+						deUnicode = String.valueOf((char) Integer.valueOf(enUnicode, 16).intValue());
+					else
+						deUnicode = deUnicode + String.valueOf((char) Integer.valueOf(enUnicode, 16).intValue());
+				}
+
+				enUnicode = null;
+			}
+		}
+
+		return deUnicode;
+	}
+
+	/* 倒序排列十六进制Unicode */
+	public static String DecodeUnicodeHex(char[] Char)
+	{
+		String strTemp = "";
+		boolean CouldContinue = true;
+
+		for (int i = Char.length - 1; i >= 0; i--)
+		{
+			String strHex = Integer.toHexString((int) Char[i]);
+
+			if (strHex.length() == 1)
+				strHex = "0" + strHex;
+
+			if (strHex.equals("00") && CouldContinue)
+				continue;
+			else
+			{
+				strTemp += strHex;
+				CouldContinue = false;
+			}
+		}
+
+		return strTemp;
+	}
+
 	public static String getLOGCAT_TAG()
 	{
 		return LOGCAT_TAG;

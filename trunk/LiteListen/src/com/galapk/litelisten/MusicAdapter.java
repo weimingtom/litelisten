@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -106,6 +107,7 @@ public class MusicAdapter extends BaseAdapter
 		{
 			layMusicList.setBackgroundResource(R.drawable.bg_list_music_height);
 			btnListPlay.setVisibility(View.GONE);
+			txtSongTitle.clearAnimation();
 			txtSongInfo.clearAnimation();
 		}
 		else
@@ -113,8 +115,25 @@ public class MusicAdapter extends BaseAdapter
 			imgAlbum.setBackgroundResource(R.drawable.album_selected);
 			btnListPlay.setVisibility(View.VISIBLE);
 
-			// 如果超长则播放动画滚动
-			float CurrWidth = Common.GetTextWidth(txtSongInfo.getText().toString(), txtSongInfo.getTextSize());
+			// 如果标题超长则播放动画滚动
+			float CurrWidth = Common.GetTextWidth(txtSongTitle.getText().toString(), txtSongTitle.getTextSize());
+			if (CurrWidth > main.getDm().widthPixels - 165)
+			{
+				LinearLayout.LayoutParams laySongTitle = (LinearLayout.LayoutParams) txtSongTitle.getLayoutParams();
+				laySongTitle.width = (int) CurrWidth;
+				txtSongTitle.setLayoutParams(laySongTitle);
+
+				Animation anim = new TranslateAnimation(0, -(CurrWidth - main.getDm().widthPixels + 165), 0, 0);
+				anim.setDuration((long) (CurrWidth * 15));
+				anim.setStartOffset(2500);
+				anim.setRepeatCount(100);
+				anim.setInterpolator(new LinearInterpolator());
+				anim.setRepeatMode(Animation.REVERSE);
+				txtSongTitle.startAnimation(anim);
+			}
+
+			// 如果信息超长则播放动画滚动
+			CurrWidth = Common.GetTextWidth(txtSongInfo.getText().toString(), txtSongInfo.getTextSize());
 			if (CurrWidth > main.getDm().widthPixels - 165)
 			{
 				LinearLayout.LayoutParams laySongInfo = (LinearLayout.LayoutParams) txtSongInfo.getLayoutParams();
@@ -122,9 +141,10 @@ public class MusicAdapter extends BaseAdapter
 				txtSongInfo.setLayoutParams(laySongInfo);
 
 				Animation anim = new TranslateAnimation(0, -(CurrWidth - main.getDm().widthPixels + 165), 0, 0);
-				anim.setDuration(2500);
-				anim.setStartOffset(1000);
+				anim.setDuration((long) (CurrWidth * 15));
+				anim.setStartOffset(2500);
 				anim.setRepeatCount(100);
+				anim.setInterpolator(new LinearInterpolator());
 				anim.setRepeatMode(Animation.REVERSE);
 				txtSongInfo.startAnimation(anim);
 			}
