@@ -22,7 +22,6 @@ import java.io.File;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -159,7 +158,7 @@ public class HandlerService
 				{
 					CurrentVersion = main.getPackageManager().getPackageInfo("com.galapk.litelisten", 0).versionCode;
 				}
-				catch (NameNotFoundException e)
+				catch (Exception e)
 				{
 					if (e.getMessage() != null)
 						Log.w(Common.LOGCAT_TAG, e.getMessage());

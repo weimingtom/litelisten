@@ -1428,12 +1428,12 @@ public class scrMain extends Activity
 				if (IsLRCMoved)
 					return false;
 
-				ListDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
+				OptionDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
 						new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								if (ListDialog.getRet().equals("0"))
+								if (OptionDialog.getRet().equals("0"))
 								{
 									// 修改歌词关联
 									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
@@ -1457,7 +1457,7 @@ public class scrMain extends Activity
 										SetFileList("/sdcard");
 									}
 								}
-								else if (ListDialog.getRet().equals("1"))
+								else if (OptionDialog.getRet().equals("1"))
 								{// 用线程下载歌词
 									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
 									{
@@ -1483,7 +1483,7 @@ public class scrMain extends Activity
 									}
 								}
 
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 							}
 						});
 

@@ -18,13 +18,16 @@
 package com.galapk.litelisten;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -136,6 +139,9 @@ public class scrSettings extends Activity
 	private String LRCFontShadowColor;
 	private String HowToCheckForUpdate;
 	private String Restore;
+	private int SelectedFileIndex = 0;
+	private List<Map<String, String>> lstLRCFile = new ArrayList<Map<String, String>>(); // 文件列表
+	private FileAdapterNew fAdapter;
 
 	@Override
 	public void onPause()
@@ -310,6 +316,43 @@ public class scrSettings extends Activity
 
 		HowToCheckForUpdate = sp.getString("HowToCheckForUpdate", "1");
 		Restore = sp.getString("Restore", "");
+	}
+
+	/* 刷新文件列表 */
+	public void SetFileList(String path, ListDialog ld)
+	{
+		SelectedFileIndex = 0;
+		ld.getTxtCurrentPath().setText(path);
+		File[] files = new File(path).listFiles();
+		List<Map<String, String>> lstFileTemp = new ArrayList<Map<String, String>>();
+
+		if (!path.equals("/sdcard"))
+		{
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("ShowPath", getString(R.string.scrmain_file_list));
+			map.put("AbsolutePath", path.substring(0, path.lastIndexOf("/")));
+			lstFileTemp.add(map);
+		}
+
+		for (int i = 0; i < files.length; i++)
+		{
+			// 忽略点文件
+			if (files[i].getName().indexOf(".") == 0)
+				continue;
+
+			// 忽略其他类型的文件
+			if (files[i].isFile() && !files[i].getName().substring(files[i].getName().length() - 4).toLowerCase().equals(".lrc"))
+				continue;
+
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("ShowPath", files[i].getName());
+			map.put("AbsolutePath", files[i].getAbsolutePath());
+			lstFileTemp.add(map);
+		}
+
+		lstLRCFile = lstFileTemp;
+		fAdapter = new FileAdapterNew(this, lstLRCFile);
+		ld.getLstFile().setAdapter(fAdapter);
 	}
 
 	@Override
@@ -553,16 +596,16 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language), getResources().getStringArray(R.array.item_name_pfrscat_general_language), 18,
 						Integer.parseInt(Language), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
 
-								Language = ListDialog.getRet();
+								Language = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 							}
 						});
 			}
@@ -572,14 +615,24 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), "", 18, MusicPath, 18, new OnClickListener()
+				final ListDialog ld = new ListDialog();
+				ld.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), new String[] { "" }, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						MusicPath = TextDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						TextDialog.getPw().dismiss();
+						Map<String, String> map = new HashMap<String, String>();
+						map = lstLRCFile.get(SelectedFileIndex);
+						String strPath = map.get("AbsolutePath");
+						File f = new File(strPath);
+						if (f.isDirectory()) // 进入目录
+							SetFileList(strPath, ld);
+						else
+						{
+							MusicPath = ld.getRet();
+							GetButtonDisplay();
+							UpdatePreference();
+							TextDialog.getPw().dismiss();
+						}
 					}
 				});
 			}
@@ -625,15 +678,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_list_order), getResources().getStringArray(R.array.item_name_pfrscat_general_list_order), 18,
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_list_order), getResources().getStringArray(R.array.item_name_pfrscat_general_list_order), 18,
 						Integer.parseInt(ListSortOrder), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								ListSortOrder = ListDialog.getRet();
+								ListSortOrder = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 							}
 						});
 			}
@@ -652,15 +705,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_play_mode), getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode), 18,
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_play_mode), getResources().getStringArray(R.array.item_name_pfrscat_general_play_mode), 18,
 						Integer.parseInt(PlayMode), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								PlayMode = ListDialog.getRet();
+								PlayMode = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 							}
 						});
 			}
@@ -670,15 +723,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_notify_next), getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next), 18,
-						Integer.parseInt(NotifyAction), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_general_notify_next), getResources().getStringArray(R.array.item_name_pfrscat_general_notify_next),
+						18, Integer.parseInt(NotifyAction), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								NotifyAction = ListDialog.getRet();
+								NotifyAction = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 							}
 						});
 			}
@@ -705,15 +758,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_scroll_style), getResources().getStringArray(
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_lrc_scroll_style), getResources().getStringArray(
 						R.array.item_name_pfrscat_display_lrc_scroll_style), 18, Integer.parseInt(ScrollMode), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						ScrollMode = ListDialog.getRet();
+						ScrollMode = OptionDialog.getRet();
 						GetButtonDisplay();
 						UpdatePreference();
-						ListDialog.getPw().dismiss();
+						OptionDialog.getPw().dismiss();
 					}
 				});
 			}
@@ -723,15 +776,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_port), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
-						18, Integer.parseInt(BackgroundPort), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_port),
+						getResources().getStringArray(R.array.item_name_pfrscat_display_background), 18, Integer.parseInt(BackgroundPort), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								BackgroundPort = ListDialog.getRet();
+								BackgroundPort = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 
 								// 显示图像选择界面
 								if (BackgroundPort.equals("1"))
@@ -757,15 +810,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_land), getResources().getStringArray(R.array.item_name_pfrscat_display_background),
-						18, Integer.parseInt(BackgroundLand), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_display_background_land),
+						getResources().getStringArray(R.array.item_name_pfrscat_display_background), 18, Integer.parseInt(BackgroundLand), new OnClickListener()
 						{
 							public void onClick(View v)
 							{
-								BackgroundLand = ListDialog.getRet();
+								BackgroundLand = OptionDialog.getRet();
 								GetButtonDisplay();
 								UpdatePreference();
-								ListDialog.getPw().dismiss();
+								OptionDialog.getPw().dismiss();
 
 								// 显示图像选择界面
 								if (BackgroundLand.equals("1"))
@@ -967,15 +1020,15 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ListDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_others_how_to_check_for_update), getResources().getStringArray(
+				OptionDialog.ShowDialog(scrSettings.this, layActivity, getString(R.string.pfrscat_others_how_to_check_for_update), getResources().getStringArray(
 						R.array.item_name_pfrscat_others_check_for_update), 18, Integer.parseInt(HowToCheckForUpdate), new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-						HowToCheckForUpdate = ListDialog.getRet();
+						HowToCheckForUpdate = OptionDialog.getRet();
 						GetButtonDisplay();
 						UpdatePreference();
-						ListDialog.getPw().dismiss();
+						OptionDialog.getPw().dismiss();
 					}
 				});
 			}
@@ -1000,7 +1053,7 @@ public class scrSettings extends Activity
 						{
 							CurrentVersion = getPackageManager().getPackageInfo("com.galapk.litelisten", 0).versionCode;
 						}
-						catch (NameNotFoundException e)
+						catch (Exception e)
 						{
 							if (e.getMessage() != null)
 								Log.w(Common.LOGCAT_TAG, e.getMessage());
@@ -2114,5 +2167,45 @@ public class scrSettings extends Activity
 	public void setHowToCheckForUpdate(String howToCheckForUpdate)
 	{
 		HowToCheckForUpdate = howToCheckForUpdate;
+	}
+
+	public HandlerService getHs()
+	{
+		return hs;
+	}
+
+	public void setHs(HandlerService hs)
+	{
+		this.hs = hs;
+	}
+
+	public int getSelectedFileIndex()
+	{
+		return SelectedFileIndex;
+	}
+
+	public void setSelectedFileIndex(int selectedFileIndex)
+	{
+		SelectedFileIndex = selectedFileIndex;
+	}
+
+	public List<Map<String, String>> getLstLRCFile()
+	{
+		return lstLRCFile;
+	}
+
+	public void setLstLRCFile(List<Map<String, String>> lstLRCFile)
+	{
+		this.lstLRCFile = lstLRCFile;
+	}
+
+	public FileAdapterNew getfAdapter()
+	{
+		return fAdapter;
+	}
+
+	public void setfAdapter(FileAdapterNew fAdapter)
+	{
+		this.fAdapter = fAdapter;
 	}
 }

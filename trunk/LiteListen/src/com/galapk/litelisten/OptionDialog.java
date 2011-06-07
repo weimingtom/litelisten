@@ -26,22 +26,25 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
-public class ListDialog
+public class OptionDialog
 {
-	private PopupWindow pw;
-	private String ret = "";
-	private TextView txtCurrentPath;
-	private ListView lstFile;
+	private static PopupWindow pw;
+	private static int[] CheckedID;
+	private static String ret = "";
 
-	public void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK)
+	public static void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, int CheckedIndex, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+		ret = String.valueOf(CheckedIndex);
+
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.popup_list_dialog, null, false);
+		View view = inflater.inflate(R.layout.popup_option_dialog, null, false);
 
 		if (ScreenOrientation == 1 || ScreenOrientation == 3)
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
@@ -56,8 +59,43 @@ public class ListDialog
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
 		txtTitle.setText(Title);
 
-		txtCurrentPath = (TextView) view.findViewById(R.id.txtCurrentPath);
-		lstFile = (ListView) view.findViewById(R.id.lstFile);
+		// 设置提示信息
+		RadioGroup grpOption = (RadioGroup) view.findViewById(R.id.grpOption);
+		CheckedID = new int[Content.length];
+		for (int i = 0; i < Content.length; i++)
+		{
+			RadioButton radOption = new RadioButton(act);
+			radOption.setText(Content[i]);
+			radOption.setTextSize(ListFontSize);
+			radOption.setButtonDrawable(R.layout.option_radiobutton);
+			radOption.setBackgroundResource(R.layout.option_bg_list);
+			grpOption.addView(radOption);
+
+			if (i == CheckedIndex)
+				radOption.setChecked(true);
+
+			android.view.ViewGroup.LayoutParams layOption = radOption.getLayoutParams();
+			layOption.width = android.view.ViewGroup.LayoutParams.FILL_PARENT;
+			layOption.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+			radOption.setLayoutParams(layOption);
+
+			CheckedID[i] = radOption.getId();
+		}
+
+		grpOption.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			public void onCheckedChanged(RadioGroup group, int checkedId)
+			{
+				for (int i = 0; i < CheckedID.length; i++)
+				{
+					if (CheckedID[i] == checkedId)
+					{
+						ret = String.valueOf(i);
+						break;
+					}
+				}
+			}
+		});
 
 		// 设置确定按钮
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);
@@ -76,43 +114,33 @@ public class ListDialog
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 
-	public PopupWindow getPw()
+	public static PopupWindow getPw()
 	{
 		return pw;
 	}
 
-	public void setPw(PopupWindow pw)
+	public static void setPw(PopupWindow pw)
 	{
-		this.pw = pw;
+		OptionDialog.pw = pw;
 	}
 
-	public String getRet()
+	public static int[] getCheckedID()
+	{
+		return CheckedID;
+	}
+
+	public static void setCheckedID(int[] checkedID)
+	{
+		CheckedID = checkedID;
+	}
+
+	public static String getRet()
 	{
 		return ret;
 	}
 
-	public void setRet(String ret)
+	public static void setRet(String ret)
 	{
-		this.ret = ret;
-	}
-
-	public TextView getTxtCurrentPath()
-	{
-		return txtCurrentPath;
-	}
-
-	public void setTxtCurrentPath(TextView txtCurrentPath)
-	{
-		this.txtCurrentPath = txtCurrentPath;
-	}
-
-	public ListView getLstFile()
-	{
-		return lstFile;
-	}
-
-	public void setLstFile(ListView lstFile)
-	{
-		this.lstFile = lstFile;
+		OptionDialog.ret = ret;
 	}
 }

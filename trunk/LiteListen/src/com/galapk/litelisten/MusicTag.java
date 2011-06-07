@@ -51,6 +51,8 @@ public class MusicTag
 			char[] StandardHead = { 0x33, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C }; // 标准TAG头部标识
 			char[] ExtendHead = { 0x40, 0xA4, 0xD0, 0xD2, 0x07, 0xE3, 0xD2, 0x11, 0x97, 0xF0, 0x00, 0xA0, 0xC9, 0x5E, 0xA8, 0x50 }; // 扩展TAG头部标识
 			String[] StandardHeadString = { "33", "26", "B2", "75", "8E", "66", "CF", "11", "A6", "D9", "00", "AA", "00", "62", "CE", "6C" }; // 标准TAG头部标识
+			String[] ExtendHeadString = { "40", "A4", "D0", "D2", "07", "E3", "D2", "11", "97", "F0", "00", "A0", "C9", "5E", "A8", "50" }; // 扩展TAG头部标识
+			MusicTagEntity mt = new MusicTagEntity();
 
 			File f = new File(path);
 			InputStream is = new BufferedInputStream(new FileInputStream(f));
@@ -62,8 +64,6 @@ public class MusicTag
 
 			if (Arrays.equals(buf, WMAHead))
 			{// 是WMA
-				Map<String, Object> map = new HashMap<String, Object>();
-
 				br.read(buf = new char[14]); // 跳过无用的8+6字节
 				br.read(buf = new char[16]); // 确定标签类型的头
 
@@ -87,19 +87,21 @@ public class MusicTag
 						br.read(buf = new char[FiledLength]); // 读取扩展字段
 
 						if (strFieldName.equals("WM/TrackNumber"))
-							map.put("Track", Common.UnicodeCharToString(buf));
-						if (strFieldName.equals("WM/Track"))
-							map.put("Track", Common.UnicodeCharToString(buf));
+							mt.setTrack(Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/Track"))
+							mt.setTrack(Common.UnicodeCharToString(buf));
 						else if (strFieldName.equals("WM/AlbumArtist"))
-							map.put("Artist", Common.UnicodeCharToString(buf));
+							mt.setArtist(Common.UnicodeCharToString(buf));
 						else if (strFieldName.equals("WM/AlbumTitle"))
-							map.put("Album", Common.UnicodeCharToString(buf));
+							mt.setAlbum(Common.UnicodeCharToString(buf));
 						else if (strFieldName.equals("WM/Year"))
-							map.put("Year", Common.UnicodeCharToString(buf));
+							mt.setYear(Common.UnicodeCharToString(buf));
 						else if (strFieldName.equals("WM/Genre"))
-							map.put("Genre", Common.UnicodeCharToString(buf));
-						else if (strFieldName.equals("WM/WM/GenreID"))
-							map.put("Genre", Common.UnicodeCharToString(buf));
+							mt.setGener(Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/GenreID"))
+							mt.setGener(Common.UnicodeCharToString(buf));
+						else if (strFieldName.equals("WM/Lyrics"))
+							mt.setLyric(Common.UnicodeCharToString(buf));
 					}
 
 					// 开始读取标准头
@@ -127,53 +129,155 @@ public class MusicTag
 								break;
 							}
 						}
-					}
 
-					if (IsStandartHeader)
-					{// 找到标准头
-						br.read(buf = new char[8]); // 8字节无效内容
+						if (IsStandartHeader)
+						{// 找到标准头
+							br.read(buf = new char[8]); // 8字节无效内容
 
-						br.read(buf = new char[2]); // 标题长度
-						int TitleLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+							br.read(buf = new char[2]); // 标题长度
+							int TitleLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
 
-						br.read(buf = new char[2]); // 艺术家长度
-						int ArtistLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+							br.read(buf = new char[2]); // 艺术家长度
+							int ArtistLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
 
-						br.read(buf = new char[2]); // 版权长度，跳过
+							br.read(buf = new char[2]); // 版权长度
+							int CopyrightLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
 
-						br.read(buf = new char[2]); // 备注长度
-						int CommentLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+							br.read(buf = new char[2]); // 备注长度
+							int CommentLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
 
-						br.read(buf = new char[2]); // 2字节无效内容
+							br.read(buf = new char[2]); // 2字节无效内容
 
-						// 读取标题
-						br.read(buf = new char[TitleLength]);
-						map.put("Title", Common.UnicodeCharToString(buf));
+							// 读取标题
+							br.read(buf = new char[TitleLength]);
+							mt.setTitle(Common.UnicodeCharToString(buf));
 
-						// 读取艺术家
-						br.read(buf = new char[ArtistLength]);
-						if (map.get("Artist") == null) // 如果扩展属性中没有此信息，则采用
-							map.put("Title", Common.UnicodeCharToString(buf));
+							// 读取艺术家
+							br.read(buf = new char[ArtistLength]);
+							if (mt.getArtist().equals("")) // 如果扩展属性中没有此信息，则采用
+								mt.setArtist(Common.UnicodeCharToString(buf));
 
-						// 读取备注
-						br.read(buf = new char[CommentLength]);
-						map.put("Comment", Common.UnicodeCharToString(buf));
+							br.read(buf = new char[CopyrightLength]); // 跳过版权说明
+
+							// 读取备注
+							br.read(buf = new char[CommentLength]);
+							mt.setComment(Common.UnicodeCharToString(buf));
+						}
 					}
 				}
 				else if (Arrays.equals(buf, StandardHead))
 				{// 标准
+					br.read(buf = new char[8]); // 8字节无效内容
 
+					br.read(buf = new char[2]); // 标题长度
+					int TitleLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+					br.read(buf = new char[2]); // 艺术家长度
+					int ArtistLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+					br.read(buf = new char[2]); // 版权长度
+					int CopyrightLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+					br.read(buf = new char[2]); // 备注长度
+					int CommentLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+
+					br.read(buf = new char[2]); // 2字节无效内容
+
+					// 读取标题
+					br.read(buf = new char[TitleLength]);
+					mt.setTitle(Common.UnicodeCharToString(buf));
+
+					// 读取艺术家
+					br.read(buf = new char[ArtistLength]);
+					mt.setArtist(Common.UnicodeCharToString(buf));
+
+					br.read(buf = new char[CopyrightLength]); // 跳过版权说明
+
+					// 读取备注
+					br.read(buf = new char[CommentLength]);
+					mt.setComment(Common.UnicodeCharToString(buf));
+
+					// 开始读取扩展头
+					do
+					{// 跳过空白字符
+						br.read(buf = new char[1]);
+					}
+					while ((int) buf[0] == 0);
+
+					boolean IsExtendHeader = true; // 是否包含标准头部信息
+
+					if (Integer.toHexString((int) buf[0]).equals(ExtendHeadString[0]))
+					{
+						for (int i = 1; i <= 15; i++)
+						{
+							br.read(buf = new char[1]);
+
+							String strHex = Integer.toHexString((int) buf[0]).toUpperCase();
+							if (strHex.length() == 1)
+								strHex = "0" + strHex;
+
+							if (!strHex.equals(ExtendHeadString[i]))
+							{
+								IsExtendHeader = false;
+								break;
+							}
+						}
+
+						if (IsExtendHeader)
+						{// 找到扩展头
+							br.read(buf = new char[8]); // 再次放过8字节（此处无用的8字节标志位）
+							br.read(buf = new char[2]); // 扩展标签的总个数
+							int ExtendCount = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+							for (int i = 0; i < ExtendCount; i++)
+							{
+								br.read(buf = new char[2]); // 扩展名称长度
+								int FiledNameLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+								br.read(buf = new char[FiledNameLength]); // 读取扩展名称
+								String strFieldName = Common.UnicodeCharToString(buf);
+
+								br.read(buf = new char[2]); // Flag，暂时不用
+
+								br.read(buf = new char[2]); // 扩展字段长度
+								int FiledLength = Integer.valueOf(Common.DecodeUnicodeHex(buf), 16); // 转换成数值
+								br.read(buf = new char[FiledLength]); // 读取扩展字段
+
+								if (strFieldName.equals("WM/TrackNumber"))
+									mt.setTrack(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/Track"))
+									mt.setTrack(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/AlbumArtist"))
+									mt.setArtist(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/AlbumTitle"))
+									mt.setAlbum(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/Year"))
+									mt.setYear(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/Genre"))
+									mt.setGener(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/GenreID"))
+									mt.setGener(Common.UnicodeCharToString(buf));
+								else if (strFieldName.equals("WM/Lyrics"))
+									mt.setLyric(Common.UnicodeCharToString(buf));
+							}
+						}
+					}
 				}
 
-				if (map.get("Artist") != null && map.get("Album") != null)
-					map.put("SongInfo", map.get("Artist") + " - " + map.get("Album"));
-				else if (map.get("Artist") != null || map.get("Album") != null)
-					map.put("SongInfo", (String) map.get("Artist") + (String) map.get("Album"));
-
-				map.put("Comment", "");
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("Title", mt.getTitle());
+				map.put("Artist", mt.getArtist());
+				map.put("Album", mt.getAlbum());
+				map.put("Comment", mt.getComment());
+				map.put("Year", mt.getYear());
+				map.put("Track", mt.getTrack());
+				map.put("Genre", mt.getGener());
 				map.put("MusicPath", path);
 				map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
 				map.put("ID3Checked", "1");
+
+				if (!mt.getArtist().equals("") && !mt.getAlbum().equals(""))
+					map.put("SongInfo", mt.getArtist() + " - " + mt.getAlbum());
+				else if (!mt.getArtist().equals("") || !mt.getAlbum().equals(""))
+					map.put("SongInfo", mt.getArtist() + mt.getAlbum());
 
 				br.close();
 				is.close();
@@ -188,7 +292,11 @@ public class MusicTag
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null)
+				Log.w(Common.LOGCAT_TAG, e.getMessage());
+			else
+				e.printStackTrace();
+
 			return null;
 		}
 	}

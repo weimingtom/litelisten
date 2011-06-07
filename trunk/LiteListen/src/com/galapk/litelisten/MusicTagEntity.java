@@ -26,6 +26,7 @@ public class MusicTagEntity
 	private String Year = ""; // Äê·Ý
 	private String Track = ""; // Òô¹ìºÅ
 	private String Lyric = ""; // ¸è´Ê
+	private String Comment = ""; // ±¸×¢
 
 	public String getAlbum()
 	{
@@ -95,5 +96,15 @@ public class MusicTagEntity
 	public void setLyric(String lyric)
 	{
 		Lyric = lyric;
+	}
+
+	public String getComment()
+	{
+		return Comment;
+	}
+
+	public void setComment(String comment)
+	{
+		Comment = comment;
 	}
 }
