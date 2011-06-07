@@ -44,6 +44,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -51,6 +52,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class scrSettings extends Activity
@@ -340,8 +342,8 @@ public class scrSettings extends Activity
 			if (files[i].getName().indexOf(".") == 0)
 				continue;
 
-			// 忽略其他类型的文件
-			if (files[i].isFile() && !files[i].getName().substring(files[i].getName().length() - 4).toLowerCase().equals(".lrc"))
+			// 所有文件
+			if (!files[i].isDirectory())
 				continue;
 
 			Map<String, String> map = new HashMap<String, String>();
@@ -620,21 +622,52 @@ public class scrSettings extends Activity
 				{
 					public void onClick(View v)
 					{
-						Map<String, String> map = new HashMap<String, String>();
-						map = lstLRCFile.get(SelectedFileIndex);
-						String strPath = map.get("AbsolutePath");
-						File f = new File(strPath);
-						if (f.isDirectory()) // 进入目录
-							SetFileList(strPath, ld);
+						String strMusicPathNew = ld.getTxtCurrentPath().getText().toString();
+						boolean IsMusicPathChanged = false;
+						if (!strMusicPathNew.equals(MusicPath))
+							IsMusicPathChanged = true;
+						MusicPath = strMusicPathNew;
+						GetButtonDisplay();
+						UpdatePreference();
+						ld.getPw().dismiss();
+
+						// 更改扫描路径需要重新启动，给出提示
+						if (IsMusicPathChanged)
+						{
+							final MessageDialog md = new MessageDialog();
+							md.SetMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_music_path), getString(R.string.pfrscat_general_music_path_changed), 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
+						}
+					}
+				}, new OnItemClickListener()
+				{
+					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+					{
+						if (arg2 == SelectedFileIndex)
+						{
+							Map<String, String> map = new HashMap<String, String>();
+							map = lstLRCFile.get(arg2);
+							String strPath = map.get("AbsolutePath");
+							File f = new File(strPath);
+							if (f.isDirectory()) // 进入目录
+								SetFileList(strPath, ld);
+						}
 						else
 						{
-							MusicPath = ld.getRet();
-							GetButtonDisplay();
-							UpdatePreference();
-							TextDialog.getPw().dismiss();
+							SelectedFileIndex = arg2;
+
+							fAdapter.getView(arg2, null, ld.getLstFile());
+							fAdapter.notifyDataSetChanged();
 						}
 					}
 				});
+				SetFileList(MusicPath, ld);
 			}
 		});
 

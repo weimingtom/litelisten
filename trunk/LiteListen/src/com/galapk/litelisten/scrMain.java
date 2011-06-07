@@ -304,7 +304,7 @@ public class scrMain extends Activity
 			CreateFloatLRC();
 			CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
 			CallFloatLRCNotify(st.getFloatLRCLocked());
-			fl.SetLRC(R.drawable.album_normal, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+			fl.SetLRC(R.drawable.album_normal, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_desk_lrc_show), Color.WHITE, null, 1);
 			IsStartup = false;
 		}
 		else
@@ -332,7 +332,7 @@ public class scrMain extends Activity
 				lstMusic.setVisibility(View.GONE);
 
 			if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
-				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_app_version_desk_lrc_show), Color.WHITE, null, 1);
+				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_desk_lrc_show), Color.WHITE, null, 1);
 			fl.setVisibility(View.INVISIBLE);
 			layWM.width = dm.widthPixels;
 		}

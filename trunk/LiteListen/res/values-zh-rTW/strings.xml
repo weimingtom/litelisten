@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_app_name">輕聽音樂</string>
-	<string name="global_app_version_desk_lrc_show">桌面歌詞秀</string>
+	<string name="global_desk_lrc_show">桌面歌詞秀</string>
 	<string name="global_ok">確定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_return">返回</string>
@@ -74,6 +74,7 @@
 	<string name="pfrscat_general_title">常規選項</string>
 	<string name="pfrscat_general_language">語言</string>
 	<string name="pfrscat_general_music_path">音樂目錄</string>
+	<string name="pfrscat_general_music_path_changed">您更改了音樂檔路徑，需要重啟後才能生效。</string>
 	<string name="pfrscat_general_include_sub_directories">掃描子資料夾</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定資料夾</string>
 	<string name="pfrscat_general_list_order">播放清單排序</string>
@@ -118,10 +119,10 @@
 	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
 	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
 	<string name="pfrscat_help_about">關於 輕聽音樂</string>
-	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.1 build
-		0603.1611\n\n更新內容：\n【新增】來電後自動停止播放，掛斷後恢復先前狀態（暫停或播放）\n【修復】在設置介面中檢查更新時返回到主介面後引起的系統崩潰問題\n【修復】很小概率的因歌曲資訊讀出錯誤導致歌曲不顯示的問題\n【優化】禁止提交空白問題\n【優化】歌詞長按功能表樣式更改，徹底廢棄系統自帶介面\n【優化】歌詞雙指縮放更平滑（還不夠）\n【優化】一處影響效率的多餘代碼\n【優化】優先從系統緩存中讀取音樂檔資訊，若沒有則調用輕聽自身讀取功能以再次提升載入速度\n【優化】來電時隱藏桌面歌詞使使用者能夠看清來電資訊\n\n官方網站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.2 build
+		0607.2307\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n更新內容：\n【新增】提供WMA檔掃描，但不提供解碼，支援與否看系統本身是否支援\n【新增】讀取WMA標籤\n【新增】歌曲路徑選取而不用手動輸入\n【修復】歌曲掃描時沒有真正忽略.nomedia檔的錯誤\n【修復】把未掃描歌曲標記為已掃描歌曲的問題\n【修復】因掃描到WMA檔引起程式崩潰的問題\n【修復】上次更新後出現的歌詞長按無法彈出功能表的問題\n【修復】上次更新後仍能提交空白回饋的問題\n【優化】新圖示\n【優化】修改字幕超出螢幕滾動演算法，使不同長度的文字滾動速度保持一致\n【優化】介面四周圓角處理\n【優化】更柔和的對話方塊背景\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">【新增】來電後自動停止播放，掛斷後恢復先前狀態（暫停或播放）\n【修復】在設置介面中檢查更新時返回到主介面後引起的系統崩潰問題\n【修復】很小概率的因歌曲資訊讀出錯誤導致歌曲不顯示的問題\n【優化】禁止提交空白問題\n【優化】歌詞長按功能表樣式更改，徹底廢棄系統自帶介面\n【優化】歌詞雙指縮放更平滑（還不夠）\n【優化】一處影響效率的多餘代碼\n【優化】優先從系統緩存中讀取音樂檔資訊，若沒有則調用輕聽自身讀取功能以再次提升載入速度\n【優化】來電時隱藏桌面歌詞使使用者能夠看清來電資訊
+	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】提供WMA檔掃描，但不提供解碼，支援與否看系統本身是否支援\n【新增】讀取WMA標籤\n【新增】歌曲路徑選取而不用手動輸入\n【修復】歌曲掃描時沒有真正忽略.nomedia檔的錯誤\n【修復】把未掃描歌曲標記為已掃描歌曲的問題\n【修復】因掃描到WMA檔引起程式崩潰的問題\n【修復】上次更新後出現的歌詞長按無法彈出功能表的問題\n【修復】上次更新後仍能提交空白回饋的問題\n【優化】新圖示\n【優化】修改字幕超出螢幕滾動演算法，使不同長度的文字滾動速度保持一致\n【優化】介面四周圓角處理\n【優化】更柔和的對話方塊背景
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

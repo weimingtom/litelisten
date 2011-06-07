@@ -123,7 +123,7 @@ public class HandlerService
 		public void handleMessage(Message msg)
 		{
 			// 是否已经显示了更新日志
-			if (main.getSp().getBoolean("IsFirstStart26", true))
+			if (main.getSp().getBoolean("IsFirstStart27", true))
 			{
 				final MessageDialog md = new MessageDialog();
 				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
@@ -131,8 +131,8 @@ public class HandlerService
 					public void onClick(View v)
 					{
 						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart26", false); // 设置当前版本
-						edt.remove("IsFirstStart25"); // 删除上个版本的标记
+						edt.putBoolean("IsFirstStart27", false); // 设置当前版本
+						edt.remove("IsFirstStart26"); // 删除上个版本的标记
 						edt.commit();
 
 						md.CloseDialog();

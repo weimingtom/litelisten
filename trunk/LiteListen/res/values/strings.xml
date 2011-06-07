@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.6.1 build 0603.1611</string>
+	<string name="global_app_version">0.6.2 build 0607.2307</string>
 
 	<string name="global_app_name">LiteListen</string>
-	<string name="global_app_version_desk_lrc_show">Desk Lyric Show</string>
+	<string name="global_desk_lrc_show">Desk Lyric Show</string>
 	<string name="global_ok">Okay</string>
 	<string name="global_cancel">Cancel</string>
 	<string name="global_return">Back</string>
@@ -87,6 +87,8 @@
 	<string name="pfrscat_general_title">General</string>
 	<string name="pfrscat_general_language">Language</string>
 	<string name="pfrscat_general_music_path">Music path</string>
+	<string name="pfrscat_general_music_path_changed">The music path you changed would take effect after
+		you reboot LiteListen.</string>
 	<string name="pfrscat_general_include_sub_directories">Scan with sub-directoires</string>
 	<string name="pfrscat_general_ignore_directory">Do not scan .nomedia directoires</string>
 	<string name="pfrscat_general_list_order">List sort order</string>
@@ -125,7 +127,7 @@
 	<string name="pfrscat_others_check_for_update">Check for update now</string>
 	<string name="pfrscat_others_check_for_update_checking">Check in progress, please wait...</string>
 	<string name="pfrscat_others_check_for_update_downloading">Download in progress, please wait...</string>
-	<string name="pfrscat_others_check_for_update_nothing_title">Well done!</string>
+	<string name="pfrscat_others_check_for_update_nothing_title">Great!</string>
 	<string name="pfrscat_others_check_for_update_nothing_message">You have already installed newest version of
 		LiteListen, no need to reinstall.</string>
 	<string name="pfrscat_others_check_for_update_got_title">Need Upgrade</string>
@@ -138,42 +140,34 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen\n0.6.1 build 0603.1611\n\nUpdate
-		Contents: \n[New] Stop music while calls incoming and recover music
-		after offhook\n[Fix] A crash problem which caused by return to player
-		from setting while system is checking for update\n[Fix] A problem that
-		music will not display in the playlist which caused by incorrect music
-		infomation\n[Optimize] Forbid to submit blank problem\n[Optimize]
-		Style of context munu changed\n[Optimize] Make lyric zoom smoothly by
-		fingers\n[Optimize] A block of unnecessary code which will affacted to
-		performance\n[Optimize] Get music infomation from system cache first
-		and using LiteListen own function to read it if system has no
-		infomation\n[Optimize] Hide desk lyric show while calls incoming to
-		make you watch call infomation clearly\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen\n0.6.2 build 0607.2307\n\nThanks a lot
+		for Regina and Kael for their translations and bug reports.\n\nUpdate
+		Contents: \n[New] WMA file supportted but whether it can be
+		played is
+		decided to system\n[New] Reading WMA tags\n[New] Music path
+		selector
+		instead of manual input\n[Fix] A bug that .nomedia file does
+		not
+		ignored really during music scan\n[Fix] The bug that app will set
+		un-scaned music to scaned\n[Fix] A crash problem that scan to a WMA
+		file\n[Fix] A problem that context menu cannot shown when a long click
+		on lyric text\n[Fix] A problem that blank feedback still allow to
+		submit\n[Optimize] New icons\n[Optimize] Make the same scroll speed to
+		different text length\n[Optimize] Interface around rounded\n[Optimize]
+		Gentlely dialog background color\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">[New] Stop music while calls incoming and recover
-		music
-		after offhook\n[Fix] A crash problem which caused by return to
-		player
-		from setting while system is checking for update\n[Fix] A
-		problem that
-		music will not display in the playlist which caused by
-		incorrect music
-		infomation\n[Optimize] Forbid to submit blank
-		problem\n[Optimize]
-		Style of context munu changed\n[Optimize] Make
-		lyric zoom smoothly by
-		fingers\n[Optimize] A block of unnecessary code
-		which will affacted to
-		performance\n[Optimize] Get music infomation
-		from system cache first
-		and using LiteListen own function to read it if
-		system has no
-		infomation\n[Optimize] Hide desk lyric show while calls
-		incoming to
-		make you watch call infomation clearly
+	<string name="update_info">[New] WMA file supportted but whether it can be
+		played is decided to system\n[New] Reading WMA tags\n[New] Music path
+		selector instead of manual input\n[Fix] A bug that .nomedia file does
+		not ignored really during music scan\n[Fix] The bug that app will set
+		un-scaned music to scaned\n[Fix] A crash problem that scan to a WMA
+		file\n[Fix] A problem that context menu cannot shown when a long click
+		on lyric text\n[Fix] A problem that blank feedback still allow to
+		submit\n[Optimize] New icons\n[Optimize] Make the same scroll speed to
+		different text length\n[Optimize] Interface around rounded\n[Optimize]
+		Gentlely dialog background color
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

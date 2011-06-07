@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ListDialog
 {
@@ -37,7 +38,7 @@ public class ListDialog
 	private TextView txtCurrentPath;
 	private ListView lstFile;
 
-	public void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK)
+	public void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK, OnItemClickListener onList)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,6 +59,7 @@ public class ListDialog
 
 		txtCurrentPath = (TextView) view.findViewById(R.id.txtCurrentPath);
 		lstFile = (ListView) view.findViewById(R.id.lstFile);
+		lstFile.setOnItemClickListener(onList);
 
 		// 设置确定按钮
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);
