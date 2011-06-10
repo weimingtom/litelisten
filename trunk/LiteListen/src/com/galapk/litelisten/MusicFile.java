@@ -23,7 +23,7 @@ import java.util.List;
 public class MusicFile
 {
 	// 搜索一个目录下的所有指定扩展名的文件，可选择是否遍历子文件夹
-	public void GetFiles(List<String> lstFile, String Path, String Extension, boolean IsIterative, boolean SkipNomedia)
+	public static void GetFiles(List<String> lstFile, String Path, String Extension, boolean IsIterative, boolean SkipNomedia, long SkipFileSize)
 	{
 		File[] files = new File(Path).listFiles();
 
@@ -40,14 +40,14 @@ public class MusicFile
 			{
 				if (files[i].isFile())
 				{
-					if (files[i].getPath().substring(files[i].getPath().length() - Extension.length()).equals(Extension))
+					if (files[i].getPath().substring(files[i].getPath().length() - Extension.length()).equals(Extension) && files[i].length() > SkipFileSize)
 						lstFile.add(files[i].getPath());
 
 					if (!IsIterative)
 						break;
 				}
 				else if (files[i].isDirectory() && files[i].getPath().indexOf("/.") == -1)
-					GetFiles(lstFile, files[i].getPath(), Extension, IsIterative, SkipNomedia);
+					GetFiles(lstFile, files[i].getPath(), Extension, IsIterative, SkipNomedia, SkipFileSize);
 			}
 		}
 	}

@@ -24,6 +24,7 @@ public class SettingProvider
 	private String Language;
 	private String MusicPath;
 	private Boolean IncludeSubDirectory;
+	private String IgnoreSize;
 	private Boolean IgnoreDirectory;
 	private Boolean AutoPause;
 	private Boolean LRCAutoDownload;
@@ -65,8 +66,11 @@ public class SettingProvider
 
 		MusicPath = main.getSp().getString("MusicPath", "/sdcard");
 		IncludeSubDirectory = main.getSp().getBoolean("IncludeSubDirectory", true);
+		IgnoreSize = main.getSp().getString("IgnoreSize", "1024");
 		IgnoreDirectory = main.getSp().getBoolean("IgnoreDirectory", true);
+
 		AutoPause = main.getSp().getBoolean("AutoPause", true);
+
 		LRCAutoDownload = main.getSp().getBoolean("LRCAutoDownload", false);
 
 		ListSortOrder = main.getSp().getString("ListSortOrder", "1");
@@ -83,12 +87,12 @@ public class SettingProvider
 
 		UseAnimation = main.getSp().getBoolean("UseAnimation", true);
 
-		ListFontSize = main.getSp().getString("ListFontSize", "18");
+		ListFontSize = main.getSp().getString("ListFontSize", "18.0");
 		ListFontColor = main.getSp().getString("ListFontColor", "#FFFFFF");
 		ListFontShadow = main.getSp().getBoolean("ListFontShadow", true);
 		ListFontShadowColor = main.getSp().getString("ListFontShadowColor", "#000000");
 
-		LRCFontSize = main.getSp().getString("LRCFontSize", "18");
+		LRCFontSize = main.getSp().getString("LRCFontSize", "18.0");
 		LRCFontColorNormal = main.getSp().getString("LRCFontColorNormal", "#FFFFFF");
 		LRCFontColorHighlight = main.getSp().getString("LRCFontColorHighlight", "#FFFF00");
 		LRCFontShadow = main.getSp().getBoolean("LRCFontShadow", true);
@@ -112,6 +116,7 @@ public class SettingProvider
 		Language = intent.getStringExtra("Language");
 		MusicPath = intent.getStringExtra("MusicPath");
 		IncludeSubDirectory = intent.getBooleanExtra("IncludeSubDirectory", true);
+		IgnoreSize = intent.getStringExtra("IgnoreSize");
 		IgnoreDirectory = intent.getBooleanExtra("IgnoreDirectory", true);
 		AutoPause = intent.getBooleanExtra("AutoPause", true);
 		LRCAutoDownload = intent.getBooleanExtra("LRCAutoDownload", false);
@@ -486,5 +491,15 @@ public class SettingProvider
 	public void setHowToCheckForUpdate(String howToCheckForUpdate)
 	{
 		HowToCheckForUpdate = howToCheckForUpdate;
+	}
+
+	public String getIgnoreSize()
+	{
+		return IgnoreSize;
+	}
+
+	public void setIgnoreSize(String ignoreSize)
+	{
+		IgnoreSize = ignoreSize;
 	}
 }

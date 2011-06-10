@@ -88,6 +88,7 @@
 	<string name="pfrscat_general_music_path_changed">The music path you changed would take effect after
 		you reboot LiteListen.</string>
 	<string name="pfrscat_general_include_sub_directories">Scan with sub-directoires</string>
+	<string name="pfrscat_general_ignore_size">Ignore size smaller than:</string>
 	<string name="pfrscat_general_ignore_directory">Do not scan .nomedia directoires</string>
 	<string name="pfrscat_general_list_order">List sort order</string>
 	<string name="pfrscat_general_auto_switch_to_lrc">Auto switch lyric show</string>

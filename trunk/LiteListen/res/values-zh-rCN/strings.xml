@@ -76,6 +76,7 @@
 	<string name="pfrscat_general_music_path">音乐目录</string>
 	<string name="pfrscat_general_music_path_changed">您更改了音乐文件路径，需要重启后才能生效。</string>
 	<string name="pfrscat_general_include_sub_directories">扫描子文件夹</string>
+	<string name="pfrscat_general_ignore_size">忽略小于指定大小的文件</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定文件夹</string>
 	<string name="pfrscat_general_list_order">播放列表排序</string>
 	<string name="pfrscat_general_auto_switch_to_lrc">自动跳转到歌词</string>

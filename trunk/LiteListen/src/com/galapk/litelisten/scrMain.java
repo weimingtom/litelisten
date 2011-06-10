@@ -151,7 +151,7 @@ public class scrMain extends Activity
 	private PYProvider py;
 	private HandlerService hs;
 	private MusicAdapter adapter;
-	private FileAdapter fAdapter;
+	private FileAdapterForMain fAdapter;
 	private NotificationManager nm;
 	private WindowManager wm;
 	private FloatLRC fl;
@@ -299,7 +299,34 @@ public class scrMain extends Activity
 			tm.listen(pl, PhoneStateListener.LISTEN_CALL_STATE);
 
 			if (IsStartup && !IsRefreshing && !(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW))) // 如果外部调用则不刷新列表
+			{
 				SetMusicToList();
+
+				// 初次安装发送设备信息到服务器
+				new Thread()
+				{
+					public void run()
+					{
+						if (!main.getSp().getBoolean("SentInfo", false))
+						{
+							TelephonyManager tm = (TelephonyManager) main.getSystemService(Context.TELEPHONY_SERVICE); // 获取手机串号等信息并发送
+
+							// 生成链接
+							String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+							strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+									java.net.URLEncoder.encode(main.getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK)).replace(
+									"{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL));
+
+							if (Common.CallURLPost(strURL, 10000))
+							{// 打上成功标记
+								Editor edt = main.getSp().edit();
+								edt.putBoolean("SentInfo", true);
+								edt.commit();
+							}
+						}
+					}
+				};
+			}
 			WidgetsListener();
 			CreateFloatLRC();
 			CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
@@ -571,7 +598,7 @@ public class scrMain extends Activity
 		}
 
 		lstLRCFile = lstFileTemp;
-		fAdapter = new FileAdapter(this, lstLRCFile);
+		fAdapter = new FileAdapterForMain(this, lstLRCFile);
 		lstFile.setAdapter(fAdapter);
 	}
 
@@ -583,10 +610,9 @@ public class scrMain extends Activity
 			public void run()
 			{
 				IsRefreshing = true;
-				MusicFile mf = new MusicFile();
 				List<String> lstFile = new ArrayList<String>();
-				mf.GetFiles(lstFile, st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
-				mf.GetFiles(lstFile, st.getMusicPath(), ".wma", st.getIncludeSubDirectory(), st.getIgnoreDirectory());
+				MusicFile.GetFiles(lstFile, st.getMusicPath(), ".mp3", st.getIncludeSubDirectory(), st.getIgnoreDirectory(), Long.parseLong(st.getIgnoreSize()) * 1024);
+				MusicFile.GetFiles(lstFile, st.getMusicPath(), ".wma", st.getIncludeSubDirectory(), st.getIgnoreDirectory(), Long.parseLong(st.getIgnoreSize()) * 1024);
 				lstSong = new ArrayList<Map<String, Object>>();
 
 				if (lstFile.size() > 0)
@@ -637,7 +663,6 @@ public class scrMain extends Activity
 				IsStartedUp = true;
 				hs.getHdlShowMain().sendEmptyMessage(0);
 				hs.getHdlShowUpdateLog().sendEmptyMessage(0);
-				hs.getHdlRequestDevInfo().sendEmptyMessage(0);
 				hs.getHdlCheckForUpdate().sendEmptyMessage(0);
 			}
 		}.start();
@@ -2620,12 +2645,12 @@ public class scrMain extends Activity
 		this.lstFile = lstFile;
 	}
 
-	public FileAdapter getfAdapter()
+	public FileAdapterForMain getfAdapter()
 	{
 		return fAdapter;
 	}
 
-	public void setfAdapter(FileAdapter fAdapter)
+	public void setfAdapter(FileAdapterForMain fAdapter)
 	{
 		this.fAdapter = fAdapter;
 	}

@@ -29,12 +29,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FileAdapter extends BaseAdapter
+public class FileAdapterForMain extends BaseAdapter
 {
 	private scrMain main;
 	private List<Map<String, String>> lstFile; // 文件列表
 
-	public FileAdapter(scrMain main, List<Map<String, String>> lstFile)
+	public FileAdapterForMain(scrMain main, List<Map<String, String>> lstFile)
 	{
 		this.main = main;
 		this.lstFile = lstFile;

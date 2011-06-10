@@ -245,51 +245,6 @@ public class HandlerService
 		}
 	};
 
-	/* 请求设备信息的Handler */
-	private Handler hdlRequestDevInfo = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			// 是否已经发送了设备序号
-			if (!main.getSp().getBoolean("SentInfo", false))
-			{
-				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.global_request), main.getString(R.string.scrmain_request_info), 18, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						Editor edt = main.getSp().edit();
-						edt.putBoolean("SentInfo", true);
-						edt.commit();
-
-						// 获取手机串号等信息并发送
-						TelephonyManager tm = (TelephonyManager) main.getSystemService(Context.TELEPHONY_SERVICE);
-
-						// 生成链接
-						String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
-						strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
-								java.net.URLEncoder.encode(main.getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK)).replace(
-								"{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL));
-
-						Common.CallURLPost(strURL, 10000);
-						md.CloseDialog();
-					}
-				}, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						Editor edt = main.getSp().edit();
-						edt.putBoolean("SentInfo", true);
-						edt.commit();
-
-						md.CloseDialog();
-					}
-				});
-			}
-		}
-	};
-
 	/* 刷新Adapter的Handler */
 	private Handler hdlRefreshAdapter = new Handler()
 	{
@@ -639,16 +594,6 @@ public class HandlerService
 	public void setHdlSetStrLRCPath(Handler hdlSetStrLRCPath)
 	{
 		this.hdlSetStrLRCPath = hdlSetStrLRCPath;
-	}
-
-	public Handler getHdlRequestDevInfo()
-	{
-		return hdlRequestDevInfo;
-	}
-
-	public void setHdlRequestDevInfo(Handler hdlRequestDevInfo)
-	{
-		this.hdlRequestDevInfo = hdlRequestDevInfo;
 	}
 
 	public Handler getHdlShowMessageDialog()

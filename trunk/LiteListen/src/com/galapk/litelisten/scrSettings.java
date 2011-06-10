@@ -70,6 +70,7 @@ public class scrSettings extends Activity
 	private Button btnLanguage;
 	private Button btnMusicPath;
 	private CheckBox chkIncludeSubDirectory;
+	private Button btnIgnoreSize;
 	private CheckBox chkIgnoreDirectory;
 	private CheckBox chkAutoPause;
 	private CheckBox chkLRCAutoDownload;
@@ -116,6 +117,7 @@ public class scrSettings extends Activity
 	private String Language;
 	private String MusicPath;
 	private Boolean IncludeSubDirectory;
+	private String IgnoreSize;
 	private Boolean IgnoreDirectory;
 	private Boolean AutoPause;
 	private Boolean LRCAutoDownload;
@@ -143,7 +145,7 @@ public class scrSettings extends Activity
 	private String Restore;
 	private int SelectedFileIndex = 0;
 	private List<Map<String, String>> lstLRCFile = new ArrayList<Map<String, String>>(); // 文件列表
-	private FileAdapterNew fAdapter;
+	private FileAdapterForSettings fa;
 
 	@Override
 	public void onPause()
@@ -162,6 +164,7 @@ public class scrSettings extends Activity
 		intent.putExtra("Language", Language);
 		intent.putExtra("MusicPath", MusicPath);
 		intent.putExtra("IncludeSubDirectory", IncludeSubDirectory);
+		intent.putExtra("IgnoreSize", IgnoreSize);
 		intent.putExtra("IgnoreDirectory", IgnoreDirectory);
 		intent.putExtra("AutoPause", AutoPause);
 		intent.putExtra("LRCAutoDownload", LRCAutoDownload);
@@ -287,6 +290,7 @@ public class scrSettings extends Activity
 
 		MusicPath = sp.getString("MusicPath", "/sdcard");
 		IncludeSubDirectory = sp.getBoolean("IncludeSubDirectory", true);
+		IgnoreSize = sp.getString("IgnoreSize", "1024");
 		IgnoreDirectory = sp.getBoolean("IgnoreDirectory", true);
 		AutoPause = sp.getBoolean("AutoPause", true);
 		LRCAutoDownload = sp.getBoolean("LRCAutoDownload", false);
@@ -305,12 +309,12 @@ public class scrSettings extends Activity
 
 		UseAnimation = sp.getBoolean("UseAnimation", true);
 
-		ListFontSize = sp.getString("ListFontSize", "18");
+		ListFontSize = sp.getString("ListFontSize", "18.0");
 		ListFontColor = sp.getString("ListFontColor", "#FFFFFF");
 		ListFontShadow = sp.getBoolean("ListFontShadow", true);
 		ListFontShadowColor = sp.getString("ListFontShadowColor", "#000000");
 
-		LRCFontSize = sp.getString("LRCFontSize", "18");
+		LRCFontSize = sp.getString("LRCFontSize", "18.0");
 		LRCFontColorNormal = sp.getString("LRCFontColorNormal", "#FFFFFF");
 		LRCFontColorHighlight = sp.getString("LRCFontColorHighlight", "#FFFF00");
 		LRCFontShadow = sp.getBoolean("LRCFontShadow", true);
@@ -353,8 +357,8 @@ public class scrSettings extends Activity
 		}
 
 		lstLRCFile = lstFileTemp;
-		fAdapter = new FileAdapterNew(this, lstLRCFile);
-		ld.getLstFile().setAdapter(fAdapter);
+		fa = new FileAdapterForSettings(this, lstLRCFile);
+		ld.getLstFile().setAdapter(fa);
 	}
 
 	@Override
@@ -512,6 +516,7 @@ public class scrSettings extends Activity
 				+ getResources().getStringArray(R.array.item_name_pfrscat_general_language)[Integer.parseInt((String) Language)] + "</font>"));
 		btnMusicPath.setText(Html.fromHtml(getString(R.string.pfrscat_general_music_path) + "<br /><font color='#FFFF00'>" + MusicPath + "</font>"));
 		chkIncludeSubDirectory.setChecked(IncludeSubDirectory);
+		btnIgnoreSize.setText(Html.fromHtml(getString(R.string.pfrscat_general_ignore_size) + "<br /><font color='#FFFF00'>" + IgnoreSize + "</font>"));
 		chkIgnoreDirectory.setChecked(IgnoreDirectory);
 		chkAutoPause.setChecked(AutoPause);
 		chkLRCAutoDownload.setChecked(LRCAutoDownload);
@@ -554,6 +559,7 @@ public class scrSettings extends Activity
 
 		edt.putString("MusicPath", MusicPath);
 		edt.putBoolean("IncludeSubDirectory", IncludeSubDirectory);
+		edt.putString("IgnoreSize", IgnoreSize);
 		edt.putBoolean("IgnoreDirectory", IgnoreDirectory);
 
 		edt.putBoolean("AutoPause", AutoPause);
@@ -662,8 +668,8 @@ public class scrSettings extends Activity
 						{
 							SelectedFileIndex = arg2;
 
-							fAdapter.getView(arg2, null, ld.getLstFile());
-							fAdapter.notifyDataSetChanged();
+							fa.getView(arg2, null, ld.getLstFile());
+							fa.notifyDataSetChanged();
 						}
 					}
 				});
@@ -677,6 +683,23 @@ public class scrSettings extends Activity
 			{
 				IncludeSubDirectory = isChecked;
 				UpdatePreference();
+			}
+		});
+
+		btnIgnoreSize.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				TextDialog.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_ignore_size), "", 18, IgnoreSize, 18, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						IgnoreSize = TextDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
+						TextDialog.getPw().dismiss();
+					}
+				});
 			}
 		});
 
@@ -1209,8 +1232,11 @@ public class scrSettings extends Activity
 
 							MusicPath = "/sdcard";
 							IncludeSubDirectory = true;
+							IgnoreSize = "1024";
 							IgnoreDirectory = true;
+
 							AutoPause = true;
+
 							LRCAutoDownload = false;
 
 							ListSortOrder = "1";
@@ -1227,12 +1253,12 @@ public class scrSettings extends Activity
 
 							UseAnimation = true;
 
-							ListFontSize = "18";
+							ListFontSize = "18.0";
 							ListFontColor = "#FFFFFF";
 							ListFontShadow = true;
 							ListFontShadowColor = "#000000";
 
-							LRCFontSize = "18";
+							LRCFontSize = "18.0";
 							LRCFontColorNormal = "#FFFFFF";
 							LRCFontColorHighlight = "#FFFF00";
 							LRCFontShadow = true;
@@ -1340,6 +1366,7 @@ public class scrSettings extends Activity
 		btnLanguage = (Button) findViewById(R.id.btnLanguage);
 		btnMusicPath = (Button) findViewById(R.id.btnMusicPath);
 		chkIncludeSubDirectory = (CheckBox) findViewById(R.id.chkIncludeSubDirectory);
+		btnIgnoreSize = (Button) findViewById(R.id.btnIgnoreSize);
 		chkIgnoreDirectory = (CheckBox) findViewById(R.id.chkIgnoreDirectory);
 		chkAutoPause = (CheckBox) findViewById(R.id.chkAutoPause);
 		chkLRCAutoDownload = (CheckBox) findViewById(R.id.chkLRCAutoDownload);
@@ -2232,13 +2259,33 @@ public class scrSettings extends Activity
 		this.lstLRCFile = lstLRCFile;
 	}
 
-	public FileAdapterNew getfAdapter()
+	public Button getBtnIgnoreSize()
 	{
-		return fAdapter;
+		return btnIgnoreSize;
 	}
 
-	public void setfAdapter(FileAdapterNew fAdapter)
+	public void setBtnIgnoreSize(Button btnIgnoreSize)
 	{
-		this.fAdapter = fAdapter;
+		this.btnIgnoreSize = btnIgnoreSize;
+	}
+
+	public String getIgnoreSize()
+	{
+		return IgnoreSize;
+	}
+
+	public void setIgnoreSize(String ignoreSize)
+	{
+		IgnoreSize = ignoreSize;
+	}
+
+	public FileAdapterForSettings getFa()
+	{
+		return fa;
+	}
+
+	public void setFa(FileAdapterForSettings fa)
+	{
+		this.fa = fa;
 	}
 }
