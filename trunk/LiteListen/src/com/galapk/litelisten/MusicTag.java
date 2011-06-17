@@ -583,6 +583,7 @@ public class MusicTag
 				}
 			}
 		}
+		cursor.close();
 
 		return map;
 	}

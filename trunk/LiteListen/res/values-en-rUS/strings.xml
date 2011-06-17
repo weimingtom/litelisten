@@ -14,6 +14,11 @@
 	<string name="lrcservice_no_lyric_found">No lyric found.\nMake a long-click here to select
 		or search a lyric.</string>
 
+	<string name="control_panel_switcher">Switchers</string>
+	<string name="control_panel_advanced">Extended</string>
+	<string name="control_panel_settings">Settings</string>
+	<string name="control_panel_help">Get Help</string>
+
 	<string name="scrmain_extend_menu_settings">Settings</string>
 	<string name="scrmain_extend_menu_desk_lrc_show">Float On</string>
 	<string name="scrmain_extend_menu_desk_lrc_hide">Float Off</string>
@@ -84,6 +89,8 @@
 	<string name="pfrsmain_image">Choose an image-viewer</string>
 	<string name="pfrscat_general_title">General</string>
 	<string name="pfrscat_general_language">Language</string>
+	<string name="pfrscat_general_language_reboot">You have changed language to the same as system and
+		it will effected next start.</string>
 	<string name="pfrscat_general_music_path">Music path</string>
 	<string name="pfrscat_general_music_path_changed">The music path you changed would take effect after
 		you reboot LiteListen.</string>

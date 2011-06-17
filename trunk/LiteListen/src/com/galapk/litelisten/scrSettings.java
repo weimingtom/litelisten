@@ -614,6 +614,20 @@ public class scrSettings extends Activity
 								GetButtonDisplay();
 								UpdatePreference();
 								OptionDialog.getPw().dismiss();
+
+								// 语言修改为系统语言后需要重启的提示
+								if (Language.equals("3"))
+								{
+									final MessageDialog md = new MessageDialog();
+									md.ShowMessage(scrSettings.this, layActivity, getString(R.string.pfrscat_general_language), getString(R.string.pfrscat_general_language_reboot), 18,
+											new OnClickListener()
+											{
+												public void onClick(View v)
+												{
+													md.CloseDialog();
+												}
+											}, null);
+								}
 							}
 						});
 			}

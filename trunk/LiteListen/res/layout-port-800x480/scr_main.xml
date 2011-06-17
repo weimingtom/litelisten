@@ -44,10 +44,11 @@
 			android:id="@+id/layBody" android:layout_above="@+id/layBottom">
 			<SeekBar android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:thumb="@layout/seek_bar_thumb"
-				android:progressDrawable="@layout/seek_bar_progress"
-				android:id="@+id/skbVolume"
+				android:progressDrawable="@layout/seek_bar_progress" android:id="@+id/skbVolume"
 				android:background="@drawable/bg_port_skb_volume"
-				android:visibility="gone" android:maxHeight="7dip" android:paddingLeft="10dip" android:paddingRight="10dip" android:max="15"></SeekBar>
+				android:visibility="gone" android:maxHeight="7dip"
+				android:paddingLeft="10dip" android:paddingRight="10dip"
+				android:max="15"></SeekBar>
 			<RelativeLayout android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:id="@+id/laySearch"
 				android:layout_below="@+id/skbVolume" android:visibility="gone">
@@ -66,13 +67,14 @@
 					android:layout_height="42dip"></ImageButton>
 			</RelativeLayout>
 			<LinearLayout android:id="@+id/layCore"
-				android:layout_above="@+id/grdMenu" android:layout_below="@+id/laySearch"
-				android:layout_height="fill_parent" android:layout_width="fill_parent">
+				android:layout_below="@+id/laySearch" android:layout_height="fill_parent"
+				android:layout_width="fill_parent" android:layout_above="@+id/layMenu">
 				<ListView android:id="@+id/lstMusic"
 					android:cacheColorHint="#00000000" android:layout_width="fill_parent"
 					android:divider="#00000000" android:layout_height="fill_parent"
 					android:listSelector="@layout/list_music_selector"
-					android:fastScrollEnabled="true" android:smoothScrollbar="true" android:scrollbarThumbVertical="@drawable/scroll_track"></ListView>
+					android:fastScrollEnabled="true" android:smoothScrollbar="true"
+					android:scrollbarThumbVertical="@drawable/scroll_track"></ListView>
 				<LinearLayout android:layout_height="fill_parent"
 					android:id="@+id/layLyricController" android:layout_width="fill_parent">
 					<TextView android:shadowRadius="1" android:textSize="18dip"
@@ -113,22 +115,81 @@
 					</RelativeLayout>
 				</LinearLayout>
 			</LinearLayout>
-			<GridView android:listSelector="@layout/list_menu_selector"
-				android:layout_height="158dip" android:layout_width="wrap_content"
-				android:layout_alignParentBottom="true" android:verticalSpacing="10dip"
-				android:visibility="gone" android:id="@+id/grdMenu"
-				android:gravity="center_vertical|center_horizontal|center"
-				android:background="@drawable/bg_control_panel_port"
-				android:horizontalSpacing="10dip" android:numColumns="4"
-				android:paddingTop="5dip"></GridView>
+			<LinearLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:background="@drawable/bg_control_panel_port"
+				android:layout_alignParentBottom="true" android:id="@+id/layMenu"
+				android:orientation="vertical" android:visibility="gone">
+				<LinearLayout android:layout_height="fill_parent"
+					android:layout_width="wrap_content" android:id="@+id/layMenuButton">
+					<Button android:layout_height="wrap_content"
+						android:layout_width="wrap_content" android:layout_marginTop="3dip"
+						android:layout_marginLeft="3dip" android:id="@+id/btnSwitcher"
+						android:text="@string/control_panel_switcher" android:textColor="#666666"
+						android:background="@layout/btn_control_panel_category_left"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:layout_marginTop="3dip"
+						android:layout_marginLeft="-1dip" android:id="@+id/btnAdvanced"
+						android:text="@string/control_panel_advanced" android:textColor="#666666"
+						android:background="@layout/btn_control_panel_category_middle"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:layout_marginLeft="-1dip"
+						android:layout_marginTop="3dip" android:id="@+id/btnSettings"
+						android:text="@string/control_panel_settings" android:textColor="#666666"
+						android:background="@layout/btn_control_panel_category_middle"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:layout_marginLeft="-1dip"
+						android:layout_marginTop="3dip" android:id="@+id/btnHelp"
+						android:text="@string/control_panel_help" android:textColor="#666666"
+						android:background="@layout/btn_control_panel_category_right"></Button>
+				</LinearLayout>
+				<GridView android:layout_height="158dip"
+					android:listSelector="@layout/list_menu_selector"
+					android:horizontalSpacing="10dip" android:paddingTop="5dip"
+					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
+					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdSwitcher"></GridView>
+				<GridView android:layout_height="158dip"
+					android:listSelector="@layout/list_menu_selector"
+					android:horizontalSpacing="10dip" android:paddingTop="5dip"
+					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
+					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:visibility="gone" android:id="@+id/grdAdvanced"></GridView>
+				<GridView android:layout_height="158dip"
+					android:listSelector="@layout/list_menu_selector"
+					android:horizontalSpacing="10dip" android:paddingTop="5dip"
+					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
+					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdSettings" android:visibility="gone"></GridView>
+				<GridView android:layout_height="158dip"
+					android:listSelector="@layout/list_menu_selector"
+					android:horizontalSpacing="10dip" android:paddingTop="5dip"
+					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
+					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdHelp" android:visibility="gone"></GridView>
+			</LinearLayout>
 		</RelativeLayout>
 		<LinearLayout android:id="@+id/layBottom"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:orientation="vertical" android:layout_alignParentBottom="true">
-			<RelativeLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center" android:id="@+id/layProgress">
-				<TextView android:id="@+id/txtTimeCurrent" android:layout_width="wrap_content" android:shadowRadius="0.5" android:shadowColor="#000000" android:text="00:00" android:textColor="#FFFFFF" android:textSize="18dip" android:gravity="center_vertical" android:shadowDx="1" android:shadowDy="1" android:layout_height="wrap_content" android:layout_marginLeft="5dip" android:layout_marginTop="4dip"></TextView>
-				<SeekBar android:id="@+id/skbMusic" android:layout_width="fill_parent" android:maxHeight="7dip" android:progressDrawable="@layout/seek_bar_progress" android:thumb="@layout/seek_bar_thumb" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/txtTimeTotal" android:layout_toRightOf="@+id/txtTimeCurrent" android:paddingLeft="10dip" android:paddingRight="10dip"></SeekBar>
-				<TextView android:layout_width="wrap_content" android:shadowRadius="0.5" android:shadowColor="#000000" android:text="00:00" android:textColor="#FFFFFF" android:textSize="18dip" android:gravity="center_vertical" android:shadowDx="1" android:shadowDy="1" android:layout_height="wrap_content" android:layout_marginRight="5dip" android:id="@+id/txtTimeTotal" android:layout_alignParentRight="true" android:layout_marginTop="4dip"></TextView>
+			<RelativeLayout android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
+				android:id="@+id/layProgress">
+				<TextView android:id="@+id/txtTimeCurrent"
+					android:layout_width="wrap_content" android:shadowRadius="0.5"
+					android:shadowColor="#000000" android:text="00:00"
+					android:textColor="#FFFFFF" android:textSize="18dip"
+					android:gravity="center_vertical" android:shadowDx="1"
+					android:shadowDy="1" android:layout_height="wrap_content"
+					android:layout_marginLeft="5dip" android:layout_marginTop="4dip"></TextView>
+				<SeekBar android:id="@+id/skbMusic" android:layout_width="fill_parent"
+					android:maxHeight="7dip" android:progressDrawable="@layout/seek_bar_progress"
+					android:thumb="@layout/seek_bar_thumb" android:layout_height="wrap_content"
+					android:layout_toLeftOf="@+id/txtTimeTotal"
+					android:layout_toRightOf="@+id/txtTimeCurrent" android:paddingLeft="10dip"
+					android:paddingRight="10dip"></SeekBar>
+				<TextView android:layout_width="wrap_content"
+					android:shadowRadius="0.5" android:shadowColor="#000000"
+					android:text="00:00" android:textColor="#FFFFFF" android:textSize="18dip"
+					android:gravity="center_vertical" android:shadowDx="1"
+					android:shadowDy="1" android:layout_height="wrap_content"
+					android:layout_marginRight="5dip" android:id="@+id/txtTimeTotal"
+					android:layout_alignParentRight="true" android:layout_marginTop="4dip"></TextView>
 			</RelativeLayout>
 			<LinearLayout android:id="@+id/layControlPanel"
 				android:gravity="center_vertical|center_horizontal|center"

@@ -124,6 +124,10 @@ public class scrMain extends Activity
 	private ImageButton btnLRC;
 	private ImageButton btnVolume;
 	private ImageButton btnSearch;
+	private Button btnSwitcher;
+	private Button btnAdvanced;
+	private Button btnSettings;
+	private Button btnHelp;
 	private Button btnFileOK;
 	private Button btnFileCancel;
 	private TextView txtTitle;
@@ -134,6 +138,7 @@ public class scrMain extends Activity
 	private TextView txtCurrentPath;
 	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
+	private LinearLayout layMenu;
 	private RelativeLayout laySearch;
 	private RelativeLayout layMain;
 	private LinearLayout laySplash;
@@ -141,7 +146,10 @@ public class scrMain extends Activity
 	private RelativeLayout layFileSelector;
 	private ListView lstMusic;
 	private ListView lstFile;
-	private GridView grdMenu;
+	private GridView grdSwitcher;
+	private GridView grdAdvanced;
+	private GridView grdSettings;
+	private GridView grdHelp;
 	private SeekBar skbMusic;
 	private SeekBar skbVolume;
 	private LinearLayout layLyricController;
@@ -370,7 +378,10 @@ public class scrMain extends Activity
 		SetCurrentTitle(ms.getStrShownTitle());
 
 		SetLanguage();
-		SetMenuList();
+		SetSwitcherMenu();
+		SetAdvancedMenu();
+		SetSettingsMenu();
+		SetHelpMenu();
 		SetPlayMode();
 		SetFonts();
 		SetBackground();
@@ -807,7 +818,6 @@ public class scrMain extends Activity
 			{
 				sd.execSQL("delete from music_info where verify_code<>'" + VerifyCode + "';");
 
-				Cursor cur = null;
 				List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 用局部变量去接收map中的数据，否则会报错
 				String Keyword = st.getLastKeyword(); // 上次搜索的关键词
 				String index = st.getListSortOrder();
@@ -825,7 +835,7 @@ public class scrMain extends Activity
 				if (IsShowingFavourite)
 					strParOrderBy = "play_times desc, " + strParOrderBy;
 
-				cur = sd.query("music_info", null, "title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword
+				Cursor cur = sd.query("music_info", null, "title like '%" + Keyword + "%' or artist like '%" + Keyword + "%' or album like '%" + Keyword + "%' or year like '%" + Keyword
 						+ "%' or genre like '%" + Keyword + "%' or comment like '%" + Keyword + "%' or title_py like '%" + Keyword + "%' or title_simple_py like '%" + Keyword
 						+ "%' or artist_py like '%" + Keyword + "%' or artist_simple_py like '%" + Keyword + "%' or song_info like '%" + Keyword + "%'", null, null, null, strParOrderBy);
 
@@ -977,6 +987,10 @@ public class scrMain extends Activity
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnPlayMode = (ImageButton) findViewById(R.id.btnPlayMode);
 		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
+		btnSwitcher = (Button) findViewById(R.id.btnSwitcher);
+		btnAdvanced = (Button) findViewById(R.id.btnAdvanced);
+		btnSettings = (Button) findViewById(R.id.btnSettings);
+		btnHelp = (Button) findViewById(R.id.btnHelp);
 		btnFileOK = (Button) findViewById(R.id.btnFileOK);
 		btnFileCancel = (Button) findViewById(R.id.btnFileCancel);
 		btnLRC = (ImageButton) findViewById(R.id.btnLRC);
@@ -990,6 +1004,7 @@ public class scrMain extends Activity
 		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
+		layMenu = (LinearLayout) findViewById(R.id.layMenu);
 		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
@@ -998,20 +1013,18 @@ public class scrMain extends Activity
 		skbVolume = (SeekBar) findViewById(R.id.skbVolume);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		lstFile = (ListView) findViewById(R.id.lstFile);
-		grdMenu = (GridView) findViewById(R.id.grdMenu);
+		grdSwitcher = (GridView) findViewById(R.id.grdSwitcher);
+		grdAdvanced = (GridView) findViewById(R.id.grdAdvanced);
+		grdSettings = (GridView) findViewById(R.id.grdSettings);
+		grdHelp = (GridView) findViewById(R.id.grdHelp);
 		layLyricController = (LinearLayout) findViewById(R.id.layLyricController);
 	}
 
-	/* 设置菜单列表 */
-	public void SetMenuList()
+	/* 开关菜单 */
+	public void SetSwitcherMenu()
 	{
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_settings);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_settings));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
 		map.put("ItemIcon", R.drawable.menu_desk_lrc);
 		if (st.getDeskLRCStatus())
 		{
@@ -1043,11 +1056,6 @@ public class scrMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_search);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_search));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
 		if (st.getOrderBy().equals("asc"))
 		{
 			map.put("ItemIcon", R.drawable.menu_order_desc);
@@ -1061,8 +1069,21 @@ public class scrMain extends Activity
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_feedback);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_feedback));
+		map.put("ItemIcon", R.drawable.menu_exit);
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_exit));
+		lstMenuItem.add(map);
+
+		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
+		grdSwitcher.setAdapter(adapter);
+	}
+
+	/* 扩展菜单 */
+	public void SetAdvancedMenu()
+	{
+		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ItemIcon", R.drawable.menu_search);
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_search));
 		lstMenuItem.add(map);
 
 		map = new HashMap<String, Object>();
@@ -1078,22 +1099,34 @@ public class scrMain extends Activity
 		}
 		lstMenuItem.add(map);
 
-		// 横屏多一项菜单
-		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-		{
-			map = new HashMap<String, Object>();
-			map.put("ItemIcon", R.drawable.menu_wait);
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_wait));
-			lstMenuItem.add(map);
-		}
+		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
+		grdAdvanced.setAdapter(adapter);
+	}
 
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_exit);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_exit));
+	/* 设置菜单 */
+	public void SetSettingsMenu()
+	{
+		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ItemIcon", R.drawable.menu_settings);
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_settings));
 		lstMenuItem.add(map);
 
 		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
-		grdMenu.setAdapter(adapter);
+		grdSettings.setAdapter(adapter);
+	}
+
+	/* 帮助菜单 */
+	public void SetHelpMenu()
+	{
+		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ItemIcon", R.drawable.menu_feedback);
+		map.put("ItemText", getString(R.string.scrmain_extend_menu_feedback));
+		lstMenuItem.add(map);
+
+		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
+		grdHelp.setAdapter(adapter);
 	}
 
 	/* 搜索框切换 */
@@ -1529,16 +1562,13 @@ public class scrMain extends Activity
 		});
 
 		/* 菜单项单击 */
-		grdMenu.setOnItemClickListener(new OnItemClickListener()
+		grdSwitcher.setOnItemClickListener(new OnItemClickListener()
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 			{
 				switch (arg2)
 				{
 					case 0:
-						startActivity(new Intent(scrMain.this, scrSettings.class));
-						break;
-					case 1:
 						TextView txtDeskLyric = (TextView) arg1.findViewById(R.id.txtMenu);
 						if (st.getDeskLRCStatus())
 						{
@@ -1577,7 +1607,7 @@ public class scrMain extends Activity
 						toast.show();
 
 						break;
-					case 2:
+					case 1:
 						TextView txtScrOn = (TextView) arg1.findViewById(R.id.txtMenu);
 
 						if (!st.getKeepScreenOn())
@@ -1617,10 +1647,7 @@ public class scrMain extends Activity
 						toast.show();
 
 						break;
-					case 3:
-						SearchBoxSwitcher();
-						break;
-					case 4:
+					case 2:
 						TextView txtOrder = (TextView) arg1.findViewById(R.id.txtMenu);
 						ImageView imgMenu = (ImageView) arg1.findViewById(R.id.imgMenu);
 						if (st.getOrderBy().equals("asc"))
@@ -1645,7 +1672,85 @@ public class scrMain extends Activity
 						SetMusicListByDB();
 
 						break;
-					case 5:
+					case 3:
+						Editor edt = sp.edit();
+						edt.putString("LastKeyword", "");
+						edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
+						st.setLastKeyword("");
+						st.setStarted(false);
+						edt.commit();
+						nm.cancelAll();
+						System.exit(0);
+
+						break;
+				}
+
+				HideExtendPanel();
+			}
+		});
+
+		/* 扩展菜单 */
+		grdAdvanced.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				switch (arg2)
+				{
+					case 0:
+						SearchBoxSwitcher();
+						break;
+					case 1:
+						TextView txtFavourite = (TextView) arg1.findViewById(R.id.txtMenu);
+						ImageView imgFavourite = (ImageView) arg1.findViewById(R.id.imgMenu);
+
+						if (IsShowingFavourite)
+						{// 最爱-->列表
+							txtFavourite.setText(R.string.scrmain_extend_menu_favourite);
+							imgFavourite.setImageResource(R.drawable.menu_favourite);
+
+							IsShowingFavourite = false;
+						}
+						else
+						{// 列表-->最爱
+							txtFavourite.setText(R.string.scrmain_extend_menu_list);
+							imgFavourite.setImageResource(R.drawable.menu_list);
+
+							IsShowingFavourite = true;
+						}
+
+						SetMusicListByDB();
+
+						break;
+				}
+
+				HideExtendPanel();
+			}
+		});
+
+		/* 设置菜单 */
+		grdSettings.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				switch (arg2)
+				{
+					case 0:
+						startActivity(new Intent(scrMain.this, scrSettings.class));
+						break;
+				}
+
+				HideExtendPanel();
+			}
+		});
+
+		/* 帮助菜单 */
+		grdHelp.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			{
+				switch (arg2)
+				{
+					case 0:
 						TextDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_extend_menu_feedback), getString(R.string.scrmain_feedback_hint), 15, "", 18,
 								new OnClickListener()
 								{
@@ -1706,60 +1811,6 @@ public class scrMain extends Activity
 										toast.show();
 									}
 								});
-
-						break;
-					case 6:
-						TextView txtFavourite = (TextView) arg1.findViewById(R.id.txtMenu);
-						ImageView imgFavourite = (ImageView) arg1.findViewById(R.id.imgMenu);
-
-						if (IsShowingFavourite)
-						{// 最爱-->列表
-							txtFavourite.setText(R.string.scrmain_extend_menu_favourite);
-							imgFavourite.setImageResource(R.drawable.menu_favourite);
-
-							IsShowingFavourite = false;
-						}
-						else
-						{// 列表-->最爱
-							txtFavourite.setText(R.string.scrmain_extend_menu_list);
-							imgFavourite.setImageResource(R.drawable.menu_list);
-
-							IsShowingFavourite = true;
-						}
-
-						SetMusicListByDB();
-
-						break;
-					case 7:
-						if (ScreenOrantation == 1 || ScreenOrantation == 3)
-							;
-						else
-						{
-							Editor edt = sp.edit();
-							edt.putString("LastKeyword", "");
-							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
-							st.setLastKeyword("");
-							st.setStarted(false);
-							edt.commit();
-							nm.cancelAll();
-							System.exit(0);
-
-							break;
-						}
-					case 8:
-						if (ScreenOrantation == 1 || ScreenOrantation == 3)
-						{
-							Editor edt = sp.edit();
-							edt.putString("LastKeyword", "");
-							edt.putBoolean("Started", false); // 是否启动标志，给Widget判断
-							st.setLastKeyword("");
-							st.setStarted(false);
-							edt.commit();
-							nm.cancelAll();
-							System.exit(0);
-						}
-						else
-							;
 
 						break;
 				}
@@ -1892,6 +1943,110 @@ public class scrMain extends Activity
 			}
 		});
 
+		btnSwitcher.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				grdSwitcher.setVisibility(View.VISIBLE);
+				grdAdvanced.setVisibility(View.GONE);
+				grdSettings.setVisibility(View.GONE);
+				grdHelp.setVisibility(View.GONE);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_highlight);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+				else
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_highlight);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+			}
+		});
+
+		btnAdvanced.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				grdSwitcher.setVisibility(View.GONE);
+				grdAdvanced.setVisibility(View.VISIBLE);
+				grdSettings.setVisibility(View.GONE);
+				grdHelp.setVisibility(View.GONE);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+				else
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+			}
+		});
+
+		btnSettings.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				grdSwitcher.setVisibility(View.GONE);
+				grdAdvanced.setVisibility(View.GONE);
+				grdSettings.setVisibility(View.VISIBLE);
+				grdHelp.setVisibility(View.GONE);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+				else
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+				}
+			}
+		});
+
+		btnHelp.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				grdSwitcher.setVisibility(View.GONE);
+				grdAdvanced.setVisibility(View.GONE);
+				grdSettings.setVisibility(View.GONE);
+				grdHelp.setVisibility(View.VISIBLE);
+
+				if (ScreenOrantation == 1 || ScreenOrantation == 3)
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_highlight);
+				}
+				else
+				{
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_highlight);
+				}
+			}
+		});
+
 		/* 文件列表 */
 		lstFile.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -1991,15 +2146,15 @@ public class scrMain extends Activity
 	/* 显示扩展托盘 */
 	public void ShowExtendPanel()
 	{
-		if (grdMenu.getVisibility() == View.GONE)
+		if (layMenu.getVisibility() == View.GONE)
 		{
-			grdMenu.setVisibility(View.VISIBLE);
+			layMenu.setVisibility(View.VISIBLE);
 			Animation anim = new AlphaAnimation(0, 1);
 
 			if (st.getUseAnimation())
 			{
 				anim.setDuration(ANIMATION_TIME);
-				grdMenu.startAnimation(anim);
+				layMenu.startAnimation(anim);
 			}
 		}
 	}
@@ -2007,15 +2162,15 @@ public class scrMain extends Activity
 	/* 隐藏扩展托盘 */
 	public void HideExtendPanel()
 	{
-		if (grdMenu.getVisibility() == View.VISIBLE)
+		if (layMenu.getVisibility() == View.VISIBLE)
 		{
-			grdMenu.setVisibility(View.GONE);
+			layMenu.setVisibility(View.GONE);
 			Animation anim = new AlphaAnimation(1, 0);
 
 			if (st.getUseAnimation())
 			{
 				anim.setDuration(ANIMATION_TIME);
-				grdMenu.startAnimation(anim);
+				layMenu.startAnimation(anim);
 			}
 		}
 	}
@@ -2025,21 +2180,21 @@ public class scrMain extends Activity
 	{
 		Animation anim = null;
 
-		if (grdMenu.getVisibility() == View.VISIBLE)
+		if (layMenu.getVisibility() == View.VISIBLE)
 		{
-			grdMenu.setVisibility(View.GONE);
+			layMenu.setVisibility(View.GONE);
 			anim = new AlphaAnimation(1, 0);
 		}
 		else
 		{
-			grdMenu.setVisibility(View.VISIBLE);
+			layMenu.setVisibility(View.VISIBLE);
 			anim = new AlphaAnimation(0, 1);
 		}
 
 		if (st.getUseAnimation())
 		{
 			anim.setDuration(ANIMATION_TIME);
-			grdMenu.startAnimation(anim);
+			layMenu.startAnimation(anim);
 		}
 	}
 
@@ -2295,14 +2450,94 @@ public class scrMain extends Activity
 		this.lstMusic = lstMusic;
 	}
 
-	public GridView getGrdMenu()
+	public Button getBtnSwitcher()
 	{
-		return grdMenu;
+		return btnSwitcher;
 	}
 
-	public void setGrdMenu(GridView grdMenu)
+	public void setBtnSwitcher(Button btnSwitcher)
 	{
-		this.grdMenu = grdMenu;
+		this.btnSwitcher = btnSwitcher;
+	}
+
+	public Button getBtnAdvanced()
+	{
+		return btnAdvanced;
+	}
+
+	public void setBtnAdvanced(Button btnAdvanced)
+	{
+		this.btnAdvanced = btnAdvanced;
+	}
+
+	public Button getBtnSettings()
+	{
+		return btnSettings;
+	}
+
+	public void setBtnSettings(Button btnSettings)
+	{
+		this.btnSettings = btnSettings;
+	}
+
+	public Button getBtnHelp()
+	{
+		return btnHelp;
+	}
+
+	public void setBtnHelp(Button btnHelp)
+	{
+		this.btnHelp = btnHelp;
+	}
+
+	public LinearLayout getLayMenu()
+	{
+		return layMenu;
+	}
+
+	public void setLayMenu(LinearLayout layMenu)
+	{
+		this.layMenu = layMenu;
+	}
+
+	public GridView getGrdSwitcher()
+	{
+		return grdSwitcher;
+	}
+
+	public void setGrdSwitcher(GridView grdSwitcher)
+	{
+		this.grdSwitcher = grdSwitcher;
+	}
+
+	public GridView getGrdAdvanced()
+	{
+		return grdAdvanced;
+	}
+
+	public void setGrdAdvanced(GridView grdAdvanced)
+	{
+		this.grdAdvanced = grdAdvanced;
+	}
+
+	public GridView getGrdSettings()
+	{
+		return grdSettings;
+	}
+
+	public void setGrdSettings(GridView grdSettings)
+	{
+		this.grdSettings = grdSettings;
+	}
+
+	public GridView getGrdHelp()
+	{
+		return grdHelp;
+	}
+
+	public void setGrdHelp(GridView grdHelp)
+	{
+		this.grdHelp = grdHelp;
 	}
 
 	public SeekBar getSkbMusic()

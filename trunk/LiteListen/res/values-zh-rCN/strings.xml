@@ -13,6 +13,11 @@
 	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
 	<string name="lrcservice_no_lyric_found">没有找到歌词\n长按这里选择或搜索歌词</string>
 
+	<string name="control_panel_switcher">快捷开关</string>
+	<string name="control_panel_advanced">扩展功能</string>
+	<string name="control_panel_settings">选项设置</string>
+	<string name="control_panel_help">帮助更新</string>
+
 	<string name="scrmain_extend_menu_settings">设置</string>
 	<string name="scrmain_extend_menu_desk_lrc_show">打开浮动</string>
 	<string name="scrmain_extend_menu_desk_lrc_hide">关闭浮动</string>
@@ -73,6 +78,7 @@
 	<string name="pfrsmain_image">选择一种看图程序</string>
 	<string name="pfrscat_general_title">常规选项</string>
 	<string name="pfrscat_general_language">语言</string>
+	<string name="pfrscat_general_language_reboot">您将语言设为了系统默认语言，它将在下一次启动时生效。</string>
 	<string name="pfrscat_general_music_path">音乐目录</string>
 	<string name="pfrscat_general_music_path_changed">您更改了音乐文件路径，需要重启后才能生效。</string>
 	<string name="pfrscat_general_include_sub_directories">扫描子文件夹</string>
