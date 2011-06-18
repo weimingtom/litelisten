@@ -17,8 +17,11 @@
 
 package com.galapk.litelisten;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,9 +41,24 @@ public class ListDialog
 	private TextView txtCurrentPath;
 	private ListView lstFile;
 
-	public void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, OnClickListener onOK, OnItemClickListener onList)
+	public void ShowDialog(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, float ListFontSize, OnClickListener onOK, OnItemClickListener onList)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+
+		if (!LanguageIndex.equals("3"))
+		{
+			Configuration config = act.getResources().getConfiguration(); // 获得设置对象
+
+			if (LanguageIndex.equals("0"))
+				config.locale = Locale.SIMPLIFIED_CHINESE; // 简体中文
+			else if (LanguageIndex.equals("1"))
+				config.locale = Locale.TRADITIONAL_CHINESE; // 繁体中文
+			else if (LanguageIndex.equals("2"))
+				config.locale = Locale.US; // 美式英语
+
+			act.getResources().updateConfiguration(config, act.getResources().getDisplayMetrics());
+		}
+
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_list_dialog, null, false);
 
@@ -55,7 +73,7 @@ public class ListDialog
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(Title);
+		txtTitle.setText(TitleResourceID);
 
 		txtCurrentPath = (TextView) view.findViewById(R.id.txtCurrentPath);
 		lstFile = (ListView) view.findViewById(R.id.lstFile);

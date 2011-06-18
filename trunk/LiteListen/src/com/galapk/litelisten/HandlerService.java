@@ -60,7 +60,7 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			main.SetLanguage();
+			// main.SetLanguage();
 		}
 	};
 
@@ -126,7 +126,7 @@ public class HandlerService
 			if (main.getSp().getBoolean("IsFirstStart27", true))
 			{
 				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(main, main.getLayActivity(), main.getString(R.string.scrmain_update_log), main.getString(R.string.update_info), 15, new OnClickListener()
+				md.ShowMessage(main, main.getSt().getLanguage(), main.getLayActivity(), R.string.scrmain_update_log, R.string.update_info, 15, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -151,6 +151,8 @@ public class HandlerService
 			// 需要检查更新
 			if ((main.getSp().getString("HowToCheckForUpdate", "1").equals("1") && Common.IsWiFiConnected(main)) || main.getSp().getString("HowToCheckForUpdate", "1").equals("2"))
 			{
+				main.SetLanguage();
+
 				// 获取版本号（VersionCode）
 				Toast.makeText(main, main.getString(R.string.pfrscat_others_check_for_update_checking), Toast.LENGTH_SHORT).show(); // 显示浮动提示
 				int CurrentVersion = 0; // 版本号
@@ -171,7 +173,7 @@ public class HandlerService
 				if (RemoteVersion != null && !RemoteVersion.equals(""))
 				{
 					final MessageDialog md = new MessageDialog();
-					md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
+					md.SetMessage(main, main.getSt().getLanguage(), main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
 							.getString(R.string.pfrscat_others_check_for_update_got_message1)
 							+ RemoteVersion + main.getString(R.string.pfrscat_others_check_for_update_got_message2), 18, new OnClickListener()
 					{
@@ -206,7 +208,7 @@ public class HandlerService
 									else
 									{// 未完成，给出提示
 										final MessageDialog md = new MessageDialog();
-										md.SetMessage(main, main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
+										md.SetMessage(main, main.getSt().getLanguage(), main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
 												.getString(R.string.pfrscat_others_check_for_update_got_failed), 18, new OnClickListener()
 										{
 											public void onClick(View v)

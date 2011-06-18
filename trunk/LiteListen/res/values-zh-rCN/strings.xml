@@ -2,6 +2,8 @@
 <resources>
 	<string name="global_app_name">轻听音乐</string>
 	<string name="global_desk_lrc_show">桌面歌词秀</string>
+	<string name="global_slogan_all">轻听音乐，倾听世界。</string>
+	<string name="global_slogan_2">倾听世界</string>
 	<string name="global_ok">确定</string>
 	<string name="global_cancel">取消</string>
 	<string name="global_return">返回</string>
@@ -13,10 +15,15 @@
 	<string name="lrcservice_loading_lrc">正在加载歌词，请稍候……</string>
 	<string name="lrcservice_no_lyric_found">没有找到歌词\n长按这里选择或搜索歌词</string>
 
-	<string name="control_panel_switcher">快捷开关</string>
-	<string name="control_panel_advanced">扩展功能</string>
-	<string name="control_panel_settings">选项设置</string>
-	<string name="control_panel_help">帮助更新</string>
+	<string name="control_panel_switcher_port">快捷开关</string>
+	<string name="control_panel_advanced_port">扩展功能</string>
+	<string name="control_panel_settings_port">选项设置</string>
+	<string name="control_panel_help_port">帮助更新</string>
+
+	<string name="control_panel_switcher_land">开关</string>
+	<string name="control_panel_advanced_land">扩展</string>
+	<string name="control_panel_settings_land">选项</string>
+	<string name="control_panel_help_land">帮助</string>
 
 	<string name="scrmain_extend_menu_settings">设置</string>
 	<string name="scrmain_extend_menu_desk_lrc_show">打开浮动</string>
@@ -83,6 +90,7 @@
 	<string name="pfrscat_general_music_path_changed">您更改了音乐文件路径，需要重启后才能生效。</string>
 	<string name="pfrscat_general_include_sub_directories">扫描子文件夹</string>
 	<string name="pfrscat_general_ignore_size">忽略小于指定大小的文件</string>
+	<string name="pfrscat_general_ignore_size_message">最小单位：KByte</string>
 	<string name="pfrscat_general_ignore_directory">忽略指定文件夹</string>
 	<string name="pfrscat_general_list_order">播放列表排序</string>
 	<string name="pfrscat_general_auto_switch_to_lrc">自动跳转到歌词</string>
@@ -126,10 +134,10 @@
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐 官方页面</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听音乐 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐</string>
-	<string name="pfrscat_help_about_message">轻听音乐\n0.6.2 build
-		0607.2307\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n更新内容：\n【新增】提供WMA文件扫描，但不提供解码，支持与否看系统本身是否支持\n【新增】读取WMA标签\n【新增】歌曲路径选取而不用手动输入\n【修复】歌曲扫描时没有真正忽略.nomedia文件的错误\n【修复】把未扫描歌曲标记为已扫描歌曲的问题\n【修复】因扫描到WMA文件引起程序崩溃的问题\n【修复】上次更新后出现的歌词长按无法弹出菜单的问题\n【修复】上次更新后仍能提交空白反馈的问题\n【优化】新图标\n【优化】修改字幕超出屏幕滚动算法，使不同长度的文字滚动速度保持一致\n【优化】界面四周圆角处理\n【优化】更柔和的对话框背景\n\n官方网站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">轻听音乐\n0.6.3 build
+		0619.0151\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n更新内容：\n【新增】全新的Menu键菜单\n【新增】扫描时忽略指定大小的文件（KB）\n【修复】歌曲信息扫描未完成时退出程序导致下次启动需重新扫描的问题\n【修复】扫描的文件数目超过1024后引起系统崩溃的问题\n【修复】界面语言调整不完全的错误\n【优化】语言修改为系统语言后给出下次启动生效的提示\n【额外】增强非HDPI分辨率设备的稳定性\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】提供WMA文件扫描，但不提供解码，支持与否看系统本身是否支持\n【新增】读取WMA标签\n【新增】歌曲路径选取而不用手动输入\n【修复】歌曲扫描时没有真正忽略.nomedia文件的错误\n【修复】把未扫描歌曲标记为已扫描歌曲的问题\n【修复】因扫描到WMA文件引起程序崩溃的问题\n【修复】上次更新后出现的歌词长按无法弹出菜单的问题\n【修复】上次更新后仍能提交空白反馈的问题\n【优化】新图标\n【优化】修改字幕超出屏幕滚动算法，使不同长度的文字滚动速度保持一致\n【优化】界面四周圆角处理\n【优化】更柔和的对话框背景
+	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】全新的Menu键菜单\n【新增】扫描时忽略指定大小的文件（KB）\n【修复】歌曲信息扫描未完成时退出程序导致下次启动需重新扫描的问题\n【修复】扫描的文件数目超过1024后引起系统崩溃的问题\n【修复】界面语言调整不完全的错误\n【优化】语言修改为系统语言后给出下次启动生效的提示\n【额外】增强非HDPI分辨率设备的稳定性
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

@@ -35,7 +35,8 @@ public class TextDialog
 	private static PopupWindow pw;
 	private static EditText edtMessage;
 
-	public static void ShowMessage(Activity act, View WindowParent, String Title, String MessageText, float MessageFontSize, String EditorText, float EditorFontSize, OnClickListener onOK)
+	public static void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageFontSize, String EditorText, float EditorFontSize,
+			OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -53,11 +54,14 @@ public class TextDialog
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(Title);
+		txtTitle.setText(TitleResourceID);
 
 		// 设置提示信息
 		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-		txtMessage.setText(MessageText);
+		if (MessageResourceID == 0)
+			txtMessage.setText("");
+		else
+			txtMessage.setText(MessageResourceID);
 		txtMessage.setTextSize(MessageFontSize);
 
 		// 设置文本框内容

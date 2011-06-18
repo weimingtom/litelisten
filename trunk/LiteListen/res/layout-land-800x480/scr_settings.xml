@@ -68,12 +68,11 @@
 					android:text="@string/pfrscat_general_include_sub_directories"
 					android:layout_height="wrap_content" android:layout_width="fill_parent"
 					android:textSize="20dip"></CheckBox>
-				<Button android:layout_height="wrap_content" android:background="@drawable/bg_setting_port_normal_middle"
-					android:id="@+id/btnIgnoreSize" android:paddingLeft="20dip"
+				<Button android:layout_height="wrap_content" android:id="@+id/btnIgnoreSize" android:paddingLeft="20dip"
 					android:paddingRight="20dip" android:shadowColor="#00000000"
 					android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"
 					android:textColor="#FFFFFF" android:textSize="20dip"
-					android:gravity="left|center_vertical" android:text="@string/pfrscat_general_ignore_size" android:layout_width="fill_parent"></Button>
+					android:gravity="left|center_vertical" android:text="@string/pfrscat_general_ignore_size" android:layout_width="fill_parent" android:background="@layout/option_bg_middle"></Button>
 				<CheckBox android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:text="@string/pfrscat_general_ignore_directory"
 					android:id="@+id/chkIgnoreDirectory" android:paddingLeft="20dip"

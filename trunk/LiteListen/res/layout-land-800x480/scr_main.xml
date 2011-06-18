@@ -32,7 +32,7 @@
 			android:id="@+id/layBody" android:layout_above="@+id/layBottom">
 			<RelativeLayout android:layout_height="fill_parent"
 				android:layout_width="wrap_content" android:id="@+id/layVertical"
-				android:layout_toLeftOf="@+id/grdMenu">
+				android:layout_toLeftOf="@+id/layMenu">
 				<RelativeLayout android:layout_height="wrap_content"
 					android:layout_width="fill_parent" android:id="@+id/laySearch"
 					android:visibility="gone">
@@ -101,13 +101,55 @@
 					</LinearLayout>
 				</LinearLayout>
 			</RelativeLayout>
-			<GridView android:listSelector="@layout/list_menu_selector"
-				android:layout_width="230dip"
-				android:visibility="gone"
-				android:id="@+id/grdMenu" android:gravity="center_vertical|center_horizontal|center"
-				android:background="@drawable/bg_control_panel_land"
-				android:numColumns="3"
-				android:layout_alignParentRight="true" android:horizontalSpacing="5dip" android:layout_height="wrap_content" android:verticalSpacing="0dip" android:paddingBottom="6.5dip" android:paddingTop="6.5dip" android:paddingLeft="4dip" android:paddingRight="3dip"></GridView>
+			<LinearLayout android:layout_height="wrap_content"
+				android:layout_alignParentRight="true" android:layout_width="270dip"
+				android:id="@+id/layMenu" android:background="@drawable/bg_control_panel_land"
+				android:padding="2.5dip" android:visibility="gone">
+				<LinearLayout android:layout_width="wrap_content"
+					android:id="@+id/layMenuButton" android:orientation="vertical"
+					android:layout_height="wrap_content">
+					<Button android:layout_height="wrap_content"
+						android:layout_width="wrap_content" android:id="@+id/btnSwitcher"
+						android:textColor="#666666"
+						android:text="@string/control_panel_switcher_land" android:background="@drawable/btn_control_panel_land_top_highlight"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/btnAdvanced"
+						android:textColor="#666666"
+						android:text="@string/control_panel_advanced_land" android:background="@drawable/btn_control_panel_land_middle_normal"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/btnSettings"
+						android:textColor="#666666"
+						android:text="@string/control_panel_settings_land" android:background="@drawable/btn_control_panel_land_middle_normal"></Button>
+					<Button android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/btnHelp"
+						android:textColor="#666666"
+						android:text="@string/control_panel_help_land" android:background="@drawable/btn_control_panel_land_bottom_normal"></Button>
+				</LinearLayout>
+				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
+					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
+					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
+					android:horizontalSpacing="5dip" android:id="@+id/grdSwitcher"
+					android:layout_height="wrap_content" android:layout_width="228dip"></GridView>
+				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
+					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
+					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
+					android:horizontalSpacing="5dip" android:id="@+id/grdAdvanced"
+					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
+				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
+					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
+					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
+					android:horizontalSpacing="5dip" android:id="@+id/grdSettings"
+					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
+				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
+					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
+					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
+					android:horizontalSpacing="5dip" android:id="@+id/grdHelp"
+					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
+			</LinearLayout>
 		</RelativeLayout>
 		<LinearLayout android:id="@+id/layBottom"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
@@ -121,21 +163,24 @@
 					android:textColor="#FFFFFF" android:textSize="18dip"
 					android:shadowDx="1" android:shadowDy="1" android:layout_height="wrap_content"
 					android:layout_marginLeft="5dip" android:layout_width="wrap_content"
-					android:text="00:00" android:id="@+id/txtTimeCurrent" android:layout_marginTop="3dip"></TextView>
+					android:text="00:00" android:id="@+id/txtTimeCurrent"
+					android:layout_marginTop="3dip"></TextView>
 				<SeekBar android:id="@+id/skbMusic"
 					android:progressDrawable="@layout/seek_bar_progress" android:thumb="@layout/seek_bar_thumb"
 					android:layout_height="wrap_content" android:layout_width="fill_parent"
 					android:layout_toRightOf="@+id/txtTimeCurrent" android:maxHeight="7dip"
-					android:layout_toLeftOf="@+id/txtTimeTotal" android:paddingLeft="10dip" android:paddingRight="10dip"></SeekBar>
+					android:layout_toLeftOf="@+id/txtTimeTotal" android:paddingLeft="10dip"
+					android:paddingRight="10dip"></SeekBar>
 				<TextView android:shadowRadius="0.5" android:shadowColor="#000000"
 					android:textColor="#FFFFFF" android:textSize="18dip"
 					android:shadowDx="1" android:shadowDy="1" android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:text="00:00" android:id="@+id/txtTimeTotal"
-					android:layout_alignParentRight="true" android:layout_marginRight="5dip" android:layout_marginTop="3dip"></TextView>
+					android:layout_width="wrap_content" android:text="00:00"
+					android:id="@+id/txtTimeTotal" android:layout_alignParentRight="true"
+					android:layout_marginRight="5dip" android:layout_marginTop="3dip"></TextView>
 			</RelativeLayout>
 			<RelativeLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:id="@+id/layControls" android:background="@drawable/lay_control_panel_bg">
+				android:layout_height="wrap_content" android:id="@+id/layControls"
+				android:background="@drawable/lay_control_panel_bg">
 				<LinearLayout android:id="@+id/layControlPanel"
 					android:gravity="center_vertical|center_horizontal|center"
 					android:layout_height="wrap_content" android:layout_width="fill_parent"
@@ -154,19 +199,28 @@
 						android:background="@layout/btn_next" android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:layout_marginLeft="60dip"></ImageButton>
 				</LinearLayout>
-				<SeekBar android:id="@+id/skbVolume" android:progressDrawable="@layout/seek_bar_progress" android:thumb="@layout/seek_bar_thumb"
-					android:layout_width="wrap_content"
-					android:layout_toLeftOf="@+id/btnVolume"
-					android:maxHeight="7dip" android:paddingLeft="10dip" android:paddingRight="10dip" android:max="15" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:visibility="gone" android:layout_marginTop="2dip"></SeekBar>
-				<ImageButton android:id="@+id/btnVolume" android:background="@layout/btn_volume"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:layout_marginLeft="2.5dip" android:layout_toLeftOf="@+id/btnPlayMode" android:layout_marginTop="4dip"></ImageButton>
-				<ImageButton android:id="@+id/btnPlayMode" android:background="@drawable/btn_play_mode_repeat_all"
+				<SeekBar android:id="@+id/skbVolume"
+					android:progressDrawable="@layout/seek_bar_progress" android:thumb="@layout/seek_bar_thumb"
+					android:layout_width="wrap_content" android:layout_toLeftOf="@+id/btnVolume"
+					android:maxHeight="7dip" android:paddingLeft="10dip"
+					android:paddingRight="10dip" android:max="15"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true" android:visibility="gone"
+					android:layout_marginTop="2dip"></SeekBar>
+				<ImageButton android:id="@+id/btnVolume"
+					android:background="@layout/btn_volume" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_marginLeft="2.5dip"
+					android:layout_toLeftOf="@+id/btnPlayMode"
+					android:layout_marginTop="4dip"></ImageButton>
+				<ImageButton android:id="@+id/btnPlayMode"
+					android:background="@drawable/btn_play_mode_repeat_all"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:layout_toLeftOf="@+id/btnLRC" android:layout_marginTop="4dip"></ImageButton>
-				<ImageButton android:id="@+id/btnLRC" android:background="@layout/btn_lrc"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:layout_alignParentRight="true" android:layout_marginTop="4dip" android:layout_marginRight="5dip"></ImageButton>
+				<ImageButton android:id="@+id/btnLRC"
+					android:background="@layout/btn_lrc" android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true" android:layout_marginTop="4dip"
+					android:layout_marginRight="5dip"></ImageButton>
 			</RelativeLayout>
 		</LinearLayout>
 	</RelativeLayout>

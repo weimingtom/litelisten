@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="27">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="28">
 
 	<application android:icon="@drawable/icon" android:label="@string/global_app_name">
 		<activity android:name=".scrMain"
 			android:windowSoftInputMode="adjustPan" android:label="@string/global_app_name"
-			android:configChanges="orientation|keyboardHidden"
+			android:configChanges="orientation|keyboardHidden|locale"
 			android:launchMode="singleInstance">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

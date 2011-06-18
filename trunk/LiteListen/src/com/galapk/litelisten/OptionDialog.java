@@ -17,8 +17,11 @@
 
 package com.galapk.litelisten;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,9 +41,24 @@ public class OptionDialog
 	private static int[] CheckedID;
 	private static String ret = "";
 
-	public static void ShowDialog(Activity act, View WindowParent, String Title, String[] Content, float ListFontSize, int CheckedIndex, OnClickListener onOK)
+	public static void ShowDialog(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int ContentArrayResourceID, float ListFontSize, int CheckedIndex, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+
+		if (!LanguageIndex.equals("3"))
+		{
+			Configuration config = act.getResources().getConfiguration(); // 获得设置对象
+
+			if (LanguageIndex.equals("0"))
+				config.locale = Locale.SIMPLIFIED_CHINESE; // 简体中文
+			else if (LanguageIndex.equals("1"))
+				config.locale = Locale.TRADITIONAL_CHINESE; // 繁体中文
+			else if (LanguageIndex.equals("2"))
+				config.locale = Locale.US; // 美式英语
+
+			act.getResources().updateConfiguration(config, act.getResources().getDisplayMetrics());
+		}
+
 		ret = String.valueOf(CheckedIndex);
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,15 +75,16 @@ public class OptionDialog
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(Title);
+		txtTitle.setText(TitleResourceID);
 
 		// 设置提示信息
 		RadioGroup grpOption = (RadioGroup) view.findViewById(R.id.grpOption);
-		CheckedID = new int[Content.length];
-		for (int i = 0; i < Content.length; i++)
+		String[] strContent = act.getResources().getStringArray(ContentArrayResourceID);
+		CheckedID = new int[strContent.length];
+		for (int i = 0; i < strContent.length; i++)
 		{
 			RadioButton radOption = new RadioButton(act);
-			radOption.setText(Content[i]);
+			radOption.setText(strContent[i]);
 			radOption.setTextSize(ListFontSize);
 			radOption.setButtonDrawable(R.layout.option_radiobutton);
 			radOption.setBackgroundResource(R.layout.option_bg_list);

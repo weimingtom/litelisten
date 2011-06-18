@@ -17,8 +17,11 @@
 
 package com.galapk.litelisten;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +39,23 @@ public class ColorDialog
 	private static PopupWindow pw;
 	private static EditText edtMessage;
 
-	public static void ShowMessage(Activity act, View WindowParent, String Title, float MessageFontSize, int DefaultColor, int ScreenOrantation, OnClickListener onOK)
+	public static void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, float MessageFontSize, int DefaultColor, int ScreenOrantation, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+
+		if (!LanguageIndex.equals("3"))
+		{
+			Configuration config = act.getResources().getConfiguration(); // 获得设置对象
+
+			if (LanguageIndex.equals("0"))
+				config.locale = Locale.SIMPLIFIED_CHINESE; // 简体中文
+			else if (LanguageIndex.equals("1"))
+				config.locale = Locale.TRADITIONAL_CHINESE; // 繁体中文
+			else if (LanguageIndex.equals("2"))
+				config.locale = Locale.US; // 美式英语
+
+			act.getResources().updateConfiguration(config, act.getResources().getDisplayMetrics());
+		}
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_color_dialog, null, false);
@@ -54,7 +71,7 @@ public class ColorDialog
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(Title);
+		txtTitle.setText(TitleResourceID);
 
 		// 设置颜色选取区域布局
 		LinearLayout layColorSelector = (LinearLayout) view.findViewById(R.id.layColorSelector);

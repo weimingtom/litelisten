@@ -124,44 +124,51 @@
 					<Button android:layout_height="wrap_content"
 						android:layout_width="wrap_content" android:layout_marginTop="3dip"
 						android:layout_marginLeft="3dip" android:id="@+id/btnSwitcher"
-						android:text="@string/control_panel_switcher" android:textColor="#666666"
-						android:background="@layout/btn_control_panel_category_left"></Button>
+						android:textColor="#666666"
+						android:text="@string/control_panel_switcher_port" android:background="@drawable/btn_control_panel_port_left_highlight"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:layout_marginTop="3dip"
 						android:layout_marginLeft="-1dip" android:id="@+id/btnAdvanced"
-						android:text="@string/control_panel_advanced" android:textColor="#666666"
-						android:background="@layout/btn_control_panel_category_middle"></Button>
+						android:textColor="#666666"
+						android:text="@string/control_panel_advanced_port" android:background="@drawable/btn_control_panel_port_middle_normal"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:layout_marginLeft="-1dip"
 						android:layout_marginTop="3dip" android:id="@+id/btnSettings"
-						android:text="@string/control_panel_settings" android:textColor="#666666"
-						android:background="@layout/btn_control_panel_category_middle"></Button>
+						android:textColor="#666666"
+						android:text="@string/control_panel_settings_port" android:background="@drawable/btn_control_panel_port_middle_normal"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:layout_marginLeft="-1dip"
 						android:layout_marginTop="3dip" android:id="@+id/btnHelp"
-						android:text="@string/control_panel_help" android:textColor="#666666"
-						android:background="@layout/btn_control_panel_category_right"></Button>
+						android:textColor="#666666"
+						android:text="@string/control_panel_help_port" android:background="@drawable/btn_control_panel_port_right_normal"></Button>
 				</LinearLayout>
 				<GridView android:layout_height="158dip"
 					android:listSelector="@layout/list_menu_selector"
 					android:horizontalSpacing="10dip" android:paddingTop="5dip"
 					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
-					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdSwitcher"></GridView>
+					android:numColumns="4" android:verticalSpacing="10dip"
+					android:layout_marginTop="3dip" android:id="@+id/grdSwitcher"></GridView>
 				<GridView android:layout_height="158dip"
 					android:listSelector="@layout/list_menu_selector"
 					android:horizontalSpacing="10dip" android:paddingTop="5dip"
 					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
-					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:visibility="gone" android:id="@+id/grdAdvanced"></GridView>
+					android:numColumns="4" android:verticalSpacing="10dip"
+					android:layout_marginTop="3dip" android:visibility="gone"
+					android:id="@+id/grdAdvanced"></GridView>
 				<GridView android:layout_height="158dip"
 					android:listSelector="@layout/list_menu_selector"
 					android:horizontalSpacing="10dip" android:paddingTop="5dip"
 					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
-					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdSettings" android:visibility="gone"></GridView>
+					android:numColumns="4" android:verticalSpacing="10dip"
+					android:layout_marginTop="3dip" android:id="@+id/grdSettings"
+					android:visibility="gone"></GridView>
 				<GridView android:layout_height="158dip"
 					android:listSelector="@layout/list_menu_selector"
 					android:horizontalSpacing="10dip" android:paddingTop="5dip"
 					android:layout_width="wrap_content" android:gravity="center_vertical|center_horizontal|center"
-					android:numColumns="4" android:verticalSpacing="10dip" android:layout_marginTop="3dip" android:id="@+id/grdHelp" android:visibility="gone"></GridView>
+					android:numColumns="4" android:verticalSpacing="10dip"
+					android:layout_marginTop="3dip" android:id="@+id/grdHelp"
+					android:visibility="gone"></GridView>
 			</LinearLayout>
 		</RelativeLayout>
 		<LinearLayout android:id="@+id/layBottom"

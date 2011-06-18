@@ -174,6 +174,11 @@ public class scrMain extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+		// 首先设置语言
+		sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
+		st = new SettingProvider(this);
+		SetLanguage();
+
 		// 设置窗口样式，必须按照顺序
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题栏
 		setContentView(R.layout.scr_main);
@@ -257,8 +262,6 @@ public class scrMain extends Activity
 		if (IsStartup)
 		{
 			main = this;
-			sp = getSharedPreferences("com.galapk.litelisten_preferences", Context.MODE_PRIVATE); // 读取配置文件
-			st = new SettingProvider(this);
 			ls = new LRCService(this);
 			ms = new MusicService(this);
 			db = new DBProvider(this);
@@ -337,9 +340,7 @@ public class scrMain extends Activity
 			}
 			WidgetsListener();
 			CreateFloatLRC();
-			CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
-			CallFloatLRCNotify(st.getFloatLRCLocked());
-			fl.SetLRC(R.drawable.album_normal, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_desk_lrc_show), Color.WHITE, null, 1);
+			fl.SetLRC(R.drawable.album_normal, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_slogan_2), Color.WHITE, null, 1);
 			IsStartup = false;
 		}
 		else
@@ -367,23 +368,27 @@ public class scrMain extends Activity
 				lstMusic.setVisibility(View.GONE);
 
 			if (ms.getPlayerStatus() == MusicService.STATUS_STOP)
-				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_desk_lrc_show), Color.WHITE, null, 1);
+				fl.SetLRC(R.drawable.icon, getString(R.string.global_app_name), Color.WHITE, getString(R.string.global_slogan_2), Color.WHITE, null, 1);
 			fl.setVisibility(View.INVISIBLE);
 			layWM.width = dm.widthPixels;
 		}
+
+		// 刷新通知栏消息
+		CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
+		CallFloatLRCNotify(st.getFloatLRCLocked());
 
 		// 设置音量条参数
 		skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
 		SetCurrentTitle(ms.getStrShownTitle());
 
-		SetLanguage();
+		SetButtonLanguage();
 		SetSwitcherMenu();
 		SetAdvancedMenu();
 		SetSettingsMenu();
 		SetHelpMenu();
 		SetPlayMode();
-		SetFonts();
+		SetLRCFonts();
 		SetBackground();
 
 		Editor edt = sp.edit();
@@ -414,8 +419,6 @@ public class scrMain extends Activity
 			else if (!IsStartup && !IsRefreshing)
 				SetMusicListByDB();
 		}
-
-		RefreshLanguage();
 		fl.setVisibility(View.INVISIBLE);
 	}
 
@@ -446,7 +449,7 @@ public class scrMain extends Activity
 					else
 						e.printStackTrace();
 				}
-				hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
+				// hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -546,6 +549,7 @@ public class scrMain extends Activity
 	public void onConfigurationChanged(Configuration newConfig)
 	{
 		super.onConfigurationChanged(newConfig);
+		SetLanguage();
 		setContentView(R.layout.scr_main);
 		onResume();
 	}
@@ -573,6 +577,7 @@ public class scrMain extends Activity
 	public void onResume()
 	{
 		super.onResume();
+		SetLanguage();
 		DirectionSwitch();
 	}
 
@@ -686,9 +691,21 @@ public class scrMain extends Activity
 		{
 			public void run()
 			{
-				sd.beginTransaction();
+				sd.beginTransaction(); // 初始状态先设置一个事务
+				int Processed = 0; // 已经处理的记录数，每100条提交一次，防止缓冲区溢出
+
 				for (int i = 0; i < lstSong.size(); i++)
 				{
+					if (Processed == 100)
+					{
+						// 到达100次后提交一批
+						sd.setTransactionSuccessful(); // 设置事物处理成功标志，否则会回滚
+						sd.endTransaction(); // 提交
+
+						sd.beginTransaction(); // 然后重设一个事务
+						Processed = 0; // 还原计数器
+					}
+
 					Map<String, Object> mapInfo = new HashMap<String, Object>();
 					mapInfo = lstSong.get(i);
 					String strMusicPath = (String) mapInfo.get("MusicPath");
@@ -798,8 +815,10 @@ public class scrMain extends Activity
 					}
 
 					hs.getHdlRefreshAdapter().sendEmptyMessage(0);
+					Processed += 1; // 计数
 				}
 
+				// 提交最后不到100条记录
 				sd.setTransactionSuccessful(); // 设置事物处理成功标志，否则会回滚
 				sd.endTransaction(); // 处理完成
 
@@ -930,7 +949,27 @@ public class scrMain extends Activity
 			else if (index.equals("2"))
 				config.locale = Locale.US; // 美式英语
 
-			getResources().updateConfiguration(config, null);
+			getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+		}
+	}
+
+	/* 设置按钮文本的语言 */
+	public void SetButtonLanguage()
+	{
+		// 重新载入界面控件中的所有文本资源
+		if (ScreenOrantation == 1 || ScreenOrantation == 3)
+		{
+			btnSwitcher.setText(R.string.control_panel_switcher_land);
+			btnAdvanced.setText(R.string.control_panel_advanced_land);
+			btnSettings.setText(R.string.control_panel_settings_land);
+			btnHelp.setText(R.string.control_panel_help_land);
+		}
+		else
+		{
+			btnSwitcher.setText(R.string.control_panel_switcher_port);
+			btnAdvanced.setText(R.string.control_panel_advanced_port);
+			btnSettings.setText(R.string.control_panel_settings_port);
+			btnHelp.setText(R.string.control_panel_help_port);
 		}
 	}
 
@@ -968,7 +1007,7 @@ public class scrMain extends Activity
 	}
 
 	/* 设置字体 */
-	public void SetFonts()
+	public void SetLRCFonts()
 	{
 		txtLRC.setTextSize(Float.parseFloat(st.getLRCFontSize()));
 		txtLRC.setTextColor(Color.parseColor(st.getLRCFontColorNormal()));
@@ -1427,7 +1466,7 @@ public class scrMain extends Activity
 				if (IsRefreshing)
 				{
 					final MessageDialog md = new MessageDialog();
-					md.ShowMessage(scrMain.this, layActivity, getString(R.string.global_wait), getString(R.string.scrmain_scanning), 18, new OnClickListener()
+					md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.global_wait, R.string.scrmain_scanning, 18, new OnClickListener()
 					{
 						public void onClick(View v)
 						{
@@ -1486,64 +1525,61 @@ public class scrMain extends Activity
 				if (IsLRCMoved)
 					return false;
 
-				OptionDialog.ShowDialog(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getResources().getStringArray(R.array.item_name_txtlrc_context_menu), 18, -1,
-						new OnClickListener()
+				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.array.item_name_txtlrc_context_menu, 18, -1, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						if (OptionDialog.getRet().equals("0"))
 						{
-							public void onClick(View v)
+							// 修改歌词关联
+							if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
 							{
-								if (OptionDialog.getRet().equals("0"))
+								final MessageDialog md = new MessageDialog();
+								md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18, new OnClickListener()
 								{
-									// 修改歌词关联
-									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+									public void onClick(View v)
 									{
-										final MessageDialog md = new MessageDialog();
-										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
-												new OnClickListener()
-												{
-													public void onClick(View v)
-													{
-														md.CloseDialog();
-													}
-												}, null);
+										md.CloseDialog();
 									}
-									else
-									{
-										txtLRC.setVisibility(View.GONE);
-										layLyricController.setVisibility(View.VISIBLE);
-										lstMusic.setVisibility(View.GONE);
-										layFileSelector.setVisibility(View.VISIBLE);
-										SetFileList("/sdcard");
-									}
-								}
-								else if (OptionDialog.getRet().equals("1"))
-								{// 用线程下载歌词
-									if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-									{
-										final MessageDialog md = new MessageDialog();
-										md.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_context_menu_lrc), getString(R.string.scrmain_lyric_could_not_relate), 18,
-												new OnClickListener()
-												{
-													public void onClick(View v)
-													{
-														md.CloseDialog();
-													}
-												}, null);
-									}
-									else
-									{
-										new Thread()
-										{
-											public void run()
-											{
-												ls.GetCurrLyric();
-											}
-										}.start();
-									}
-								}
-
-								OptionDialog.getPw().dismiss();
+								}, null);
 							}
-						});
+							else
+							{
+								txtLRC.setVisibility(View.GONE);
+								layLyricController.setVisibility(View.VISIBLE);
+								lstMusic.setVisibility(View.GONE);
+								layFileSelector.setVisibility(View.VISIBLE);
+								SetFileList("/sdcard");
+							}
+						}
+						else if (OptionDialog.getRet().equals("1"))
+						{// 用线程下载歌词
+							if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+							{
+								final MessageDialog md = new MessageDialog();
+								md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18, new OnClickListener()
+								{
+									public void onClick(View v)
+									{
+										md.CloseDialog();
+									}
+								}, null);
+							}
+							else
+							{
+								new Thread()
+								{
+									public void run()
+									{
+										ls.GetCurrLyric();
+									}
+								}.start();
+							}
+						}
+
+						OptionDialog.getPw().dismiss();
+					}
+				});
 
 				return false;
 			}
@@ -1561,7 +1597,7 @@ public class scrMain extends Activity
 			}
 		});
 
-		/* 菜单项单击 */
+		/* 开关菜单 */
 		grdSwitcher.setOnItemClickListener(new OnItemClickListener()
 		{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
@@ -1751,66 +1787,65 @@ public class scrMain extends Activity
 				switch (arg2)
 				{
 					case 0:
-						TextDialog.ShowMessage(scrMain.this, layActivity, getString(R.string.scrmain_extend_menu_feedback), getString(R.string.scrmain_feedback_hint), 15, "", 18,
-								new OnClickListener()
+						TextDialog.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_extend_menu_feedback, R.string.scrmain_feedback_hint, 15, "", 18, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
+
+								if (strMessage != null && !strMessage.equals(""))
 								{
-									public void onClick(View v)
+									// 获取手机串号等信息并发送
+									TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+									// 获取当前时间
+									java.util.Date date = new java.util.Date();
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+									String strDateTime = sdf.format(date);
+
+									String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
+									strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+											java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK)).replace(
+											"{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace("{message}",
+											java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
+
+									if (toast != null)
 									{
-										String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
-
-										if (strMessage != null && !strMessage.equals(""))
-										{
-											// 获取手机串号等信息并发送
-											TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-											// 获取当前时间
-											java.util.Date date = new java.util.Date();
-											SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-											String strDateTime = sdf.format(date);
-
-											String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
-											strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
-													java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
-													.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
-															"{message}", java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
-
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_successful));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
-
-											String strHint = getString(R.string.scrmain_feedback_successful);
-
-											if (Common.CallURLPost(strURL, 10000))
-												TextDialog.getPw().dismiss(); // 成功后关闭对话框
-											else
-												strHint = getString(R.string.scrmain_feedback_failure);
-
-											if (toast != null)
-											{
-												toast.setText(strHint);
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
-										}
-										else
-										{
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_blank));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
-										}
-
-										toast.show();
+										toast.setText(getString(R.string.scrmain_feedback_successful));
+										toast.setDuration(Toast.LENGTH_SHORT);
 									}
-								});
+									else
+										toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
+
+									String strHint = getString(R.string.scrmain_feedback_successful);
+
+									if (Common.CallURLPost(strURL, 10000))
+										TextDialog.getPw().dismiss(); // 成功后关闭对话框
+									else
+										strHint = getString(R.string.scrmain_feedback_failure);
+
+									if (toast != null)
+									{
+										toast.setText(strHint);
+										toast.setDuration(Toast.LENGTH_SHORT);
+									}
+									else
+										toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
+								}
+								else
+								{
+									if (toast != null)
+									{
+										toast.setText(getString(R.string.scrmain_feedback_blank));
+										toast.setDuration(Toast.LENGTH_SHORT);
+									}
+									else
+										toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
+								}
+
+								toast.show();
+							}
+						});
 
 						break;
 				}
@@ -1954,10 +1989,10 @@ public class scrMain extends Activity
 
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
 				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_highlight);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_highlight);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
 				{
@@ -1980,10 +2015,10 @@ public class scrMain extends Activity
 
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
 				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
 				{
@@ -2006,10 +2041,10 @@ public class scrMain extends Activity
 
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
 				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
 				{
@@ -2032,10 +2067,10 @@ public class scrMain extends Activity
 
 				if (ScreenOrantation == 1 || ScreenOrantation == 3)
 				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_highlight);
+					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_highlight);
 				}
 				else
 				{
@@ -2105,13 +2140,14 @@ public class scrMain extends Activity
 						+ mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
 
 				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(scrMain.this, layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
+				md.SetMessage(scrMain.this, st.getLanguage(), layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
 						md.CloseDialog();
 					}
 				}, null);
+				md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
 
 				return false;
 			}

@@ -17,8 +17,11 @@
 
 package com.galapk.litelisten;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,9 +37,23 @@ public class MessageDialog
 	private PopupWindow pw;
 	private View WindowParent;
 
-	public void ShowMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	public void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
+
+		if (!LanguageIndex.equals("3"))
+		{
+			Configuration config = act.getResources().getConfiguration(); // 获得设置对象
+
+			if (LanguageIndex.equals("0"))
+				config.locale = Locale.SIMPLIFIED_CHINESE; // 简体中文
+			else if (LanguageIndex.equals("1"))
+				config.locale = Locale.TRADITIONAL_CHINESE; // 繁体中文
+			else if (LanguageIndex.equals("2"))
+				config.locale = Locale.US; // 美式英语
+
+			act.getResources().updateConfiguration(config, act.getResources().getDisplayMetrics());
+		}
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_message_dialog, null, false);
@@ -52,11 +69,11 @@ public class MessageDialog
 
 		// 设置对话框标题
 		TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-		txtTitle.setText(Title);
+		txtTitle.setText(TitleResourceID);
 
 		// 设置提示信息
 		TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-		txtMessage.setText(Message);
+		txtMessage.setText(MessageResourceID);
 		txtMessage.setTextSize(MessageSize);
 
 		// 设置确定按钮
@@ -74,10 +91,24 @@ public class MessageDialog
 	}
 
 	/* 和ShowMessage的区别在于这里仅仅设置，但不显示 */
-	public void SetMessage(Activity act, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	public void SetMessage(Activity act, String LanguageIndex, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 		this.WindowParent = WindowParent;
+
+		if (!LanguageIndex.equals("3"))
+		{
+			Configuration config = act.getResources().getConfiguration(); // 获得设置对象
+
+			if (LanguageIndex.equals("0"))
+				config.locale = Locale.SIMPLIFIED_CHINESE; // 简体中文
+			else if (LanguageIndex.equals("1"))
+				config.locale = Locale.TRADITIONAL_CHINESE; // 繁体中文
+			else if (LanguageIndex.equals("2"))
+				config.locale = Locale.US; // 美式英语
+
+			act.getResources().updateConfiguration(config, act.getResources().getDisplayMetrics());
+		}
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_message_dialog, null, false);
