@@ -114,6 +114,8 @@ public class MusicAdapter extends BaseAdapter
 		{
 			imgAlbum.setBackgroundResource(R.drawable.album_selected);
 			btnListPlay.setVisibility(View.VISIBLE);
+			btnListPlay.setFocusable(false);
+			btnListPlay.setFocusableInTouchMode(false);
 
 			// 如果标题超长则播放动画滚动
 			float CurrWidth = Common.GetTextWidth(txtSongTitle.getText().toString(), txtSongTitle.getTextSize());

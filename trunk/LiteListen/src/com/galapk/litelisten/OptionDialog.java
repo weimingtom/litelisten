@@ -22,6 +22,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -41,7 +44,8 @@ public class OptionDialog
 	private static int[] CheckedID;
 	private static String ret = "";
 
-	public static void ShowDialog(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int ContentArrayResourceID, float ListFontSize, int CheckedIndex, OnClickListener onOK)
+	public static void ShowDialog(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, int ContentArrayResourceID, float ListFontSize, int CheckedIndex,
+			boolean ShowButton, OnClickListener onOK, OnClickListener[] onItemClick)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -63,11 +67,14 @@ public class OptionDialog
 
 		LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.popup_option_dialog, null, false);
+		ScrollView scrOption = (ScrollView) view.findViewById(R.id.scrOption);
 
 		if (ScreenOrientation == 1 || ScreenOrientation == 3)
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -99,6 +106,9 @@ public class OptionDialog
 			radOption.setLayoutParams(layOption);
 
 			CheckedID[i] = radOption.getId();
+
+			if (!ShowButton)
+				radOption.setOnClickListener(onItemClick[i]);
 		}
 
 		grpOption.setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -116,20 +126,36 @@ public class OptionDialog
 			}
 		});
 
-		// 设置确定按钮
+		// 实例化控件
 		Button btnOK = (Button) view.findViewById(R.id.btnOK);
-		btnOK.setOnClickListener(onOK);
-
-		// 设置取消按钮
 		Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
-		btnCancel.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				pw.dismiss();
-			}
-		});
 
+		if (ShowButton)
+		{
+			btnOK.setOnClickListener(onOK); // 确定按钮动作
+
+			// 取消按钮动作
+			btnCancel.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v)
+				{
+					pw.dismiss();
+				}
+			});
+		}
+		else
+		{
+			btnOK.setVisibility(View.GONE);
+			btnCancel.setVisibility(View.GONE);
+
+			// 没有底部按钮时需要设置滚动视图的底边距
+			RelativeLayout.LayoutParams layOptionLayoutParams = (RelativeLayout.LayoutParams) scrOption.getLayoutParams();
+			layOptionLayoutParams.bottomMargin = 40;
+			scrOption.setLayoutParams(layOptionLayoutParams);
+		}
+
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 

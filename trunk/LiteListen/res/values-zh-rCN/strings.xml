@@ -51,6 +51,7 @@
 	<string name="scrmain_ringtong_successful">已设为来电铃声</string>
 	<string name="scrmain_alarm_successful">已设为闹钟铃声</string>
 	<string name="scrmain_play_first">请先播放音乐</string>
+	<string name="scrmain_context_menu_music">音乐选项</string>
 	<string name="scrmain_context_menu_lrc">歌词选项</string>
 	<string name="scrmain_context_menu_lrc_search_not_found">没有找到相应歌词</string>
 	<string name="scrmain_file_list">【返回上级目录】</string>
@@ -184,6 +185,11 @@
 		<item>从不</item>
 		<item>仅Wi-Fi网络下</item>
 		<item>始终</item>
+	</string-array>
+	<string-array name="item_name_lstmusic_context_menu">
+		<item>查看音乐信息</item>
+		<item>使用程序自带方式获取音乐信息</item>
+		<item>从系统缓存中获取音乐信息</item>
 	</string-array>
 	<string-array name="item_name_txtlrc_context_menu">
 		<item>浏览歌词文件……</item>

@@ -22,6 +22,8 @@ import java.io.File;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -54,16 +56,6 @@ public class HandlerService
 		this.settings = settings;
 	}
 
-	/* 启动后设置语言的Handler */
-	private Handler hdlSetStartupLanguage = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			// main.SetLanguage();
-		}
-	};
-
 	/* 显示传入MessageDialog的Handler */
 	private Handler hdlShowMessageDialog = new Handler()
 	{
@@ -72,7 +64,11 @@ public class HandlerService
 		{
 			MessageDialog md = (MessageDialog) msg.obj;
 			if (md.getPw() != null)
+			{
+				if (main.getSt().getUseAnimation())
+					md.getPw().setAnimationStyle(R.style.DialogAnimation);
 				md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
+			}
 		}
 	};
 
@@ -122,22 +118,36 @@ public class HandlerService
 		@Override
 		public void handleMessage(Message msg)
 		{
-			// 是否已经显示了更新日志
-			if (main.getSp().getBoolean("IsFirstStart27", true))
+			try
 			{
-				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(main, main.getSt().getLanguage(), main.getLayActivity(), R.string.scrmain_update_log, R.string.update_info, 15, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						Editor edt = main.getSp().edit();
-						edt.putBoolean("IsFirstStart27", false); // 设置当前版本
-						edt.remove("IsFirstStart26"); // 删除上个版本的标记
-						edt.commit();
+				PackageManager pkgMgr = main.getPackageManager();
+				PackageInfo pkgInfo = pkgMgr.getPackageInfo(main.getPackageName(), 0);
 
-						md.CloseDialog();
-					}
-				}, null);
+				// 显示更新日志
+				if (pkgInfo != null && main.getSp().getInt("Version", 0) != pkgInfo.versionCode)
+				{
+					final MessageDialog md = new MessageDialog();
+					md.ShowMessage(main, main.getSt().getLanguage(), main.getSt().getUseAnimation(), main.getLayActivity(), R.string.scrmain_update_log, R.string.update_info, 15,
+							new OnClickListener()
+							{
+								public void onClick(View v)
+								{
+									md.CloseDialog();
+								}
+							}, null);
+
+					// 设置新版本号
+					Editor edt = main.getSp().edit();
+					edt.putInt("Version", pkgInfo.versionCode); // 设置当前版本
+					edt.commit();
+				}
+			}
+			catch (Exception e)
+			{
+				if (e.getMessage() != null)
+					Log.w(Common.LOGCAT_TAG, e.getMessage());
+				else
+					e.printStackTrace();
 			}
 		}
 	};
@@ -173,7 +183,7 @@ public class HandlerService
 				if (RemoteVersion != null && !RemoteVersion.equals(""))
 				{
 					final MessageDialog md = new MessageDialog();
-					md.SetMessage(main, main.getSt().getLanguage(), main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
+					md.SetMessage(main, main.getSt().getLanguage(), main.getSt().getUseAnimation(), main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
 							.getString(R.string.pfrscat_others_check_for_update_got_message1)
 							+ RemoteVersion + main.getString(R.string.pfrscat_others_check_for_update_got_message2), 18, new OnClickListener()
 					{
@@ -208,14 +218,15 @@ public class HandlerService
 									else
 									{// 未完成，给出提示
 										final MessageDialog md = new MessageDialog();
-										md.SetMessage(main, main.getSt().getLanguage(), main.getLayActivity(), main.getString(R.string.pfrscat_others_check_for_update_got_title), main
-												.getString(R.string.pfrscat_others_check_for_update_got_failed), 18, new OnClickListener()
-										{
-											public void onClick(View v)
-											{
-												md.CloseDialog();
-											}
-										}, null);
+										md.SetMessage(main, main.getSt().getLanguage(), main.getSt().getUseAnimation(), main.getLayActivity(), main
+												.getString(R.string.pfrscat_others_check_for_update_got_title), main.getString(R.string.pfrscat_others_check_for_update_got_failed), 18,
+												new OnClickListener()
+												{
+													public void onClick(View v)
+													{
+														md.CloseDialog();
+													}
+												}, null);
 
 										// 显示对话框
 										Message msg = new Message();
@@ -496,16 +507,6 @@ public class HandlerService
 	public void setHdlAdapterUpdateHandler(Handler hdlAdapterUpdateHandler)
 	{
 		this.hdlAdapterUpdateHandler = hdlAdapterUpdateHandler;
-	}
-
-	public Handler getHdlSetStartupLanguage()
-	{
-		return hdlSetStartupLanguage;
-	}
-
-	public void setHdlSetStartupLanguage(Handler hdlSetStartupLanguage)
-	{
-		this.hdlSetStartupLanguage = hdlSetStartupLanguage;
 	}
 
 	public Handler getHdlRefreshTime()

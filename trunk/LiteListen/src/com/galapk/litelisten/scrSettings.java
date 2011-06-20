@@ -636,31 +636,32 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_general_language, R.array.item_name_pfrscat_general_language, 18, Integer.parseInt(Language),
-						new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_language, R.array.item_name_pfrscat_general_language, 18, Integer
+						.parseInt(Language), true, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+
+						Language = OptionDialog.getRet();
+						GetButtonDisplay();
+						UpdatePreference();
+						OptionDialog.getPw().dismiss();
+
+						// 语言修改为系统语言后需要重启的提示
+						if (Language.equals("3"))
 						{
-							public void onClick(View v)
-							{
-
-								Language = OptionDialog.getRet();
-								GetButtonDisplay();
-								UpdatePreference();
-								OptionDialog.getPw().dismiss();
-
-								// 语言修改为系统语言后需要重启的提示
-								if (Language.equals("3"))
-								{
-									final MessageDialog md = new MessageDialog();
-									md.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_general_language, R.string.pfrscat_general_language_reboot, 18, new OnClickListener()
+							final MessageDialog md = new MessageDialog();
+							md.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_language, R.string.pfrscat_general_language_reboot, 18,
+									new OnClickListener()
 									{
 										public void onClick(View v)
 										{
 											md.CloseDialog();
 										}
 									}, null);
-								}
-							}
-						});
+						}
+					}
+				}, null);
 			}
 		});
 
@@ -669,7 +670,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				final ListDialog ld = new ListDialog();
-				ld.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_general_music_path, 18, new OnClickListener()
+				ld.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_music_path, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -686,8 +687,8 @@ public class scrSettings extends Activity
 						if (IsMusicPathChanged)
 						{
 							final MessageDialog md = new MessageDialog();
-							md.SetMessage(scrSettings.this, Language, layActivity, getString(R.string.pfrscat_general_music_path), getString(R.string.pfrscat_general_music_path_changed), 18,
-									new OnClickListener()
+							md.SetMessage(scrSettings.this, Language, UseAnimation, layActivity, getString(R.string.pfrscat_general_music_path),
+									getString(R.string.pfrscat_general_music_path_changed), 18, new OnClickListener()
 									{
 										public void onClick(View v)
 										{
@@ -735,7 +736,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_general_ignore_size, R.string.pfrscat_general_ignore_size_message, 18, IgnoreSize, 18,
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_ignore_size, R.string.pfrscat_general_ignore_size_message, 18, IgnoreSize, 18,
 						new OnClickListener()
 						{
 							public void onClick(View v)
@@ -780,17 +781,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_general_list_order, R.array.item_name_pfrscat_general_list_order, 18,
-						Integer.parseInt(ListSortOrder), new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								ListSortOrder = OptionDialog.getRet();
-								GetButtonDisplay();
-								UpdatePreference();
-								OptionDialog.getPw().dismiss();
-							}
-						});
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_list_order, R.array.item_name_pfrscat_general_list_order, 18, Integer
+						.parseInt(ListSortOrder), true, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						ListSortOrder = OptionDialog.getRet();
+						GetButtonDisplay();
+						UpdatePreference();
+						OptionDialog.getPw().dismiss();
+					}
+				}, null);
 			}
 		});
 
@@ -807,17 +808,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_general_play_mode, R.array.item_name_pfrscat_general_play_mode, 18, Integer.parseInt(PlayMode),
-						new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								PlayMode = OptionDialog.getRet();
-								GetButtonDisplay();
-								UpdatePreference();
-								OptionDialog.getPw().dismiss();
-							}
-						});
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_play_mode, R.array.item_name_pfrscat_general_play_mode, 18, Integer
+						.parseInt(PlayMode), true, new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						PlayMode = OptionDialog.getRet();
+						GetButtonDisplay();
+						UpdatePreference();
+						OptionDialog.getPw().dismiss();
+					}
+				}, null);
 			}
 		});
 
@@ -825,8 +826,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_general_notify_next, R.array.item_name_pfrscat_general_notify_next, 18, Integer
-						.parseInt(NotifyAction), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_notify_next, R.array.item_name_pfrscat_general_notify_next, 18, Integer
+						.parseInt(NotifyAction), true, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -835,7 +836,7 @@ public class scrSettings extends Activity
 						UpdatePreference();
 						OptionDialog.getPw().dismiss();
 					}
-				});
+				}, null);
 			}
 		});
 
@@ -843,7 +844,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_general_favourite_max, 0, 18, FavoriteMax, 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_general_favourite_max, 0, 18, FavoriteMax, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -860,17 +861,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_display_lrc_scroll_style, R.array.item_name_pfrscat_display_lrc_scroll_style, 18, Integer
-						.parseInt(ScrollMode), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						ScrollMode = OptionDialog.getRet();
-						GetButtonDisplay();
-						UpdatePreference();
-						OptionDialog.getPw().dismiss();
-					}
-				});
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_scroll_style, R.array.item_name_pfrscat_display_lrc_scroll_style, 18,
+						Integer.parseInt(ScrollMode), true, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								ScrollMode = OptionDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
+								OptionDialog.getPw().dismiss();
+							}
+						}, null);
 			}
 		});
 
@@ -878,8 +879,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_display_background_port, R.array.item_name_pfrscat_display_background, 18, Integer
-						.parseInt(BackgroundPort), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_background_port, R.array.item_name_pfrscat_display_background, 18, Integer
+						.parseInt(BackgroundPort), true, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -904,7 +905,7 @@ public class scrSettings extends Activity
 							startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_PORT);
 						}
 					}
-				});
+				}, null);
 			}
 		});
 
@@ -912,8 +913,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_display_background_land, R.array.item_name_pfrscat_display_background, 18, Integer
-						.parseInt(BackgroundLand), new OnClickListener()
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_background_land, R.array.item_name_pfrscat_display_background, 18, Integer
+						.parseInt(BackgroundLand), true, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -938,7 +939,7 @@ public class scrSettings extends Activity
 							startActivityForResult(Intent.createChooser(intent, getString(R.string.pfrsmain_image)), IMAGE_SELECTED_LAND);
 						}
 					}
-				});
+				}, null);
 			}
 		});
 
@@ -946,7 +947,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_background_brightness, 0, 18, BackgroundBrightness, 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_background_brightness, 0, 18, BackgroundBrightness, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -980,7 +981,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_list_font_size, 0, 18, ListFontSize, 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_size, 0, 18, ListFontSize, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -997,16 +998,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_list_font_color, 18, Color.parseColor(ListFontColor), ScreenOrantation, new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						ListFontColor = ColorDialog.getEdtMessage().getText().toString();
-						GetButtonDisplay();
-						UpdatePreference();
-						ColorDialog.getPw().dismiss();
-					}
-				});
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_color, 18, Color.parseColor(ListFontColor), ScreenOrantation,
+						new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								ListFontColor = ColorDialog.getEdtMessage().getText().toString();
+								GetButtonDisplay();
+								UpdatePreference();
+								ColorDialog.getPw().dismiss();
+							}
+						});
 			}
 		});
 
@@ -1023,8 +1025,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_list_font_shadow_color, 18, Color.parseColor(ListFontShadowColor), ScreenOrantation,
-						new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_shadow_color, 18, Color.parseColor(ListFontShadowColor),
+						ScreenOrantation, new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1041,7 +1043,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_list_font_size, 0, 18, LRCFontSize, 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_size, 0, 18, LRCFontSize, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -1058,8 +1060,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_lrc_normal_font_color, 18, Color.parseColor(LRCFontColorNormal), ScreenOrantation,
-						new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_normal_font_color, 18, Color.parseColor(LRCFontColorNormal),
+						ScreenOrantation, new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1076,8 +1078,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_lrc_highlight_font_color, 18, Color.parseColor(LRCFontColorHighlight), ScreenOrantation,
-						new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_highlight_font_color, 18, Color.parseColor(LRCFontColorHighlight),
+						ScreenOrantation, new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1103,8 +1105,8 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_display_lrc_font_shadow_color, 18, Color.parseColor(LRCFontShadowColor), ScreenOrantation,
-						new OnClickListener()
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_font_shadow_color, 18, Color.parseColor(LRCFontShadowColor),
+						ScreenOrantation, new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1121,17 +1123,17 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				OptionDialog.ShowDialog(scrSettings.this, Language, layActivity, R.string.pfrscat_others_how_to_check_for_update, R.array.item_name_pfrscat_others_check_for_update, 18, Integer
-						.parseInt(HowToCheckForUpdate), new OnClickListener()
-				{
-					public void onClick(View v)
-					{
-						HowToCheckForUpdate = OptionDialog.getRet();
-						GetButtonDisplay();
-						UpdatePreference();
-						OptionDialog.getPw().dismiss();
-					}
-				});
+				OptionDialog.ShowDialog(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_others_how_to_check_for_update, R.array.item_name_pfrscat_others_check_for_update, 18,
+						Integer.parseInt(HowToCheckForUpdate), true, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								HowToCheckForUpdate = OptionDialog.getRet();
+								GetButtonDisplay();
+								UpdatePreference();
+								OptionDialog.getPw().dismiss();
+							}
+						}, null);
 			}
 		});
 
@@ -1167,7 +1169,7 @@ public class scrSettings extends Activity
 						if (RemoteVersion != null && !RemoteVersion.equals(""))
 						{
 							final MessageDialog md = new MessageDialog();
-							md.SetMessage(scrSettings.this, Language, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
+							md.SetMessage(scrSettings.this, Language, UseAnimation, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
 									getString(R.string.pfrscat_others_check_for_update_got_message1) + RemoteVersion + getString(R.string.pfrscat_others_check_for_update_got_message2), 18,
 									new OnClickListener()
 									{
@@ -1202,7 +1204,7 @@ public class scrSettings extends Activity
 													else
 													{// 未完成，给出提示
 														final MessageDialog md = new MessageDialog();
-														md.SetMessage(scrSettings.this, Language, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
+														md.SetMessage(scrSettings.this, Language, UseAnimation, layActivity, getString(R.string.pfrscat_others_check_for_update_got_title),
 																getString(R.string.pfrscat_others_check_for_update_got_failed), 18, new OnClickListener()
 																{
 																	public void onClick(View v)
@@ -1242,7 +1244,7 @@ public class scrSettings extends Activity
 						else
 						{
 							final MessageDialog md = new MessageDialog();
-							md.SetMessage(scrSettings.this, Language, layActivity, getString(R.string.pfrscat_others_check_for_update_nothing_title),
+							md.SetMessage(scrSettings.this, Language, UseAnimation, layActivity, getString(R.string.pfrscat_others_check_for_update_nothing_title),
 									getString(R.string.pfrscat_others_check_for_update_nothing_message), 18, new OnClickListener()
 									{
 										public void onClick(View v)
@@ -1265,7 +1267,7 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				TextDialog.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_title, 18, "", 18, new OnClickListener()
+				TextDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_title, 18, "", 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -1327,13 +1329,14 @@ public class scrSettings extends Activity
 						else
 						{
 							final MessageDialog md = new MessageDialog();
-							md.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_message_wrong, 18, new OnClickListener()
-							{
-								public void onClick(View v)
-								{
-									md.CloseDialog();
-								}
-							}, null);
+							md.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_message_wrong, 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
 							Restore = "";
 						}
 
@@ -1342,7 +1345,7 @@ public class scrSettings extends Activity
 						TextDialog.getPw().dismiss();
 
 						final MessageDialog md = new MessageDialog();
-						md.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_message_ok, 18, new OnClickListener()
+						md.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_others_restore, R.string.pfrscat_others_restore_message_ok, 18, new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1359,7 +1362,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(scrSettings.this, Language, layActivity, R.string.global_request, R.string.pfrscat_help_visit_official_site_message, 18, new OnClickListener()
+				md.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.global_request, R.string.pfrscat_help_visit_official_site_message, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{
@@ -1383,7 +1386,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				final MessageDialog md = new MessageDialog();
-				md.ShowMessage(scrSettings.this, Language, layActivity, R.string.pfrscat_help_about, R.string.pfrscat_help_about_message, 18, new OnClickListener()
+				md.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_help_about, R.string.pfrscat_help_about_message, 18, new OnClickListener()
 				{
 					public void onClick(View v)
 					{

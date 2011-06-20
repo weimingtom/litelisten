@@ -539,19 +539,19 @@ public class MusicTag
 	}
 
 	/* 获取音乐标签信息 */
-	public static Map<String, Object> GetMusicInfo(Activity act, String path, String oldname)
+	public static Map<String, Object> GetMusicInfo(Activity act, String path, String oldname, boolean UsingSystem)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
-		Cursor cursor = act.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, "_data=?", new String[] { path }, Media.DEFAULT_SORT_ORDER);
-		if (cursor != null && cursor.moveToFirst())
+		Cursor cursor = act.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, "_data like ?", new String[] { "%" + path }, Media.DEFAULT_SORT_ORDER);
+		if (cursor != null && cursor.moveToFirst() && UsingSystem)
 		{// 优先读取系统的属性
-			map.put("Title", cursor.getColumnIndexOrThrow(Media.TITLE));
-			map.put("SongInfo", cursor.getColumnIndexOrThrow(Media.ARTIST) + " - " + cursor.getColumnIndexOrThrow(Media.ALBUM));
-			map.put("Artist", cursor.getColumnIndexOrThrow(Media.ARTIST));
-			map.put("Album", cursor.getColumnIndexOrThrow(Media.ALBUM));
+			map.put("Title", cursor.getString(cursor.getColumnIndexOrThrow(Media.TITLE)));
+			map.put("SongInfo", cursor.getString(cursor.getColumnIndexOrThrow(Media.ARTIST)) + " - " + cursor.getString(cursor.getColumnIndexOrThrow(Media.ALBUM)));
+			map.put("Artist", cursor.getString(cursor.getColumnIndexOrThrow(Media.ARTIST)));
+			map.put("Album", cursor.getString(cursor.getColumnIndexOrThrow(Media.ALBUM)));
 			map.put("Comment", "");
-			map.put("Year", cursor.getColumnIndexOrThrow(Media.YEAR));
-			map.put("Track", cursor.getColumnIndexOrThrow(Media.TRACK));
+			map.put("Year", cursor.getString(cursor.getColumnIndexOrThrow(Media.YEAR)));
+			map.put("Track", cursor.getString(cursor.getColumnIndexOrThrow(Media.TRACK)));
 			map.put("Genre", "");
 			map.put("MusicPath", path);
 			map.put("LRCPath", path.substring(0, path.lastIndexOf(".")) + ".lrc");
@@ -562,10 +562,10 @@ public class MusicTag
 			if (path.substring(path.lastIndexOf(".")).equals(".mp3"))
 				map = GetMP3Info(path, oldname); // 如果是MP3则尝试自行读取
 			else
-			{// WMA则置空
+			{
 				map = ReadASFTag(path);
 
-				// 如果没有读到信息
+				// 没有读到信息则指控
 				if (map == null)
 				{
 					map = new HashMap<String, Object>();

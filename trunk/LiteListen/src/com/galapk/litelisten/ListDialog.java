@@ -22,6 +22,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class ListDialog
 	private TextView txtCurrentPath;
 	private ListView lstFile;
 
-	public void ShowDialog(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, float ListFontSize, OnClickListener onOK, OnItemClickListener onList)
+	public void ShowDialog(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, float ListFontSize, OnClickListener onOK, OnItemClickListener onList)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -66,6 +67,8 @@ public class ListDialog
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -93,6 +96,8 @@ public class ListDialog
 			}
 		});
 
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 

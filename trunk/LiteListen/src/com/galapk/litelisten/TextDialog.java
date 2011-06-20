@@ -19,6 +19,7 @@ package com.galapk.litelisten;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +36,8 @@ public class TextDialog
 	private static PopupWindow pw;
 	private static EditText edtMessage;
 
-	public static void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageFontSize, String EditorText, float EditorFontSize,
-			OnClickListener onOK)
+	public static void ShowMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageFontSize, String EditorText,
+			float EditorFontSize, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -47,6 +48,8 @@ public class TextDialog
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -83,6 +86,8 @@ public class TextDialog
 			}
 		});
 
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 

@@ -402,7 +402,7 @@ public class scrMain extends Activity
 			laySplash.setVisibility(View.GONE); // 不显示启动画面
 			String strMusicFilePath = Uri.parse(intent.getDataString()).getPath(); // 解析地址
 
-			Map<String, Object> mapInfo = MusicTag.GetMusicInfo(main, strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".")));
+			Map<String, Object> mapInfo = MusicTag.GetMusicInfo(main, strMusicFilePath, strMusicFilePath.substring(0, strMusicFilePath.lastIndexOf(".")), true);
 
 			List<Map<String, Object>> lstSongTemp = new ArrayList<Map<String, Object>>(); // 播放列表
 			lstSongTemp.add(mapInfo);
@@ -449,7 +449,6 @@ public class scrMain extends Activity
 					else
 						e.printStackTrace();
 				}
-				// hs.getHdlSetStartupLanguage().sendEmptyMessage(0);
 			}
 		}.start();
 	}
@@ -712,7 +711,7 @@ public class scrMain extends Activity
 					String strID3Check = (String) mapInfo.get("ID3Checked");
 					if (strID3Check != null && strID3Check.equals("0"))
 					{
-						mapInfo = MusicTag.GetMusicInfo(main, strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf("."))); // 获取读到的MP3属性
+						mapInfo = MusicTag.GetMusicInfo(main, strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf(".")), true); // 获取读到的音乐属性
 
 						// 更新数据库
 						String strTitle = (String) mapInfo.get("Title");
@@ -1466,7 +1465,7 @@ public class scrMain extends Activity
 				if (IsRefreshing)
 				{
 					final MessageDialog md = new MessageDialog();
-					md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.global_wait, R.string.scrmain_scanning, 18, new OnClickListener()
+					md.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.global_wait, R.string.scrmain_scanning, 18, new OnClickListener()
 					{
 						public void onClick(View v)
 						{
@@ -1525,61 +1524,70 @@ public class scrMain extends Activity
 				if (IsLRCMoved)
 					return false;
 
-				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.array.item_name_txtlrc_context_menu, 18, -1, new OnClickListener()
+				// 定义选项按下后产生的事件
+				OnClickListener[] onClick = new OnClickListener[2];
+				onClick[0] = new OnClickListener()
 				{
 					public void onClick(View v)
-					{
-						if (OptionDialog.getRet().equals("0"))
+					{// 修改歌词关联
+						if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
 						{
-							// 修改歌词关联
-							if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-							{
-								final MessageDialog md = new MessageDialog();
-								md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18, new OnClickListener()
-								{
-									public void onClick(View v)
+							final MessageDialog md = new MessageDialog();
+							md.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18,
+									new OnClickListener()
 									{
-										md.CloseDialog();
-									}
-								}, null);
-							}
-							else
-							{
-								txtLRC.setVisibility(View.GONE);
-								layLyricController.setVisibility(View.VISIBLE);
-								lstMusic.setVisibility(View.GONE);
-								layFileSelector.setVisibility(View.VISIBLE);
-								SetFileList("/sdcard");
-							}
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
 						}
-						else if (OptionDialog.getRet().equals("1"))
-						{// 用线程下载歌词
-							if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
-							{
-								final MessageDialog md = new MessageDialog();
-								md.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18, new OnClickListener()
-								{
-									public void onClick(View v)
-									{
-										md.CloseDialog();
-									}
-								}, null);
-							}
-							else
-							{
-								new Thread()
-								{
-									public void run()
-									{
-										ls.GetCurrLyric();
-									}
-								}.start();
-							}
+						else
+						{
+							txtLRC.setVisibility(View.GONE);
+							layLyricController.setVisibility(View.VISIBLE);
+							lstMusic.setVisibility(View.GONE);
+							layFileSelector.setVisibility(View.VISIBLE);
+							SetFileList("/sdcard");
 						}
 
 						OptionDialog.getPw().dismiss();
 					}
-				});
+				};
+
+				onClick[1] = new OnClickListener()
+				{
+					public void onClick(View v)
+					{// 用线程下载歌词
+						if (ms.getCurrIndex() > lstSong.size() || lstSong.size() == 0)
+						{
+							final MessageDialog md = new MessageDialog();
+							md.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_lrc, R.string.scrmain_lyric_could_not_relate, 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
+						}
+						else
+						{
+							new Thread()
+							{
+								public void run()
+								{
+									ls.GetCurrLyric();
+								}
+							}.start();
+						}
+
+						OptionDialog.getPw().dismiss();
+					}
+				};
+
+				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_lrc, R.array.item_name_txtlrc_context_menu, 18, -1, true,
+						null, onClick);
 
 				return false;
 			}
@@ -1748,6 +1756,12 @@ public class scrMain extends Activity
 						}
 						else
 						{// 列表-->最爱
+							// 清空关键词
+							Editor edt = sp.edit();
+							edt.putString("LastKeyword", "");
+							edt.commit();
+							txtKeyword.setText("");
+
 							txtFavourite.setText(R.string.scrmain_extend_menu_list);
 							imgFavourite.setImageResource(R.drawable.menu_list);
 
@@ -1787,65 +1801,66 @@ public class scrMain extends Activity
 				switch (arg2)
 				{
 					case 0:
-						TextDialog.ShowMessage(scrMain.this, st.getLanguage(), layActivity, R.string.scrmain_extend_menu_feedback, R.string.scrmain_feedback_hint, 15, "", 18, new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
-
-								if (strMessage != null && !strMessage.equals(""))
+						TextDialog.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_extend_menu_feedback, R.string.scrmain_feedback_hint, 15, "", 18,
+								new OnClickListener()
 								{
-									// 获取手机串号等信息并发送
-									TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-									// 获取当前时间
-									java.util.Date date = new java.util.Date();
-									SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-									String strDateTime = sdf.format(date);
-
-									String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
-									strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
-											java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK)).replace(
-											"{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace("{message}",
-											java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
-
-									if (toast != null)
+									public void onClick(View v)
 									{
-										toast.setText(getString(R.string.scrmain_feedback_successful));
-										toast.setDuration(Toast.LENGTH_SHORT);
+										String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
+
+										if (strMessage != null && !strMessage.equals(""))
+										{
+											// 获取手机串号等信息并发送
+											TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+											// 获取当前时间
+											java.util.Date date = new java.util.Date();
+											SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+											String strDateTime = sdf.format(date);
+
+											String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
+											strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
+													java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
+													.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
+															"{message}", java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
+
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_successful));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
+
+											String strHint = getString(R.string.scrmain_feedback_successful);
+
+											if (Common.CallURLPost(strURL, 10000))
+												TextDialog.getPw().dismiss(); // 成功后关闭对话框
+											else
+												strHint = getString(R.string.scrmain_feedback_failure);
+
+											if (toast != null)
+											{
+												toast.setText(strHint);
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
+										}
+										else
+										{
+											if (toast != null)
+											{
+												toast.setText(getString(R.string.scrmain_feedback_blank));
+												toast.setDuration(Toast.LENGTH_SHORT);
+											}
+											else
+												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
+										}
+
+										toast.show();
 									}
-									else
-										toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
-
-									String strHint = getString(R.string.scrmain_feedback_successful);
-
-									if (Common.CallURLPost(strURL, 10000))
-										TextDialog.getPw().dismiss(); // 成功后关闭对话框
-									else
-										strHint = getString(R.string.scrmain_feedback_failure);
-
-									if (toast != null)
-									{
-										toast.setText(strHint);
-										toast.setDuration(Toast.LENGTH_SHORT);
-									}
-									else
-										toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
-								}
-								else
-								{
-									if (toast != null)
-									{
-										toast.setText(getString(R.string.scrmain_feedback_blank));
-										toast.setDuration(Toast.LENGTH_SHORT);
-									}
-									else
-										toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
-								}
-
-								toast.show();
-							}
-						});
+								});
 
 						break;
 				}
@@ -2133,21 +2148,242 @@ public class scrMain extends Activity
 		/* 歌曲列表长按 */
 		lstMusic.setOnItemLongClickListener(new OnItemLongClickListener()
 		{
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
 			{
-				Map<String, Object> mapItem = lstSong.get(arg2); // 获取当前项的全部Map内容
-				String strMessage = "标题：" + mapItem.get("Title") + "\n" + "艺术家：" + mapItem.get("Artist") + "\n" + "专辑：" + mapItem.get("Album") + "\n" + "年份：" + mapItem.get("Year") + "\n" + "流派："
-						+ mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
-
-				final MessageDialog md = new MessageDialog();
-				md.SetMessage(scrMain.this, st.getLanguage(), layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
+				// 设置选项按下后产生的事件
+				OnClickListener[] onClick = new OnClickListener[3];
+				onClick[0] = new OnClickListener()
 				{
 					public void onClick(View v)
-					{
-						md.CloseDialog();
+					{// 查看歌曲属性
+						Map<String, Object> mapItem = lstSong.get(arg2); // 获取当前项的全部Map内容
+						String strMessage = "标题：" + mapItem.get("Title") + "\n" + "艺术家：" + mapItem.get("Artist") + "\n" + "专辑：" + mapItem.get("Album") + "\n" + "年份：" + mapItem.get("Year") + "\n"
+								+ "流派：" + mapItem.get("Genre") + "\n" + "音轨号：" + mapItem.get("Track") + "\n" + "备注：" + mapItem.get("Comment");
+
+						final MessageDialog md = new MessageDialog();
+						md.SetMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, (String) mapItem.get("Title"), strMessage, 20, new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								md.CloseDialog();
+							}
+						}, null);
+
+						if (st.getUseAnimation())
+							md.getPw().setAnimationStyle(R.style.DialogAnimation);
+						md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
+
+						OptionDialog.getPw().dismiss();
 					}
-				}, null);
-				md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
+				};
+
+				onClick[1] = new OnClickListener()
+				{
+					public void onClick(View v)
+					{// 用程序自带功能更新音乐信息
+						String strMusicPath = (String) lstSong.get(arg2).get("MusicPath");
+						Map<String, Object> mapInfo = null;
+						mapInfo = MusicTag.GetMusicInfo(main, strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf(".")), false);
+						// 更新数据库
+						String strTitle = (String) mapInfo.get("Title");
+						if (strTitle != null)
+						{
+							strTitle = strTitle.trim();
+							if (strTitle.indexOf("'") != -1)
+								strTitle = strTitle.replace("'", "''").trim();
+						}
+
+						String strArtist = (String) mapInfo.get("Artist");
+						if (strArtist != null)
+						{
+							strArtist = strArtist.trim();
+							if (strArtist.indexOf("'") != -1)
+								strArtist = strArtist.replace("'", "''").trim();
+						}
+
+						String strAlbum = (String) mapInfo.get("Album");
+						if (strAlbum != null)
+						{
+							strAlbum = strAlbum.trim();
+							if (strAlbum.indexOf("'") != -1)
+								strAlbum = strAlbum.replace("'", "''").trim();
+						}
+
+						String strYear = (String) mapInfo.get("Year");
+						if (strYear != null)
+						{
+							strYear = strYear.trim();
+							if (strYear.indexOf("'") != -1)
+								strYear = strYear.replace("'", "''").trim();
+						}
+
+						String strGenre = (String) mapInfo.get("Genre");
+						if (strGenre != null)
+						{
+							strGenre = strGenre.trim();
+							if (strGenre.indexOf("'") != -1)
+								strGenre = strGenre.replace("'", "''").trim();
+						}
+
+						String strTrack = (String) mapInfo.get("Track");
+						if (strTrack != null)
+						{
+							strTrack = strTrack.trim();
+							if (strTrack.indexOf("'") != -1)
+								strTrack = strTrack.replace("'", "''").trim();
+						}
+
+						String strComment = (String) mapInfo.get("Comment");
+						if (strComment != null)
+						{
+							strComment = strComment.trim();
+							if (strComment.indexOf("'") != -1)
+								strComment = strComment.replace("'", "''").trim();
+						}
+
+						String strLRCPath = (String) mapInfo.get("LRCPath");
+						if (strLRCPath != null)
+						{
+							strLRCPath = strLRCPath.trim();
+							if (strLRCPath.indexOf("'") != -1)
+								strLRCPath = strLRCPath.replace("'", "''").trim();
+						}
+
+						String strSongInfo = (String) mapInfo.get("SongInfo");
+						if (strSongInfo != null)
+						{
+							strSongInfo = strSongInfo.trim();
+							if (strSongInfo.indexOf("'") != -1)
+								strSongInfo = strSongInfo.replace("'", "''").trim();
+						}
+
+						try
+						{// 插表的时候可能会出现字段中的非法字符
+							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
+							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
+									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
+									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','" + (String) mapInfo.get("ID3Checked")
+									+ "','" + VerifyCode + "');");
+						}
+						catch (Exception e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
+
+						lstSong.set(arg2, mapInfo);
+						adapter.notifyDataSetChanged();
+						OptionDialog.getPw().dismiss();
+					}
+				};
+
+				onClick[2] = new OnClickListener()
+				{
+					public void onClick(View v)
+					{// 用程序自带功能更新音乐信息
+						String strMusicPath = (String) lstSong.get(arg2).get("MusicPath");
+						Map<String, Object> mapInfo = null;
+						mapInfo = MusicTag.GetMusicInfo(main, strMusicPath, strMusicPath.substring(0, strMusicPath.lastIndexOf(".")), true);
+
+						// 更新数据库
+						String strTitle = (String) mapInfo.get("Title");
+						if (strTitle != null)
+						{
+							strTitle = strTitle.trim();
+							if (strTitle.indexOf("'") != -1)
+								strTitle = strTitle.replace("'", "''").trim();
+						}
+
+						String strArtist = (String) mapInfo.get("Artist");
+						if (strArtist != null)
+						{
+							strArtist = strArtist.trim();
+							if (strArtist.indexOf("'") != -1)
+								strArtist = strArtist.replace("'", "''").trim();
+						}
+
+						String strAlbum = (String) mapInfo.get("Album");
+						if (strAlbum != null)
+						{
+							strAlbum = strAlbum.trim();
+							if (strAlbum.indexOf("'") != -1)
+								strAlbum = strAlbum.replace("'", "''").trim();
+						}
+
+						String strYear = (String) mapInfo.get("Year");
+						if (strYear != null)
+						{
+							strYear = strYear.trim();
+							if (strYear.indexOf("'") != -1)
+								strYear = strYear.replace("'", "''").trim();
+						}
+
+						String strGenre = (String) mapInfo.get("Genre");
+						if (strGenre != null)
+						{
+							strGenre = strGenre.trim();
+							if (strGenre.indexOf("'") != -1)
+								strGenre = strGenre.replace("'", "''").trim();
+						}
+
+						String strTrack = (String) mapInfo.get("Track");
+						if (strTrack != null)
+						{
+							strTrack = strTrack.trim();
+							if (strTrack.indexOf("'") != -1)
+								strTrack = strTrack.replace("'", "''").trim();
+						}
+
+						String strComment = (String) mapInfo.get("Comment");
+						if (strComment != null)
+						{
+							strComment = strComment.trim();
+							if (strComment.indexOf("'") != -1)
+								strComment = strComment.replace("'", "''").trim();
+						}
+
+						String strLRCPath = (String) mapInfo.get("LRCPath");
+						if (strLRCPath != null)
+						{
+							strLRCPath = strLRCPath.trim();
+							if (strLRCPath.indexOf("'") != -1)
+								strLRCPath = strLRCPath.replace("'", "''").trim();
+						}
+
+						String strSongInfo = (String) mapInfo.get("SongInfo");
+						if (strSongInfo != null)
+						{
+							strSongInfo = strSongInfo.trim();
+							if (strSongInfo.indexOf("'") != -1)
+								strSongInfo = strSongInfo.replace("'", "''").trim();
+						}
+
+						try
+						{// 插表的时候可能会出现字段中的非法字符
+							sd.execSQL("delete from music_info where music_path='" + strMusicPath + "'");
+							sd.execSQL("insert into music_info values('" + strTitle + "','" + strArtist + "','" + strAlbum + "','" + strYear + "','" + strGenre + "','" + strTrack + "','" + strComment
+									+ "','" + py.GetPYFull(strTitle) + "','" + py.GetPYSimple(py.GetPYFull(strTitle)) + "','" + py.GetPYFull(strArtist) + "','"
+									+ py.GetPYSimple(py.GetPYFull(strArtist)) + "','" + strMusicPath + "','" + strLRCPath + "','" + strSongInfo + "','0','0','" + (String) mapInfo.get("ID3Checked")
+									+ "','" + VerifyCode + "');");
+						}
+						catch (Exception e)
+						{
+							if (e.getMessage() != null)
+								Log.w(Common.LOGCAT_TAG, e.getMessage());
+							else
+								e.printStackTrace();
+						}
+
+						lstSong.set(arg2, mapInfo);
+						adapter.notifyDataSetChanged();
+						OptionDialog.getPw().dismiss();
+					}
+				};
+
+				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_music, R.array.item_name_lstmusic_context_menu, 18, -1, false,
+						null, onClick);
 
 				return false;
 			}

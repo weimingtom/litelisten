@@ -52,6 +52,7 @@
 	<string name="scrmain_ringtong_successful">Ringtong has been set</string>
 	<string name="scrmain_alarm_successful">Alarm has been set</string>
 	<string name="scrmain_play_first">Please play a music first</string>
+	<string name="scrmain_context_menu_music">Music Options</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
 	<string name="scrmain_context_menu_lrc_search_not_found">There is no such lyric on Internet</string>
 	<string name="scrmain_file_list">[Back]</string>
@@ -239,6 +240,11 @@
 		<item>None</item>
 		<item>Wi-Fi Only</item>
 		<item>Always</item>
+	</string-array>
+	<string-array name="item_name_lstmusic_context_menu">
+		<item>View Music Info</item>
+		<item>Read Music Info By Using App Functions</item>
+		<item>Read Music Info By Using System Cache</item>
 	</string-array>
 	<string-array name="item_name_txtlrc_context_menu">
 		<item>Select a lyric from browser...</item>

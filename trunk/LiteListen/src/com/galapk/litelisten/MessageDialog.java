@@ -22,6 +22,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,8 @@ public class MessageDialog
 	private PopupWindow pw;
 	private View WindowParent;
 
-	public void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	public void ShowMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, int MessageResourceID, float MessageSize, OnClickListener onOK,
+			OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -63,6 +65,8 @@ public class MessageDialog
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
 
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
+
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
 		imgIcon.setBackgroundResource(R.drawable.icon);
@@ -87,11 +91,14 @@ public class MessageDialog
 		else
 			btnCancel.setVisibility(View.GONE); // 不可见
 
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 
 	/* 和ShowMessage的区别在于这里仅仅设置，但不显示 */
-	public void SetMessage(Activity act, String LanguageIndex, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK, OnClickListener onCancel)
+	public void SetMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, String Title, String Message, float MessageSize, OnClickListener onOK,
+			OnClickListener onCancel)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 		this.WindowParent = WindowParent;
@@ -118,6 +125,8 @@ public class MessageDialog
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
 
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
+
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
 		imgIcon.setBackgroundResource(R.drawable.album_normal);
@@ -141,6 +150,9 @@ public class MessageDialog
 			btnCancel.setOnClickListener(onCancel);
 		else
 			btnCancel.setVisibility(View.GONE); // 不可见
+
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 	}
 
 	public void CloseDialog()

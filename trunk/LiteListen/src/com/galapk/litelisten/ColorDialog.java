@@ -22,6 +22,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,8 @@ public class ColorDialog
 	private static PopupWindow pw;
 	private static EditText edtMessage;
 
-	public static void ShowMessage(Activity act, String LanguageIndex, View WindowParent, int TitleResourceID, float MessageFontSize, int DefaultColor, int ScreenOrantation, OnClickListener onOK)
+	public static void ShowMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, float MessageFontSize, int DefaultColor, int ScreenOrantation,
+			OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -64,6 +66,8 @@ public class ColorDialog
 			pw = new PopupWindow(view, 600, LayoutParams.WRAP_CONTENT, true);
 		else
 			pw = new PopupWindow(view, 440, LayoutParams.WRAP_CONTENT, true);
+
+		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
 
 		// 设置图标
 		ImageView imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
@@ -103,6 +107,8 @@ public class ColorDialog
 			}
 		});
 
+		if (UsingAnimation)
+			pw.setAnimationStyle(R.style.DialogAnimation);
 		pw.showAtLocation(WindowParent, Gravity.CENTER, 0, 0); // 显示PopupWindow
 	}
 
