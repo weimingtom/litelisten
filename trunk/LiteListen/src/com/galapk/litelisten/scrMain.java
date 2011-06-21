@@ -305,7 +305,7 @@ public class scrMain extends Activity
 			registerReceiver(ar, ittFilterLRCHide);
 
 			// 电话状态监听
-			PhoneListener pl = new PhoneListener(this); // 我们派生的类
+			PhoneListener pl = new PhoneListener(this); // 自己派生的类
 			TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 			tm.listen(pl, PhoneStateListener.LISTEN_CALL_STATE);
 
