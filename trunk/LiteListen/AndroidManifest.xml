@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="28">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten"
+	android:versionCode="28">
 
 	<application android:icon="@drawable/icon" android:label="@string/global_app_name">
 		<activity android:name=".scrMain"
@@ -32,6 +33,13 @@
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
+
+		<!-- 用来给MIUI判断为默认播放器的依据 -->
+		<receiver android:name=".ActionReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.MEDIA_BUTTON" />
+			</intent-filter>
+		</receiver>
 
 		<receiver android:name=".WidgetSmall" android:label="@string/widget_title_small">
 			<meta-data android:name="android.appwidget.provider"
