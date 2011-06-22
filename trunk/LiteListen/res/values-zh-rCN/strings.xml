@@ -34,11 +34,12 @@
 	<string name="scrmain_extend_menu_search">快速搜索</string>
 	<string name="scrmain_extend_menu_order_asc">升序排列</string>
 	<string name="scrmain_extend_menu_order_desc">降序排列</string>
+	<string name="scrmain_extend_menu_show_lyric">显示歌词</string>
 	<string name="scrmain_extend_menu_ringtong">设为铃声</string>
 	<string name="scrmain_extend_menu_feedback">问题反馈</string>
 	<string name="scrmain_extend_menu_favourite">最爱歌曲</string>
 	<string name="scrmain_extend_menu_list">返回列表</string>
-	<string name="scrmain_extend_menu_wait">敬请期待</string>
+	<string name="scrmain_play_mode">播放模式</string>
 	<string name="scrmain_play_mode_close">顺序播放</string>
 	<string name="scrmain_play_mode_repeat_all">全部循环</string>
 	<string name="scrmain_play_mode_pause_current">单曲暂停</string>

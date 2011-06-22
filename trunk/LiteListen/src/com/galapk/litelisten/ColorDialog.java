@@ -40,8 +40,7 @@ public class ColorDialog
 	private static PopupWindow pw;
 	private static EditText edtMessage;
 
-	public static void ShowMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, float MessageFontSize, int DefaultColor, int ScreenOrantation,
-			OnClickListener onOK)
+	public static void ShowMessage(Activity act, String LanguageIndex, boolean UsingAnimation, View WindowParent, int TitleResourceID, float MessageFontSize, int DefaultColor, OnClickListener onOK)
 	{
 		int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();
 
@@ -85,7 +84,7 @@ public class ColorDialog
 		edtMessage.setTextSize(MessageFontSize);
 
 		ColorPicker cpv;
-		if (ScreenOrantation == 1 || ScreenOrantation == 3)
+		if (ScreenOrientation == 1 || ScreenOrientation == 3)
 			cpv = new ColorPicker(act, DefaultColor, 1, edtMessage);
 		else
 			cpv = new ColorPicker(act, DefaultColor, 1.5, edtMessage);

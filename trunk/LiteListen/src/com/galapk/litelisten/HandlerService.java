@@ -18,6 +18,7 @@
 package com.galapk.litelisten;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -65,8 +66,17 @@ public class HandlerService
 			MessageDialog md = (MessageDialog) msg.obj;
 			if (md.getPw() != null)
 			{
-				if (main.getSt().getUseAnimation())
-					md.getPw().setAnimationStyle(R.style.DialogAnimation);
+				if (main != null)
+				{
+					if (main.getSt().getUseAnimation())
+						md.getPw().setAnimationStyle(R.style.DialogAnimation);
+				}
+				else if (settings != null)
+				{
+					if (settings.getUseAnimation())
+						md.getPw().setAnimationStyle(R.style.DialogAnimation);
+				}
+
 				md.getPw().showAtLocation(md.getWindowParent(), Gravity.CENTER, 0, 0);
 			}
 		}
@@ -196,12 +206,34 @@ public class HandlerService
 									// 写入统计日志
 									TelephonyManager tm = (TelephonyManager) main.getSystemService(Context.TELEPHONY_SERVICE); // 获取手机串号等信息并发送
 
+									// 获取当前时间
+									java.util.Date date = new java.util.Date();
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+									String strDateTime = sdf.format(date);
+
+									int VersionCode = 0;
+
+									try
+									{
+										PackageManager pkgMgr = main.getPackageManager();
+										PackageInfo pkgInfo = pkgMgr.getPackageInfo(main.getPackageName(), 0);
+										VersionCode = pkgInfo.versionCode;
+									}
+									catch (Exception e)
+									{
+										if (e.getMessage() != null)
+											Log.w(Common.LOGCAT_TAG, e.getMessage());
+										else
+											e.printStackTrace();
+									}
+
 									// 生成链接
-									String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+									String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&action={action}&install_version={install_version}&update_time={update_time}";
 									strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
 											java.net.URLEncoder.encode(main.getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
-											.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}",
-													java.net.URLEncoder.encode(Build.MODEL).replace("{action}", java.net.URLEncoder.encode("update")));
+											.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace("{action}",
+													java.net.URLEncoder.encode("Update")).replace("{install_version}", java.net.URLEncoder.encode(String.valueOf(VersionCode))).replace(
+													"{update_time}", java.net.URLEncoder.encode(strDateTime));
 
 									Common.CallURLPost(strURL, 10000);
 

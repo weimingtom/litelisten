@@ -18,6 +18,7 @@
 package com.galapk.litelisten;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -998,17 +1001,16 @@ public class scrSettings extends Activity
 		{
 			public void onClick(View v)
 			{
-				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_color, 18, Color.parseColor(ListFontColor), ScreenOrantation,
-						new OnClickListener()
-						{
-							public void onClick(View v)
-							{
-								ListFontColor = ColorDialog.getEdtMessage().getText().toString();
-								GetButtonDisplay();
-								UpdatePreference();
-								ColorDialog.getPw().dismiss();
-							}
-						});
+				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_color, 18, Color.parseColor(ListFontColor), new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						ListFontColor = ColorDialog.getEdtMessage().getText().toString();
+						GetButtonDisplay();
+						UpdatePreference();
+						ColorDialog.getPw().dismiss();
+					}
+				});
 			}
 		});
 
@@ -1026,7 +1028,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_list_font_shadow_color, 18, Color.parseColor(ListFontShadowColor),
-						ScreenOrantation, new OnClickListener()
+						new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1061,7 +1063,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_normal_font_color, 18, Color.parseColor(LRCFontColorNormal),
-						ScreenOrantation, new OnClickListener()
+						new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1079,7 +1081,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_highlight_font_color, 18, Color.parseColor(LRCFontColorHighlight),
-						ScreenOrantation, new OnClickListener()
+						new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1106,7 +1108,7 @@ public class scrSettings extends Activity
 			public void onClick(View v)
 			{
 				ColorDialog.ShowMessage(scrSettings.this, Language, UseAnimation, layActivity, R.string.pfrscat_display_lrc_font_shadow_color, 18, Color.parseColor(LRCFontShadowColor),
-						ScreenOrantation, new OnClickListener()
+						new OnClickListener()
 						{
 							public void onClick(View v)
 							{
@@ -1182,12 +1184,34 @@ public class scrSettings extends Activity
 													// 写入统计日志
 													TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE); // 获取手机串号等信息并发送
 
+													// 获取当前时间
+													java.util.Date date = new java.util.Date();
+													SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+													String strDateTime = sdf.format(date);
+
+													int VersionCode = 0;
+
+													try
+													{
+														PackageManager pkgMgr = getPackageManager();
+														PackageInfo pkgInfo = pkgMgr.getPackageInfo(getPackageName(), 0);
+														VersionCode = pkgInfo.versionCode;
+													}
+													catch (Exception e)
+													{
+														if (e.getMessage() != null)
+															Log.w(Common.LOGCAT_TAG, e.getMessage());
+														else
+															e.printStackTrace();
+													}
+
 													// 生成链接
-													String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}";
+													String strURL = "http://www.littledai.com/LiteListen/SetDevInfo.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&action={action}&install_version={install_version}&update_time={update_time}";
 													strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
 															java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}",
 															java.net.URLEncoder.encode(Build.VERSION.SDK)).replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}",
-															java.net.URLEncoder.encode(Build.MODEL).replace("{action}", java.net.URLEncoder.encode("update")));
+															java.net.URLEncoder.encode(Build.MODEL)).replace("{action}", java.net.URLEncoder.encode("Update")).replace("{install_version}",
+															java.net.URLEncoder.encode(String.valueOf(VersionCode))).replace("{update_time}", java.net.URLEncoder.encode(strDateTime));
 
 													Common.CallURLPost(strURL, 10000);
 

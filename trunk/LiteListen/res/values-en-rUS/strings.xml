@@ -35,11 +35,12 @@
 	<string name="scrmain_extend_menu_search">Search</string>
 	<string name="scrmain_extend_menu_order_asc">ASC</string>
 	<string name="scrmain_extend_menu_order_desc">DESC</string>
+	<string name="scrmain_extend_menu_show_lyric">Show LRC</string>
 	<string name="scrmain_extend_menu_ringtong">Set Ring</string>
 	<string name="scrmain_extend_menu_feedback">Feedback</string>
 	<string name="scrmain_extend_menu_favourite">Favourite</string>
 	<string name="scrmain_extend_menu_list">List</string>
-	<string name="scrmain_extend_menu_wait">Soon</string>
+	<string name="scrmain_play_mode">Play Mode</string>
 	<string name="scrmain_play_mode_close">Play By Order</string>
 	<string name="scrmain_play_mode_repeat_all">Repeat All</string>
 	<string name="scrmain_play_mode_pause_current">Pause When A Song End</string>
