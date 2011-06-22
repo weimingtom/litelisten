@@ -155,45 +155,45 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen\n0.6.3 build 0619.0151\n\nThanks a lot
-		for Regina and Kael for their translations and bug reports.\n\nUpdate
-		Contents: \n[New] New menu style of menu key\n[New] An option of
-		ignore file which smaller than a size\n[Fix] Exit when the music scan
-		is incomplete will not record these scanned infomation and you will
-		re-scan these files at next start\n[Fix] Count of scanned files (any
-		file type) larger than 1024 will cause a crash\n[Fix] A problem that
-		UI text changes incompleted after selected a new language\n[Optimize]
-		Change language to the same as system will show a notice of a restart
-		require\n[Special] Improve the stability of none-HDPI
-		devices\n\nOfficial
+	<string name="pfrscat_help_about_message">LiteListen\n0.6.4 build 0622.0932\n\nThanks a lot
+		for Regina and Kael for their
+		translations and bug reports.\n\n[New]
+		Dialog animations\n[New]
+		Context menu for music list\n[New] You can set
+		LiteListen as default
+		music player in MIUI\'s rom\n[Fix] BT device
+		control cannot take
+		effect during playing\n[Fix] Update log cannot be
+		shown in sometime
+		when a new version was installed or updated\n[Fix]
+		Failure to get
+		music info from system cache\n[Fix] Selected music item
+		cannot
+		response long click event\n[Test] You can choose to get music
+		info by
+		switch between system cache or LiteListen functions, and system
+		cache
+		is the default\n[Optimize] Searching keyword will be cleared when
+		switch music list from searching results to the favorite
+		list\n[Optimize] Option menu could be clicked directly in
+		sometime\n[Optimize] Dialog can be closed by Back-Key\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
 	<string name="update_info">Thanks a lot
 		for Regina and Kael for their
-		translations and bug reports.\n\n[New] New menu style of menu
-		key\n[New] An option
-		of ignore file which smaller than a size\n[Fix]
-		Exit when the music
-		scan
-		is incomplete will not record these scanned
-		infomation and you
-		will
-		re-scan these files at next start\n[Fix] Count
-		of scanned files
-		(any
-		file type) larger than 1024 will cause a
-		crash\n[Fix] A problem
-		that
-		UI text changes incompleted after selected a
-		new
-		language\n[Optimize]
-		Change language to the same as system will show
-		a
-		notice of a restart
-		require\n[Special] Improve the stability of
-		none-HDPI
-		devices
+		translations and bug reports.\n\n[New] Dialog animations\n[New]
+		Context menu for music list\n[New] You can set LiteListen as default
+		music player in MIUI\'s rom\n[Fix] BT device control cannot take
+		effect during playing\n[Fix] Update log cannot be shown in sometime
+		when a new version was installed or updated\n[Fix] Failure to get
+		music info from system cache\n[Fix] Selected music item cannot
+		response long click event\n[Test] You can choose to get music info by
+		switch between system cache or LiteListen functions, and system cache
+		is the default\n[Optimize] Searching keyword will be cleared when
+		switch music list from searching results to the favorite
+		list\n[Optimize] Option menu could be clicked directly in
+		sometime\n[Optimize] Dialog can be closed by Back-Key
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

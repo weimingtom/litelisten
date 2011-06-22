@@ -135,10 +135,12 @@
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐 官方页面</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听音乐 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐</string>
-	<string name="pfrscat_help_about_message">轻听音乐\n0.6.3 build
-		0619.0151\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n更新内容：\n【新增】全新的Menu键菜单\n【新增】扫描时忽略指定大小的文件（KB）\n【修复】歌曲信息扫描未完成时退出程序导致下次启动需重新扫描的问题\n【修复】扫描的文件数目超过1024后引起系统崩溃的问题\n【修复】界面语言调整不完全的错误\n【优化】语言修改为系统语言后给出下次启动生效的提示\n【额外】增强非HDPI分辨率设备的稳定性\n\n官方网站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">轻听音乐\n0.6.4 build
+		0622.0932\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n更新内容：\n【新增】对话框动画效果\n【新增】歌曲列表长按菜单\n【新增】MIUI
+		ROM中可以将轻听设为默认播放器\n【修复】蓝牙/线控有时无法控制播放器的问题\n【修复】新版本启动时更新日志时有时无的问题\n【修复】获取系统缓存的音乐属性失败的问题\n【修复】被选中的歌曲无法响应长按事件的问题\n【测试】音乐信息可以在系统缓存和程序自带的读取方式中切换，尽可能减少乱码\n【优化】从搜索结果页切换到最爱歌曲列表时清除残留的关键词\n【优化】某些情况下列表菜单可以直接选择\n【优化】对话框可以按返回键关闭\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】全新的Menu键菜单\n【新增】扫描时忽略指定大小的文件（KB）\n【修复】歌曲信息扫描未完成时退出程序导致下次启动需重新扫描的问题\n【修复】扫描的文件数目超过1024后引起系统崩溃的问题\n【修复】界面语言调整不完全的错误\n【优化】语言修改为系统语言后给出下次启动生效的提示\n【额外】增强非HDPI分辨率设备的稳定性
+	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n更新内容：\n【新增】对话框动画效果\n【新增】歌曲列表长按菜单\n【新增】MIUI
+		ROM中可以将轻听设为默认播放器\n【修复】蓝牙/线控有时无法控制播放器的问题\n【修复】新版本启动时更新日志时有时无的问题\n【修复】获取系统缓存的音乐属性失败的问题\n【修复】被选中的歌曲无法响应长按事件的问题\n【测试】音乐信息可以在系统缓存和程序自带的读取方式中切换，尽可能减少乱码\n【优化】从搜索结果页切换到最爱歌曲列表时清除残留的关键词\n【优化】某些情况下列表菜单可以直接选择\n【优化】对话框可以按返回键关闭
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
