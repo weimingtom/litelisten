@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:gravity="center_horizontal"
+	android:id="@+id/layGridMenu" android:layout_width="60dip" android:layout_height="60dip">
+	<ImageView android:id="@+id/imgMenu" android:layout_height="wrap_content" android:layout_width="wrap_content">
+	</ImageView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/txtMenu" android:textColor="#FFFFFF">
+	</TextView>
+</LinearLayout>

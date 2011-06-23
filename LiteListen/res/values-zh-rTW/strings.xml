@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_app_name">輕聽音樂</string>
+	<string name="global_desk_lrc_show">桌面歌詞秀</string>
+	<string name="global_slogan_all">輕聽音樂，傾聽世界。</string>
+	<string name="global_slogan_2">傾聽世界</string>
+	<string name="global_ok">確定</string>
+	<string name="global_cancel">取消</string>
+	<string name="global_return">返回</string>
+	<string name="global_request">請求許可</string>
+	<string name="global_wait">請稍候</string>
+	<string name="global_agree">我願意</string>
+	<string name="global_refuse">我拒絕</string>
+
+	<string name="lrcservice_loading_lrc">正在載入歌詞，請稍候……</string>
+	<string name="lrcservice_no_lyric_found">沒有找到歌詞\n長按這裡選擇或搜索歌詞</string>
+
+	<string name="control_panel_switcher_port">快捷開關</string>
+	<string name="control_panel_advanced_port">擴展功能</string>
+	<string name="control_panel_settings_port">選項設置</string>
+	<string name="control_panel_help_port">幫助更新</string>
+
+	<string name="control_panel_switcher_land">開關</string>
+	<string name="control_panel_advanced_land">擴展</string>
+	<string name="control_panel_settings_land">選項</string>
+	<string name="control_panel_help_land">幫助</string>
+
+	<string name="scrmain_extend_menu_settings">設置</string>
+	<string name="scrmain_extend_menu_desk_lrc_show">打開浮動</string>
+	<string name="scrmain_extend_menu_desk_lrc_hide">關閉浮動</string>
+	<string name="scrmain_extend_menu_exit">退出</string>
+	<string name="scrmain_extend_menu_keep_screen_on_true">螢幕長亮</string>
+	<string name="scrmain_extend_menu_keep_screen_on_false">取消長亮</string>
+	<string name="scrmain_extend_menu_search">快速搜索</string>
+	<string name="scrmain_extend_menu_order_asc">昇冪排列</string>
+	<string name="scrmain_extend_menu_order_desc">降冪排列</string>
+	<string name="scrmain_extend_menu_ringtong">設為鈴聲</string>
+	<string name="scrmain_extend_menu_feedback">問題回饋</string>
+	<string name="scrmain_extend_menu_favourite">最愛歌曲</string>
+	<string name="scrmain_extend_menu_list">返回列表</string>
+	<string name="scrmain_extend_menu_wait">敬請期待</string>
+	<string name="scrmain_play_mode_close">順序播放</string>
+	<string name="scrmain_play_mode_repeat_all">全部迴圈</string>
+	<string name="scrmain_play_mode_pause_current">單曲暫停</string>
+	<string name="scrmain_play_mode_repeat_current">單曲重複</string>
+	<string name="scrmain_play_mode_shuffle">隨機播放</string>
+	<string name="scrmain_keyword_hint">鍵入拼音首字母搜索</string>
+	<string name="scrmain_show_main">按一下這裡顯示播放機主介面</string>
+	<string name="scrmain_volume">音量：</string>
+	<string name="scrmain_volume_mute">靜音</string>
+	<string name="scrmain_ringtong_successful">已設為來電鈴聲</string>
+	<string name="scrmain_alarm_successful">已設為鬧鐘鈴聲</string>
+	<string name="scrmain_play_first">請先播放音樂</string>
+	<string name="scrmain_context_menu_music">音樂選項</string>
+	<string name="scrmain_context_menu_lrc">歌詞選項</string>
+	<string name="scrmain_context_menu_lrc_search_not_found">沒有找到相應歌詞</string>
+	<string name="scrmain_file_list">【返回上級目錄】</string>
+	<string name="scrmain_update_log">我更新了啥？</string>
+	<string name="scrmain_scanning">正在掃描音樂，請稍候搜索。</string>
+	<string name="scrmain_lyric_could_not_relate">當前播放清單與正在播放的音樂不匹配，無法關聯歌詞。</string>
+	<string name="scrmain_request_info">輕聽音樂希望統計安裝使用者數量以便更好地為用戶進行改良。按一下【我願意】將設備資訊發送給開發人員，這些資訊僅需要消耗最多
+		1 KB 的流量，而且僅會顯示一次。您也可以選擇拒絕，它將永不再顯示（除非您重新安裝）。拒絕發送設備資訊不會影響到任何使用，請放心。
+	</string>
+	<string name="scrmain_feedback_hint">提交問題的同時，輕聽將收集一些您的設備資訊，包括設備序號、系統版本以及設備時間、語言和型號等資訊，但絕不會獲取您的通信錄、短信和程式等個人資訊。\n您的回饋是輕聽進步重要的里程碑！
+	</string>
+	<string name="scrmain_feedback_successful">問題提交成功，非常感謝！</string>
+	<string name="scrmain_feedback_blank">請輸入您的問題，然後再提交。</string>
+	<string name="scrmain_feedback_failure">問題提交失敗，請檢查網路連接。</string>
+
+	<string name="widget_title_small">輕聽音樂 4×2</string>
+	<string name="widget_title_medium">輕聽音樂 4×3</string>
+	<string name="widget_title_large">輕聽音樂 4×4</string>
+	<string name="widget_lrc">輕觸這裡選擇歌曲</string>
+
+	<string name="float_lrc">桌面歌詞</string>
+	<string name="float_lrc_unlocked">桌面歌詞已解鎖</string>
+	<string name="float_lrc_locked">桌面歌詞已鎖定</string>
+	<string name="float_lrc_lock">按一下這裡鎖定桌面歌詞</string>
+	<string name="float_lrc_unlock">按一下這裡解鎖桌面歌詞</string>
+	<string name="float_lrc_activiation">桌面歌詞已啟動</string>
+	<string name="float_lrc_deactivation">桌面歌詞已關閉</string>
+	<string name="notification_show">按一下這裡返回播放機</string>
+	<string name="notification_play">按一下這裡播放下一首</string>
+
+	<string name="pfrsmain_title">設置輕聽音樂</string>
+	<string name="pfrsmain_image">選擇一種看圖程式</string>
+	<string name="pfrscat_general_title">常規選項</string>
+	<string name="pfrscat_general_language">語言</string>
+	<string name="pfrscat_general_language_reboot">您將語言設為了系統預設語言，它將在下一次啟動時生效。</string>
+	<string name="pfrscat_general_music_path">音樂目錄</string>
+	<string name="pfrscat_general_music_path_changed">您更改了音樂檔路徑，需要重啟後才能生效。</string>
+	<string name="pfrscat_general_include_sub_directories">掃描子資料夾</string>
+	<string name="pfrscat_general_ignore_size">忽略小於指定大小的檔</string>
+	<string name="pfrscat_general_ignore_size_message">最小單位：KByte</string>
+	<string name="pfrscat_general_ignore_directory">忽略指定資料夾</string>
+	<string name="pfrscat_general_list_order">播放清單排序</string>
+	<string name="pfrscat_general_auto_switch_to_lrc">自動跳轉到歌詞</string>
+	<string name="pfrscat_general_play_mode">播放模式</string>
+	<string name="pfrscat_general_notify_next">通知欄消息點擊動作</string>
+	<string name="pfrscat_general_favourite_max">最愛歌曲列表的大數量</string>
+	<string name="pfrscat_general_autopause">連接/斷開外部音訊設備時暫停播放</string>
+	<string name="pfrscat_general_lrc_auto_download">自動下載歌詞</string>
+	<string name="pfrscat_display_title">視覺效果</string>
+	<string name="pfrscat_display_lrc_scroll_style">歌詞滾動樣式</string>
+	<string name="pfrscat_display_background_port">豎屏背景圖</string>
+	<string name="pfrscat_display_background_land">橫屏背景圖</string>
+	<string name="pfrscat_display_background_brightness">背景圖亮度</string>
+	<string name="pfrscat_display_background_blur">背景圖模糊效果</string>
+	<string name="pfrscat_display_use_animation">使用動畫效果</string>
+	<string name="pfrscat_display_list_font_size">清單字體大小</string>
+	<string name="pfrscat_display_list_font_color">清單字體顏色</string>
+	<string name="pfrscat_display_list_font_shadow">播放清單陰影</string>
+	<string name="pfrscat_display_list_font_shadow_color">播放清單陰影顏色</string>
+	<string name="pfrscat_display_lrc_font_size">歌詞字體大小</string>
+	<string name="pfrscat_display_lrc_normal_font_color">常規歌詞顏色</string>
+	<string name="pfrscat_display_lrc_highlight_font_color">高亮歌詞顏色</string>
+	<string name="pfrscat_display_lrc_font_shadow">歌詞陰影</string>
+	<string name="pfrscat_display_lrc_font_shadow_color">歌詞陰影顏色</string>
+	<string name="pfrscat_others_title">其它設置</string>
+	<string name="pfrscat_others_restore">還原默認設置</string>
+	<string name="pfrscat_others_restore_title">請在下面的文字方塊中輸入“是”，然後按確定以還原設置。</string>
+	<string name="pfrscat_others_restore_message_ok">設置還原成功！</string>
+	<string name="pfrscat_others_restore_message_wrong">您輸入的內容不正確，設置沒有被改變。</string>
+	<string name="pfrscat_others_how_to_check_for_update">啟動時自動檢查更新選項</string>
+	<string name="pfrscat_others_check_for_update">立即檢查更新</string>
+	<string name="pfrscat_others_check_for_update_checking">正在檢查更新，請稍候……</string>
+	<string name="pfrscat_others_check_for_update_downloading">正在下載更新，請稍候……</string>
+	<string name="pfrscat_others_check_for_update_nothing_title">非常好！</string>
+	<string name="pfrscat_others_check_for_update_nothing_message">您已安裝了最新版本，無需更新。</string>
+	<string name="pfrscat_others_check_for_update_got_title">發現更新！</string>
+	<string name="pfrscat_others_check_for_update_got_message1">找到更新版本，發佈序號為：</string>
+	<string name="pfrscat_others_check_for_update_got_message2">。\n\n是否更新？</string>
+	<string name="pfrscat_others_check_for_update_got_failed">下載更新失敗。</string>
+	<string name="pfrscat_help_title">説明資訊</string>
+	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
+	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
+	<string name="pfrscat_help_about">關於 輕聽音樂</string>
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.4 build
+		0622.0932\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n更新內容：\n【新增】對話方塊動畫效果\n【新增】歌曲清單長按菜單\n【新增】MIUI
+		ROM中可以將輕聽設為默認播放機\n【修復】藍牙/線控有時無法控制播放機的問題\n【修復】新版本啟動時更新日誌時有時無的問題\n【修復】獲取系統緩存的音樂屬性失敗的問題\n【修復】被選中的歌曲無法回應長按事件的問題\n【測試】音樂資訊可以在系統緩存和程式自帶的讀取方式中切換，盡可能減少亂碼\n【優化】從搜索結果頁切換到最愛歌曲清單時清除殘留的關鍵字\n【優化】某些情況下清單功能表可以直接選擇\n【優化】對話方塊可以按返回鍵關閉\n\n官方網站：\nhttp://litelisten.littledai.com/
+	</string>
+	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n更新內容：\n【新增】對話方塊動畫效果\n【新增】歌曲清單長按菜單\n【新增】MIUI
+		ROM中可以將輕聽設為默認播放機\n【修復】藍牙/線控有時無法控制播放機的問題\n【修復】新版本啟動時更新日誌時有時無的問題\n【修復】獲取系統緩存的音樂屬性失敗的問題\n【修復】被選中的歌曲無法回應長按事件的問題\n【測試】音樂資訊可以在系統緩存和程式自帶的讀取方式中切換，盡可能減少亂碼\n【優化】從搜索結果頁切換到最愛歌曲清單時清除殘留的關鍵字\n【優化】某些情況下清單功能表可以直接選擇\n【優化】對話方塊可以按返回鍵關閉
+	</string>
+
+	<string-array name="item_name_pfrscat_general_language">
+		<item>中文（簡體）</item>
+		<item>國語（台灣）</item>
+		<item>English</item>
+		<item>系統語言</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_convert_chinese_lrc">
+		<item>簡體轉繁體</item>
+		<item>繁體轉簡體</item>
+		<item>不自動轉換</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_fit_screen_orientation">
+		<item>豎屏</item>
+		<item>橫屏</item>
+		<item>自動切換</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_list_order">
+		<item>標題 + 藝術家</item>
+		<item>藝術家 + 標題</item>
+		<item>檔修改時間</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_play_mode">
+		<item>順序播放</item>
+		<item>全部迴圈</item>
+		<item>單曲暫停</item>
+		<item>單曲迴圈</item>
+		<item>隨機播放</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_general_notify_next">
+		<item>顯示播放機</item>
+		<item>播放下一首歌曲</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_background">
+		<item>默認</item>
+		<item>自訂……</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_display_lrc_scroll_style">
+		<item>逐行滾動</item>
+		<item>平滑滾動</item>
+	</string-array>
+	<string-array name="item_name_pfrscat_others_check_for_update">
+		<item>從不</item>
+		<item>僅Wi-Fi網路下</item>
+		<item>始終</item>
+	</string-array>
+	<string-array name="item_name_lstmusic_context_menu">
+		<item>查看音樂資訊</item>
+		<item>使用程式自帶方式獲取音樂資訊</item>
+		<item>從系統緩存中獲取音樂資訊</item>
+	</string-array>
+	<string-array name="item_name_txtlrc_context_menu">
+		<item>流覽歌詞檔……</item>
+		<item>從網路中搜索歌詞</item>
+	</string-array>
+</resources>
