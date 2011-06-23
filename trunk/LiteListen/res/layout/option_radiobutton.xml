@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<!-- 未被选中 -->
-	<item android:state_checked="false" android:drawable="@drawable/bg_radio_unchecked" />
-	<!-- 已经选中 -->
-	<item android:state_checked="true" android:drawable="@drawable/bg_radio_checked" />
-</selector>
