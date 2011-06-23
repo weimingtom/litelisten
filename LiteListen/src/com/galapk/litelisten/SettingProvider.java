@@ -96,7 +96,7 @@ public class SettingProvider
 		LRCFontColorNormal = main.getSp().getString("LRCFontColorNormal", "#FFFFFF");
 		LRCFontColorHighlight = main.getSp().getString("LRCFontColorHighlight", "#FFFF00");
 		LRCFontShadow = main.getSp().getBoolean("LRCFontShadow", true);
-		LRCFontShadowColor = main.getSp().getString("LRCFontShadowColor", "#0099FF");
+		LRCFontShadowColor = main.getSp().getString("LRCFontShadowColor", "#9BD7FF");
 
 		HowToCheckForUpdate = main.getSp().getString("HowToCheckForUpdate", "1");
 

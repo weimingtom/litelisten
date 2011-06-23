@@ -52,7 +52,7 @@
 	<string name="scrmain_volume_mute">静音</string>
 	<string name="scrmain_ringtone_successful">已设为来电铃声</string>
 	<string name="scrmain_alarm_successful">已设为闹钟铃声</string>
-	<string name="scrmain_ringtone_set_refused">此歌曲不能设为铃声</string>
+	<string name="scrmain_ringtone_set_refused">铃声设置失败，该音乐可能正在被使用</string>
 	<string name="scrmain_play_first">请先播放音乐</string>
 	<string name="scrmain_context_menu_music">音乐选项</string>
 	<string name="scrmain_context_menu_lrc">歌词选项</string>

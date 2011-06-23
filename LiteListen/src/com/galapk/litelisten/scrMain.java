@@ -75,15 +75,12 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -125,10 +122,6 @@ public class scrMain extends Activity
 	private ImageButton btnNext;
 	private ImageButton btnPause;
 	private ImageButton btnSearch;
-	private Button btnSwitcher;
-	private Button btnAdvanced;
-	private Button btnSettings;
-	private Button btnHelp;
 	private Button btnFileOK;
 	private Button btnFileCancel;
 	private TextView txtTitle;
@@ -139,7 +132,6 @@ public class scrMain extends Activity
 	private TextView txtCurrentPath;
 	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
-	private LinearLayout layMenu;
 	private RelativeLayout laySearch;
 	private RelativeLayout layMain;
 	private LinearLayout laySplash;
@@ -147,10 +139,6 @@ public class scrMain extends Activity
 	private RelativeLayout layFileSelector;
 	private ListView lstMusic;
 	private ListView lstFile;
-	private GridView grdSwitcher;
-	private GridView grdAdvanced;
-	private GridView grdSettings;
-	private GridView grdHelp;
 	private SeekBar skbMusic;
 	private LinearLayout layLyricController;
 	private LRCService ls;
@@ -168,6 +156,7 @@ public class scrMain extends Activity
 	private SettingProvider st;
 	private SQLiteDatabase sd;
 	private VolumeDialog vd;
+	private MenuDialog md;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -274,6 +263,7 @@ public class scrMain extends Activity
 			layWM = new WindowManager.LayoutParams();
 			fl = new FloatLRC(this); // 浮动歌词布局
 			vd = new VolumeDialog(this);
+			md = new MenuDialog(this);
 			dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -405,11 +395,6 @@ public class scrMain extends Activity
 		CallMusicNotify(getString(R.string.global_app_name), R.drawable.icon);
 		CallFloatLRCNotify(st.getFloatLRCLocked());
 
-		SetButtonLanguage();
-		SetSwitcherMenu();
-		SetAdvancedMenu();
-		SetSettingsMenu();
-		SetHelpMenu();
 		SetLRCFonts();
 		SetBackground();
 
@@ -958,26 +943,6 @@ public class scrMain extends Activity
 		}
 	}
 
-	/* 设置按钮文本的语言 */
-	public void SetButtonLanguage()
-	{
-		// 重新载入界面控件中的所有文本资源
-		if (ScreenOrantation == 1 || ScreenOrantation == 3)
-		{
-			btnSwitcher.setText(R.string.control_panel_switcher_land);
-			btnAdvanced.setText(R.string.control_panel_advanced_land);
-			btnSettings.setText(R.string.control_panel_settings_land);
-			btnHelp.setText(R.string.control_panel_help_land);
-		}
-		else
-		{
-			btnSwitcher.setText(R.string.control_panel_switcher_port);
-			btnAdvanced.setText(R.string.control_panel_advanced_port);
-			btnSettings.setText(R.string.control_panel_settings_port);
-			btnHelp.setText(R.string.control_panel_help_port);
-		}
-	}
-
 	/* 设置背景图片 */
 	public void SetBackground()
 	{
@@ -1030,10 +995,6 @@ public class scrMain extends Activity
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
 		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
-		btnSwitcher = (Button) findViewById(R.id.btnSwitcher);
-		btnAdvanced = (Button) findViewById(R.id.btnAdvanced);
-		btnSettings = (Button) findViewById(R.id.btnSettings);
-		btnHelp = (Button) findViewById(R.id.btnHelp);
 		btnFileOK = (Button) findViewById(R.id.btnFileOK);
 		btnFileCancel = (Button) findViewById(R.id.btnFileCancel);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
@@ -1045,7 +1006,6 @@ public class scrMain extends Activity
 		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
-		layMenu = (LinearLayout) findViewById(R.id.layMenu);
 		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
@@ -1053,149 +1013,7 @@ public class scrMain extends Activity
 		skbMusic = (SeekBar) findViewById(R.id.skbMusic);
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		lstFile = (ListView) findViewById(R.id.lstFile);
-		grdSwitcher = (GridView) findViewById(R.id.grdSwitcher);
-		grdAdvanced = (GridView) findViewById(R.id.grdAdvanced);
-		grdSettings = (GridView) findViewById(R.id.grdSettings);
-		grdHelp = (GridView) findViewById(R.id.grdHelp);
 		layLyricController = (LinearLayout) findViewById(R.id.layLyricController);
-	}
-
-	/* 开关菜单 */
-	public void SetSwitcherMenu()
-	{
-		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ItemText", getString(R.string.scrmain_play_mode));
-		if (st.getPlayMode().equals("0"))
-			map.put("ItemIcon", R.drawable.menu_play_mode_close);
-		else if (st.getPlayMode().equals("1"))
-			map.put("ItemIcon", R.drawable.menu_play_mode_repeat_all);
-		else if (st.getPlayMode().equals("2"))
-			map.put("ItemIcon", R.drawable.menu_play_mode_pause_current);
-		else if (st.getPlayMode().equals("3"))
-			map.put("ItemIcon", R.drawable.menu_play_mode_repeat_current);
-		else if (st.getPlayMode().equals("4"))
-			map.put("ItemIcon", R.drawable.menu_play_mode_shuffle);
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_show_lrc);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_show_lyric));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_desk_lrc);
-		if (st.getDeskLRCStatus())
-		{
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_desk_lrc_hide));
-			fl.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_desk_lrc_show));
-			fl.setVisibility(View.INVISIBLE);
-			nm.cancel(LRC_NOTIFY_ID);
-		}
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_keep_screen_on);
-		if (st.getKeepScreenOn())
-		{
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_keep_screen_on_false));
-			layActivity.setKeepScreenOn(true);
-			fl.setKeepScreenOn(true);
-		}
-		else
-		{
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_keep_screen_on_true));
-			layActivity.setKeepScreenOn(false);
-			fl.setKeepScreenOn(false);
-		}
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_volume);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_volume));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		if (st.getOrderBy().equals("asc"))
-		{
-			map.put("ItemIcon", R.drawable.menu_order_desc);
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_order_desc));
-		}
-		else
-		{
-			map.put("ItemIcon", R.drawable.menu_order_asc);
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_order_asc));
-		}
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_exit);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_exit));
-		lstMenuItem.add(map);
-
-		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
-		grdSwitcher.setAdapter(adapter);
-	}
-
-	/* 扩展菜单 */
-	public void SetAdvancedMenu()
-	{
-		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_search);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_search));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_ringtone);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_ringtone));
-		lstMenuItem.add(map);
-
-		map = new HashMap<String, Object>();
-		if (IsShowingFavourite)
-		{// 最爱
-			map.put("ItemIcon", R.drawable.menu_list);
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_list));
-		}
-		else
-		{// 列表
-			map.put("ItemIcon", R.drawable.menu_favourite);
-			map.put("ItemText", getString(R.string.scrmain_extend_menu_favourite));
-		}
-		lstMenuItem.add(map);
-
-		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
-		grdAdvanced.setAdapter(adapter);
-	}
-
-	/* 设置菜单 */
-	public void SetSettingsMenu()
-	{
-		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_settings);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_settings));
-		lstMenuItem.add(map);
-
-		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
-		grdSettings.setAdapter(adapter);
-	}
-
-	/* 帮助菜单 */
-	public void SetHelpMenu()
-	{
-		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ItemIcon", R.drawable.menu_feedback);
-		map.put("ItemText", getString(R.string.scrmain_extend_menu_feedback));
-		lstMenuItem.add(map);
-
-		SimpleAdapter adapter = new SimpleAdapter(this, lstMenuItem, R.layout.grid_menu, new String[] { "ItemIcon", "ItemText" }, new int[] { R.id.imgMenu, R.id.txtMenu });
-		grdHelp.setAdapter(adapter);
 	}
 
 	/* 搜索框切换 */
@@ -1476,382 +1294,6 @@ public class scrMain extends Activity
 			}
 		});
 
-		/* 开关菜单 */
-		grdSwitcher.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				boolean CouldHide = true;
-
-				switch (arg2)
-				{
-					case 0:
-						CouldHide = false;
-						ImageView imgPlayMode = (ImageView) arg1.findViewById(R.id.imgMenu);
-						String index = st.getPlayMode(); // 0－顺序播放；1－全部循环；2－单曲暂停；3－单曲循环；4－随机播放
-						Editor edtPlayMode = sp.edit();
-
-						if (index.equals("0"))
-						{
-							edtPlayMode.putString("PlayMode", "1");
-							st.setPlayMode("1");
-							imgPlayMode.setImageResource(R.drawable.menu_play_mode_repeat_all);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_play_mode_repeat_all);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_repeat_all, Toast.LENGTH_SHORT);
-						}
-						else if (index.equals("1"))
-						{
-							edtPlayMode.putString("PlayMode", "2");
-							st.setPlayMode("2");
-							imgPlayMode.setImageResource(R.drawable.menu_play_mode_pause_current);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_play_mode_pause_current);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_pause_current, Toast.LENGTH_SHORT);
-						}
-						else if (index.equals("2"))
-						{
-							edtPlayMode.putString("PlayMode", "3");
-							st.setPlayMode("3");
-							imgPlayMode.setImageResource(R.drawable.menu_play_mode_repeat_current);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_play_mode_repeat_current);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_repeat_current, Toast.LENGTH_SHORT);
-						}
-						else if (index.equals("3"))
-						{
-							edtPlayMode.putString("PlayMode", "4");
-							st.setPlayMode("4");
-							imgPlayMode.setImageResource(R.drawable.menu_play_mode_shuffle);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_play_mode_shuffle);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_shuffle, Toast.LENGTH_SHORT);
-						}
-						else if (index.equals("4"))
-						{
-							edtPlayMode.putString("PlayMode", "0");
-							st.setPlayMode("0");
-							imgPlayMode.setImageResource(R.drawable.menu_play_mode_close);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_play_mode_close);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_play_mode_close, Toast.LENGTH_SHORT);
-						}
-
-						edtPlayMode.commit();
-						toast.show();
-
-						break;
-					case 1:
-						List2LRCSwitcher();
-						break;
-					case 2:
-						TextView txtDeskLyric = (TextView) arg1.findViewById(R.id.txtMenu);
-						Editor edtDeskLRCStatus = sp.edit();
-						if (st.getDeskLRCStatus())
-						{
-							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_show);
-							edtDeskLRCStatus.putBoolean("DeskLRCStatus", false);
-							st.setDeskLRCStatus(false);
-							nm.cancel(LRC_NOTIFY_ID);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.float_lrc_deactivation);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.float_lrc_deactivation, Toast.LENGTH_SHORT);
-						}
-						else
-						{
-							txtDeskLyric.setText(R.string.scrmain_extend_menu_desk_lrc_hide);
-							edtDeskLRCStatus.putBoolean("DeskLRCStatus", true);
-							st.setDeskLRCStatus(true);
-							CallFloatLRCNotify(st.getFloatLRCLocked());
-
-							if (toast != null)
-							{
-								toast.setText(R.string.float_lrc_activiation);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.float_lrc_activiation, Toast.LENGTH_SHORT);
-						}
-						edtDeskLRCStatus.commit();
-						toast.show();
-
-						break;
-					case 3:
-						TextView txtScrOn = (TextView) arg1.findViewById(R.id.txtMenu);
-						Editor edtKeepScreenOn = sp.edit();
-						if (!st.getKeepScreenOn())
-						{
-							layActivity.setKeepScreenOn(true);
-							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_false);
-							edtKeepScreenOn.putBoolean("KeepScreenOn", true);
-							st.setKeepScreenOn(true);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_extend_menu_keep_screen_on_true);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_extend_menu_keep_screen_on_true, Toast.LENGTH_SHORT);
-						}
-						else
-						{
-							layActivity.setKeepScreenOn(false);
-							txtScrOn.setText(R.string.scrmain_extend_menu_keep_screen_on_true);
-							edtKeepScreenOn.putBoolean("KeepScreenOn", false);
-							st.setKeepScreenOn(false);
-
-							if (toast != null)
-							{
-								toast.setText(R.string.scrmain_extend_menu_keep_screen_on_false);
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, R.string.scrmain_extend_menu_keep_screen_on_false, Toast.LENGTH_SHORT);
-						}
-						edtKeepScreenOn.commit();
-						toast.show();
-
-						break;
-					case 4:
-						vd.ShowDialog(main, st.getLanguage(), st.getUseAnimation(), layActivity);
-						vd.setCountDown(5); // 显示长度5秒的音量条
-
-						break;
-					case 5:
-						TextView txtOrder = (TextView) arg1.findViewById(R.id.txtMenu);
-						ImageView imgMenu = (ImageView) arg1.findViewById(R.id.imgMenu);
-						Editor edtOrderBy = sp.edit();
-						if (st.getOrderBy().equals("asc"))
-						{
-							txtOrder.setText(R.string.scrmain_extend_menu_order_asc);
-							imgMenu.setImageResource(R.drawable.menu_order_asc);
-							edtOrderBy.putString("OrderBy", "desc");
-							st.setOrderBy("desc");
-						}
-						else
-						{
-							txtOrder.setText(R.string.scrmain_extend_menu_order_desc);
-							imgMenu.setImageResource(R.drawable.menu_order_desc);
-							edtOrderBy.putString("OrderBy", "asc");
-							st.setOrderBy("asc");
-						}
-
-						edtOrderBy.commit();
-						SetMusicListByDB();
-
-						break;
-					case 6:
-						Editor edtLastKeyword = sp.edit();
-						edtLastKeyword.putString("LastKeyword", "");
-						edtLastKeyword.putBoolean("Started", false); // 是否启动标志，给Widget判断
-						st.setLastKeyword("");
-						st.setStarted(false);
-						edtLastKeyword.commit();
-						nm.cancelAll();
-						System.exit(0);
-
-						break;
-				}
-
-				if (CouldHide)
-					HideExtendPanel();
-			}
-		});
-
-		/* 扩展菜单 */
-		grdAdvanced.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				switch (arg2)
-				{
-					case 0:
-						SearchBoxSwitcher();
-						break;
-					case 1:
-						Map<String, Object> map = lstSong.get(ms.getCurrIndex());
-						String strMusicPath = (String) map.get("MusicPath");
-
-						if (SetAsRingtone(strMusicPath))
-						{
-							if (toast != null)
-							{
-								toast.setText(getString(R.string.scrmain_ringtone_successful));
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_ringtone_successful), Toast.LENGTH_SHORT);
-						}
-						else
-						{
-							if (toast != null)
-							{
-								toast.setText(getString(R.string.scrmain_ringtone_set_refused));
-								toast.setDuration(Toast.LENGTH_SHORT);
-							}
-							else
-								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_ringtone_set_refused), Toast.LENGTH_SHORT);
-						}
-						toast.show();
-
-						break;
-					case 2:
-						TextView txtFavourite = (TextView) arg1.findViewById(R.id.txtMenu);
-						ImageView imgFavourite = (ImageView) arg1.findViewById(R.id.imgMenu);
-
-						if (IsShowingFavourite)
-						{// 最爱-->列表
-							txtFavourite.setText(R.string.scrmain_extend_menu_favourite);
-							imgFavourite.setImageResource(R.drawable.menu_favourite);
-
-							IsShowingFavourite = false;
-						}
-						else
-						{// 列表-->最爱
-							// 清空关键词
-							Editor edt = sp.edit();
-							edt.putString("LastKeyword", "");
-							edt.commit();
-							txtKeyword.setText("");
-
-							txtFavourite.setText(R.string.scrmain_extend_menu_list);
-							imgFavourite.setImageResource(R.drawable.menu_list);
-
-							IsShowingFavourite = true;
-						}
-
-						SetMusicListByDB();
-
-						break;
-				}
-
-				HideExtendPanel();
-			}
-		});
-
-		/* 设置菜单 */
-		grdSettings.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				switch (arg2)
-				{
-					case 0:
-						startActivity(new Intent(scrMain.this, scrSettings.class));
-						break;
-				}
-
-				HideExtendPanel();
-			}
-		});
-
-		/* 帮助菜单 */
-		grdHelp.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-			{
-				switch (arg2)
-				{
-					case 0:
-						TextDialog.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_extend_menu_feedback, R.string.scrmain_feedback_hint, 15, "", 18,
-								new OnClickListener()
-								{
-									public void onClick(View v)
-									{
-										String strMessage = TextDialog.getEdtMessage().getText().toString().trim();
-
-										if (strMessage != null && !strMessage.equals(""))
-										{
-											// 获取手机串号等信息并发送
-											TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
-											// 获取当前时间
-											java.util.Date date = new java.util.Date();
-											SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-											String strDateTime = sdf.format(date);
-
-											String strURL = "http://www.littledai.com/LiteListen/SendTicket.php?imei={imei}&locale={locale}&sdk={sdk}&release={release}&model={model}&message={message}&submit_time={submit_time}";
-											strURL = strURL.replace("{imei}", java.net.URLEncoder.encode(tm.getDeviceId())).replace("{locale}",
-													java.net.URLEncoder.encode(getResources().getConfiguration().locale.toString())).replace("{sdk}", java.net.URLEncoder.encode(Build.VERSION.SDK))
-													.replace("{release}", java.net.URLEncoder.encode(Build.VERSION.RELEASE)).replace("{model}", java.net.URLEncoder.encode(Build.MODEL)).replace(
-															"{message}", java.net.URLEncoder.encode(strMessage)).replace("{submit_time}", java.net.URLEncoder.encode(strDateTime)); // 将变量转换成URL格式
-
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_successful));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_successful), Toast.LENGTH_SHORT);
-
-											String strHint = getString(R.string.scrmain_feedback_successful);
-
-											if (Common.CallURLPost(strURL, 10000))
-												TextDialog.getPw().dismiss(); // 成功后关闭对话框
-											else
-												strHint = getString(R.string.scrmain_feedback_failure);
-
-											if (toast != null)
-											{
-												toast.setText(strHint);
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, strHint, Toast.LENGTH_SHORT);
-										}
-										else
-										{
-											if (toast != null)
-											{
-												toast.setText(getString(R.string.scrmain_feedback_blank));
-												toast.setDuration(Toast.LENGTH_SHORT);
-											}
-											else
-												toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_feedback_blank), Toast.LENGTH_SHORT);
-										}
-
-										toast.show();
-									}
-								});
-
-						break;
-				}
-
-				HideExtendPanel();
-			}
-		});
-
 		/* 歌词列表触摸 */
 		txtLRC.setOnTouchListener(new OnTouchListener()
 		{
@@ -1973,110 +1415,6 @@ public class scrMain extends Activity
 				}
 
 				return false; // 继续回传，否则ACTION_DOWN后接收不到其它事件
-			}
-		});
-
-		btnSwitcher.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				grdSwitcher.setVisibility(View.VISIBLE);
-				grdAdvanced.setVisibility(View.GONE);
-				grdSettings.setVisibility(View.GONE);
-				grdHelp.setVisibility(View.GONE);
-
-				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_highlight);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
-				}
-				else
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_highlight);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
-				}
-			}
-		});
-
-		btnAdvanced.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				grdSwitcher.setVisibility(View.GONE);
-				grdAdvanced.setVisibility(View.VISIBLE);
-				grdSettings.setVisibility(View.GONE);
-				grdHelp.setVisibility(View.GONE);
-
-				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
-				}
-				else
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
-				}
-			}
-		});
-
-		btnSettings.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				grdSwitcher.setVisibility(View.GONE);
-				grdAdvanced.setVisibility(View.GONE);
-				grdSettings.setVisibility(View.VISIBLE);
-				grdHelp.setVisibility(View.GONE);
-
-				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
-				}
-				else
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_highlight);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_normal);
-				}
-			}
-		});
-
-		btnHelp.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				grdSwitcher.setVisibility(View.GONE);
-				grdAdvanced.setVisibility(View.GONE);
-				grdSettings.setVisibility(View.GONE);
-				grdHelp.setVisibility(View.VISIBLE);
-
-				if (ScreenOrantation == 1 || ScreenOrantation == 3)
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_highlight);
-				}
-				else
-				{
-					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_port_left_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_port_middle_normal);
-					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_port_right_highlight);
-				}
 			}
 		});
 
@@ -2431,61 +1769,6 @@ public class scrMain extends Activity
 		});
 	}
 
-	/* 显示扩展托盘 */
-	public void ShowExtendPanel()
-	{
-		if (layMenu.getVisibility() == View.GONE)
-		{
-			layMenu.setVisibility(View.VISIBLE);
-			Animation anim = new AlphaAnimation(0, 1);
-
-			if (st.getUseAnimation())
-			{
-				anim.setDuration(ANIMATION_TIME);
-				layMenu.startAnimation(anim);
-			}
-		}
-	}
-
-	/* 隐藏扩展托盘 */
-	public void HideExtendPanel()
-	{
-		if (layMenu.getVisibility() == View.VISIBLE)
-		{
-			layMenu.setVisibility(View.GONE);
-			Animation anim = new AlphaAnimation(1, 0);
-
-			if (st.getUseAnimation())
-			{
-				anim.setDuration(ANIMATION_TIME);
-				layMenu.startAnimation(anim);
-			}
-		}
-	}
-
-	/* 扩展托盘显示/隐藏 */
-	public void ExtendPanelSwitcher()
-	{
-		Animation anim = null;
-
-		if (layMenu.getVisibility() == View.VISIBLE)
-		{
-			layMenu.setVisibility(View.GONE);
-			anim = new AlphaAnimation(1, 0);
-		}
-		else
-		{
-			layMenu.setVisibility(View.VISIBLE);
-			anim = new AlphaAnimation(0, 1);
-		}
-
-		if (st.getUseAnimation())
-		{
-			anim.setDuration(ANIMATION_TIME);
-			layMenu.startAnimation(anim);
-		}
-	}
-
 	/* 将音乐设置为系统铃声 */
 	public boolean SetAsRingtone(String FilePath)
 	{
@@ -2547,7 +1830,7 @@ public class scrMain extends Activity
 		}
 		else if (keyCode == KeyEvent.KEYCODE_MENU)
 		{
-			ExtendPanelSwitcher();
+			md.ShowDialog();
 			return false;
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
@@ -2724,96 +2007,6 @@ public class scrMain extends Activity
 	public void setLstMusic(ListView lstMusic)
 	{
 		this.lstMusic = lstMusic;
-	}
-
-	public Button getBtnSwitcher()
-	{
-		return btnSwitcher;
-	}
-
-	public void setBtnSwitcher(Button btnSwitcher)
-	{
-		this.btnSwitcher = btnSwitcher;
-	}
-
-	public Button getBtnAdvanced()
-	{
-		return btnAdvanced;
-	}
-
-	public void setBtnAdvanced(Button btnAdvanced)
-	{
-		this.btnAdvanced = btnAdvanced;
-	}
-
-	public Button getBtnSettings()
-	{
-		return btnSettings;
-	}
-
-	public void setBtnSettings(Button btnSettings)
-	{
-		this.btnSettings = btnSettings;
-	}
-
-	public Button getBtnHelp()
-	{
-		return btnHelp;
-	}
-
-	public void setBtnHelp(Button btnHelp)
-	{
-		this.btnHelp = btnHelp;
-	}
-
-	public LinearLayout getLayMenu()
-	{
-		return layMenu;
-	}
-
-	public void setLayMenu(LinearLayout layMenu)
-	{
-		this.layMenu = layMenu;
-	}
-
-	public GridView getGrdSwitcher()
-	{
-		return grdSwitcher;
-	}
-
-	public void setGrdSwitcher(GridView grdSwitcher)
-	{
-		this.grdSwitcher = grdSwitcher;
-	}
-
-	public GridView getGrdAdvanced()
-	{
-		return grdAdvanced;
-	}
-
-	public void setGrdAdvanced(GridView grdAdvanced)
-	{
-		this.grdAdvanced = grdAdvanced;
-	}
-
-	public GridView getGrdSettings()
-	{
-		return grdSettings;
-	}
-
-	public void setGrdSettings(GridView grdSettings)
-	{
-		this.grdSettings = grdSettings;
-	}
-
-	public GridView getGrdHelp()
-	{
-		return grdHelp;
-	}
-
-	public void setGrdHelp(GridView grdHelp)
-	{
-		this.grdHelp = grdHelp;
 	}
 
 	public SeekBar getSkbMusic()
@@ -3254,5 +2447,25 @@ public class scrMain extends Activity
 	public void setIsForceHideFloatLRC(boolean isForceHideFloatLRC)
 	{
 		IsForceHideFloatLRC = isForceHideFloatLRC;
+	}
+
+	public VolumeDialog getVd()
+	{
+		return vd;
+	}
+
+	public void setVd(VolumeDialog vd)
+	{
+		this.vd = vd;
+	}
+
+	public MenuDialog getMd()
+	{
+		return md;
+	}
+
+	public void setMd(MenuDialog md)
+	{
+		this.md = md;
 	}
 }
