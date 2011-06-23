@@ -323,7 +323,7 @@ public class scrSettings extends Activity
 		LRCFontColorNormal = sp.getString("LRCFontColorNormal", "#FFFFFF");
 		LRCFontColorHighlight = sp.getString("LRCFontColorHighlight", "#FFFF00");
 		LRCFontShadow = sp.getBoolean("LRCFontShadow", true);
-		LRCFontShadowColor = sp.getString("LRCFontShadowColor", "#0099FF");
+		LRCFontShadowColor = sp.getString("LRCFontShadowColor", "#9BD7FF");
 
 		HowToCheckForUpdate = sp.getString("HowToCheckForUpdate", "1");
 		Restore = sp.getString("Restore", "");
@@ -1333,7 +1333,7 @@ public class scrSettings extends Activity
 							LRCFontColorNormal = "#FFFFFF";
 							LRCFontColorHighlight = "#FFFF00";
 							LRCFontShadow = true;
-							LRCFontShadowColor = "#0099FF";
+							LRCFontShadowColor = "#9BD7FF";
 
 							Restore = "";
 
