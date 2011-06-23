@@ -36,10 +36,11 @@
 	<string name="scrmain_extend_menu_order_asc">ASC</string>
 	<string name="scrmain_extend_menu_order_desc">DESC</string>
 	<string name="scrmain_extend_menu_show_lyric">Show LRC</string>
-	<string name="scrmain_extend_menu_ringtong">Set Ring</string>
+	<string name="scrmain_extend_menu_ringtone">Set Ring</string>
 	<string name="scrmain_extend_menu_feedback">Feedback</string>
 	<string name="scrmain_extend_menu_favourite">Favourite</string>
 	<string name="scrmain_extend_menu_list">List</string>
+	<string name="scrmain_extend_menu_volume">Volume</string>
 	<string name="scrmain_play_mode">Play Mode</string>
 	<string name="scrmain_play_mode_close">Play By Order</string>
 	<string name="scrmain_play_mode_repeat_all">Repeat All</string>
@@ -50,8 +51,9 @@
 	<string name="scrmain_show_main">Click here to show player</string>
 	<string name="scrmain_volume">Volume: </string>
 	<string name="scrmain_volume_mute">Mute</string>
-	<string name="scrmain_ringtong_successful">Ringtong has been set</string>
+	<string name="scrmain_ringtone_successful">Ringtone has been set</string>
 	<string name="scrmain_alarm_successful">Alarm has been set</string>
+	<string name="scrmain_ringtone_set_refused">This music cannot be set as a ringtone</string>
 	<string name="scrmain_play_first">Please play a music first</string>
 	<string name="scrmain_context_menu_music">Music Options</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
@@ -246,6 +248,9 @@
 		<item>View Music Info</item>
 		<item>Read Music Info By Using App Functions</item>
 		<item>Read Music Info By Using System Cache</item>
+		<item>Set As Calling Ringtone</item>
+		<item>Set As Alarm Ringtone</item>
+		<item>Set As SMS Ringtone</item>
 	</string-array>
 	<string-array name="item_name_txtlrc_context_menu">
 		<item>Select a lyric from browser...</item>

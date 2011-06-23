@@ -25,7 +25,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
+import android.text.Editable;
+import android.text.method.KeyListener;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -43,7 +46,7 @@ public class VolumeDialog
 	private AudioManager am;
 
 	private boolean IsShown = false;
-	private int CountDown = 3;
+	private int CountDown = 2;
 
 	public VolumeDialog(final Activity act)
 	{
@@ -53,28 +56,72 @@ public class VolumeDialog
 		skbVolume = (SeekBar) view.findViewById(R.id.skbVolume);
 		am = (AudioManager) act.getSystemService(Service.AUDIO_SERVICE);
 
+		// 监听按键
+		txtTitle.setKeyListener(new KeyListener()
+		{
+			public void clearMetaKeyState(View view, Editable content, int states)
+			{
+
+			}
+
+			public int getInputType()
+			{
+				return 0;
+			}
+
+			public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event)
+			{
+				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+				{
+					skbVolume.setProgress(skbVolume.getProgress() + 1);
+					CountDown = 2;
+				}
+				else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+				{
+					skbVolume.setProgress(skbVolume.getProgress() - 1);
+					CountDown = 2;
+				}
+
+				return true;
+			}
+
+			public boolean onKeyOther(View view, Editable text, KeyEvent event)
+			{
+				return false;
+			}
+
+			public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event)
+			{
+				return false;
+			}
+		});
+
 		/* 音量滑块 */
 		skbVolume.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
 			public void onStopTrackingTouch(SeekBar seekBar)
 			{
-
+				CountDown = 2;
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar)
 			{
-				CountDown = 3;
+				CountDown = 60;
 			}
 
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
 				am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-				CountDown = 3;
 
 				if (progress == 0)
 					txtTitle.setText(act.getString(R.string.scrmain_volume_mute)); // 显示静音
 				else
 					txtTitle.setText(act.getString(R.string.scrmain_volume) + progress); // 暂时显示音量
+
+				if (fromUser)
+					CountDown = 60; // 用户拖动滑块时保持60秒
+				else
+					CountDown = 2;
 			}
 		});
 	}
@@ -97,7 +144,7 @@ public class VolumeDialog
 
 		skbVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
-		CountDown = 3;
+		CountDown = 2;
 
 		if (!IsShown)
 		{

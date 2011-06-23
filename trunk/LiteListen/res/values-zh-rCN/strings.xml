@@ -35,10 +35,11 @@
 	<string name="scrmain_extend_menu_order_asc">升序排列</string>
 	<string name="scrmain_extend_menu_order_desc">降序排列</string>
 	<string name="scrmain_extend_menu_show_lyric">显示歌词</string>
-	<string name="scrmain_extend_menu_ringtong">设为铃声</string>
+	<string name="scrmain_extend_menu_ringtone">设为铃声</string>
 	<string name="scrmain_extend_menu_feedback">问题反馈</string>
 	<string name="scrmain_extend_menu_favourite">最爱歌曲</string>
 	<string name="scrmain_extend_menu_list">返回列表</string>
+	<string name="scrmain_extend_menu_volume">音量调整</string>
 	<string name="scrmain_play_mode">播放模式</string>
 	<string name="scrmain_play_mode_close">顺序播放</string>
 	<string name="scrmain_play_mode_repeat_all">全部循环</string>
@@ -49,8 +50,9 @@
 	<string name="scrmain_show_main">单击这里显示播放器主界面</string>
 	<string name="scrmain_volume">音量：</string>
 	<string name="scrmain_volume_mute">静音</string>
-	<string name="scrmain_ringtong_successful">已设为来电铃声</string>
+	<string name="scrmain_ringtone_successful">已设为来电铃声</string>
 	<string name="scrmain_alarm_successful">已设为闹钟铃声</string>
+	<string name="scrmain_ringtone_set_refused">此歌曲不能设为铃声</string>
 	<string name="scrmain_play_first">请先播放音乐</string>
 	<string name="scrmain_context_menu_music">音乐选项</string>
 	<string name="scrmain_context_menu_lrc">歌词选项</string>
@@ -193,6 +195,9 @@
 		<item>查看音乐信息</item>
 		<item>使用程序自带方式获取音乐信息</item>
 		<item>从系统缓存中获取音乐信息</item>
+		<item>设为来电铃声</item>
+		<item>设为闹钟铃声</item>
+		<item>设为短信铃声</item>
 	</string-array>
 	<string-array name="item_name_txtlrc_context_menu">
 		<item>浏览歌词文件……</item>

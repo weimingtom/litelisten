@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionName="@string/global_app_version" package="com.galapk.litelisten" android:versionCode="29">
+	android:versionName="@string/global_app_version" package="com.galapk.litelisten"
+	android:versionCode="29">
 
 	<application android:icon="@drawable/icon" android:label="@string/global_app_name">
 		<activity android:name=".scrMain"
@@ -18,6 +19,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="audio/x-mpeg" />
 				<data android:mimeType="audio/x-ms-wma" />
+				<data android:mimeType="audio/x-wav" />
 			</intent-filter>
 
 			<intent-filter>
@@ -86,6 +88,7 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="5"
 		android:maxSdkVersion="10" />

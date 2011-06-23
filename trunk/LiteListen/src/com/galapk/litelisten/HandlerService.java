@@ -240,7 +240,22 @@ public class HandlerService
 									// 开始下载更新文件
 									File TempFile = Common.GetUpdate();
 									if (TempFile != null)
-									{// 文件下载完成
+									{
+										// 记录临时文件路径，下次启动时检查并删除
+										if (main != null)
+										{
+											Editor edt = main.getSp().edit();
+											edt.putString("UpdateFileName", TempFile.getAbsolutePath());
+											edt.commit();
+										}
+										else if (settings != null)
+										{
+											Editor edt = settings.getSp().edit();
+											edt.putString("UpdateFileName", TempFile.getAbsolutePath());
+											edt.commit();
+										}
+
+										// 启动安装
 										Intent intent = new Intent();
 										intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 										intent.setAction(android.content.Intent.ACTION_VIEW);
