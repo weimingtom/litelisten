@@ -146,6 +146,11 @@ public class VolumeDialog
 		skbVolume.setProgress(am.getStreamVolume(AudioManager.STREAM_MUSIC));
 		CountDown = 2;
 
+		if (skbVolume.getProgress() == 0)
+			txtTitle.setText(act.getString(R.string.scrmain_volume_mute)); // 显示静音
+		else
+			txtTitle.setText(act.getString(R.string.scrmain_volume) + skbVolume.getProgress()); // 暂时显示音量
+
 		if (!IsShown)
 		{
 			int ScreenOrientation = act.getWindowManager().getDefaultDisplay().getOrientation();

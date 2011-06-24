@@ -34,11 +34,13 @@
 	<string name="scrmain_extend_menu_search">快速搜索</string>
 	<string name="scrmain_extend_menu_order_asc">昇冪排列</string>
 	<string name="scrmain_extend_menu_order_desc">降冪排列</string>
-	<string name="scrmain_extend_menu_ringtong">設為鈴聲</string>
+	<string name="scrmain_extend_menu_show_lyric">顯示歌詞</string>
+	<string name="scrmain_extend_menu_ringtone">設為鈴聲</string>
 	<string name="scrmain_extend_menu_feedback">問題回饋</string>
 	<string name="scrmain_extend_menu_favourite">最愛歌曲</string>
 	<string name="scrmain_extend_menu_list">返回列表</string>
-	<string name="scrmain_extend_menu_wait">敬請期待</string>
+	<string name="scrmain_extend_menu_volume">音量調整</string>
+	<string name="scrmain_play_mode">播放模式</string>
 	<string name="scrmain_play_mode_close">順序播放</string>
 	<string name="scrmain_play_mode_repeat_all">全部迴圈</string>
 	<string name="scrmain_play_mode_pause_current">單曲暫停</string>
@@ -48,8 +50,9 @@
 	<string name="scrmain_show_main">按一下這裡顯示播放機主介面</string>
 	<string name="scrmain_volume">音量：</string>
 	<string name="scrmain_volume_mute">靜音</string>
-	<string name="scrmain_ringtong_successful">已設為來電鈴聲</string>
+	<string name="scrmain_ringtone_successful">已設為來電鈴聲</string>
 	<string name="scrmain_alarm_successful">已設為鬧鐘鈴聲</string>
+	<string name="scrmain_ringtone_set_refused">鈴聲設置失敗，該音樂可能正在被使用</string>
 	<string name="scrmain_play_first">請先播放音樂</string>
 	<string name="scrmain_context_menu_music">音樂選項</string>
 	<string name="scrmain_context_menu_lrc">歌詞選項</string>
@@ -135,12 +138,10 @@
 	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
 	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
 	<string name="pfrscat_help_about">關於 輕聽音樂</string>
-	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.4 build
-		0622.0932\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n更新內容：\n【新增】對話方塊動畫效果\n【新增】歌曲清單長按菜單\n【新增】MIUI
-		ROM中可以將輕聽設為默認播放機\n【修復】藍牙/線控有時無法控制播放機的問題\n【修復】新版本啟動時更新日誌時有時無的問題\n【修復】獲取系統緩存的音樂屬性失敗的問題\n【修復】被選中的歌曲無法回應長按事件的問題\n【測試】音樂資訊可以在系統緩存和程式自帶的讀取方式中切換，盡可能減少亂碼\n【優化】從搜索結果頁切換到最愛歌曲清單時清除殘留的關鍵字\n【優化】某些情況下清單功能表可以直接選擇\n【優化】對話方塊可以按返回鍵關閉\n\n官方網站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.5 build
+		0624.1539\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】支持WAV格式\n【新增】按兩下播放選中的音樂\n【新增】將歌曲設為來電鈴聲\n【修復】由於增加了對話方塊動畫效果而導致的設置功能表檢查更新時引起崩潰的問題\n【修復】橫屏模式下長按歌曲清單導致崩潰的問題\n【優化】突兀的標題列三按鈕移至功能表內\n【優化】音量調節顯示使用彈出對話方塊形式，2秒後自動消失\n【優化】啟動後會刪除自動更新的暫存檔案\n【優化】調整了一些細節上的顏色搭配\n【優化】功能表鍵對應的彈出功能表改為浮動樣式，不再影響歌詞或音樂清單的大小\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n更新內容：\n【新增】對話方塊動畫效果\n【新增】歌曲清單長按菜單\n【新增】MIUI
-		ROM中可以將輕聽設為默認播放機\n【修復】藍牙/線控有時無法控制播放機的問題\n【修復】新版本啟動時更新日誌時有時無的問題\n【修復】獲取系統緩存的音樂屬性失敗的問題\n【修復】被選中的歌曲無法回應長按事件的問題\n【測試】音樂資訊可以在系統緩存和程式自帶的讀取方式中切換，盡可能減少亂碼\n【優化】從搜索結果頁切換到最愛歌曲清單時清除殘留的關鍵字\n【優化】某些情況下清單功能表可以直接選擇\n【優化】對話方塊可以按返回鍵關閉
+	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】支持WAV格式\n【新增】按兩下播放選中的音樂\n【新增】將歌曲設為來電鈴聲\n【修復】由於增加了對話方塊動畫效果而導致的設置功能表檢查更新時引起崩潰的問題\n【修復】橫屏模式下長按歌曲清單導致崩潰的問題\n【優化】突兀的標題列三按鈕移至功能表內\n【優化】音量調節顯示使用彈出對話方塊形式，2秒後自動消失\n【優化】啟動後會刪除自動更新的暫存檔案\n【優化】調整了一些細節上的顏色搭配\n【優化】功能表鍵對應的彈出功能表改為浮動樣式，不再影響歌詞或音樂清單的大小
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
@@ -192,6 +193,9 @@
 		<item>查看音樂資訊</item>
 		<item>使用程式自帶方式獲取音樂資訊</item>
 		<item>從系統緩存中獲取音樂資訊</item>
+		<item>設為來電鈴聲</item>
+		<item>設為鬧鐘鈴聲</item>
+		<item>設為短信鈴聲</item>
 	</string-array>
 	<string-array name="item_name_txtlrc_context_menu">
 		<item>流覽歌詞檔……</item>

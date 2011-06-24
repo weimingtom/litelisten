@@ -156,7 +156,6 @@ public class scrMain extends Activity
 	private SettingProvider st;
 	private SQLiteDatabase sd;
 	private VolumeDialog vd;
-	private MenuDialog md;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -263,7 +262,6 @@ public class scrMain extends Activity
 			layWM = new WindowManager.LayoutParams();
 			fl = new FloatLRC(this); // ¸¡¶¯¸è´Ê²¼¾Ö
 			vd = new VolumeDialog(this);
-			md = new MenuDialog(this);
 			dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -558,6 +556,12 @@ public class scrMain extends Activity
 		SetLanguage();
 		setContentView(R.layout.scr_main);
 		onResume();
+
+		if (MenuDialog.getPw() != null && MenuDialog.getPw().isShowing())
+			MenuDialog.getPw().dismiss();
+		
+		if (OptionDialog.getPw() != null && OptionDialog.getPw().isShowing())
+			OptionDialog.getPw().dismiss();
 	}
 
 	@Override
@@ -1830,7 +1834,8 @@ public class scrMain extends Activity
 		}
 		else if (keyCode == KeyEvent.KEYCODE_MENU)
 		{
-			md.ShowDialog();
+			MenuDialog.ShowDialog(main);
+			fl.setVisibility(View.GONE);
 			return false;
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
@@ -2457,15 +2462,5 @@ public class scrMain extends Activity
 	public void setVd(VolumeDialog vd)
 	{
 		this.vd = vd;
-	}
-
-	public MenuDialog getMd()
-	{
-		return md;
-	}
-
-	public void setMd(MenuDialog md)
-	{
-		this.md = md;
 	}
 }

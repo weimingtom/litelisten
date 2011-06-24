@@ -51,28 +51,23 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MenuDialog
 {
-	private int ScreenOrientation;
-	private PopupWindow pw;
-	private View view;
-	private scrMain main;
-	private LinearLayout layMenu;
-	private Button btnSwitcher;
-	private Button btnAdvanced;
-	private Button btnSettings;
-	private Button btnHelp;
-	private GridView grdSwitcher;
-	private GridView grdAdvanced;
-	private GridView grdSettings;
-	private GridView grdHelp;
+	private static int ScreenOrientation;
+	private static PopupWindow pw;
+	private static View view;
+	private static scrMain main;
+	private static LinearLayout layMenu;
+	private static Button btnSwitcher;
+	private static Button btnAdvanced;
+	private static Button btnSettings;
+	private static Button btnHelp;
+	private static GridView grdSwitcher;
+	private static GridView grdAdvanced;
+	private static GridView grdSettings;
+	private static GridView grdHelp;
 
-	public MenuDialog(scrMain main)
+	/* 获取控件实例 */
+	public static void GetInstance()
 	{
-		this.main = main;
-
-		LayoutInflater inflater = (LayoutInflater) main.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.popup_main_menu, null, false);
-		ScreenOrientation = main.getWindowManager().getDefaultDisplay().getOrientation();
-
 		layMenu = (LinearLayout) view.findViewById(R.id.layMenu);
 		btnSwitcher = (Button) view.findViewById(R.id.btnSwitcher);
 		btnAdvanced = (Button) view.findViewById(R.id.btnAdvanced);
@@ -82,16 +77,10 @@ public class MenuDialog
 		grdAdvanced = (GridView) view.findViewById(R.id.grdAdvanced);
 		grdSettings = (GridView) view.findViewById(R.id.grdSettings);
 		grdHelp = (GridView) view.findViewById(R.id.grdHelp);
-
-		SetButtonEvent();
-		SetSwitcherMenu();
-		SetAdvancedMenu();
-		SetSettingsMenu();
-		SetHelpMenu();
 	}
 
 	/* 开关菜单 */
-	public void SetSwitcherMenu()
+	public static void SetSwitcherMenu()
 	{
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -172,7 +161,7 @@ public class MenuDialog
 	}
 
 	/* 扩展菜单 */
-	public void SetAdvancedMenu()
+	public static void SetAdvancedMenu()
 	{
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -203,7 +192,7 @@ public class MenuDialog
 	}
 
 	/* 设置菜单 */
-	public void SetSettingsMenu()
+	public static void SetSettingsMenu()
 	{
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -216,7 +205,7 @@ public class MenuDialog
 	}
 
 	/* 帮助菜单 */
-	public void SetHelpMenu()
+	public static void SetHelpMenu()
 	{
 		List<Map<String, Object>> lstMenuItem = new ArrayList<Map<String, Object>>(); // 菜单功能列表
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -229,7 +218,7 @@ public class MenuDialog
 	}
 
 	/* 设置按钮事件 */
-	public void SetButtonEvent()
+	public static void SetButtonEvent()
 	{
 		layMenu.setOnKeyListener(new OnKeyListener()
 		{
@@ -254,8 +243,8 @@ public class MenuDialog
 				if (ScreenOrientation == 1 || ScreenOrientation == 3)
 				{
 					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_highlight);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_1);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_2);
 					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
@@ -280,8 +269,8 @@ public class MenuDialog
 				if (ScreenOrientation == 1 || ScreenOrientation == 3)
 				{
 					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight_1);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_2);
 					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
@@ -306,8 +295,8 @@ public class MenuDialog
 				if (ScreenOrientation == 1 || ScreenOrientation == 3)
 				{
 					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_1);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_highlight_2);
 					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_normal);
 				}
 				else
@@ -332,8 +321,8 @@ public class MenuDialog
 				if (ScreenOrientation == 1 || ScreenOrientation == 3)
 				{
 					btnSwitcher.setBackgroundResource(R.drawable.btn_control_panel_land_top_normal);
-					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
-					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal);
+					btnAdvanced.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_1);
+					btnSettings.setBackgroundResource(R.drawable.btn_control_panel_land_middle_normal_2);
 					btnHelp.setBackgroundResource(R.drawable.btn_control_panel_land_bottom_highlight);
 				}
 				else
@@ -724,7 +713,7 @@ public class MenuDialog
 		});
 	}
 
-	public void ShowDialog()
+	public static void ShowDialog(scrMain main)
 	{
 		if (!main.getSt().getLanguage().equals("3"))
 		{
@@ -740,132 +729,153 @@ public class MenuDialog
 			main.getResources().updateConfiguration(config, main.getResources().getDisplayMetrics());
 		}
 
+		MenuDialog.main = main;
+		LayoutInflater inflater = (LayoutInflater) main.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = inflater.inflate(R.layout.popup_main_menu, null, false); // 显示前再次更换布局
+		ScreenOrientation = main.getWindowManager().getDefaultDisplay().getOrientation();
+
+		GetInstance();
+		SetButtonEvent();
+		SetSwitcherMenu();
+		SetAdvancedMenu();
+		SetSettingsMenu();
+		SetHelpMenu();
+
 		pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
 		pw.setBackgroundDrawable(new BitmapDrawable()); // 响应返回键必须的语句
 
 		if (main.getSt().getUseAnimation())
 			pw.setAnimationStyle(R.style.DialogAnimation);
-
-		pw.showAtLocation(main.getLayActivity(), Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL, 0, 0); // 显示在顶端
+		pw.showAtLocation(main.getLayActivity(), Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL, 0, 0); // 显示在底部
 	}
 
-	public int getScreenOrientation()
+	public static int getScreenOrientation()
 	{
 		return ScreenOrientation;
 	}
 
-	public void setScreenOrientation(int screenOrientation)
+	public static void setScreenOrientation(int screenOrientation)
 	{
 		ScreenOrientation = screenOrientation;
 	}
 
-	public PopupWindow getPw()
+	public static PopupWindow getPw()
 	{
 		return pw;
 	}
 
-	public void setPw(PopupWindow pw)
+	public static void setPw(PopupWindow pw)
 	{
-		this.pw = pw;
+		MenuDialog.pw = pw;
 	}
 
-	public View getView()
+	public static View getView()
 	{
 		return view;
 	}
 
-	public void setView(View view)
+	public static void setView(View view)
 	{
-		this.view = view;
+		MenuDialog.view = view;
 	}
 
-	public scrMain getMain()
+	public static scrMain getMain()
 	{
 		return main;
 	}
 
-	public void setMain(scrMain main)
+	public static void setMain(scrMain main)
 	{
-		this.main = main;
+		MenuDialog.main = main;
 	}
 
-	public Button getBtnSwitcher()
+	public static LinearLayout getLayMenu()
+	{
+		return layMenu;
+	}
+
+	public static void setLayMenu(LinearLayout layMenu)
+	{
+		MenuDialog.layMenu = layMenu;
+	}
+
+	public static Button getBtnSwitcher()
 	{
 		return btnSwitcher;
 	}
 
-	public void setBtnSwitcher(Button btnSwitcher)
+	public static void setBtnSwitcher(Button btnSwitcher)
 	{
-		this.btnSwitcher = btnSwitcher;
+		MenuDialog.btnSwitcher = btnSwitcher;
 	}
 
-	public Button getBtnAdvanced()
+	public static Button getBtnAdvanced()
 	{
 		return btnAdvanced;
 	}
 
-	public void setBtnAdvanced(Button btnAdvanced)
+	public static void setBtnAdvanced(Button btnAdvanced)
 	{
-		this.btnAdvanced = btnAdvanced;
+		MenuDialog.btnAdvanced = btnAdvanced;
 	}
 
-	public Button getBtnSettings()
+	public static Button getBtnSettings()
 	{
 		return btnSettings;
 	}
 
-	public void setBtnSettings(Button btnSettings)
+	public static void setBtnSettings(Button btnSettings)
 	{
-		this.btnSettings = btnSettings;
+		MenuDialog.btnSettings = btnSettings;
 	}
 
-	public Button getBtnHelp()
+	public static Button getBtnHelp()
 	{
 		return btnHelp;
 	}
 
-	public void setBtnHelp(Button btnHelp)
+	public static void setBtnHelp(Button btnHelp)
 	{
-		this.btnHelp = btnHelp;
+		MenuDialog.btnHelp = btnHelp;
 	}
 
-	public GridView getGrdSwitcher()
+	public static GridView getGrdSwitcher()
 	{
 		return grdSwitcher;
 	}
 
-	public void setGrdSwitcher(GridView grdSwitcher)
+	public static void setGrdSwitcher(GridView grdSwitcher)
 	{
-		this.grdSwitcher = grdSwitcher;
+		MenuDialog.grdSwitcher = grdSwitcher;
 	}
 
-	public GridView getGrdAdvanced()
+	public static GridView getGrdAdvanced()
 	{
 		return grdAdvanced;
 	}
 
-	public void setGrdAdvanced(GridView grdAdvanced)
+	public static void setGrdAdvanced(GridView grdAdvanced)
 	{
-		this.grdAdvanced = grdAdvanced;
+		MenuDialog.grdAdvanced = grdAdvanced;
 	}
 
-	public GridView getGrdSettings()
+	public static GridView getGrdSettings()
 	{
 		return grdSettings;
 	}
 
-	public void setGrdSettings(GridView grdSettings)
+	public static void setGrdSettings(GridView grdSettings)
 	{
-		this.grdSettings = grdSettings;
+		MenuDialog.grdSettings = grdSettings;
 	}
 
-	public GridView getGrdHelp()
+	public static GridView getGrdHelp()
 	{
 		return grdHelp;
 	}
 
-	public void setGrdHelp(GridView grdHelp)
+	public static void setGrdHelp(GridView grdHelp)
 	{
-		this.grdHelp = grdHelp;
+		MenuDialog.grdHelp = grdHelp;
 	}
 }
