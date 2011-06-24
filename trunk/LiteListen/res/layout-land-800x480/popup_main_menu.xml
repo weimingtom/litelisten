@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 			<LinearLayout android:layout_alignParentRight="true" android:id="@+id/layMenu" android:background="@drawable/bg_control_panel_land"
-				android:padding="2.5dip" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content" android:layout_width="wrap_content">
+				android:padding="2.5dip" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content" android:layout_width="wrap_content" android:focusable="true" android:focusableInTouchMode="true">
 				<LinearLayout android:layout_width="wrap_content"
 					android:id="@+id/layMenuButton" android:orientation="vertical"
 					android:layout_height="wrap_content">
 					<Button android:layout_height="wrap_content"
 						android:layout_width="wrap_content" android:id="@+id/btnSwitcher"
 						android:textColor="#666666"
-						android:text="@string/control_panel_switcher_land" android:background="@drawable/btn_control_panel_land_top_highlight"></Button>
+						android:text="@string/control_panel_switcher_land" android:background="@drawable/btn_control_panel_land_top_highlight" android:layout_marginTop="0.5dip"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:id="@+id/btnAdvanced"
 						android:textColor="#666666"
-						android:text="@string/control_panel_advanced_land" android:background="@drawable/btn_control_panel_land_middle_normal"></Button>
+						android:text="@string/control_panel_advanced_land" android:background="@drawable/btn_control_panel_land_middle_normal_1"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:id="@+id/btnSettings"
 						android:textColor="#666666"
-						android:text="@string/control_panel_settings_land" android:background="@drawable/btn_control_panel_land_middle_normal"></Button>
+						android:text="@string/control_panel_settings_land" android:background="@drawable/btn_control_panel_land_middle_normal_2"></Button>
 					<Button android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:id="@+id/btnHelp"
 						android:textColor="#666666"
 						android:text="@string/control_panel_help_land" android:background="@drawable/btn_control_panel_land_bottom_normal"></Button>
 				</LinearLayout>
-				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
-					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
-					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
-					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
-					android:horizontalSpacing="5dip" android:id="@+id/grdSwitcher"
-					android:layout_height="wrap_content" android:layout_width="228dip"></GridView>
-				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
-					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
-					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
-					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
-					android:horizontalSpacing="5dip" android:id="@+id/grdAdvanced"
-					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
-				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
-					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
-					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
-					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
-					android:horizontalSpacing="5dip" android:id="@+id/grdSettings"
-					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
-				<GridView android:paddingBottom="6.5dip" android:paddingRight="3dip"
-					android:paddingLeft="4dip" android:listSelector="@layout/list_menu_selector"
-					android:numColumns="3" android:gravity="center_vertical|center_horizontal|center"
-					android:verticalSpacing="0dip" android:paddingTop="6.5dip"
-					android:horizontalSpacing="5dip" android:id="@+id/grdHelp"
-					android:layout_height="wrap_content" android:visibility="gone" android:layout_width="228dip"></GridView>
+				<GridView android:listSelector="@layout/list_menu_selector"
+					android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:horizontalSpacing="5dip" android:id="@+id/grdSwitcher"
+					android:layout_height="wrap_content" android:numColumns="4" android:layout_width="fill_parent" android:padding="2.5dip"></GridView>
+				<GridView android:listSelector="@layout/list_menu_selector"
+					android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:horizontalSpacing="5dip" android:id="@+id/grdAdvanced"
+					android:visibility="gone" android:layout_height="wrap_content" android:numColumns="4" android:layout_width="fill_parent" android:padding="2.5dip"></GridView>
+				<GridView android:listSelector="@layout/list_menu_selector"
+					android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:horizontalSpacing="5dip" android:id="@+id/grdSettings"
+					android:visibility="gone" android:layout_height="wrap_content" android:numColumns="4" android:layout_width="fill_parent" android:padding="2.5dip"></GridView>
+				<GridView android:listSelector="@layout/list_menu_selector"
+					android:gravity="center_vertical|center_horizontal|center"
+					android:verticalSpacing="0dip" android:horizontalSpacing="5dip" android:id="@+id/grdHelp"
+					android:visibility="gone" android:layout_height="wrap_content" android:numColumns="4" android:layout_width="fill_parent" android:padding="2.5dip"></GridView>
 			</LinearLayout>
