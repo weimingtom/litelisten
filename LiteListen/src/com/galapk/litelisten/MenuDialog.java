@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.galapk.litelisten.scrMain.RingType;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
@@ -562,7 +564,7 @@ public class MenuDialog
 						Map<String, Object> map = main.getLstSong().get(main.getMs().getCurrIndex());
 						String strMusicPath = (String) map.get("MusicPath");
 
-						if (main.SetAsRingtone(strMusicPath))
+						if (main.SetAsRingtone(strMusicPath, RingType.Ringtone))
 						{
 							if (main.getToast() != null)
 							{
