@@ -30,6 +30,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -44,13 +46,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.RingtoneManager;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.provider.MediaStore.Audio.Media;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -559,7 +562,7 @@ public class scrMain extends Activity
 
 		if (MenuDialog.getPw() != null && MenuDialog.getPw().isShowing())
 			MenuDialog.getPw().dismiss();
-		
+
 		if (OptionDialog.getPw() != null && OptionDialog.getPw().isShowing())
 			OptionDialog.getPw().dismiss();
 	}
@@ -1714,7 +1717,7 @@ public class scrMain extends Activity
 						Map<String, Object> map = lstSong.get(arg2);
 						String strMusicPath = (String) map.get("MusicPath");
 
-						if (SetAsRingtone(strMusicPath))
+						if (SetAsRingtone(strMusicPath, RingType.Ringtone))
 						{
 							if (toast != null)
 							{
@@ -1723,6 +1726,72 @@ public class scrMain extends Activity
 							}
 							else
 								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_ringtone_successful), Toast.LENGTH_SHORT);
+						}
+						else
+						{
+							if (toast != null)
+							{
+								toast.setText(getString(R.string.scrmain_ringtone_set_refused));
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_ringtone_set_refused), Toast.LENGTH_SHORT);
+						}
+						toast.show();
+
+						OptionDialog.getPw().dismiss();
+					}
+				};
+
+				onClick[4] = new OnClickListener()
+				{
+					public void onClick(View v)
+					{// 查看歌曲属性
+						Map<String, Object> map = lstSong.get(arg2);
+						String strMusicPath = (String) map.get("MusicPath");
+
+						if (SetAsRingtone(strMusicPath, RingType.Alarm))
+						{
+							if (toast != null)
+							{
+								toast.setText(getString(R.string.scrmain_alarm_successful));
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_alarm_successful), Toast.LENGTH_SHORT);
+						}
+						else
+						{
+							if (toast != null)
+							{
+								toast.setText(getString(R.string.scrmain_ringtone_set_refused));
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_ringtone_set_refused), Toast.LENGTH_SHORT);
+						}
+						toast.show();
+
+						OptionDialog.getPw().dismiss();
+					}
+				};
+
+				onClick[5] = new OnClickListener()
+				{
+					public void onClick(View v)
+					{// 查看歌曲属性
+						Map<String, Object> map = lstSong.get(arg2);
+						String strMusicPath = (String) map.get("MusicPath");
+
+						if (SetAsRingtone(strMusicPath, RingType.Notify))
+						{
+							if (toast != null)
+							{
+								toast.setText(getString(R.string.scrmain_notify_successful));
+								toast.setDuration(Toast.LENGTH_SHORT);
+							}
+							else
+								toast = Toast.makeText(scrMain.this, getString(R.string.scrmain_notify_successful), Toast.LENGTH_SHORT);
 						}
 						else
 						{
@@ -1773,44 +1842,55 @@ public class scrMain extends Activity
 		});
 	}
 
+	enum RingType
+	{
+		Ringtone, Alarm, Notify
+	}
+
 	/* 将音乐设置为系统铃声 */
-	public boolean SetAsRingtone(String FilePath)
+	public boolean SetAsRingtone(String FilePath, RingType rt)
 	{
 		Cursor cursor = main.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, null, "_data like ?", new String[] { "%" + FilePath }, Media.DEFAULT_SORT_ORDER);
 		if (cursor != null && cursor.moveToFirst())
 		{// 系统中存在该音乐信息，可用作铃声
-			ContentValues values = new ContentValues();
-			values.put(Media.DATA, cursor.getString(cursor.getColumnIndex(Media.DATA)));
-			values.put(Media.TITLE, cursor.getString(cursor.getColumnIndex(Media.TITLE)));
-			values.put(Media.SIZE, cursor.getString(cursor.getColumnIndex(Media.SIZE)));
-			values.put(Media.ARTIST, cursor.getString(cursor.getColumnIndex(Media.ARTIST)));
-			values.put(Media.DURATION, cursor.getString(cursor.getColumnIndex(Media.DURATION)));
-			values.put(Media.IS_RINGTONE, true);
-			values.put(Media.IS_NOTIFICATION, false);
-			values.put(Media.IS_ALARM, false);
-			values.put(Media.IS_MUSIC, false);
+			String strMusicID = cursor.getString(cursor.getColumnIndex(Media._ID));
+			ContentResolver resolver;
+			Uri ringUri;
+			String[] cols = new String[] { Media._ID, MediaStore.Audio.Media.DATA, Media.TITLE };
+			Cursor cur;
 
-			// 根据扩展名判断
-			String strSuffix = FilePath.substring(FilePath.lastIndexOf(".") + 1, FilePath.length()).toLowerCase();
-			if (strSuffix.equals("mp3"))
-				values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp3");
-			else if (strSuffix.equals("wav"))
-				values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/wav");
-			else if (strSuffix.equals("wma"))
-				values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/wma");
+			try
+			{
+				resolver = getContentResolver();
+				ringUri = ContentUris.withAppendedId(Media.EXTERNAL_CONTENT_URI, Long.parseLong(strMusicID));
+				cur = main.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, cols, Media._ID + "=" + strMusicID, null, null);
+				ContentValues values = new ContentValues(3);
+				values.put(Media.IS_RINGTONE, "1");
+				values.put(Media.IS_ALARM, "1");
+				values.put(Media.IS_NOTIFICATION, "1");
+				resolver.update(ringUri, values, null, null);
 
-			Uri uri = Media.getContentUriForPath(FilePath);
-			Uri newUri = main.getContentResolver().insert(uri, values);
-
-			if (newUri != null)
-				RingtoneManager.setActualDefaultRingtoneUri(main, RingtoneManager.TYPE_RINGTONE, newUri);
-			else
+				if (cur != null && cur.getCount() == 1)
+				{
+					cur.moveToFirst();
+					if (rt == RingType.Ringtone)
+						Settings.System.putString(resolver, Settings.System.RINGTONE, ringUri.toString());
+					else if (rt == RingType.Alarm)
+						Settings.System.putString(resolver, Settings.System.ALARM_ALERT, ringUri.toString());
+					else if (rt == RingType.Notify)
+						Settings.System.putString(resolver, Settings.System.NOTIFICATION_SOUND, ringUri.toString());
+					cur.close();
+				}
+				else
+					return false;
+			}
+			catch (Exception e)
+			{
 				return false;
-
-			return true;
+			}
 		}
-		else
-			return false;
+
+		return true;
 	}
 
 	/* 按键动作 */
@@ -1840,13 +1920,13 @@ public class scrMain extends Activity
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
 		{
-			vd.getSkbVolume().setProgress(vd.getSkbVolume().getProgress() + 1);
+			vd.getSkbVolume().setProgress(vd.getAm().getStreamVolume(AudioManager.STREAM_MUSIC) + 1);
 			vd.ShowDialog(main, st.getLanguage(), st.getUseAnimation(), layActivity);
 			return true;
 		}
 		else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
 		{
-			vd.getSkbVolume().setProgress(vd.getSkbVolume().getProgress() - 1);
+			vd.getSkbVolume().setProgress(vd.getAm().getStreamVolume(AudioManager.STREAM_MUSIC) - 1);
 			vd.ShowDialog(main, st.getLanguage(), st.getUseAnimation(), layActivity);
 			return true;
 		}

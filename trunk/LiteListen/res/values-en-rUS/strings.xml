@@ -52,9 +52,9 @@
 	<string name="scrmain_volume">Volume: </string>
 	<string name="scrmain_volume_mute">Mute</string>
 	<string name="scrmain_ringtone_successful">Ringtone has been set</string>
-	<string name="scrmain_alarm_successful">Alarm has been set</string>
-	<string name="scrmain_ringtone_set_refused">Failure to set music as ringtone. Maybe the music
-		is using by another process.</string>
+	<string name="scrmain_alarm_successful">Alarm alert has been set</string>
+	<string name="scrmain_notify_successful">Notification sound has been set</string>
+	<string name="scrmain_ringtone_set_refused">Failure to set music as ringtone</string>
 	<string name="scrmain_play_first">Please play a music first</string>
 	<string name="scrmain_context_menu_music">Music Options</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
