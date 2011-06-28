@@ -67,11 +67,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -124,18 +122,15 @@ public class scrMain extends Activity
 	private ImageButton btnPlay;
 	private ImageButton btnNext;
 	private ImageButton btnPause;
-	private ImageButton btnSearch;
 	private Button btnFileOK;
 	private Button btnFileCancel;
 	private TextView txtTitle;
 	private TextView txtTimeCurrent;
 	private TextView txtTimeTotal;
 	private TextView txtLRC;
-	private TextView txtKeyword;
 	private TextView txtCurrentPath;
 	private LinearLayout layActivity;
 	private LinearLayout layControlPanel;
-	private RelativeLayout laySearch;
 	private RelativeLayout layMain;
 	private LinearLayout laySplash;
 	private RelativeLayout layBody;
@@ -1001,19 +996,16 @@ public class scrMain extends Activity
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
 		btnNext = (ImageButton) findViewById(R.id.btnNext);
 		btnPause = (ImageButton) findViewById(R.id.btnPause);
-		btnSearch = (ImageButton) findViewById(R.id.btnSearch);
 		btnFileOK = (Button) findViewById(R.id.btnFileOK);
 		btnFileCancel = (Button) findViewById(R.id.btnFileCancel);
 		txtTitle = (TextView) findViewById(R.id.txtTitle);
 		txtTimeTotal = (TextView) findViewById(R.id.txtTimeTotal);
 		txtTimeCurrent = (TextView) findViewById(R.id.txtTimeCurrent);
 		txtLRC = (TextView) findViewById(R.id.txtLRC);
-		txtKeyword = (TextView) findViewById(R.id.txtKeyword);
 		txtCurrentPath = (TextView) findViewById(R.id.txtCurrentPath);
 		layActivity = (LinearLayout) findViewById(R.id.layActivity);
 		laySplash = (LinearLayout) findViewById(R.id.laySplash);
 		layControlPanel = (LinearLayout) findViewById(R.id.layControlPanel);
-		laySearch = (RelativeLayout) findViewById(R.id.laySearch);
 		layMain = (RelativeLayout) findViewById(R.id.layMain);
 		layBody = (RelativeLayout) findViewById(R.id.layBody);
 		layFileSelector = (RelativeLayout) findViewById(R.id.layFileSelector);
@@ -1021,27 +1013,6 @@ public class scrMain extends Activity
 		lstMusic = (ListView) findViewById(R.id.lstMusic);
 		lstFile = (ListView) findViewById(R.id.lstFile);
 		layLyricController = (LinearLayout) findViewById(R.id.layLyricController);
-	}
-
-	/* ËÑË÷¿òÇÐ»» */
-	public void SearchBoxSwitcher()
-	{
-		Animation anim = null; // ¶¯»­Ð§¹û
-
-		if (laySearch.getVisibility() == View.GONE)
-		{// µ÷ÓÃÏÔÊ¾
-			laySearch.setVisibility(View.VISIBLE);
-			anim = new AlphaAnimation(0, 1);
-		}
-		else
-		{// µ÷ÓÃÒþ²Ø
-			laySearch.setVisibility(View.GONE);
-			anim = new AlphaAnimation(1, 0);
-		}
-
-		anim.setDuration(ANIMATION_TIME);
-		if (st.getUseAnimation())
-			laySearch.startAnimation(anim);
 	}
 
 	/* ÁÐ±íµ½¸è´ÊÇÐ»» */
@@ -1172,37 +1143,6 @@ public class scrMain extends Activity
 			public void onClick(View v)
 			{
 				txtLRC.setVisibility(View.VISIBLE);
-			}
-		});
-
-		/* ËÑË÷°´Å¥ */
-		btnSearch.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				if (IsRefreshing)
-				{
-					final MessageDialog md = new MessageDialog();
-					md.ShowMessage(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.global_wait, R.string.scrmain_scanning, 18, new OnClickListener()
-					{
-						public void onClick(View v)
-						{
-							md.CloseDialog();
-						}
-					}, null);
-				}
-				else
-				{
-					Editor edt = sp.edit();
-					edt.putString("LastKeyword", txtKeyword.getText().toString());
-					st.setLastKeyword(txtKeyword.getText().toString());
-					edt.commit();
-
-					SetMusicListByDB();
-					txtKeyword.setText("");
-					SearchBoxSwitcher();
-					txtKeyword.clearFocus();
-				}
 			}
 		});
 
@@ -1815,31 +1755,6 @@ public class scrMain extends Activity
 				return false;
 			}
 		});
-
-		/* ¹Ø¼ü´Ê°´¼ü¼àÌý */
-		txtKeyword.setOnKeyListener(new OnKeyListener()
-		{
-			public boolean onKey(View v, int keyCode, KeyEvent event)
-			{
-				if (keyCode == KeyEvent.KEYCODE_ENTER)
-				{// ËÑË÷
-					if (laySearch.getVisibility() == View.VISIBLE)
-					{
-						Editor edt = sp.edit();
-						edt.putString("LastKeyword", txtKeyword.getText().toString());
-						st.setLastKeyword(txtKeyword.getText().toString());
-						edt.commit();
-
-						SetMusicListByDB();
-						txtKeyword.setText("");
-						SearchBoxSwitcher();
-						txtKeyword.clearFocus();
-					}
-				}
-
-				return false;
-			}
-		});
 	}
 
 	enum RingType
@@ -2177,36 +2092,6 @@ public class scrMain extends Activity
 	public static int getAnimationTime()
 	{
 		return ANIMATION_TIME;
-	}
-
-	public ImageButton getBtnSearch()
-	{
-		return btnSearch;
-	}
-
-	public void setBtnSearch(ImageButton btnSearch)
-	{
-		this.btnSearch = btnSearch;
-	}
-
-	public TextView getTxtKeyword()
-	{
-		return txtKeyword;
-	}
-
-	public void setTxtKeyword(TextView txtKeyword)
-	{
-		this.txtKeyword = txtKeyword;
-	}
-
-	public RelativeLayout getLaySearch()
-	{
-		return laySearch;
-	}
-
-	public void setLaySearch(RelativeLayout laySearch)
-	{
-		this.laySearch = laySearch;
 	}
 
 	public static int getSplashTime()

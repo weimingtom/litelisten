@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/bg_volume_port" android:orientation="vertical" android:id="@+id/laySearch">
+    <TextView android:layout_height="wrap_content" android:layout_marginBottom="4dip" android:layout_marginTop="4dip" android:layout_width="wrap_content" android:layout_marginLeft="6dip" android:text="@string/scrmain_search_title" android:singleLine="true" android:id="@+id/txtTitle" android:textColor="#9BD7FF" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1"></TextView>
+	<RelativeLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:layout_marginRight="6dip" android:layout_marginLeft="4dip" android:id="@+id/laySearchBox">
+		<EditText android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:paddingRight="42dip"
+			android:hint="@string/scrmain_keyword_hint" android:shadowDy="0"
+			android:shadowDx="0" android:background="@drawable/txt_keyword"
+			android:singleLine="true" android:lines="1" android:id="@+id/txtKeyword"
+			android:shadowRadius="1" android:paddingLeft="8dip"
+			android:shadowColor="#0099FF" android:textColorHint="#FFFFFF"
+			android:layout_toLeftOf="@+id/btnSearch" android:textSize="16dip"></EditText>
+		<ImageButton android:layout_width="wrap_content"
+			android:background="@layout/btn_search"
+			android:layout_alignParentRight="true" android:id="@+id/btnSearch"
+			android:layout_height="wrap_content"></ImageButton>
+	</RelativeLayout>
+</LinearLayout>

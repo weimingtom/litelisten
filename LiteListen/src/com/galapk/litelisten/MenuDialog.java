@@ -558,7 +558,21 @@ public class MenuDialog
 				switch (arg2)
 				{
 					case 0:
-						main.SearchBoxSwitcher();
+						if (main.isIsRefreshing())
+						{
+							final MessageDialog md = new MessageDialog();
+							md.ShowMessage(main, main.getSt().getLanguage(), main.getSt().getUseAnimation(), main.getLayActivity(), R.string.global_wait, R.string.scrmain_scanning, 18,
+									new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											md.CloseDialog();
+										}
+									}, null);
+						}
+						else
+							SearchDialog.ShowDialog(main, main.getSt().getLanguage(), main.getSt().getUseAnimation(), main.getLayActivity());
+
 						break;
 					case 1:
 						Map<String, Object> map = main.getLstSong().get(main.getMs().getCurrIndex());
@@ -604,7 +618,6 @@ public class MenuDialog
 							Editor edt = main.getSp().edit();
 							edt.putString("LastKeyword", "");
 							edt.commit();
-							main.getTxtKeyword().setText("");
 
 							txtFavourite.setText(R.string.scrmain_extend_menu_list);
 							imgFavourite.setImageResource(R.drawable.menu_list);

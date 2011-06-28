@@ -47,6 +47,7 @@
 	<string name="scrmain_play_mode_repeat_current">单曲重复</string>
 	<string name="scrmain_play_mode_shuffle">随机播放</string>
 	<string name="scrmain_keyword_hint">键入拼音首字母搜索</string>
+	<string name="scrmain_search_title">搜索本地音乐</string>
 	<string name="scrmain_show_main">单击这里显示播放器主界面</string>
 	<string name="scrmain_volume">音量：</string>
 	<string name="scrmain_volume_mute">静音</string>
