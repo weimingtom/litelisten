@@ -32,24 +32,6 @@
 			android:id="@+id/layBody" android:layout_above="@+id/layBottom">
 			<RelativeLayout android:layout_height="fill_parent"
 				android:layout_width="wrap_content" android:id="@+id/layVertical">
-				<RelativeLayout android:layout_height="wrap_content"
-					android:layout_width="fill_parent" android:id="@+id/laySearch"
-					android:visibility="gone">
-					<EditText android:layout_height="wrap_content"
-						android:layout_width="wrap_content" android:paddingRight="42dip"
-						android:hint="@string/scrmain_keyword_hint" android:shadowDy="0"
-						android:shadowDx="0" android:background="@drawable/txt_keyword"
-						android:singleLine="true" android:lines="1"
-						android:layout_alignParentLeft="true" android:id="@+id/txtKeyword"
-						android:shadowRadius="1" android:layout_marginTop="5dip"
-						android:paddingLeft="8dip" android:layout_marginLeft="5dip"
-						android:shadowColor="#0099FF" android:textColorHint="#FFFFFF"
-						android:layout_toLeftOf="@+id/btnSearch"></EditText>
-					<ImageButton android:layout_width="wrap_content"
-						android:background="@layout/btn_search" android:layout_marginTop="5dip"
-						android:layout_alignParentRight="true" android:id="@+id/btnSearch"
-						android:layout_height="42dip"></ImageButton>
-				</RelativeLayout>
 				<LinearLayout android:id="@+id/layCore"
 					android:layout_height="fill_parent" android:layout_width="fill_parent"
 					android:layout_below="@+id/laySearch">

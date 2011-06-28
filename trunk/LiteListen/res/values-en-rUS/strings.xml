@@ -48,6 +48,7 @@
 	<string name="scrmain_play_mode_repeat_current">Repeat Single</string>
 	<string name="scrmain_play_mode_shuffle">Shuffle</string>
 	<string name="scrmain_keyword_hint">Type initials to search music list</string>
+	<string name="scrmain_search_title">Search for local music</string>
 	<string name="scrmain_show_main">Click here to show player</string>
 	<string name="scrmain_volume">Volume: </string>
 	<string name="scrmain_volume_mute">Mute</string>
