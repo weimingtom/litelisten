@@ -1812,6 +1812,9 @@ public class scrMain extends Activity
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
+		if (!IsStartedUp)
+			return true; // 没有加载完成时禁止按键操作
+
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			// 如果当前显示的是列表，那么最小化
