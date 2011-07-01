@@ -47,12 +47,14 @@
 	<string name="scrmain_play_mode_repeat_current">單曲重複</string>
 	<string name="scrmain_play_mode_shuffle">隨機播放</string>
 	<string name="scrmain_keyword_hint">鍵入拼音首字母搜索</string>
+	<string name="scrmain_search_title">搜索本地音樂</string>
 	<string name="scrmain_show_main">按一下這裡顯示播放機主介面</string>
 	<string name="scrmain_volume">音量：</string>
 	<string name="scrmain_volume_mute">靜音</string>
 	<string name="scrmain_ringtone_successful">已設為來電鈴聲</string>
 	<string name="scrmain_alarm_successful">已設為鬧鐘鈴聲</string>
-	<string name="scrmain_ringtone_set_refused">鈴聲設置失敗，該音樂可能正在被使用</string>
+	<string name="scrmain_notify_successful">已設為短信鈴聲</string>
+	<string name="scrmain_ringtone_set_refused">鈴聲設置失敗</string>
 	<string name="scrmain_play_first">請先播放音樂</string>
 	<string name="scrmain_context_menu_music">音樂選項</string>
 	<string name="scrmain_context_menu_lrc">歌詞選項</string>
@@ -61,11 +63,7 @@
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在掃描音樂，請稍候搜索。</string>
 	<string name="scrmain_lyric_could_not_relate">當前播放清單與正在播放的音樂不匹配，無法關聯歌詞。</string>
-	<string name="scrmain_request_info">輕聽音樂希望統計安裝使用者數量以便更好地為用戶進行改良。按一下【我願意】將設備資訊發送給開發人員，這些資訊僅需要消耗最多
-		1 KB 的流量，而且僅會顯示一次。您也可以選擇拒絕，它將永不再顯示（除非您重新安裝）。拒絕發送設備資訊不會影響到任何使用，請放心。
-	</string>
-	<string name="scrmain_feedback_hint">提交問題的同時，輕聽將收集一些您的設備資訊，包括設備序號、系統版本以及設備時間、語言和型號等資訊，但絕不會獲取您的通信錄、短信和程式等個人資訊。\n您的回饋是輕聽進步重要的里程碑！
-	</string>
+	<string name="scrmain_feedback_hint">您的回饋是輕聽進步重要的里程碑！</string>
 	<string name="scrmain_feedback_successful">問題提交成功，非常感謝！</string>
 	<string name="scrmain_feedback_blank">請輸入您的問題，然後再提交。</string>
 	<string name="scrmain_feedback_failure">問題提交失敗，請檢查網路連接。</string>
@@ -138,10 +136,10 @@
 	<string name="pfrscat_help_visit_official_site">訪問 輕聽音樂 官方頁面</string>
 	<string name="pfrscat_help_visit_official_site_message">按一下【確定】將訪問 輕聽音樂 官方網站。\n\n建議使用 Wi-Fi 網路流覽。</string>
 	<string name="pfrscat_help_about">關於 輕聽音樂</string>
-	<string name="pfrscat_help_about_message">輕聽音樂\n0.6.5 build
-		0624.1539\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】支持WAV格式\n【新增】按兩下播放選中的音樂\n【新增】將歌曲設為來電鈴聲\n【修復】由於增加了對話方塊動畫效果而導致的設置功能表檢查更新時引起崩潰的問題\n【修復】橫屏模式下長按歌曲清單導致崩潰的問題\n【優化】突兀的標題列三按鈕移至功能表內\n【優化】音量調節顯示使用彈出對話方塊形式，2秒後自動消失\n【優化】啟動後會刪除自動更新的暫存檔案\n【優化】調整了一些細節上的顏色搭配\n【優化】功能表鍵對應的彈出功能表改為浮動樣式，不再影響歌詞或音樂清單的大小\n\n官方網站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">輕聽音樂\n0.7.1 build
+		0701.1026\n\n非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】設為短信鈴聲\n【新增】設為鬧鐘鈴聲\n【修復】關屏調整過音量後在程式中使用音量鍵調整音量時沒有更新當前音量值的問題\n【修復】設置的鈴聲在重啟後失效的問題\n【修復】一些歌曲無法設為鈴聲的問題\n【修復】與歌詞關聯的所有功能表項目失效的問題\n【優化】搜索框改為彈出式\n【優化】禁止初始化時的一切按鍵回應\n\n官方網站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】支持WAV格式\n【新增】按兩下播放選中的音樂\n【新增】將歌曲設為來電鈴聲\n【修復】由於增加了對話方塊動畫效果而導致的設置功能表檢查更新時引起崩潰的問題\n【修復】橫屏模式下長按歌曲清單導致崩潰的問題\n【優化】突兀的標題列三按鈕移至功能表內\n【優化】音量調節顯示使用彈出對話方塊形式，2秒後自動消失\n【優化】啟動後會刪除自動更新的暫存檔案\n【優化】調整了一些細節上的顏色搭配\n【優化】功能表鍵對應的彈出功能表改為浮動樣式，不再影響歌詞或音樂清單的大小
+	<string name="update_info">非常感謝Regina和Kael所做的翻譯和找茬工作！\n\n【新增】設為短信鈴聲\n【新增】設為鬧鐘鈴聲\n【修復】關屏調整過音量後在程式中使用音量鍵調整音量時沒有更新當前音量值的問題\n【修復】設置的鈴聲在重啟後失效的問題\n【修復】一些歌曲無法設為鈴聲的問題\n【修復】與歌詞關聯的所有功能表項目失效的問題\n【優化】搜索框改為彈出式\n【優化】禁止初始化時的一切按鍵回應
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

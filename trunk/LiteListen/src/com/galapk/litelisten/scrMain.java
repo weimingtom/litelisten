@@ -1217,7 +1217,7 @@ public class scrMain extends Activity
 					}
 				};
 
-				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_lrc, R.array.item_name_txtlrc_context_menu, 18, -1, true,
+				OptionDialog.ShowDialog(scrMain.this, st.getLanguage(), st.getUseAnimation(), layActivity, R.string.scrmain_context_menu_lrc, R.array.item_name_txtlrc_context_menu, 18, -1, false,
 						null, onClick);
 
 				return false;
