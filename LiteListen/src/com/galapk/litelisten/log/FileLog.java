@@ -17,7 +17,7 @@ import android.text.TextUtils;
  */
 public class FileLog {
     
-	private static String TAG = "MobilePaper";
+	private static String TAG = "galapk_player";
 	
     /**
 	 * the log disable lock
