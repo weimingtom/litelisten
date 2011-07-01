@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_app_version">0.6.5 build 0624.1539</string>
+	<string name="global_app_version">0.7.1 build 0701.1026</string>
 
 	<string name="global_app_name">LiteListen</string>
 	<string name="global_desk_lrc_show">Desk Lyric Show</string>
@@ -50,13 +50,14 @@
 	<string name="scrmain_play_mode_repeat_current">Repeat Single</string>
 	<string name="scrmain_play_mode_shuffle">Shuffle</string>
 	<string name="scrmain_keyword_hint">Type initials to search music list</string>
+	<string name="scrmain_search_title">Search for local music</string>
 	<string name="scrmain_show_main">Click here to show player</string>
 	<string name="scrmain_volume">Volume: </string>
 	<string name="scrmain_volume_mute">Mute</string>
 	<string name="scrmain_ringtone_successful">Ringtone has been set</string>
-	<string name="scrmain_alarm_successful">Alarm has been set</string>
-	<string name="scrmain_ringtone_set_refused">Failure to set music as ringtone. Maybe the music
-		is using by another process.</string>
+	<string name="scrmain_alarm_successful">Alarm alert has been set</string>
+	<string name="scrmain_notify_successful">Notification sound has been set</string>
+	<string name="scrmain_ringtone_set_refused">Failure to set music as ringtone</string>
 	<string name="scrmain_play_first">Please play a music first</string>
 	<string name="scrmain_context_menu_music">Music Options</string>
 	<string name="scrmain_context_menu_lrc">Lyric Options</string>
@@ -66,19 +67,8 @@
 	<string name="scrmain_scanning">I\'m scanning musics, please search later.</string>
 	<string name="scrmain_lyric_could_not_relate">You cannot binding a lyric to the playing music
 		because of the music list is not adapt to the music</string>
-	<string name="scrmain_request_info">LiteListen hopes to get your device infomation to
-		improve our software. Press [I agree] to send a infomation which less
-		then 1
-		KB. You can also choose to refuse it and this message will
-		appear only
-		once. Refuse it will never affact any functions of
-		LiteListen.
-	</string>
-	<string name="scrmain_feedback_hint">LiteListen will collect some infomation about
-		device ID, locale, model and other informations of your devices, but
-		it will not send your private infomation such as sms, address books
-		and program data and so on.
-	</string>
+	<string name="scrmain_feedback_hint">Your feedback is the most important milestone of
+		LiteListen!</string>
 	<string name="scrmain_feedback_successful">Thank you for feed problem back!</string>
 	<string name="scrmain_feedback_blank">You cannot feed a blank problem back.</string>
 	<string name="scrmain_feedback_failure">Submit failed, please check your network and try
@@ -161,40 +151,35 @@
 	<string name="pfrscat_help_visit_official_site_message">Press [Okay] to visit the official website of
 		LiteListen. \n\nA Wi-Fi connection is recommended to do it.</string>
 	<string name="pfrscat_help_about">About LiteListen</string>
-	<string name="pfrscat_help_about_message">LiteListen\n0.6.5 build 0624.1539\n\nThanks a lot
+	<string name="pfrscat_help_about_message">LiteListen\n0.7.1 build 0701.1026\n\nThanks a lot
 		for Regina and Kael for their
 		translations and bug reports.\n\n[New]
-		WAV format support (depends on
-		system)\n[New] Double-click to play
-		music\n[New] Set music as calling
-		ringtone\n[Fix] A crash problem of
-		function "Check for update" in the
-		Settings UI\n[Fix] A crash problem
-		when take a long-click on music
-		items\n[Optimize] Three buttons on the
-		title bar was moving to the
-		menu-key menu\n[Optimize] Using dialog
-		style to show volume adjust and
-		it will disappear in 2
-		seconds\n[Optimize] Auto delete update file in
-		sd-card\n[Optimize] Some
-		color adjusted\n[Optimize] Menu-key menu
-		using float dialog style to
-		increase the effective to the music list\n\nOfficial
+		Set as notification\n[New] Set as alarm\n[Fix] App will not refresh
+		current volume value when user adjusted volume while screen is
+		off\n[Fix] Ringtone will invalid after phone reboot\n[Fix] A problem
+		that some music cannot be set as ringtone\n[Fix] Context menu cannot
+		response any operation which was related to the lyric\n[Optimize]
+		Change searchbox to dialog style\n[Optimize] Forbidden any key press
+		during initialization\n\nOfficial
 		WebSite:
 		\nhttp://litelisten.littledai.com/
 	</string>
 	<string name="update_info">Thanks a lot
 		for Regina and Kael for their
-		translations and bug reports.\n\n[New] WAV format support (depends on
-		system)\n[New] Double-click to play music\n[New] Set music as calling
-		ringtone\n[Fix] A crash problem of function "Check for update" in the
-		Settings UI\n[Fix] A crash problem when take a long-click on music
-		items\n[Optimize] Three buttons on the title bar was moving to the
-		menu-key menu\n[Optimize] Using dialog style to show volume adjust and
-		it will disappear in 2 seconds\n[Optimize] Auto delete update file in
-		sd-card\n[Optimize] Some color adjusted\n[Optimize] Menu-key menu
-		using float dialog style to increase the effective to the music list
+		translations and bug reports.\n\n[New]
+		Set as notification\n[New] Set
+		as alarm\n[Fix] App will not refresh
+		current volume value when user
+		adjusted volume while screen is
+		off\n[Fix] Ringtone will invalid after
+		phone reboot\n[Fix] A problem
+		that some music cannot be set as
+		ringtone\n[Fix] Context menu cannot
+		response any operation which was
+		related to the lyric\n[Optimize]
+		Change searchbox to dialog
+		style\n[Optimize] Forbidden any key press
+		during initialization
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">

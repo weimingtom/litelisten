@@ -63,11 +63,7 @@
 	<string name="scrmain_update_log">我更新了啥？</string>
 	<string name="scrmain_scanning">正在扫描音乐，请稍候搜索。</string>
 	<string name="scrmain_lyric_could_not_relate">当前播放列表与正在播放的音乐不匹配，无法关联歌词。</string>
-	<string name="scrmain_request_info">轻听音乐希望统计安装用户数量以便更好地为用户进行改良。单击【我愿意】将设备信息发送给开发人员，这些信息仅需要消耗最多
-		1 KB 的流量，而且仅会显示一次。您也可以选择拒绝，它将永不再显示（除非您重新安装）。拒绝发送设备信息不会影响到任何使用，请放心。
-	</string>
-	<string name="scrmain_feedback_hint">提交问题的同时，轻听将收集一些您的设备信息，包括设备序列号、系统版本以及设备时间、语言和型号等信息，但绝不会获取您的通信录、短信和程序等个人信息。\n您的反馈是轻听进步重要的里程碑！
-	</string>
+	<string name="scrmain_feedback_hint">您的反馈是轻听进步重要的里程碑！</string>
 	<string name="scrmain_feedback_successful">问题提交成功，非常感谢！</string>
 	<string name="scrmain_feedback_blank">请输入您的问题，然后再提交。</string>
 	<string name="scrmain_feedback_failure">问题提交失败，请检查网络连接。</string>
@@ -140,10 +136,10 @@
 	<string name="pfrscat_help_visit_official_site">访问 轻听音乐 官方页面</string>
 	<string name="pfrscat_help_visit_official_site_message">单击【确定】将访问 轻听音乐 官方网站。\n\n建议使用 Wi-Fi 网络浏览。</string>
 	<string name="pfrscat_help_about">关于 轻听音乐</string>
-	<string name="pfrscat_help_about_message">轻听音乐\n0.6.5 build
-		0624.1539\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】支持WAV格式\n【新增】双击播放选中的音乐\n【新增】将歌曲设为来电铃声\n【修复】由于增加了对话框动画效果而导致的设置菜单检查更新时引起崩溃的问题\n【修复】横屏模式下长按歌曲列表导致崩溃的问题\n【优化】突兀的标题栏三按钮移至菜单内\n【优化】音量调节显示使用弹出对话框形式，2秒后自动消失\n【优化】启动后会删除自动更新的临时文件\n【优化】调整了一些细节上的颜色搭配\n【优化】菜单键对应的弹出菜单改为浮动样式，不再影响歌词或音乐列表的大小\n\n官方网站：\nhttp://litelisten.littledai.com/
+	<string name="pfrscat_help_about_message">轻听音乐\n0.7.1 build
+		0701.1026\n\n非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】设为短信铃声\n【新增】设为闹钟铃声\n【修复】关屏调整过音量后在程序中使用音量键调整音量时没有更新当前音量值的问题\n【修复】设置的铃声在重启后失效的问题\n【修复】一些歌曲无法设为铃声的问题\n【修复】与歌词关联的所有菜单项失效的问题\n【优化】搜索框改为弹出式\n【优化】禁止初始化时的一切按键响应\n\n官方网站：\nhttp://litelisten.littledai.com/
 	</string>
-	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】支持WAV格式\n【新增】双击播放选中的音乐\n【新增】将歌曲设为来电铃声\n【修复】由于增加了对话框动画效果而导致的设置菜单检查更新时引起崩溃的问题\n【修复】横屏模式下长按歌曲列表导致崩溃的问题\n【优化】突兀的标题栏三按钮移至菜单内\n【优化】音量调节显示使用弹出对话框形式，2秒后自动消失\n【优化】启动后会删除自动更新的临时文件\n【优化】调整了一些细节上的颜色搭配\n【优化】菜单键对应的弹出菜单改为浮动样式，不再影响歌词或音乐列表的大小
+	<string name="update_info">非常感谢Regina和Kael所做的翻译和找茬工作！\n\n【新增】设为短信铃声\n【新增】设为闹钟铃声\n【修复】关屏调整过音量后在程序中使用音量键调整音量时没有更新当前音量值的问题\n【修复】设置的铃声在重启后失效的问题\n【修复】一些歌曲无法设为铃声的问题\n【修复】与歌词关联的所有菜单项失效的问题\n【优化】搜索框改为弹出式\n【优化】禁止初始化时的一切按键响应
 	</string>
 
 	<string-array name="item_name_pfrscat_general_language">
