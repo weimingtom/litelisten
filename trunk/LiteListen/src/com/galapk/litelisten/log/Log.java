@@ -8,7 +8,7 @@ package com.galapk.litelisten.log;
  */
 public class Log {
 
-	protected static final String TAG = "MobilePaper";
+	protected static final String TAG = "galapk_player";
 	
 	/**
 	 * the log disable lock
